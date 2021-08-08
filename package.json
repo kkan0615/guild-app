@@ -1,0 +1,32 @@
+{
+  "name": "guild-app",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.9.3",
+    "@types/node": "^16.4.13",
+    "bootstrap": "^5.1.0",
+    "vue": "^3.0.5",
+    "vue-router": "4"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.29.0",
+    "@typescript-eslint/parser": "^4.29.0",
+    "@vitejs/plugin-vue": "^1.3.0",
+    "@vue/compiler-sfc": "^3.0.5",
+    "@vue/eslint-config-typescript": "^7.0.0",
+    "autoprefixer": "^10.3.1",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^7.15.1",
+    "postcss": "^8.3.6",
+    "sass": "^1.37.5",
+    "tailwindcss": "^2.2.7",
+    "typescript": "^4.3.5",
+    "vite": "^2.4.4",
+    "vue-tsc": "^0.2.2"
+  }
+}
