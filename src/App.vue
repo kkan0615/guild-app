@@ -2,7 +2,7 @@
   <!--  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />-->
   <div
     id="app"
-    class="tw-bg-gray-300"
+    class="tw-bg-gray-300 "
   >
     <router-view />
   </div>
@@ -17,9 +17,7 @@ export default defineComponent({
 </script>
 <style
   lang="scss"
-  scoped
 >
 #app {
-  min-height: 100vh;
 }
 </style>

@@ -14,6 +14,11 @@ export const routes: Array<RouteRecordRaw> = [
         name: RouterNameEnum.HOME,
         component: () => import('@/views/Home/index.vue'),
       },
+      {
+        path: 'playground',
+        name: 'Playground',
+        component: () => import('@/views/Playground/index.vue'),
+      },
     ]
   },
   ...authRoutes,

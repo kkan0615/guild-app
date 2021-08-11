@@ -8,9 +8,11 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
 /* Tailwind */
 import '@/styles/tailwind.scss'
+import i18n from '@/locales'
 
 const app = createApp(App)
 
 app
+  .use(i18n)
   .use(router)
   .mount('#app')

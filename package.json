@@ -1,6 +1,6 @@
 {
   "name": "guild-app",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -12,6 +12,7 @@
     "@types/node": "^16.4.13",
     "bootstrap": "^5.1.0",
     "vue": "^3.0.5",
+    "vue-i18n": "^9.1.7",
     "vue-router": "4"
   },
   "devDependencies": {

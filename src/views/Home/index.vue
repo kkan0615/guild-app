@@ -1,25 +1,41 @@
 <template>
-  <div
-    v-for="i in 100"
-    :key="i"
-  >
-    Home is here! -{{ i }}
+  <div>
     <button
       type="button"
       class="btn btn-primary"
+      @click="onClickPlaygroundBtn"
     >
-      Primary
+      playground
     </button>
+    <div
+      v-for="i in 100"
+      :key="i"
+    >
+      Home is here! -{{ i }}
+      <button
+        type="button"
+        class="btn btn-primary"
+      >
+        Primary
+      </button>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { ref, defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
 export default defineComponent({
   name: 'Home',
   setup: () => {
     const count = ref(0)
-    return { count }
+    const router = useRouter()
+
+    const onClickPlaygroundBtn = async () =>{
+      await router.push({ name: 'Playground' })
+    }
+
+    return { count, onClickPlaygroundBtn }
   }
 })
 </script>
