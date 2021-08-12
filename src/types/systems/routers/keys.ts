@@ -1,6 +1,10 @@
 export enum RouterNameEnum {
-  GENERAL_LAYOUT = 'GeneralLayout',
-  AUTH_LAYOUT = 'AuthLayout',
+  /* Home */
+  HOME_LAYOUT = 'HomeLayout',
   HOME = 'Home',
+  /* Guild */
+  GENERAL_LAYOUT = 'GeneralLayout',
+  GUILD_HOME = 'Guild_Home',
+  AUTH_LAYOUT = 'AuthLayout',
   LOGIN = 'Login',
 }

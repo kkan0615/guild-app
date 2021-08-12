@@ -9,6 +9,8 @@ import 'bootstrap'
 /* Tailwind */
 import '@/styles/tailwind.scss'
 import i18n from '@/locales'
+/* index scss */
+import '@/styles/index.scss'
 
 const app = createApp(App)
 

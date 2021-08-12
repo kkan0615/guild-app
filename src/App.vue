@@ -2,7 +2,6 @@
   <!--  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />-->
   <div
     id="app"
-    class="tw-bg-gray-300 "
   >
     <router-view />
   </div>
@@ -15,9 +14,3 @@ export default defineComponent({
   name: 'App',
 })
 </script>
-<style
-  lang="scss"
->
-#app {
-}
-</style>
