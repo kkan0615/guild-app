@@ -1,4 +1,4 @@
-import Home from '../src/views/Home/index.vue'
+import Home from '../src/views/homes/Home/index.vue'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { shallowMount } from '@vue/test-utils'

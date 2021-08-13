@@ -40,7 +40,7 @@
         <img
           style="height: 570px; width: 100%"
           alt="home"
-          src="../../assets/home/home-image.jpg"
+          src="../../../assets/home/home-image.jpg"
         >
       </div>
     </div>

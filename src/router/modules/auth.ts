@@ -13,6 +13,11 @@ export const authRoutes: Array<RouteRecordRaw> = [
         name: RouterNameEnum.LOGIN,
         component: () => import('@/views/auths/Login/index.vue'),
       },
+      {
+        path: 'register',
+        name: RouterNameEnum.REGISTER,
+        component: () => import('@/views/auths/Login/index.vue'),
+      },
     ]
   },
 ]
