@@ -1,22 +1,21 @@
 <template>
   <div>
-    <form
+    <b-form
+      ref="formRef"
       class="tw-flex tw-flex-col tw-gap-y-2"
     >
       <!--   title   -->
       <div>
         <label
-          for="title"
           class="form-label"
         >
           Title
         </label>
-        <input
+        <b-base-input
           id="title"
-          type="text"
-          class="form-control"
-          placeholder="title"
-        >
+          v-model="title"
+          :rules="rules.title"
+        />
       </div>
       <!--   description   -->
       <div>
@@ -33,7 +32,7 @@
           placeholder="description"
         >
       </div>
-    </form>
+    </b-form>
     <hr
       class="my-2"
     >
@@ -82,19 +81,39 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from 'vue'
+import { ref, defineComponent, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import BBaseInput from '@/components/commons/inputs/Base/index.vue'
+import { RuleType } from '@/types/bootstrap/validate'
+import { useI18n } from 'vue-i18n'
+import BForm from '@/components/commons/Form/index.vue'
+
 export default defineComponent({
   name: 'HomeGuildForm',
+  components: { BForm, BBaseInput },
   setup: () => {
     const router = useRouter()
+    const i18n = useI18n()
+
+    const formRef = ref<InstanceType<typeof BForm> | null>(null)
 
     const currentIndex = ref(0)
     const title = ref('')
     const description = ref('')
 
+    const rules: RuleType = {
+      title: [
+        (v: string) => !!v || i18n.t('standardRules.required', { field: 'title' }),
+        (v: string) => v.length <= 20 || i18n.t('standardRules.maxLength', { length: 20 })
+      ]
+    }
+
     const onClickSaveBtn = () => {
-      alert('saved')
+      if (formRef.value && formRef.value.checkValidation()) {
+        alert('pass!')
+      } else {
+        alert('could not pass')
+      }
     }
 
     const onClickCancelBtn = async () => {
@@ -110,13 +129,15 @@ export default defineComponent({
     }
 
     return {
+      formRef,
+      currentIndex,
+      title,
+      description,
+      rules,
       onClickSaveBtn,
       onClickCancelBtn,
       onClickNextBtn,
       onClickBackBtn,
-      currentIndex,
-      title,
-      description
     }
   }
 })

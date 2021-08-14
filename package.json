@@ -1,6 +1,6 @@
 {
   "name": "guild-app",
-  "version": "0.0.3",
+  "version": "0.0.3a",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",

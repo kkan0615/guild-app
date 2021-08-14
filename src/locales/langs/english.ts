@@ -2,6 +2,10 @@ export const englishDictionary = {
   message: {
     hello: 'hello world'
   },
+  standardRules: {
+    required: '{field} is required',
+    maxLength: 'length should be under {length}'
+  },
   views: {
     Home: {
       guildListLink: 'Find Guild',
