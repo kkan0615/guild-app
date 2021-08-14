@@ -5,6 +5,9 @@
   <input
     :id="id"
     :type="type"
+    :readonly="readonly"
+    :disabled="disabled"
+    :placeholder="placeholder"
     :value="modelValue"
     class="form-control"
     :class="{
@@ -39,11 +42,27 @@ export default defineComponent({
       required: false,
       default: 'text'
     },
+    placeholder: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    readonly: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     rules: {
       type: Array,
       required: false,
       default: () => []
     },
+
     modelValue: {
       required: true,
     },

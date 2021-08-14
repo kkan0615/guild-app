@@ -15,22 +15,22 @@
           id="title"
           v-model="title"
           :rules="rules.title"
+          placeholder="title"
         />
       </div>
       <!--   description   -->
       <div>
         <label
-          for="description"
           class="form-label"
         >
           Description
         </label>
-        <input
+        <b-base-input
           id="description"
-          type="text"
-          class="form-control"
+          v-model="description"
+          :rules="rules.description"
           placeholder="description"
-        >
+        />
       </div>
     </b-form>
     <hr
@@ -105,6 +105,9 @@ export default defineComponent({
       title: [
         (v: string) => !!v || i18n.t('standardRules.required', { field: 'title' }),
         (v: string) => v.length <= 20 || i18n.t('standardRules.maxLength', { length: 20 })
+      ],
+      description: [
+        (v: string) => v.length <= 200 || i18n.t('standardRules.maxLength', { length: 200 })
       ]
     }
 
