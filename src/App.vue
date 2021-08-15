@@ -2,6 +2,7 @@
   <!--  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />-->
   <div
     id="app"
+    class="tw-height-full"
   >
     <router-view />
   </div>

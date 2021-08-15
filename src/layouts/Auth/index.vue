@@ -1,5 +1,9 @@
 <template>
-  <router-view />
+  <div
+    class="tw-h-screen tw-bg-blue-100"
+  >
+    <router-view />
+  </div>
 </template>
 
 <script lang="ts">

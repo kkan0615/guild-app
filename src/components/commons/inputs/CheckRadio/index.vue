@@ -1,20 +1,19 @@
 <template>
   <div
-    class="input-group has-validation"
+    class="form-check has-validation"
   >
     <slot
       name="prepend"
     />
     <input
       :id="id"
-      ref="inputRef"
       :type="type"
       :readonly="readonly"
       :disabled="disabled"
       :placeholder="placeholder"
       :list="list"
       :value="modelValue"
-      class="form-control"
+      class="form-check-input"
       :class="{
         'is-invalid': errorMessage,
         'form-control-sm': size === 'sm',
@@ -22,6 +21,7 @@
       }"
       @input="onInput"
     >
+    <slot />
     <div class="invalid-feedback">
       {{ errorMessage }}
     </div>
@@ -38,7 +38,7 @@ import { InputRuleType } from '@/types/bootstrap/validate'
 import { BFormProvideKey } from '@/components/commons/Form/types'
 
 export default defineComponent({
-  name: 'BBaseInput',
+  name: 'BCheckRadioBox',
   props: {
     id: {
       type: String,
@@ -48,7 +48,7 @@ export default defineComponent({
     type: {
       type: String,
       required: false,
-      default: 'text'
+      default: 'checkbox'
     },
     placeholder: {
       type: String,
@@ -89,7 +89,6 @@ export default defineComponent({
   ],
   setup: (props, { emit }) => {
     const errorMessage = ref('')
-    const inputRef = ref<HTMLInputElement | null>(null)
 
     const form = inject(BFormProvideKey)
 
@@ -98,7 +97,6 @@ export default defineComponent({
       if (instance && form)
         form.register({ inputValidate, uid: instance.uid } as InstanceType<any>)
     })
-
     onBeforeUnmount(() => {
       const instance = getCurrentInstance()
       if (instance && form)
@@ -126,17 +124,10 @@ export default defineComponent({
       return result
     }
 
-    const focus = () => {
-      if (inputRef.value)
-        inputRef.value.focus()
-    }
-
     return {
       errorMessage,
-      inputRef,
       onInput,
-      inputValidate,
-      focus
+      inputValidate
     }
   }
 })
