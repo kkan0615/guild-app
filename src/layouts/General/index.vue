@@ -8,7 +8,12 @@
       <div
         class="tw-h-full tw-w-52 bg-light"
       >
-        menu
+        Menu
+        <div
+          class="tw-flex tw-items-center tw-border-l-4 tw-border-blue-500 tw-px-2"
+        >
+          test
+        </div>
       </div>
       <div
         class="tw-h-full tw-flex-grow"

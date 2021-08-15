@@ -2,13 +2,12 @@
   <slot
     name="prepend"
   />
-  <input
+  <textarea
     :id="id"
     :type="type"
     :readonly="readonly"
     :disabled="disabled"
     :placeholder="placeholder"
-    :list="list"
     :value="modelValue"
     class="form-control"
     :class="{
@@ -17,7 +16,7 @@
       'form-control-lg': size === 'lg',
     }"
     @input="onInput"
-  >
+  />
   <div class="invalid-feedback">
     {{ errorMessage }}
   </div>
@@ -33,7 +32,7 @@ import { InputRuleType } from '@/types/bootstrap/validate'
 import { BFormProvideKey } from '@/components/commons/Form/types'
 
 export default defineComponent({
-  name: 'BBaseInput',
+  name: 'BTextarea',
   props: {
     id: {
       type: String,
@@ -61,11 +60,6 @@ export default defineComponent({
       default: false,
     },
     size: {
-      type: String,
-      required: false,
-      default: ''
-    },
-    list: {
       type: String,
       required: false,
       default: ''

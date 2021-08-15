@@ -4,7 +4,7 @@ import GeneralLayout from '@/layouts/General/index.vue'
 
 export const guildRoutes: Array<RouteRecordRaw> = [
   {
-    path: '/guild',
+    path: '/guild-app/:id',
     name: RouterNameEnum.GENERAL_LAYOUT,
     component: GeneralLayout,
     children: [

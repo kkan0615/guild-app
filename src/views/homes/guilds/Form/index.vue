@@ -18,6 +18,24 @@
           placeholder="title"
         />
       </div>
+      <!--   tags   -->
+      <div>
+        <label
+          class="form-label"
+        >
+          tags
+        </label>
+        <div
+          class="form-control"
+        >
+          <div>
+            tag
+          </div>
+          <div
+            contenteditable="true"
+          />
+        </div>
+      </div>
       <!--   description   -->
       <div>
         <label
@@ -25,7 +43,7 @@
         >
           Description
         </label>
-        <b-base-input
+        <b-textarea
           id="description"
           v-model="description"
           :rules="rules.description"
@@ -87,10 +105,11 @@ import BBaseInput from '@/components/commons/inputs/Base/index.vue'
 import { RuleType } from '@/types/bootstrap/validate'
 import { useI18n } from 'vue-i18n'
 import BForm from '@/components/commons/Form/index.vue'
+import BTextarea from '@/components/commons/inputs/Textarea/index.vue'
 
 export default defineComponent({
   name: 'HomeGuildForm',
-  components: { BForm, BBaseInput },
+  components: { BTextarea, BForm, BBaseInput },
   setup: () => {
     const router = useRouter()
     const i18n = useI18n()

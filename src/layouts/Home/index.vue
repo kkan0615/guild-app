@@ -16,6 +16,11 @@
         >
           <router-view />
         </div>
+        <div
+          class="tw-my-auto"
+        >
+          test bottom
+        </div>
       </div>
     </div>
   </div>

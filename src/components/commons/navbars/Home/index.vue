@@ -1,6 +1,8 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light tw-h-16">
-    <div>
+    <div
+      @click="onClickLogo"
+    >
       logo
     </div>
     <div
@@ -48,6 +50,10 @@ export default defineComponent({
   setup: () => {
     const router = useRouter()
 
+    const onClickLogo = async () => {
+      await router.push({ path: '/' })
+    }
+
     /**
      * SingUp button click event
      */
@@ -70,6 +76,7 @@ export default defineComponent({
     }
 
     return {
+      onClickLogo,
       onClickSignUpBtn,
       onClickLoginLink,
       onClickCreateGuildBtn,
