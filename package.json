@@ -1,6 +1,6 @@
 {
   "name": "guild-app",
-  "version": "0.0.3a",
+  "version": "0.0.3b",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -11,10 +11,13 @@
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@popperjs/core": "^2.9.3",
     "@types/node": "^16.4.13",
+    "@types/uuid": "^8.3.1",
     "bootstrap": "^5.1.0",
+    "uuid": "^8.3.2",
     "vue": "^3.0.5",
     "vue-i18n": "^9.1.7",
-    "vue-router": "4"
+    "vue-router": "4",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",

@@ -11,10 +11,13 @@ import '@/styles/tailwind.scss'
 import i18n from '@/locales'
 /* index scss */
 import '@/styles/index.scss'
+/* Store */
+import { store } from '@/store'
 
 const app = createApp(App)
 
 app
   .use(i18n)
+  .use(store)
   .use(router)
   .mount('#app')

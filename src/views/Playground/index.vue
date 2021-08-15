@@ -1,19 +1,42 @@
 <template>
-  <div
-    class="tw-h-full"
-  >
+  <div>
     {{ message }}
-    <input
-      v-model="message"
-      class="tw-text-sm"
+    <div>
+      count: {{ count }}
+    </div>
+    <button
+      type="button"
+      class="btn btn-primary"
+      @click="onClickIncrease"
     >
-    <p>{{ $t("message.hello") }}</p>
+      onClickIncrease
+    </button>
   </div>
 </template>
 
+<script lang="ts">
+import { ref, defineComponent, computed } from 'vue'
+import { UserActionTypes } from '@/store/modules/user/actions'
+import useStore from '@/store'
 
-<script setup lang="ts">
-import { ref } from 'vue'
+export default defineComponent({
+  name: 'Prototype',
+  setup: () => {
+    const store = useStore()
 
-const message = ref('hello world')
+    const message = ref('Hello world prototype')
+
+    const count = computed(() => store.state.user.uid)
+
+    const onClickIncrease = async () => {
+      await store.dispatch(UserActionTypes.LOGIN)
+    }
+
+    return {
+      message,
+      count,
+      onClickIncrease,
+    }
+  }
+})
 </script>
