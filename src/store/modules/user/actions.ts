@@ -57,9 +57,8 @@ export const userActions: ActionTree<UserState, RootState> & UserActions = {
       auth: 'superAdmin',
     })
   },
-  async [UserActionTypes.LOGIN] ({ dispatch }) {
+  async [UserActionTypes.LOGIN] ({ dispatch }, payload) {
     let result = false
-    console.log('Login Processing...')
     /* Update User */
     try {
       await dispatch(UserActionTypes.UPDATE_USER)

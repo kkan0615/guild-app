@@ -3,14 +3,14 @@
     class="tw-h-full tw-flex tw-justify-center tw-items-center"
   >
     <div
-      class="tw-bg-white tw-w-full md:tw-w-4/12 tw-p-4 tw-shadow-lg tw-rounded-lg"
+      class="tw-bg-white tw-w-full md:tw-w-3/12 tw-p-4 tw-shadow-lg tw-rounded-lg"
     >
       <!--   Title part   -->
       <div
         class="tw-text-center"
       >
         <div
-          class="tw-font-bold"
+          class="tw-font-bold tw-text-xl"
         >
           Welcome back!
         </div>
@@ -126,10 +126,17 @@ import BForm from '@/components/commons/Form/index.vue'
 import BBaseInput from '@/components/commons/inputs/Base/index.vue'
 import BCheckRadioBox from '@/components/commons/inputs/CheckRadio/index.vue'
 import { UserLoginForm } from '@/types/model/auth/user'
+import useStore from '@/store'
+import { UserActionTypes } from '@/store/modules/user/actions'
+import { useRouter } from 'vue-router'
+import { RouterNameEnum } from '@/types/systems/routers/keys'
 export default defineComponent({
   name: 'Login',
   components: { BCheckRadioBox, BBaseInput, BForm },
   setup: () => {
+    const store = useStore()
+    const router = useRouter()
+
     const email = ref('')
     const password = ref('')
     const rememberId = ref(false)
@@ -144,12 +151,16 @@ export default defineComponent({
       }
     })
 
-    const login = () => {
+    const login = async () => {
       const loginForm: UserLoginForm = {
         email: email.value,
         password: password.value,
       }
-      console.log('login', loginForm)
+
+      const success = await store.dispatch(UserActionTypes.LOGIN, loginForm)
+      if (success) {
+        await router.push({ name: RouterNameEnum.HOME })
+      }
     }
 
     const onKeyDownEnterEmail = () => {
@@ -158,8 +169,8 @@ export default defineComponent({
       }
     }
 
-    const onKeyDownEnterPassword = () => {
-      login()
+    const onKeyDownEnterPassword = async () => {
+      await login()
     }
 
     const onClickPwEyeBtn = () => {

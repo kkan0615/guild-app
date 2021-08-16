@@ -31,24 +31,34 @@
       </button>
       <!--   sign up if it's not logged in   -->
       <button
+        v-if="!isLoggedIn"
         type="button"
         class="btn btn-outline-primary"
         @click="onClickSignUpBtn"
       >
         {{ $t('views.Home.signUpBtn') }}
       </button>
+      <!--   if it's logged in   -->
+      <user-dropdown
+        v-else
+      />
     </div>
   </nav>
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
+import useUserMixin from '@/mixins/useUserMixin'
+import UserDropdown from '@/components/commons/dropdowns/User/index.vue'
+
 export default defineComponent({
   name: 'HomeNavbar',
+  components: { UserDropdown },
   setup: () => {
     const router = useRouter()
+    const { isLoggedIn, loggedInUser } = useUserMixin()
 
     const onClickLogo = async () => {
       await router.push({ path: '/' })
@@ -58,7 +68,7 @@ export default defineComponent({
      * SingUp button click event
      */
     const onClickSignUpBtn = async () => {
-      await router.push({ name: RouterNameEnum.REGISTER })
+      await router.push({ name: RouterNameEnum.SIGN_UP })
     }
 
     /**
@@ -72,10 +82,12 @@ export default defineComponent({
      * Login button Click event
      */
     const onClickLoginLink = async () => {
-      await router.push({ name: RouterNameEnum.REGISTER })
+      await router.push({ name: RouterNameEnum.LOGIN })
     }
 
     return {
+      isLoggedIn,
+      loggedInUser,
       onClickLogo,
       onClickSignUpBtn,
       onClickLoginLink,

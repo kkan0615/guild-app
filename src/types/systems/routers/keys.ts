@@ -8,5 +8,6 @@ export enum RouterNameEnum {
   GUILD_HOME = 'Guild_Home',
   AUTH_LAYOUT = 'AuthLayout',
   LOGIN = 'Login',
-  REGISTER = 'Register'
+  SIGN_UP = 'SignUp',
+  LOGOUT = 'Logout',
 }
