@@ -1,5 +1,5 @@
-import { LocalstrageKeyEnum } from '@/types/systems/localstrage'
+import { LocalstorageKeyEnum } from '@/types/systems/localstrage'
 
 export const getCurrentLanguage = () => {
-  return localStorage.getItem(LocalstrageKeyEnum.LANGUAGE) || window.navigator.language.split('-')[0]
+  return localStorage.getItem(LocalstorageKeyEnum.LANGUAGE) || window.navigator.language.split('-')[0]
 }

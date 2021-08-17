@@ -18,6 +18,11 @@ export const homeRoutes: Array<RouteRecordRaw> = [
         name: RouterNameEnum.HOME_GUILD_FORM,
         component: () => import('@/views/homes/guilds/Form/index.vue'),
       },
+      {
+        path: 'guild/list',
+        name: RouterNameEnum.HOME_GUILD_LIST,
+        component: () => import('@/views/homes/guilds/List/index.vue'),
+      },
     ]
   },
 ]

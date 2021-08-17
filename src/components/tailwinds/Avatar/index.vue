@@ -19,7 +19,7 @@ export default defineComponent({
   name: 'TAvatar',
   props: {
     size: {
-      type: Number,
+      type: [Number, String],
       required: false,
       default: 12
     },

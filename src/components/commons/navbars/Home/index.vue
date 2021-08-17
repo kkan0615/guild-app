@@ -11,11 +11,13 @@
       <!--   Guild list   -->
       <div
         class="tw-cursor-pointer"
+        @click="onClickGuildListLink"
       >
         {{ $t('views.Home.guildListLink') }}
       </div>
       <!--   Login   -->
       <div
+        v-if="!isLoggedIn"
         class="tw-cursor-pointer"
         @click="onClickLoginLink"
       >
@@ -29,6 +31,9 @@
       >
         {{ $t('views.Home.createGuildBtn') }}
       </button>
+      <guilds-dropdown
+        v-if="isLoggedIn"
+      />
       <!--   sign up if it's not logged in   -->
       <button
         v-if="!isLoggedIn"
@@ -52,10 +57,11 @@ import { useRouter } from 'vue-router'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
 import useUserMixin from '@/mixins/useUserMixin'
 import UserDropdown from '@/components/commons/dropdowns/User/index.vue'
+import GuildsDropdown from '@/components/commons/dropdowns/Guilds/index.vue'
 
 export default defineComponent({
   name: 'HomeNavbar',
-  components: { UserDropdown },
+  components: { GuildsDropdown, UserDropdown },
   setup: () => {
     const router = useRouter()
     const { isLoggedIn, loggedInUser } = useUserMixin()
@@ -85,10 +91,18 @@ export default defineComponent({
       await router.push({ name: RouterNameEnum.LOGIN })
     }
 
+    /**
+     * Guild List link Click event
+     */
+    const onClickGuildListLink = async () => {
+      await router.push({ name: RouterNameEnum.HOME_GUILD_LIST })
+    }
+
     return {
       isLoggedIn,
       loggedInUser,
       onClickLogo,
+      onClickGuildListLink,
       onClickSignUpBtn,
       onClickLoginLink,
       onClickCreateGuildBtn,

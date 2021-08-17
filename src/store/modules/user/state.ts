@@ -1,8 +1,10 @@
 import { User } from '@/types/model/auth/user'
+import { Guild, GuildInDropdown } from '@/types/model/guilds'
 
 export interface UserState extends User {
   // @TODO: 타입 지정해주기
   notifications: Array<any>
+  guildList: Array<GuildInDropdown>
 }
 
 export const userState: UserState = {
@@ -14,4 +16,5 @@ export const userState: UserState = {
   img: '',
   auth: 'staff',
   notifications: [],
+  guildList: [],
 }

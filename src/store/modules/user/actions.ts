@@ -4,6 +4,7 @@ import { userState, UserState } from './state'
 import { RootState } from '@/store'
 import { v4 } from 'uuid'
 import { UserLoginForm } from '@/types/model/auth/user'
+import { LocalstorageKeyEnum } from '@/types/systems/localstrage'
 
 export enum UserActionTypes {
   SET_USER = 'user/USER_SET_USER',
@@ -47,6 +48,9 @@ export const userActions: ActionTree<UserState, RootState> & UserActions = {
     commit(UserMutationTypes.SET_USER, payload)
   },
   async [UserActionTypes.UPDATE_USER] ({ commit }) {
+    /* Save token to localstorage */
+    localStorage.setItem(LocalstorageKeyEnum.ACCESS_TOKEN, v4())
+
     commit(UserMutationTypes.SET_USER, {
       uid: v4(),
       color: 'EEA4A5D',
@@ -56,6 +60,14 @@ export const userActions: ActionTree<UserState, RootState> & UserActions = {
       img: '',
       auth: 'superAdmin',
     })
+    commit(UserMutationTypes.SET_NOTIFICATIONS, [])
+    commit(UserMutationTypes.SET_GUILD_LIST, Array.from(Array(10).keys()).map(el =>{
+      return {
+        uid: v4(),
+        img: 'https://octodex.github.com/images/saketocat.png',
+        name: 'Guild ' + el
+      }
+    }))
   },
   async [UserActionTypes.LOGIN] ({ dispatch }, payload) {
     let result = false
@@ -71,6 +83,7 @@ export const userActions: ActionTree<UserState, RootState> & UserActions = {
     return result
   },
   [UserActionTypes.LOGOUT] ({ commit }) {
-    commit(UserMutationTypes.SET_USER, userState)
+    localStorage.removeItem(LocalstorageKeyEnum.ACCESS_TOKEN)
+    commit(UserMutationTypes.SET_USER, {} as UserState)
   },
 }

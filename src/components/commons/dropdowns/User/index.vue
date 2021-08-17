@@ -3,6 +3,8 @@
     <t-avatar
       type="button"
       data-bs-toggle="dropdown"
+      size="8"
+      class="tw-ring tw-rounded-full"
     >
       <img
         v-if="loggedInUser.img"
