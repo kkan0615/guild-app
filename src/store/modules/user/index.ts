@@ -26,7 +26,7 @@ VuexStore<S>,
 } & {
   dispatch<K extends keyof UserActions>(
     key: K,
-    payload: Parameters<UserActions[K]>[1],
+    payload?: Parameters<UserActions[K]>[1],
     options?: DispatchOptions
   ): ReturnType<UserActions[K]>
 }

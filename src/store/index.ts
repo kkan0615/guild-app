@@ -3,15 +3,19 @@ import { InjectionKey } from 'vue'
 import { createLogger, createStore, Store } from 'vuex'
 import { UserState } from '@/store/modules/user/state'
 import { userModule, UserStore } from '@/store/modules/user'
+import { HomeState } from '@/store/modules/home/state'
+import { homeModule, HomeStore } from '@/store/modules/home'
 
 // define your typings for the store state
 export interface RootState {
+  home: HomeState
   user: UserState
   count: number
 }
 
 export type RootStore =
-  UserStore<Pick<RootState, 'user'>>
+  UserStore<Pick<RootState, 'user'>> &
+  HomeStore<Pick<RootState, 'home'>>
 
 // define injection key
 export const key: InjectionKey<Store<RootState>> = Symbol()
@@ -22,6 +26,7 @@ export const store = createStore<RootState>({
   plugins,
   modules: {
     user: userModule,
+    home: homeModule,
   }
   // state: {
   //   count: 50
