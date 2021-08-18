@@ -1,10 +1,11 @@
 import { ActionContext, ActionTree } from 'vuex'
 import { RootState } from '@/store'
 import { v4 } from 'uuid'
-import { UserLoginForm } from '@/types/model/auth/user'
+import { User, UserLoginForm } from '@/types/model/auth/user'
 import { LocalstorageKeyEnum } from '@/types/systems/localstrage'
 import { HomeMutations, HomeMutationTypes } from '@/store/modules/home/mutations'
 import { HomeState } from '@/store/modules/home/state'
+import { GuildInfo, GuildListFilterQuery } from '@/types/model/guilds'
 
 export enum HomeActionTypes {
   SET_GUILD_LIST_FILTER_OPTION = 'home/SET_GUILD_LIST_FILTER_OPTION',
@@ -22,7 +23,7 @@ export type AugmentedActionContext = {
 export interface HomeActions {
   [HomeActionTypes.SET_GUILD_LIST_FILTER_OPTION](
     { commit }: AugmentedActionContext,
-    payload: null
+    payload: GuildListFilterQuery
   ): void
   [HomeActionTypes.LOAD_GUILD_LIST](
     { commit }: AugmentedActionContext,
@@ -37,7 +38,28 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
     commit(HomeMutationTypes.SET_GUILD_LIST_FILTER_OPTION, payload)
   },
   async [HomeActionTypes.LOAD_GUILD_LIST] ({ commit }) {
-    const guildListRes:Array<any> = []
+    const guildListRes:Array<GuildInfo> = [
+      {
+        uid: v4(),
+        img: 'https://octodex.github.com/images/saketocat.png',
+        name: 'Test 01',
+        tagIds: [],
+        tags: [],
+        mainManger: {} as User,
+        mainMangerId: v4(),
+        description: 'This is test data',
+      },
+      {
+        uid: v4(),
+        img: 'https://octodex.github.com/images/saketocat.png',
+        name: 'Test 02',
+        tagIds: [],
+        tags: [],
+        mainManger: {} as User,
+        mainMangerId: v4(),
+        description: 'This is test data',
+      },
+    ]
     commit(HomeMutationTypes.SET_GUILD_LIST, guildListRes)
   },
   async [HomeActionTypes.RESET_GUILD_LIST] ({ commit }) {

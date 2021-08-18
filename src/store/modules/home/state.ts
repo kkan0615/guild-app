@@ -1,9 +1,11 @@
+import { GuildInfo, GuildListFilterQuery } from '@/types/model/guilds'
+
 export interface HomeState {
-  guildListFilterOption: any
-  guildList: Array<any>
+  guildListFilterOption: GuildListFilterQuery
+  guildList: Array<GuildInfo>
 }
 
 export const homeState: HomeState = {
-  guildListFilterOption: {},
+  guildListFilterOption: {} as GuildListFilterQuery,
   guildList: [],
 }

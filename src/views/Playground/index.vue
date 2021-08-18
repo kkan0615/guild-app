@@ -7,17 +7,22 @@
     <button
       type="button"
       class="btn btn-primary"
-      @click="onClickIncrease"
+      @click="onClickTestBtn"
     >
-      onClickIncrease
+      test
     </button>
+    <ckeditor
+      v-model="editorData"
+      :editor="editor"
+      :config="editorConfig"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { ref, defineComponent, computed } from 'vue'
-import { UserActionTypes } from '@/store/modules/user/actions'
 import useStore from '@/store'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 export default defineComponent({
   name: 'Prototype',
@@ -27,15 +32,21 @@ export default defineComponent({
     const message = ref('Hello world prototype')
 
     const count = computed(() => store.state.user.uid)
+    const editor = ref(ClassicEditor)
+    const editorData = ref('<p>content of editor </p>')
+    const editorConfig = {}
 
-    const onClickIncrease = async () => {
-      await store.dispatch(UserActionTypes.LOGIN)
+    const onClickTestBtn = async () => {
+      console.log(editorData.value)
     }
 
     return {
+      editor,
+      editorData,
+      editorConfig,
       message,
       count,
-      onClickIncrease,
+      onClickTestBtn,
     }
   }
 })
