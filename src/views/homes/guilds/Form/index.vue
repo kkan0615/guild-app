@@ -99,7 +99,7 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, computed } from 'vue'
+import { ref, defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import BBaseInput from '@/components/commons/inputs/Base/index.vue'
 import { RuleType } from '@/types/bootstrap/validate'

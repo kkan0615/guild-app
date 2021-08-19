@@ -11,6 +11,8 @@ export enum HomeActionTypes {
   SET_GUILD_LIST_FILTER_OPTION = 'home/SET_GUILD_LIST_FILTER_OPTION',
   LOAD_GUILD_LIST = 'home/LOAD_GUILD_LIST',
   RESET_GUILD_LIST = 'home/RESET_GUILD_LIST',
+  LOAD_GUILD_INFO = 'home/LOAD_GUILD_INFO',
+  RESET_GUILD_INFO = 'home/RESET_GUILD_INFO',
 }
 
 export type AugmentedActionContext = {
@@ -29,6 +31,13 @@ export interface HomeActions {
     { commit }: AugmentedActionContext,
   ): void
   [HomeActionTypes.RESET_GUILD_LIST](
+    { commit }: AugmentedActionContext,
+  ): void
+  [HomeActionTypes.LOAD_GUILD_INFO](
+    { commit }: AugmentedActionContext,
+    payload: string
+  ): void
+  [HomeActionTypes.RESET_GUILD_INFO](
     { commit }: AugmentedActionContext,
   ): void
 }
@@ -64,5 +73,21 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
   },
   async [HomeActionTypes.RESET_GUILD_LIST] ({ commit }) {
     commit(HomeMutationTypes.SET_GUILD_LIST, [])
+  },
+  async [HomeActionTypes.LOAD_GUILD_INFO] ({ commit }, payload) {
+    const guildInfoRes = {
+      uid: payload,
+      img: 'https://octodex.github.com/images/saketocat.png',
+      name: 'Test 01',
+      tagIds: [],
+      tags: [],
+      mainManger: {} as User,
+      mainMangerId: v4(),
+      description: 'This is test data',
+    }
+    commit(HomeMutationTypes.SET_GUILD_INFO, guildInfoRes)
+  },
+  async [HomeActionTypes.RESET_GUILD_INFO] ({ commit }) {
+    commit(HomeMutationTypes.SET_GUILD_INFO, {} as GuildInfo)
   },
 }

@@ -8,6 +8,7 @@ export interface Guild extends FirebaseAttributes {
   description: string
   tagIds: Array<string>
   mainMangerId: string
+  joinQuestions?: Array<string> // questions before join
 }
 
 export interface GuildInfo extends Guild {

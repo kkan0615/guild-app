@@ -23,6 +23,11 @@ export const homeRoutes: Array<RouteRecordRaw> = [
         name: RouterNameEnum.HOME_GUILD_LIST,
         component: () => import('@/views/homes/guilds/List/index.vue'),
       },
+      {
+        path: 'guild/detail/:id',
+        name: RouterNameEnum.HOME_GUILD_DETAIL,
+        component: () => import('@/views/homes/guilds/Detail/index.vue'),
+      },
     ]
   },
 ]

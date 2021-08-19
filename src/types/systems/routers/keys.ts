@@ -4,6 +4,7 @@ export enum RouterNameEnum {
   HOME = 'Home',
   HOME_GUILD_FORM = 'HomeGuildForm',
   HOME_GUILD_LIST = 'HomeGuildList',
+  HOME_GUILD_DETAIL = 'HomeGuildDetail',
   /* Guild */
   GENERAL_LAYOUT = 'GeneralLayout',
   GUILD_HOME = 'Guild_Home',
