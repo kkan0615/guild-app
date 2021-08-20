@@ -1,6 +1,6 @@
 {
   "name": "guild-app",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -8,8 +8,6 @@
     "test:unit": "jest"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-build-classic": "^29.1.0",
-    "@ckeditor/ckeditor5-vue": "^2.0.1",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@popperjs/core": "^2.9.3",
     "@types/node": "^16.4.13",

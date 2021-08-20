@@ -8,12 +8,14 @@ export interface Guild extends FirebaseAttributes {
   description: string
   tagIds: Array<string>
   mainMangerId: string
+  memberIds: Array<string> // member uids
   joinQuestions?: Array<string> // questions before join
 }
 
 export interface GuildInfo extends Guild {
   mainManger: User
   tags: Array<GuildTag>
+  members: Array<User>
 }
 
 export type GuildInDropdown = Pick<Guild, 'uid' | 'img' | 'name'>
