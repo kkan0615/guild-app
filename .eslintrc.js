@@ -68,5 +68,8 @@ module.exports = {
         format: ['PascalCase']
       },
     ],
+    'vue/no-unused-components': ['warn', {
+      'ignoreWhenBindingPresent': true
+    }]
   }
 }

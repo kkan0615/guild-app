@@ -1,4 +1,4 @@
-import { User } from '@/types/model/auth/user'
+import { User } from '@/types/model/auth/user/user'
 import { Guild, GuildInDropdown } from '@/types/model/guilds'
 
 export interface UserState extends User {

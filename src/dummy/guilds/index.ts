@@ -2,13 +2,27 @@ import { GuildInfo } from '@/types/model/guilds'
 import { v4 } from 'uuid'
 import * as faker from 'faker'
 import { dummyUsers } from '@/dummy/user'
+import { GuildUserInfo } from '@/types/model/auth/user/user'
+import { GuildRole } from '@/types/model/guilds/role'
 
 export let dummyGuilds: Array<GuildInfo> = []
 
 export const initGuilds = () => {
   dummyGuilds = [...Array(50).keys()].map((num) => {
+    const roles: Array<GuildRole> = [...Array(50).keys()].map((num) => {
+      return {
+        uid: v4(),
+        name: faker.lorem.word(),
+        color: faker.commerce.color(),
+      }
+    })
+
     const members = Array.from(new Set([...Array(50).keys()].map(() => {
-      return dummyUsers[Math.floor(Math.random() * dummyUsers.length)]
+      const dummyUser = dummyUsers[Math.floor(Math.random() * dummyUsers.length)]
+      return {
+        ...dummyUser,
+        role: roles[Math.floor(Math.random() * roles.length)]
+      } as GuildUserInfo
     })))
 
     return {
@@ -23,11 +37,26 @@ export const initGuilds = () => {
       description: 'This is test data',
       members: members,
       memberIds: members.map((member) => member.uid),
+      roles: roles,
     }
   })
+
+  const roles: Array<GuildRole> = [...Array(50).keys()].map((num) => {
+    return {
+      uid: v4(),
+      name: faker.lorem.word(),
+      color: 'blue',
+    }
+  })
+
   const members = Array.from(new Set([...Array(50).keys()].map(() => {
-    return dummyUsers[Math.floor(Math.random() * dummyUsers.length)]
+    const dummyUser = dummyUsers[Math.floor(Math.random() * dummyUsers.length)]
+    return {
+      ...dummyUser,
+      role: roles[Math.floor(Math.random() * roles.length)]
+    } as GuildUserInfo
   })))
+
   dummyGuilds.unshift({
     uid: 'test-uid',
     // img: 'https://octodex.github.com/images/saketocat.png',
@@ -40,6 +69,6 @@ export const initGuilds = () => {
     description: 'This is test data',
     members: members,
     memberIds: members.map((member) => member.uid),
-
+    roles: roles,
   })
 }

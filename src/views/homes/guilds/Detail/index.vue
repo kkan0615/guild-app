@@ -13,9 +13,6 @@
         Join
       </button>
     </div>
-    <div>
-      {{ guildInfo }}
-    </div>
     <div
       class="text-center"
     >
@@ -40,15 +37,14 @@
         Manager data
       </div>
     </div>
-    <div>
-      User List!
-      <ag-grid-vue
-        class="ag-theme-alpine tw-w-full tw-h-96"
-        col-resize-default="shift"
-        :default-col-def="defaultColumn"
-        :column-defs="columns"
-        :row-data="rows"
-        l
+    <div
+      class="mb-4"
+    >
+      User List ({{ rows ? rows.length : 0 }})
+      <c-ag-grid
+        v-if="rows"
+        :columns="columns"
+        :rows="rows"
       />
     </div>
     <button
@@ -67,13 +63,15 @@ import useStore from '@/store'
 import { HomeActionTypes } from '@/store/modules/home/actions'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
-import { AgGridVue } from 'ag-grid-vue3'
-import { Column } from 'ag-grid-community'
+import CAgGrid from '@/components/commons/AgGrid/index.vue'
+import { UserColumn } from '@/types/model/auth/user/column'
+import RoleChip from '@/views/homes/guilds/Detail/components/RoleChip.vue'
 
 export default defineComponent({
   name: 'HomeGuildDetail',
   components: {
-    AgGridVue,
+    RoleChip,
+    CAgGrid,
   },
   setup: () => {
     const route = useRoute()
@@ -83,16 +81,8 @@ export default defineComponent({
     const defaultColumn = {
       resizable: true,
     }
-    const columns: Array<Column> = [
-      { field: 'make' },
-      { field: 'model' },
-      { field: 'price' },
-    ]
-    const rows =  [
-      { make: 'Toyota', model: 'Celica', price: 35000 },
-      { make: 'Ford', model: 'Mondeo', price: 32000 },
-      { make: 'Porsche', model: 'Boxter', price: 72000 }
-    ]
+    const columns = UserColumn
+    const rows = computed(() => guildInfo.value.members)
 
     const guildInfo = computed(() => store.state.home.guildInfo)
 

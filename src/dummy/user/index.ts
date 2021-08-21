@@ -1,4 +1,4 @@
-import { User } from '@/types/model/auth/user'
+import { User } from '@/types/model/auth/user/user'
 import { v4 } from 'uuid'
 import * as faker from 'faker'
 

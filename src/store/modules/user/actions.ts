@@ -3,7 +3,7 @@ import { UserMutations, UserMutationTypes } from './mutations'
 import { userState, UserState } from './state'
 import { RootState } from '@/store'
 import { v4 } from 'uuid'
-import { UserLoginForm } from '@/types/model/auth/user'
+import { UserLoginForm } from '@/types/model/auth/user/user'
 import { LocalstorageKeyEnum } from '@/types/systems/localstrage'
 
 export enum UserActionTypes {
@@ -71,7 +71,7 @@ export const userActions: ActionTree<UserState, RootState> & UserActions = {
   },
   async [UserActionTypes.LOGIN] ({ dispatch }, payload) {
     let result = false
-    /* Update User */
+    /* Update Index */
     try {
       await dispatch(UserActionTypes.UPDATE_USER)
       result = true

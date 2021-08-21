@@ -1,4 +1,5 @@
 import { FirebaseAttributes } from '@/types/model/attributes'
+import { GuildRole } from '@/types/model/guilds/role'
 
 export type UserSystemAuth = 'superAdmin' | 'admin' | 'staff'
 
@@ -9,6 +10,10 @@ export interface User extends FirebaseAttributes {
   color: string
   img: string
   auth: UserSystemAuth
+}
+
+export interface GuildUserInfo extends User {
+  role: GuildRole
 }
 
 export interface UserLoginForm {
