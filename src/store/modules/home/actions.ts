@@ -1,11 +1,11 @@
 import { ActionContext, ActionTree } from 'vuex'
 import { RootState } from '@/store'
 import { v4 } from 'uuid'
-import { User, UserLoginForm } from '@/types/model/auth/user'
-import { LocalstorageKeyEnum } from '@/types/systems/localstrage'
+import { User } from '@/types/model/auth/user'
 import { HomeMutations, HomeMutationTypes } from '@/store/modules/home/mutations'
 import { HomeState } from '@/store/modules/home/state'
 import { GuildInfo, GuildListFilterQuery } from '@/types/model/guilds'
+import { dummyGuilds } from '@/dummy/guilds'
 
 export enum HomeActionTypes {
   SET_GUILD_LIST_FILTER_OPTION = 'home/SET_GUILD_LIST_FILTER_OPTION',
@@ -46,46 +46,22 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
   [HomeActionTypes.SET_GUILD_LIST_FILTER_OPTION] ({ commit }, payload) {
     commit(HomeMutationTypes.SET_GUILD_LIST_FILTER_OPTION, payload)
   },
-  async [HomeActionTypes.LOAD_GUILD_LIST] ({ commit }) {
-    const guildListRes:Array<GuildInfo> = [
-      {
-        uid: v4(),
-        img: 'https://octodex.github.com/images/saketocat.png',
-        name: 'Test 01',
-        tagIds: [],
-        tags: [],
-        mainManger: {} as User,
-        mainMangerId: v4(),
-        description: 'This is test data',
-      },
-      {
-        uid: v4(),
-        img: 'https://octodex.github.com/images/saketocat.png',
-        name: 'Test 02',
-        tagIds: [],
-        tags: [],
-        mainManger: {} as User,
-        mainMangerId: v4(),
-        description: 'This is test data',
-      },
-    ]
+  [HomeActionTypes.LOAD_GUILD_LIST] ({ commit }) {
+    const guildListRes:Array<GuildInfo> = dummyGuilds
+    console.log('guildListRes', guildListRes)
     commit(HomeMutationTypes.SET_GUILD_LIST, guildListRes)
   },
-  async [HomeActionTypes.RESET_GUILD_LIST] ({ commit }) {
+  [HomeActionTypes.RESET_GUILD_LIST] ({ commit }) {
     commit(HomeMutationTypes.SET_GUILD_LIST, [])
   },
-  async [HomeActionTypes.LOAD_GUILD_INFO] ({ commit }, payload) {
-    const guildInfoRes = {
-      uid: payload,
-      img: 'https://octodex.github.com/images/saketocat.png',
-      name: 'Test 01',
-      tagIds: [],
-      tags: [],
-      mainManger: {} as User,
-      mainMangerId: v4(),
-      description: 'This is test data',
+  [HomeActionTypes.LOAD_GUILD_INFO] ({ commit }, payload) {
+    const guildInfoRes = dummyGuilds.find(dg => dg.uid === payload)
+    if (guildInfoRes)
+      commit(HomeMutationTypes.SET_GUILD_INFO, guildInfoRes)
+    else {
+      commit(HomeMutationTypes.SET_GUILD_INFO, {} as GuildInfo)
+      throw new Error('no data')
     }
-    commit(HomeMutationTypes.SET_GUILD_INFO, guildInfoRes)
   },
   async [HomeActionTypes.RESET_GUILD_INFO] ({ commit }) {
     commit(HomeMutationTypes.SET_GUILD_INFO, {} as GuildInfo)

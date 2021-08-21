@@ -42,6 +42,14 @@
     </div>
     <div>
       User List!
+      <ag-grid-vue
+        class="ag-theme-alpine tw-w-full tw-h-96"
+        col-resize-default="shift"
+        :default-col-def="defaultColumn"
+        :column-defs="columns"
+        :row-data="rows"
+        l
+      />
     </div>
     <button
       class="btn btn-primary tw-ml-auto tw-w-full"
@@ -53,17 +61,38 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, onMounted, computed } from 'vue'
+import { defineComponent, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import useStore from '@/store'
 import { HomeActionTypes } from '@/store/modules/home/actions'
+import 'ag-grid-community/dist/styles/ag-grid.css'
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
+import { AgGridVue } from 'ag-grid-vue3'
+import { Column } from 'ag-grid-community'
 
 export default defineComponent({
   name: 'HomeGuildDetail',
+  components: {
+    AgGridVue,
+  },
   setup: () => {
     const route = useRoute()
     const router = useRouter()
     const store = useStore()
+
+    const defaultColumn = {
+      resizable: true,
+    }
+    const columns: Array<Column> = [
+      { field: 'make' },
+      { field: 'model' },
+      { field: 'price' },
+    ]
+    const rows =  [
+      { make: 'Toyota', model: 'Celica', price: 35000 },
+      { make: 'Ford', model: 'Mondeo', price: 32000 },
+      { make: 'Porsche', model: 'Boxter', price: 72000 }
+    ]
 
     const guildInfo = computed(() => store.state.home.guildInfo)
 
@@ -79,6 +108,9 @@ export default defineComponent({
     })
 
     return {
+      defaultColumn,
+      columns,
+      rows,
       guildInfo
     }
   }

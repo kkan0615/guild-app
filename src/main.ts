@@ -14,6 +14,10 @@ import '@/styles/index.scss'
 /* Store */
 import { store } from '@/store'
 
+/* Remove after set firebase */
+import { initDummyData } from '@/dummy'
+initDummyData()
+
 const app = createApp(App)
 
 app
