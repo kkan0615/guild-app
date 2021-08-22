@@ -17,12 +17,12 @@ export const initDummyUsers = () => {
     }
   })
   dummyUsers.unshift({
-    uid: v4(),
+    uid: 'admin-uid',
     nickname: 'Super Admin',
     auth: 'superAdmin',
     name: 'Super Admin',
     color: faker.internet.color(),
     img: 'https://octodex.github.com/images/saketocat.png',
-    email: 'admin@admin.com'
+    email: 'admin@admin.com',
   })
 }

@@ -128,14 +128,15 @@ import BCheckRadioBox from '@/components/commons/inputs/CheckRadio/index.vue'
 import { UserLoginForm } from '@/types/model/auth/user/user'
 import useStore from '@/store'
 import { UserActionTypes } from '@/store/modules/user/actions'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
 export default defineComponent({
   name: 'Login',
   components: { BCheckRadioBox, BBaseInput, BForm },
   setup: () => {
-    const store = useStore()
     const router = useRouter()
+    const route = useRoute()
+    const store = useStore()
 
     const email = ref('')
     const password = ref('')
@@ -159,7 +160,11 @@ export default defineComponent({
 
       const success = await store.dispatch(UserActionTypes.LOGIN, loginForm)
       if (success) {
-        await router.push({ name: RouterNameEnum.HOME })
+        const redirectName = route.query.redirect
+        if (redirectName)
+          await router.push({ name: redirectName })
+        else
+          await router.push({ name: RouterNameEnum.HOME })
       }
     }
 
@@ -181,9 +186,8 @@ export default defineComponent({
       console.log('onClickForgotPwLink')
     }
 
-    const onClickLoginBtn = () => {
-      console.log('onClickLoginBtn')
-      login()
+    const onClickLoginBtn = async () => {
+      await login()
     }
 
     const onClickSignUpLink = () => {

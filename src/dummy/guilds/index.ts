@@ -4,10 +4,12 @@ import * as faker from 'faker'
 import { dummyUsers } from '@/dummy/user'
 import { GuildUserInfo } from '@/types/model/auth/user/user'
 import { GuildRole } from '@/types/model/guilds/role'
+import { dummyGuildTags } from '@/dummy/guilds/tag'
+import { GuildTag } from '@/types/model/guilds/tag'
 
 export let dummyGuilds: Array<GuildInfo> = []
 
-export const initGuilds = () => {
+export const initDummyGuilds = () => {
   dummyGuilds = [...Array(50).keys()].map((num) => {
     const roles: Array<GuildRole> = [...Array(50).keys()].map((num) => {
       return {
@@ -26,13 +28,17 @@ export const initGuilds = () => {
       } as GuildUserInfo
     })))
 
+    const tags = Array.from(new Set([...Array(50).keys()].map(() => {
+      return  dummyGuildTags[Math.floor(Math.random() * dummyGuildTags.length)]
+    })))
+
     return {
       uid: v4(),
       // img: 'https://octodex.github.com/images/saketocat.png',
       img: faker.image.city(),
       name: faker.company.companyName(),
-      tagIds: [],
-      tags: [],
+      tagIds: tags.map(tag => tag.uid),
+      tags: tags,
       mainManger: members[0],
       mainMangerId: v4(),
       description: 'This is test data',
@@ -60,14 +66,17 @@ export const initGuilds = () => {
   })))
 
   const admin = dummyUsers.find(du => du.auth === 'superAdmin')
+  const tags = Array.from(new Set([...Array(50).keys()].map(() => {
+    return  dummyGuildTags[Math.floor(Math.random() * dummyGuildTags.length)]
+  })))
   if (admin)
     dummyGuilds.unshift({
       uid: 'test-uid',
       // img: 'https://octodex.github.com/images/saketocat.png',
       img: faker.image.city(),
       name: faker.company.companyName(),
-      tagIds: [],
-      tags: [],
+      tagIds: tags.map(tag => tag.uid),
+      tags: tags,
       mainManger: members[0],
       mainMangerId: v4(),
       description: 'This is test data',

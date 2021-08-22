@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 /* Router */
 import { router } from '@/router'
+import '@/router/beforeRouter'
 /* App */
 import App from './App.vue'
 /* Bootstrap */

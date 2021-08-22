@@ -53,7 +53,6 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
   },
   [HomeActionTypes.LOAD_GUILD_LIST] ({ commit }) {
     const guildListRes:Array<GuildInfo> = dummyGuilds
-    console.log('guildListRes', guildListRes)
     commit(HomeMutationTypes.SET_GUILD_LIST, guildListRes)
   },
   [HomeActionTypes.RESET_GUILD_LIST] ({ commit }) {

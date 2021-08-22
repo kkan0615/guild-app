@@ -1,7 +1,9 @@
 import { initDummyUsers } from '@/dummy/user'
-import { initGuilds } from '@/dummy/guilds'
+import { initDummyGuilds } from '@/dummy/guilds'
+import { initDummyGuildTags } from '@/dummy/guilds/tag'
 
 export const initDummyData = () => {
   initDummyUsers()
-  initGuilds()
+  initDummyGuildTags()
+  initDummyGuilds()
 }

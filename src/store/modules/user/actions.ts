@@ -6,6 +6,7 @@ import { v4 } from 'uuid'
 import { UserLoginForm } from '@/types/model/auth/user/user'
 import { LocalstorageKeyEnum } from '@/types/systems/localstrage'
 import { dummyGuilds } from '@/dummy/guilds'
+import { dummyUsers } from '@/dummy/user'
 
 export enum UserActionTypes {
   SET_USER = 'user/USER_SET_USER',
@@ -27,7 +28,8 @@ export interface UserActions {
     payload: UserState
   ): void
   [UserActionTypes.UPDATE_USER](
-    { commit }: AugmentedActionContext,
+    { commit, dispatch }: AugmentedActionContext,
+    payload: string
   ): void
   /**
    * Login User
@@ -48,27 +50,39 @@ export const userActions: ActionTree<UserState, RootState> & UserActions = {
   [UserActionTypes.SET_USER] ({ commit }, payload) {
     commit(UserMutationTypes.SET_USER, payload)
   },
-  async [UserActionTypes.UPDATE_USER] ({ commit }) {
-    /* Save token to localstorage */
-    localStorage.setItem(LocalstorageKeyEnum.ACCESS_TOKEN, v4())
-
-    commit(UserMutationTypes.SET_USER, {
-      uid: v4(),
-      color: 'EEA4A5D',
-      name: 'Master',
-      email: 'master@admin.com',
-      nickname: 'Master',
-      img: '',
-      auth: 'superAdmin',
+  async [UserActionTypes.UPDATE_USER] ({ commit, dispatch }, payload) {
+    const userInfo = dummyUsers.find((du) => {
+      return du.uid === payload
     })
+    if (!userInfo) {
+      await dispatch(UserActionTypes.LOGOUT)
+      throw new Error('fail to get user data')
+    }
+
+    /* Save token to localstorage */
+    localStorage.setItem(LocalstorageKeyEnum.ACCESS_TOKEN, payload)
+
+    /* Set users */
+    commit(UserMutationTypes.SET_USER, {
+      uid: payload,
+      color: userInfo.color,
+      name: userInfo.name,
+      email: userInfo.email,
+      nickname: userInfo.nickname,
+      img: userInfo.img,
+      auth: userInfo.auth,
+    })
+    /* Set notifications */
     commit(UserMutationTypes.SET_NOTIFICATIONS, [])
-    let guildListRes = Array.from(Array(10).keys()).map(el =>{
+    const joinedGuildsRes = dummyGuilds.filter(dg => !!dg.memberIds.find(memberId => memberId === payload))
+    let guildListRes = joinedGuildsRes.map(joinedGuild =>{
       return {
-        uid: v4(),
-        img: 'https://octodex.github.com/images/saketocat.png',
-        name: 'Guild ' + el
+        uid: joinedGuild.uid,
+        img: joinedGuild.img,
+        name: joinedGuild.name,
       }
     })
+    /* @TODO: After test, remove it */
     const foundGuildTest = dummyGuilds.find((dg) => dg.uid === 'test-uid')
     if (foundGuildTest)
       guildListRes = guildListRes.concat([{
@@ -82,8 +96,15 @@ export const userActions: ActionTree<UserState, RootState> & UserActions = {
     let result = false
     /* Update Index */
     try {
-      await dispatch(UserActionTypes.UPDATE_USER)
-      result = true
+      /* Try to login */
+      const loggedInRes = dummyUsers.find((du) => {
+        return du.email === payload.email
+      })
+      /* If it's success to login */
+      if (loggedInRes) {
+        await dispatch(UserActionTypes.UPDATE_USER, loggedInRes.uid)
+        result = true
+      }
     } catch (e) {
       console.error(e)
       result = false
@@ -94,5 +115,7 @@ export const userActions: ActionTree<UserState, RootState> & UserActions = {
   [UserActionTypes.LOGOUT] ({ commit }) {
     localStorage.removeItem(LocalstorageKeyEnum.ACCESS_TOKEN)
     commit(UserMutationTypes.SET_USER, {} as UserState)
+    commit(UserMutationTypes.SET_NOTIFICATIONS, [])
+    commit(UserMutationTypes.SET_GUILD_LIST, [])
   },
 }

@@ -3,16 +3,16 @@
     v-if="guildInfo"
   >
     <!--  header  -->
-    <div
-      class="tw-flex"
-    >
-      <button
-        class="btn btn-primary tw-ml-auto tw-w-24"
-        type="button"
-      >
-        Join
-      </button>
-    </div>
+    <!--    <div-->
+    <!--      class="tw-flex"-->
+    <!--    >-->
+    <!--      <button-->
+    <!--        class="btn btn-primary tw-ml-auto tw-w-24"-->
+    <!--        type="button"-->
+    <!--      >-->
+    <!--        Join-->
+    <!--      </button>-->
+    <!--    </div>-->
     <div
       class="text-center"
     >
@@ -33,6 +33,7 @@
       <div>
         {{ guildInfo.description }}
       </div>
+      <!--   Manage div   -->
       <div
         v-if="guildInfo.mainManger"
       >
@@ -46,23 +47,67 @@
         </span>
       </div>
     </div>
+    <!--   tags   -->
+    <div
+      class="my-2"
+    >
+      <div
+        class="tw-text-xl mb-2"
+      >
+        Tags
+      </div>
+      <div
+        v-if="guildInfo.tags"
+        class="tw-flex flex- gap-2 tw-w-full tw-flex-wrap"
+      >
+        <tag-badge
+          v-for="tag in guildInfo.tags"
+          :key="tag.uid"
+          :color="tag.color"
+        >
+          {{ tag.name }}
+        </tag-badge>
+      </div>
+    </div>
     <div
       class="mb-4"
     >
-      User List ({{ rows ? rows.length : 0 }})
+      <div
+        class="tw-text-xl mb-1"
+      >
+        User List ({{ rows ? rows.length : 0 }})
+      </div>
       <c-ag-grid
         v-if="rows"
         :columns="columns"
         :rows="rows"
       />
     </div>
+    <!--  Join to guild button  -->
+    <!--  If the logged in user is not joined  -->
     <button
-      :disabled="isJoined"
+      v-if="!isJoined && isLoggedIn"
       class="btn btn-primary tw-ml-auto tw-w-full"
       type="button"
       @click="onClickJoinBtn"
     >
       Join to the {{ guildInfo.name }}
+    </button>
+    <!--  If the logged in user is already joined  -->
+    <button
+      v-else-if="isJoined && isLoggedIn"
+      class="btn btn-primary tw-ml-auto tw-w-full"
+      type="button"
+      @click="onClickMoveGuildBtn"
+    >
+      Move to the {{ guildInfo.name }}
+    </button>
+    <!--  @TODO: 로그인 만들기  -->
+    <button
+      class="btn btn-primary tw-ml-auto tw-w-full"
+      type="button"
+    >
+      Login and Join to Guild
     </button>
   </div>
 </template>
@@ -79,10 +124,12 @@ import { UserColumn } from '@/types/model/auth/user/column'
 import RoleColumnBadge from '@/components/columns/badges/Role.vue'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
 import useUserMixin from '@/mixins/useUserMixin'
+import TagBadge from '@/components/badeges/Tag/index.vue'
 
 export default defineComponent({
   name: 'HomeGuildDetail',
   components: {
+    TagBadge,
     RoleColumnBadge, // Use in Column component
     CAgGrid,
   },
@@ -102,9 +149,6 @@ export default defineComponent({
     const isJoined = computed(() => {
       if (!loggedInUser)
         return false
-
-      console.log(loggedInUser.value.guildList.findIndex(guild => guild.uid === guildInfo.value.uid))
-
       return loggedInUser.value.guildList.findIndex(guild => guild.uid === guildInfo.value.uid) >= 0
     })
 
@@ -126,6 +170,10 @@ export default defineComponent({
       }
     }
 
+    const onClickMoveGuildBtn = async () => {
+      await router.push({ name: RouterNameEnum.GUILD_HOME, params: { id: guildInfo.value.uid } })
+    }
+
     return {
       defaultColumn,
       columns,
@@ -134,6 +182,7 @@ export default defineComponent({
       isJoined,
       isLoggedIn,
       onClickJoinBtn,
+      onClickMoveGuildBtn,
     }
   }
 })
