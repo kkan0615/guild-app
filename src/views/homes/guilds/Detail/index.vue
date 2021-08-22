@@ -57,8 +57,10 @@
       />
     </div>
     <button
+      :disabled="isJoined"
       class="btn btn-primary tw-ml-auto tw-w-full"
       type="button"
+      @click="onClickJoinBtn"
     >
       Join to the {{ guildInfo.name }}
     </button>
@@ -66,7 +68,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, computed } from 'vue'
+import { computed, defineComponent, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import useStore from '@/store'
 import { HomeActionTypes } from '@/store/modules/home/actions'
@@ -75,6 +77,8 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 import CAgGrid from '@/components/commons/AgGrid/index.vue'
 import { UserColumn } from '@/types/model/auth/user/column'
 import RoleColumnBadge from '@/components/columns/badges/Role.vue'
+import { RouterNameEnum } from '@/types/systems/routers/keys'
+import useUserMixin from '@/mixins/useUserMixin'
 
 export default defineComponent({
   name: 'HomeGuildDetail',
@@ -86,14 +90,23 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const store = useStore()
+    const { loggedInUser, isLoggedIn } = useUserMixin()
 
     const defaultColumn = {
       resizable: true,
     }
     const columns = UserColumn
-    const rows = computed(() => guildInfo.value.members)
 
+    const rows = computed(() => guildInfo.value.members)
     const guildInfo = computed(() => store.state.home.guildInfo)
+    const isJoined = computed(() => {
+      if (!loggedInUser)
+        return false
+
+      console.log(loggedInUser.value.guildList.findIndex(guild => guild.uid === guildInfo.value.uid))
+
+      return loggedInUser.value.guildList.findIndex(guild => guild.uid === guildInfo.value.uid) >= 0
+    })
 
     onMounted(async () => {
       const guildId = route.params.id as string
@@ -106,11 +119,21 @@ export default defineComponent({
       }
     })
 
+    const onClickJoinBtn = async () => {
+      if (confirm(`Would like to join to ${guildInfo.value.name}`)) {
+        await store.dispatch(HomeActionTypes.JOIN_TO_GUILD, guildInfo.value.uid)
+        await router.push({ name: RouterNameEnum.GUILD_HOME, params: { id: guildInfo.value.uid } })
+      }
+    }
+
     return {
       defaultColumn,
       columns,
       rows,
-      guildInfo
+      guildInfo,
+      isJoined,
+      isLoggedIn,
+      onClickJoinBtn,
     }
   }
 })

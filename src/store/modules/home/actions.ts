@@ -4,6 +4,8 @@ import { HomeMutations, HomeMutationTypes } from '@/store/modules/home/mutations
 import { HomeState } from '@/store/modules/home/state'
 import { GuildInfo, GuildListFilterQuery } from '@/types/model/guilds'
 import { dummyGuilds } from '@/dummy/guilds'
+import { GuildUserInfo } from '@/types/model/auth/user/user'
+import { UserMutationTypes } from '@/store/modules/user/mutations'
 
 export enum HomeActionTypes {
   SET_GUILD_LIST_FILTER_OPTION = 'home/SET_GUILD_LIST_FILTER_OPTION',
@@ -11,6 +13,7 @@ export enum HomeActionTypes {
   RESET_GUILD_LIST = 'home/RESET_GUILD_LIST',
   LOAD_GUILD_INFO = 'home/LOAD_GUILD_INFO',
   RESET_GUILD_INFO = 'home/RESET_GUILD_INFO',
+  JOIN_TO_GUILD = 'home/JOIN_TO_GUILD',
 }
 
 export type AugmentedActionContext = {
@@ -38,6 +41,10 @@ export interface HomeActions {
   [HomeActionTypes.RESET_GUILD_INFO](
     { commit }: AugmentedActionContext,
   ): void
+  [HomeActionTypes.JOIN_TO_GUILD](
+    { commit, rootState }: AugmentedActionContext,
+    payload: string
+  ): void
 }
 
 export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
@@ -61,7 +68,25 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
       throw new Error('no data')
     }
   },
-  async [HomeActionTypes.RESET_GUILD_INFO] ({ commit }) {
+  [HomeActionTypes.RESET_GUILD_INFO] ({ commit }) {
     commit(HomeMutationTypes.SET_GUILD_INFO, {} as GuildInfo)
+  },
+  [HomeActionTypes.JOIN_TO_GUILD] ({ commit, rootState }, payload: string) {
+    const guildInfoRes = dummyGuilds.find(dg => dg.uid === payload)
+    if (guildInfoRes) {
+      guildInfoRes.memberIds.push(rootState.user.uid)
+      guildInfoRes.members.push({
+        uid: rootState.user.uid,
+        email: rootState.user.email,
+        name: rootState.user.name,
+        nickname: rootState.user.nickname,
+        color: rootState.user.color,
+        img: rootState.user.img,
+        auth: rootState.user.auth,
+        role: guildInfoRes.roles[0],
+      } as GuildUserInfo)
+    } else {
+      throw new Error('no data')
+    }
   },
 }

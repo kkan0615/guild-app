@@ -5,6 +5,7 @@ import { RootState } from '@/store'
 import { v4 } from 'uuid'
 import { UserLoginForm } from '@/types/model/auth/user/user'
 import { LocalstorageKeyEnum } from '@/types/systems/localstrage'
+import { dummyGuilds } from '@/dummy/guilds'
 
 export enum UserActionTypes {
   SET_USER = 'user/USER_SET_USER',
@@ -61,13 +62,21 @@ export const userActions: ActionTree<UserState, RootState> & UserActions = {
       auth: 'superAdmin',
     })
     commit(UserMutationTypes.SET_NOTIFICATIONS, [])
-    commit(UserMutationTypes.SET_GUILD_LIST, Array.from(Array(10).keys()).map(el =>{
+    let guildListRes = Array.from(Array(10).keys()).map(el =>{
       return {
         uid: v4(),
         img: 'https://octodex.github.com/images/saketocat.png',
         name: 'Guild ' + el
       }
-    }))
+    })
+    const foundGuildTest = dummyGuilds.find((dg) => dg.uid === 'test-uid')
+    if (foundGuildTest)
+      guildListRes = guildListRes.concat([{
+        uid: foundGuildTest.uid,
+        img: foundGuildTest.img,
+        name: foundGuildTest.name
+      }])
+    commit(UserMutationTypes.SET_GUILD_LIST, guildListRes)
   },
   async [UserActionTypes.LOGIN] ({ dispatch }, payload) {
     let result = false

@@ -13,6 +13,7 @@ export const initGuilds = () => {
       return {
         uid: v4(),
         name: faker.lorem.word(),
+        default: false,
         color: faker.commerce.color(),
       }
     })
@@ -45,6 +46,7 @@ export const initGuilds = () => {
     return {
       uid: v4(),
       name: faker.lorem.word(),
+      default: false,
       color: 'blue',
     }
   })
@@ -57,18 +59,20 @@ export const initGuilds = () => {
     } as GuildUserInfo
   })))
 
-  dummyGuilds.unshift({
-    uid: 'test-uid',
-    // img: 'https://octodex.github.com/images/saketocat.png',
-    img: faker.image.city(),
-    name: faker.company.companyName(),
-    tagIds: [],
-    tags: [],
-    mainManger: members[0],
-    mainMangerId: v4(),
-    description: 'This is test data',
-    members: members,
-    memberIds: members.map((member) => member.uid),
-    roles: roles,
-  })
+  const admin = dummyUsers.find(du => du.auth === 'superAdmin')
+  if (admin)
+    dummyGuilds.unshift({
+      uid: 'test-uid',
+      // img: 'https://octodex.github.com/images/saketocat.png',
+      img: faker.image.city(),
+      name: faker.company.companyName(),
+      tagIds: [],
+      tags: [],
+      mainManger: members[0],
+      mainMangerId: v4(),
+      description: 'This is test data',
+      members: members.concat([{ ...admin, role: roles[0] } as GuildUserInfo]),
+      memberIds: members.map((member) => member.uid).concat([admin.uid]),
+      roles: roles,
+    })
 }
