@@ -17,6 +17,7 @@
 <script lang="ts">
 import { ref, defineComponent, computed } from 'vue'
 import useStore from '@/store'
+import { confirm } from '@/mixins/useConfirmModal'
 
 export default defineComponent({
   name: 'Prototype',
@@ -28,7 +29,7 @@ export default defineComponent({
     const count = computed(() => store.state.user.uid)
 
     const onClickTestBtn = async () => {
-      console.log('test')
+      console.log(await confirm('test!'))
     }
 
     return {

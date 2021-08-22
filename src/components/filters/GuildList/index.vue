@@ -12,7 +12,7 @@
     </button>
     <!-- @TODO: after create all remove show class  -->
     <div
-      class="dropdown-menu tw-p-2 tw-w-72 show"
+      class="dropdown-menu tw-p-2 tw-w-72"
       aria-labelledby="dropdownMenuButton1"
     >
       <div>
@@ -69,15 +69,13 @@ export default defineComponent({
     const tags = ref<Array<string>>([])
 
     const onClickFilterBtn = () => {
-      const filterProp = props.filter as GuildListFilterQuery
-      name.value = filterProp.name || ''
-      tags.value = filterProp.tags || ''
+      console.log('why?')
     }
 
     return {
       name,
       tags,
-      onClickFilterBtn
+      onClickFilterBtn,
     }
   }
 })

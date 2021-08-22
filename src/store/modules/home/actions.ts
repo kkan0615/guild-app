@@ -1,7 +1,5 @@
 import { ActionContext, ActionTree } from 'vuex'
 import { RootState } from '@/store'
-import { v4 } from 'uuid'
-import { User } from '@/types/model/auth/user/user'
 import { HomeMutations, HomeMutationTypes } from '@/store/modules/home/mutations'
 import { HomeState } from '@/store/modules/home/state'
 import { GuildInfo, GuildListFilterQuery } from '@/types/model/guilds'

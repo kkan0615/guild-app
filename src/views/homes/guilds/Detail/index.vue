@@ -33,8 +33,17 @@
       <div>
         {{ guildInfo.description }}
       </div>
-      <div>
-        Manager data
+      <div
+        v-if="guildInfo.mainManger"
+      >
+        <span
+          class="tw-text-gray-500"
+        >
+          Manager:
+        </span>
+        <span>
+          {{ guildInfo.mainManger.nickname }}
+        </span>
       </div>
     </div>
     <div
@@ -65,12 +74,12 @@ import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 import CAgGrid from '@/components/commons/AgGrid/index.vue'
 import { UserColumn } from '@/types/model/auth/user/column'
-import RoleChip from '@/views/homes/guilds/Detail/components/RoleChip.vue'
+import RoleColumnBadge from '@/components/columns/badges/Role.vue'
 
 export default defineComponent({
   name: 'HomeGuildDetail',
   components: {
-    RoleChip,
+    RoleColumnBadge, // Use in Column component
     CAgGrid,
   },
   setup: () => {
@@ -87,7 +96,7 @@ export default defineComponent({
     const guildInfo = computed(() => store.state.home.guildInfo)
 
     onMounted(async () => {
-      const guildId = route.params.id
+      const guildId = route.params.id as string
       /* If guildId ex */
       if (guildId) {
         await store.dispatch(HomeActionTypes.LOAD_GUILD_INFO, guildId)

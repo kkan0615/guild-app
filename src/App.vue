@@ -4,7 +4,12 @@
     id="app"
     class="tw-height-full"
   >
-    <router-view />
+    <div
+      id="app-body"
+      class="tw-height-full"
+    >
+      <router-view />
+    </div>
   </div>
 </template>
 

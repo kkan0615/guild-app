@@ -8,6 +8,6 @@ export const UserColumn: Array<ColDef> = [
   {
     field: 'role',
     headerName: 'Role name',
-    cellRendererFramework: 'RoleChip',
+    cellRendererFramework: 'RoleColumnBadge',
   },
 ]

@@ -12,7 +12,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'RoleChip',
+  name: 'RoleColumnBadge',
   setup: () => {
     const getRoleName = (params: any) => {
       return params.value.name

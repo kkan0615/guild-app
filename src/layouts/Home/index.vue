@@ -15,16 +15,22 @@
           class="tw-flex-grow tw-flex-shrink-0 tw-h-1"
         >
           <div
-            class="tw-h-full"
+            class="tw-h-full tw-flex tw-flex-col"
           >
             <div
-              class="tw-w-full tw-mx-auto standard-max-width"
+              class="tw-w-full tw-mx-auto standard-max-width tw-mb-4"
             >
               <router-view />
             </div>
-            <!--     Bottom       -->
-            <div>
-              Bottom will be here
+            <!--     Bottom     tw-h-60  -->
+            <div
+              class="tw-bg-gray-500 tw-p-2 tw-text-white tw-mt-auto"
+            >
+              <div
+                class="tw-text-right"
+              >
+                Copyright 2021. Crocom inc. all rights reserved.
+              </div>
             </div>
           </div>
         </div>
