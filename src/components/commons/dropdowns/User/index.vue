@@ -1,9 +1,10 @@
 <template>
-  <div class="dropdown">
+  <div class="dropdown ">
     <t-avatar
       type="button"
       data-bs-toggle="dropdown"
       size="8"
+      aria-expanded="false"
       class="tw-ring tw-rounded-full"
     >
       <img
@@ -21,9 +22,13 @@
     </t-avatar>
     <div
       class="dropdown-menu"
+      :style="{
+        right,
+        left,
+      }"
     >
       <div
-        class="tw-px-2"
+        class="dropdown-item"
       >
         {{ loggedInUser.nickname }}
       </div>
@@ -48,6 +53,18 @@ import TAvatar from '@/components/tailwinds/Avatar/index.vue'
 export default defineComponent({
   name: 'UserDropdown',
   components: { TAvatar },
+  props: {
+    right: {
+      type: [String, Number],
+      required: false,
+      default: 'auto',
+    },
+    left: {
+      type: [String, Number],
+      required: false,
+      default: 0,
+    },
+  },
   setup: () => {
     const router = useRouter()
     const { loggedInUser } = useUserMixin()

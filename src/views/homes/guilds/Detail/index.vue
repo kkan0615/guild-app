@@ -104,6 +104,7 @@
     </button>
     <!--  @TODO: 로그인 만들기  -->
     <button
+      v-else
       class="btn btn-primary tw-ml-auto tw-w-full"
       type="button"
     >

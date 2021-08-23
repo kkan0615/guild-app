@@ -25,6 +25,7 @@
       </div>
       <!--   Create guild   -->
       <button
+        v-if="isLoggedIn"
         type="button"
         class="btn btn-primary"
         @click="onClickCreateGuildBtn"
