@@ -22,12 +22,12 @@
       }"
       @input="onInput"
     >
-    <div class="invalid-feedback">
-      {{ errorMessage }}
-    </div>
     <slot
       name="append"
     />
+    <div class="invalid-feedback">
+      {{ errorMessage }}
+    </div>
   </div>
 </template>
 

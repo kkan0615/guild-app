@@ -6,13 +6,13 @@ import { v4 } from 'uuid'
 import { UserLoginForm } from '@/types/model/auth/user/user'
 import { LocalstorageKeyEnum } from '@/types/systems/localstrage'
 import { dummyGuilds } from '@/dummy/guilds'
-import { dummyUsers } from '@/dummy/user'
+import { dummyGuildUsers, dummyUsers } from '@/dummy/user'
 
 export enum UserActionTypes {
   SET_USER = 'user/USER_SET_USER',
   UPDATE_USER = 'user/USER_UPDATE_USER',
   LOGIN = 'user/USER_LOGIN',
-  LOGOUT = 'user/USER_LOGOUT'
+  LOGOUT = 'user/USER_LOGOUT',
 }
 
 export type AugmentedActionContext = {
@@ -44,6 +44,7 @@ export interface UserActions {
   [UserActionTypes.LOGOUT](
     { commit }: AugmentedActionContext,
   ): void
+
 }
 
 export const userActions: ActionTree<UserState, RootState> & UserActions = {

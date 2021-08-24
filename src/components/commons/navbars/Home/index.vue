@@ -75,7 +75,7 @@ export default defineComponent({
      * SingUp button click event
      */
     const onClickSignUpBtn = async () => {
-      await router.push({ name: RouterNameEnum.SIGN_UP })
+      await router.push({ name: RouterNameEnum.LOGIN })
     }
 
     /**

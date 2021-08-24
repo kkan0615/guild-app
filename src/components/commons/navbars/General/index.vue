@@ -9,7 +9,7 @@
       class="tw-ml-auto tw-flex tw-items-center tw-gap-x-4"
     >
       <!--   if it's logged in   -->
-      <user-dropdown
+      <guild-user-dropdown
         v-if="isLoggedIn"
         class="tw-mr-2"
         left="auto"
@@ -23,11 +23,11 @@
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import useUserMixin from '@/mixins/useUserMixin'
-import UserDropdown from '@/components/commons/dropdowns/User/index.vue'
+import GuildUserDropdown from '@/components/commons/dropdowns/GuildUser/index.vue'
 
 export default defineComponent({
   name: 'GeneralNavbar',
-  components: { UserDropdown },
+  components: { GuildUserDropdown },
   setup: () => {
     const router = useRouter()
     const { isLoggedIn } = useUserMixin()

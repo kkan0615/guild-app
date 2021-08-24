@@ -22,6 +22,7 @@
       </div>
       <!--   Form part   -->
       <b-form
+        ref="formRef"
         class="tw-flex tw-flex-col tw-gap-y-4"
       >
         <!--   id   -->
@@ -36,6 +37,7 @@
             ref="emailRef"
             v-model="email"
             type="email"
+            :rules="rules.email"
             placeholder="email"
             @keydown.enter="onKeyDownEnterEmail"
           />
@@ -58,6 +60,7 @@
             v-model="password"
             :type="seePassword ? 'text' : 'password'"
             placeholder="Password"
+            :rules="rules.password"
             @keydown.enter="onKeyDownEnterPassword"
           >
             <template
@@ -130,6 +133,8 @@ import useStore from '@/store'
 import { UserActionTypes } from '@/store/modules/user/actions'
 import { useRoute, useRouter } from 'vue-router'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
+import { RuleType } from '@/types/bootstrap/validate'
+import { useI18n } from 'vue-i18n'
 export default defineComponent({
   name: 'Login',
   components: { BCheckRadioBox, BBaseInput, BForm },
@@ -137,14 +142,25 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const store = useStore()
+    const i18n = useI18n()
 
     const email = ref('')
     const password = ref('')
     const rememberId = ref(false)
     const seePassword = ref(false)
+    const rules: RuleType<UserLoginForm> = {
+      email: [
+        (v: string) => !!v || i18n.t('standardRules.required', { field: 'email' }),
+      ],
+      password: [
+        (v: string) => !!v || i18n.t('standardRules.required', { field: 'password' }),
+      ]
+    }
+
     /* Dom refs */
     const emailRef = ref<InstanceType<typeof BBaseInput> | null>(null)
     const passwordRef = ref<InstanceType<typeof BBaseInput> | null>(null)
+    const formRef = ref<InstanceType<typeof BForm> | null>(null)
 
     onMounted(() => {
       if (emailRef.value) {
@@ -175,7 +191,9 @@ export default defineComponent({
     }
 
     const onKeyDownEnterPassword = async () => {
-      await login()
+      if (formRef.value && formRef.value.checkValidation()) {
+        await login()
+      }
     }
 
     const onClickPwEyeBtn = () => {
@@ -187,7 +205,9 @@ export default defineComponent({
     }
 
     const onClickLoginBtn = async () => {
-      await login()
+      if (formRef.value && formRef.value.checkValidation()) {
+        await login()
+      }
     }
 
     const onClickSignUpLink = () => {
@@ -199,8 +219,10 @@ export default defineComponent({
       password,
       rememberId,
       seePassword,
+      rules,
       emailRef,
       passwordRef,
+      formRef,
       onKeyDownEnterEmail,
       onKeyDownEnterPassword,
       onClickPwEyeBtn,

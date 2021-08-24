@@ -5,19 +5,7 @@
     <div
       class="tw-h-full tw-flex"
     >
-      <div
-        class="tw-h-full tw-w-52 bg-light"
-      >
-        Menu
-        <single-menu>
-          non active
-        </single-menu>
-        <single-menu
-          active
-        >
-          active
-        </single-menu>
-      </div>
+      <general-side-bar />
       <div
         class="tw-h-full tw-flex-grow"
       >
@@ -44,10 +32,11 @@ import { ref, defineComponent } from 'vue'
 import Auth from '@/components/commons/menus/Auth/Auth.vue'
 import GeneralNavbar from '@/components/commons/navbars/General/index.vue'
 import SingleMenu from '@/components/menus/Single/inedx.vue'
+import GeneralSideBar from '@/components/sidebars/General/index.vue'
 
 export default defineComponent({
   name: 'GeneralLayout',
-  components: { SingleMenu, GeneralNavbar, Auth },
+  components: { GeneralSideBar, SingleMenu, GeneralNavbar, Auth },
   setup: () => {
     const message = ref('Hello world prototype')
     return { message }

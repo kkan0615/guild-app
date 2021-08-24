@@ -12,7 +12,9 @@ export interface User extends FirebaseAttributes {
   auth: UserSystemAuth
 }
 
-export interface GuildUserInfo extends User {
+export interface GuildUserInfo extends User, FirebaseAttributes {
+  userId: string
+  guildId: string
   nickname: string // able to set nickname per guild
   role: GuildRole
 }

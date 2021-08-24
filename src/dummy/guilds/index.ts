@@ -1,16 +1,17 @@
 import { GuildInfo } from '@/types/model/guilds'
 import { v4 } from 'uuid'
 import * as faker from 'faker'
-import { dummyUsers } from '@/dummy/user'
+import { dummyGuildUsers, dummyUsers } from '@/dummy/user'
 import { GuildUserInfo } from '@/types/model/auth/user/user'
 import { GuildRole } from '@/types/model/guilds/role'
 import { dummyGuildTags } from '@/dummy/guilds/tag'
-import { GuildTag } from '@/types/model/guilds/tag'
 
 export let dummyGuilds: Array<GuildInfo> = []
 
 export const initDummyGuilds = () => {
   dummyGuilds = [...Array(50).keys()].map((num) => {
+    const guildUid = v4()
+
     const roles: Array<GuildRole> = [...Array(50).keys()].map((num) => {
       return {
         uid: v4(),
@@ -21,10 +22,14 @@ export const initDummyGuilds = () => {
     })
 
     const members = Array.from(new Set([...Array(50).keys()].map(() => {
-      const dummyUser = dummyUsers[Math.floor(Math.random() * dummyUsers.length)]
+      const dummyGuildUser = dummyGuildUsers[Math.floor(Math.random() * dummyGuildUsers.length)]
+      const role = roles[Math.floor(Math.random() * roles.length)]
+      dummyGuildUser.guildId = guildUid
+      dummyGuildUser.role = role
       return {
-        ...dummyUser,
-        role: roles[Math.floor(Math.random() * roles.length)]
+        ...dummyGuildUser,
+        role,
+        guildId: guildUid,
       } as GuildUserInfo
     })))
 
@@ -33,7 +38,7 @@ export const initDummyGuilds = () => {
     })))
 
     return {
-      uid: v4(),
+      uid: guildUid,
       // img: 'https://octodex.github.com/images/saketocat.png',
       img: faker.image.city(),
       name: faker.company.companyName(),
@@ -48,6 +53,10 @@ export const initDummyGuilds = () => {
     }
   })
 
+
+  /* Test first */
+  const guildUid = v4()
+
   const roles: Array<GuildRole> = [...Array(50).keys()].map((num) => {
     return {
       uid: v4(),
@@ -58,10 +67,13 @@ export const initDummyGuilds = () => {
   })
 
   const members = Array.from(new Set([...Array(50).keys()].map(() => {
-    const dummyUser = dummyUsers[Math.floor(Math.random() * dummyUsers.length)]
+    const dummyGuildUser = dummyGuildUsers[Math.floor(Math.random() * dummyGuildUsers.length)]
+    const role = roles[Math.floor(Math.random() * roles.length)]
+    dummyGuildUser.guildId = guildUid
+    dummyGuildUser.role = role
     return {
-      ...dummyUser,
-      role: roles[Math.floor(Math.random() * roles.length)]
+      ...dummyGuildUser,
+      role,
     } as GuildUserInfo
   })))
 
