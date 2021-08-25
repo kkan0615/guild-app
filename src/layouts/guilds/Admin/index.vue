@@ -1,16 +1,14 @@
 <template>
-  <div
-    class="tw-px-1 tw-text-sm tw-font-light"
-  >
-    <slot />
+  <div>
+    <router-view />
   </div>
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'SideBarLabel',
+  name: 'GuildAdminLayout',
   setup: () => {
     return {
     }

@@ -1,18 +1,19 @@
 <template>
-  <div
-    class="tw-px-1 tw-text-sm tw-font-light"
+  <span
+    class="material-icons tw-mr-2 tw-text-base"
   >
     <slot />
-  </div>
+  </span>
 </template>
 
 <script lang="ts">
 import { ref, defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'SideBarLabel',
+  name: 'SingMenuIcon',
   setup: () => {
     return {
+
     }
   }
 })

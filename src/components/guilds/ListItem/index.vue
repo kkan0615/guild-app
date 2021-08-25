@@ -1,6 +1,6 @@
 <template>
   <div
-    class="tw-p-2 tw-ring tw-text-center tw-cursor-pointer hover:tw-shadow-2xl"
+    class="tw-p-2 tw-flex tw-flex-col tw-ring tw-text-center tw-cursor-pointer hover:tw-shadow-2xl"
     @click="onClickListItem"
   >
     <guild-list-item-image
@@ -13,6 +13,11 @@
     </div>
     <div>
       {{ guild.description }}
+    </div>
+    <div
+      class="mt-auto"
+    >
+      Users: {{ guild.memberIds.length }}
     </div>
   </div>
 </template>

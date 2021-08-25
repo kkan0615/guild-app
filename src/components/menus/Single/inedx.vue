@@ -1,6 +1,6 @@
 <template>
   <div
-    class="tw-flex tw-items-center tw-px-2 tw-my-1 tw-cursor-pointer tw-font-semibold hover:tw-bg-gray-200"
+    class="tw-flex tw-items-center tw-px-2 tw-py-2 tw-cursor-pointer tw-font-semibold tw-capitalize tw-text-sm hover:tw-bg-gray-200"
     :class="{
       'tw-border-l-4': active,
       'tw-border-blue-500': active,

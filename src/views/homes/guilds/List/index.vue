@@ -12,7 +12,7 @@
     <div
       class="tw-grid tw-grid-cols-4 tw-gap-4"
     >
-      <GuildListItem
+      <guild-list-item
         v-for="guild in guildList"
         :key="guild.uid"
         :guild="guild"

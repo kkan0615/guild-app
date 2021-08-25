@@ -27,10 +27,18 @@ Run `Volar: Switch TS Plugin on/off` from VSCode command palette.
 5. Search and run "Select TypeScript version" -> "Use workspace version"
 
 
-### Version
-0.0.7
+# Update history
+## 0.0.7
 1. guild login system
+## 0.0.8
+1. Notification icon
+2. Material icon cdn
+3. sidebar single menu style
 
-### TODO On Week
+## TODO On Week
 1. Snackbar
-2. Notification
+2. Notification 기능
+3. 유저 / 길드 notification 분리 기능
+4. config store 만들기
+5. user guild store (유저 리스트, user admin 페이지, guild 마이페이지에서 사용 예정)
+6. add dayjs library

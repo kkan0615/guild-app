@@ -1,9 +1,9 @@
 <template>
   <div
-    class="tw-h-full tw-w-52 bg-light tw-flex tw-flex-col"
+    class="tw-h-full tw-w-52 bg-light tw-flex tw-flex-col tw-p-1"
   >
     <div
-      class="tw-cursor-pointer"
+      class="tw-cursor-pointer tw-h-20"
       @click="onClickLogo"
     >
       Logo will be here
@@ -18,6 +18,42 @@
       active
     >
       active
+    </single-menu>
+    <!--  users  -->
+    <single-menu>
+      <sing-menu-icon>
+        people
+      </sing-menu-icon>
+      User list
+    </single-menu>
+    <!--  calendar  -->
+    <single-menu>
+      <sing-menu-icon>
+        today
+      </sing-menu-icon>
+      Calendar
+    </single-menu>
+    <!--  Post  -->
+    <single-menu>
+      <sing-menu-icon>
+        library_books
+      </sing-menu-icon>
+      Post
+    </single-menu>
+    <!--  Survey  -->
+    <single-menu>
+      <sing-menu-icon>
+        list_alt
+      </sing-menu-icon>
+      survey
+    </single-menu>
+    <!--  meetings  -->
+    <!-- @TODO: Create as Group with offline and online -->
+    <single-menu>
+      <sing-menu-icon>
+        meeting_room
+      </sing-menu-icon>
+      meeting
     </single-menu>
     <!--  footer   -->
     <div
@@ -47,10 +83,11 @@ import SideBarLabel from '@/components/labels/Sidebar/index.vue'
 import { useRouter } from 'vue-router'
 import useGuildInfoMixin from '@/mixins/useGuildInfoMixin'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
+import SingMenuIcon from '@/components/menus/Single/components/Icon.vue'
 
 export default defineComponent({
   name: 'GeneralSideBar',
-  components: { SideBarLabel, SingleMenu },
+  components: { SingMenuIcon, SideBarLabel, SingleMenu },
   setup: () => {
     const router = useRouter()
     const { guildInfo } = useGuildInfoMixin()

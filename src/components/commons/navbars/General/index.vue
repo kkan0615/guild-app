@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light tw-h-16">
+  <nav class="navbar navbar-expand-lg navbar-light tw-h-16 tw-border-b tw-border-gray-300">
     <div
       @click="onClickLogo"
     >
@@ -8,6 +8,11 @@
     <div
       class="tw-ml-auto tw-flex tw-items-center tw-gap-x-4"
     >
+      <notification-dropdown
+        v-if="isLoggedIn"
+        left="auto"
+        right="0"
+      />
       <!--   if it's logged in   -->
       <guild-user-dropdown
         v-if="isLoggedIn"
@@ -24,10 +29,11 @@ import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import useUserMixin from '@/mixins/useUserMixin'
 import GuildUserDropdown from '@/components/commons/dropdowns/GuildUser/index.vue'
+import NotificationDropdown from '@/components/commons/dropdowns/Notification/index.vue'
 
 export default defineComponent({
   name: 'GeneralNavbar',
-  components: { GuildUserDropdown },
+  components: { NotificationDropdown, GuildUserDropdown },
   setup: () => {
     const router = useRouter()
     const { isLoggedIn } = useUserMixin()

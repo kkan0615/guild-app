@@ -11,7 +11,9 @@ export default defineComponent({
   name: 'Prototype',
   setup: () => {
     const message = ref('Hello world prototype')
-    return { message }
+    return {
+      message
+    }
   }
 })
 </script>

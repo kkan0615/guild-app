@@ -35,8 +35,8 @@ import SingleMenu from '@/components/menus/Single/inedx.vue'
 import GeneralSideBar from '@/components/sidebars/General/index.vue'
 
 export default defineComponent({
-  name: 'GeneralLayout',
-  components: { GeneralSideBar, SingleMenu, GeneralNavbar, Auth },
+  name: 'GuildGeneralLayout',
+  components: { GeneralSideBar, GeneralNavbar },
   setup: () => {
     const message = ref('Hello world prototype')
     return { message }

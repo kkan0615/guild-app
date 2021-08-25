@@ -1,6 +1,6 @@
 import { RouteRecordRaw } from 'vue-router'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
-import GeneralLayout from '@/layouts/General/index.vue'
+import GeneralLayout from '@/layouts/guilds/General/index.vue'
 
 export const guildRoutes: Array<RouteRecordRaw> = [
   {
