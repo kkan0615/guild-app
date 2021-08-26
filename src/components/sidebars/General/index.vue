@@ -62,7 +62,9 @@
       <side-bar-label>
         admin
       </side-bar-label>
-      <single-menu>
+      <single-menu
+        @click="onClickToAdminMenu"
+      >
         <span
           class="material-icons tw-mr-2"
         >
@@ -93,10 +95,16 @@ export default defineComponent({
     const { guildInfo } = useGuildInfoMixin()
 
     const onClickLogo = async () =>{
-      await router.push({ name: RouterNameEnum.GUILD_HOME, params: { id: guildInfo.value.uid } })
+      await router.push({ name: RouterNameEnum.GUILD_HOME, params: { guildId: guildInfo.value.uid } })
     }
+
+    const onClickToAdminMenu = async () =>{
+      await router.push({ name: RouterNameEnum.GUILD_ADMIN_LAYOUT })
+    }
+
     return {
-      onClickLogo
+      onClickLogo,
+      onClickToAdminMenu,
     }
   }
 })

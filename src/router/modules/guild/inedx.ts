@@ -1,32 +1,34 @@
 import { RouteRecordRaw } from 'vue-router'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
-import GeneralLayout from '@/layouts/guilds/General/index.vue'
+import GuildBaseLayout from '@/layouts/guilds/Base/index.vue'
+import { guildGeneralRoutes } from '@/router/modules/guild/generals'
+import { guildAdminRoutes } from '@/router/modules/guild/admins'
+import { store } from '@/store'
+import { GuildActionTypes } from '@/store/modules/guilds/info/actions'
 
-export const guildRoutes: Array<RouteRecordRaw> = [
-  {
-    path: '/guild-app/:id',
-    name: RouterNameEnum.GENERAL_LAYOUT,
-    component: GeneralLayout,
-    meta: {
-      isGuild: true,
-    },
-    children: [
-      {
-        path: '',
-        name: RouterNameEnum.GUILD_HOME,
-        component: () => import('@/views/guilds/Home/index.vue'),
-        meta: {
-          isGuild: true,
-        },
-      },
-      {
-        path: 'playground',
-        name: 'Playground',
-        component: () => import('@/views/Playground/index.vue'),
-        meta: {
-          isGuild: true,
-        },
-      },
-    ]
+export const guildRoutes: RouteRecordRaw = {
+  path: '/guild-app/:guildId',
+  name: RouterNameEnum.GUILD_BASE_LAYOUT,
+  component: GuildBaseLayout,
+  meta: {
+    isGuild: true,
   },
-]
+  beforeEnter: (async (to, from, next) => {
+    const guildId = to.params.guildId
+    if (guildId && (!store.state.guild.guildInfo || !store.state.guild.guildInfo.uid)) {
+      await store.dispatch(GuildActionTypes.LOAD_GUILD_INFO, guildId)
+    }
+    next()
+  }),
+  // children: [
+  //   ...guildAdminRoutes,
+  //   ...guildGeneralRoutes,
+  // ]
+  children: [
+    ...guildAdminRoutes,
+    ...guildGeneralRoutes,
+  ]
+}
+
+
+console.log(guildRoutes)

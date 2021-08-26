@@ -5,6 +5,7 @@ import { dummyGuildUsers, dummyUsers } from '@/dummy/user'
 import { GuildUserInfo } from '@/types/model/auth/user/user'
 import { GuildRole } from '@/types/model/guilds/role'
 import { dummyGuildTags } from '@/dummy/guilds/tag'
+import dayjs from 'dayjs'
 
 export let dummyGuilds: Array<GuildInfo> = []
 
@@ -18,6 +19,8 @@ export const initDummyGuilds = () => {
         name: faker.lorem.word(),
         default: false,
         color: faker.commerce.color(),
+        createdAt: dayjs(),
+        updatedAt: dayjs(),
       }
     })
 
@@ -30,6 +33,8 @@ export const initDummyGuilds = () => {
         ...dummyGuildUser,
         role,
         guildId: guildUid,
+        createdAt: dayjs(),
+        updatedAt: dayjs(),
       } as GuildUserInfo
     })))
 
@@ -50,6 +55,8 @@ export const initDummyGuilds = () => {
       members: members,
       memberIds: members.map((member) => member.uid),
       roles: roles,
+      createdAt: dayjs(),
+      updatedAt: dayjs(),
     }
   })
 
@@ -63,6 +70,8 @@ export const initDummyGuilds = () => {
       name: faker.lorem.word(),
       default: false,
       color: 'blue',
+      createdAt: dayjs(),
+      updatedAt: dayjs(),
     }
   })
 
@@ -74,6 +83,8 @@ export const initDummyGuilds = () => {
     return {
       ...dummyGuildUser,
       role,
+      createdAt: dayjs(),
+      updatedAt: dayjs(),
     } as GuildUserInfo
   })))
 
@@ -95,5 +106,7 @@ export const initDummyGuilds = () => {
       members: members.concat([{ ...admin, role: roles[0] } as GuildUserInfo]),
       memberIds: members.map((member) => member.uid).concat([admin.uid]),
       roles: roles,
+      createdAt: dayjs(),
+      updatedAt: dayjs(),
     })
 }

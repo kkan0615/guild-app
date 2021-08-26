@@ -46,7 +46,7 @@ export default defineComponent({
     const guilds = computed(() => store.state.user.guildList)
 
     const onClickGuildApp = async (appUid: string) => {
-      await router.push({ name: RouterNameEnum.GUILD_HOME, params: { id: appUid } })
+      await router.push({ name: RouterNameEnum.GUILD_HOME, params: { guildId: appUid } })
     }
 
     return {

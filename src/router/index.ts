@@ -5,7 +5,7 @@ import { guildRoutes } from '@/router/modules/guild/inedx'
 
 export const routes: Array<RouteRecordRaw> = [
   ...homeRoutes,
-  ...guildRoutes,
+  guildRoutes,
   ...authRoutes,
 ]
 

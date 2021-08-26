@@ -167,12 +167,12 @@ export default defineComponent({
     const onClickJoinBtn = async () => {
       if (confirm(`Would like to join to ${guildInfo.value.name}`)) {
         await store.dispatch(HomeActionTypes.JOIN_TO_GUILD, guildInfo.value.uid)
-        await router.push({ name: RouterNameEnum.GUILD_HOME, params: { id: guildInfo.value.uid } })
+        await router.push({ name: RouterNameEnum.GUILD_HOME, params: { guildId: guildInfo.value.uid } })
       }
     }
 
     const onClickMoveGuildBtn = async () => {
-      await router.push({ name: RouterNameEnum.GUILD_HOME, params: { id: guildInfo.value.uid } })
+      await router.push({ name: RouterNameEnum.GUILD_HOME, params: { guildId: guildInfo.value.uid } })
     }
 
     return {
