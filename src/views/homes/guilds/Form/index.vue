@@ -4,6 +4,43 @@
       ref="formRef"
       class="tw-flex tw-flex-col tw-gap-y-2"
     >
+      <div
+        class="tw-flex tw-gap-x-4 tw-items-end"
+      >
+        <div>
+          <div>
+            Main
+          </div>
+          <image-dropzone
+            height="40"
+            width="40"
+          />
+        </div>
+        <div>
+          <div
+            class="tw-flex"
+          >
+            <div
+              class="tw-mr-2"
+            >
+              Logo
+            </div>
+            <!--      @TODO: bootstrap 5 tooltip not working now      -->
+            <!--            <div-->
+            <!--              role="button"-->
+            <!--              type="button"-->
+            <!--              data-bs-toggle="tooltip"-->
+            <!--              data-bs-placement="bottom"-->
+            <!--              title="Tooltip will be here"-->
+            <!--            >-->
+            <!--              <span class="material-icons">-->
+            <!--                help_outline-->
+            <!--              </span>-->
+            <!--            </div>-->
+          </div>
+          <image-dropzone />
+        </div>
+      </div>
       <!--   title   -->
       <div>
         <label
@@ -106,10 +143,11 @@ import { RuleType } from '@/types/bootstrap/validate'
 import { useI18n } from 'vue-i18n'
 import BForm from '@/components/commons/Form/index.vue'
 import BTextarea from '@/components/commons/inputs/Textarea/index.vue'
+import ImageDropzone from '@/components/commons/dropzones/Image/index.vue'
 
 export default defineComponent({
   name: 'HomeGuildForm',
-  components: { BTextarea, BForm, BBaseInput },
+  components: { ImageDropzone, BTextarea, BForm, BBaseInput },
   setup: () => {
     const router = useRouter()
     const i18n = useI18n()

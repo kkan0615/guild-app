@@ -2,7 +2,7 @@
   <div>
     <!--  actions  -->
     <div
-      class="tw-flex"
+      class="tw-flex tw-mb-4"
     >
       <!--  Filter   -->
       <guild-list-filter
@@ -10,6 +10,7 @@
       />
     </div>
     <div
+      v-if="guildList.length"
       class="tw-grid tw-grid-cols-4 tw-gap-4"
     >
       <guild-list-item
@@ -17,6 +18,11 @@
         :key="guild.uid"
         :guild="guild"
       />
+    </div>
+    <div
+      v-if="guildListLoading"
+    >
+      Loading...
     </div>
   </div>
 </template>
@@ -35,9 +41,12 @@ export default defineComponent({
     const store = useStore()
 
     const guildList = computed(() => store.state.home.guildList)
+    const guildListLoading = computed(() => store.state.home.guildListLoading)
 
     onMounted(async () => {
+      await store.dispatch(HomeActionTypes.OPEN_GUILD_LIST_LOADING)
       await store.dispatch(HomeActionTypes.LOAD_GUILD_LIST)
+      await store.dispatch(HomeActionTypes.CLOSE_GUILD_LIST_LOADING)
     })
 
     onBeforeMount(async () => {
@@ -47,6 +56,7 @@ export default defineComponent({
 
     return {
       guildList,
+      guildListLoading,
     }
   }
 })

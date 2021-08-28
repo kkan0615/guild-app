@@ -17,4 +17,6 @@ export const userState: UserState = {
   auth: 'staff',
   notifications: [],
   guildList: [],
+  createdAt: '',
+  updatedAt: '',
 }

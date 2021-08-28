@@ -17,8 +17,8 @@ export const initDummyUsers = () => {
       color: faker.internet.color(),
       img: faker.internet.avatar(),
       email: faker.internet.email(),
-      createdAt: dayjs(),
-      updatedAt: dayjs(),
+      createdAt: dayjs().toISOString(),
+      updatedAt: dayjs().toISOString(),
     }
   })
   dummyUsers.unshift({
@@ -29,8 +29,8 @@ export const initDummyUsers = () => {
     color: faker.internet.color(),
     img: 'https://octodex.github.com/images/saketocat.png',
     email: 'admin@admin.com',
-    createdAt: dayjs(),
-    updatedAt: dayjs(),
+    createdAt: dayjs().toISOString(),
+    updatedAt: dayjs().toISOString(),
   })
 
   dummyGuildUsers = dummyUsers.map(du => {
@@ -39,7 +39,8 @@ export const initDummyUsers = () => {
       role: {} as GuildRole,
       userId: du.uid,
       guildId: '',
-      uid: v4()
+      uid: v4(),
+      notifications: [],
     }
   })
 }

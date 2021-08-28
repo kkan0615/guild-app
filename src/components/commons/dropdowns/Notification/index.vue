@@ -1,5 +1,7 @@
 <template>
-  <div class="dropdown">
+  <div
+    class="dropdown"
+  >
     <div
       role="button"
       type="button"
@@ -7,7 +9,7 @@
       data-bs-toggle="dropdown"
     >
       <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-        99+
+        {{ notifications.length }}
         <span class="visually-hidden">unread messages</span>
       </span>
       <span
@@ -27,9 +29,12 @@
       <div
         class="tw-flex tw-items-center"
       >
-        Notifications(99+)
+        Notifications({{ notifications.length }})
+        <!--    Make all as read    -->
         <span
-          class="tw-cursor-pointer tw-text-blue-300 tw-text-xs tw-ml-auto"
+          role="button"
+          type="button"
+          class="tw-text-blue-300 tw-text-xs tw-ml-auto"
         >
           Make all as read
         </span>
@@ -40,10 +45,10 @@
       >
         notifications will be here
         <notification-dropdown-item
-          v-for="i in 100"
-          :key="i"
+          v-for="notification in notifications"
+          :key="notification.uid"
         >
-          An example success alert with an icon {{ i }}
+          {{ notification.content }}
         </notification-dropdown-item>
       </div>
     </div>
@@ -51,11 +56,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
-import { useRouter } from 'vue-router'
-import useStore from '@/store'
+import { defineComponent, PropType } from 'vue'
 import CDivider from '@/components/commons/Divider/index.vue'
 import NotificationDropdownItem from '@/components/commons/dropdowns/Notification/components/item.vue'
+import { Notification } from '@/types/systems/notification'
 
 export default defineComponent({
   name: 'NotificationDropdown',
@@ -76,15 +80,22 @@ export default defineComponent({
       required: false,
       default: 0,
     },
+    notifications: {
+      type: Array as PropType<Array<Notification>>,
+      required: false,
+      default: () => []
+    }
   },
   setup: () => {
-    const store = useStore()
 
     /* Guild notifications */
-    const guildNotifications = computed(() => store.state.guild.userNotificationList)
+
+    const onClickMakeAllAsReadBtn = () => {
+      console.log('onClickMakeAllAsReadBtn')
+    }
 
     return {
-      guildNotifications
+
     }
   }
 })

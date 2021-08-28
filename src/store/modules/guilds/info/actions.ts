@@ -12,6 +12,7 @@ export enum GuildActionTypes {
   UPDATE_GUILD_USER_INFO = 'guild/UPDATE_GUILD_USER_INFO',
   LOAD_USER_NOTIFICATION_LIST = 'guild/LOAD_USER_NOTIFICATION_LIST',
   RESET_USER_NOTIFICATION_LIST = 'guild/RESET_USER_NOTIFICATION_LIST',
+  READ_USER_NOTIFICATION = 'guild/READ_USER_NOTIFICATION',
 }
 
 export type AugmentedActionContext = {
@@ -32,7 +33,6 @@ export interface GuildActions {
   [GuildActionTypes.UPDATE_GUILD_USER_INFO](
     { commit, rootState }: AugmentedActionContext,
   ): void
-
   /**
    * Load guild user notifications
    * @param commit
@@ -47,6 +47,16 @@ export interface GuildActions {
    */
   [GuildActionTypes.RESET_USER_NOTIFICATION_LIST](
     { commit }: AugmentedActionContext,
+  ): void
+
+  /**
+   * Read notification
+   * @param commit
+   * @param payload - notification id
+   */
+  [GuildActionTypes.READ_USER_NOTIFICATION](
+    { commit }: AugmentedActionContext,
+    payload: string
   ): void
 }
 
@@ -68,9 +78,10 @@ export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
       return du.userId === rootState.user.uid
     })
 
-    if (guildUserInfo)
+    if (guildUserInfo) {
       commit(GuildMutationTypes.SET_GUILD_USER_INFO, guildUserInfo)
-    else
+      commit(GuildMutationTypes.SET_GUILD_USER_NOTIFICATION_LIST, guildUserInfo.notifications)
+    } else
       throw new Error('no data')
   },
   [GuildActionTypes.LOAD_USER_NOTIFICATION_LIST] ({ commit }) {
@@ -78,5 +89,9 @@ export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
   },
   [GuildActionTypes.RESET_USER_NOTIFICATION_LIST] ({ commit }) {
     commit(GuildMutationTypes.SET_GUILD_USER_NOTIFICATION_LIST, [])
+  },
+  [GuildActionTypes.READ_USER_NOTIFICATION] ({ commit }, payload) {
+    // @TODO: Add update notification
+    // commit(GuildMutationTypes.SET_GUILD_USER_NOTIFICATION_LIST, [])
   },
 }

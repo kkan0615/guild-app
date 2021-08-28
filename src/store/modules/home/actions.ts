@@ -5,12 +5,13 @@ import { HomeState } from '@/store/modules/home/state'
 import { GuildInfo, GuildListFilterQuery } from '@/types/model/guilds'
 import { dummyGuilds } from '@/dummy/guilds'
 import { GuildUserInfo } from '@/types/model/auth/user/user'
-import { UserMutationTypes } from '@/store/modules/user/mutations'
 
 export enum HomeActionTypes {
   SET_GUILD_LIST_FILTER_OPTION = 'home/SET_GUILD_LIST_FILTER_OPTION',
   LOAD_GUILD_LIST = 'home/LOAD_GUILD_LIST',
   RESET_GUILD_LIST = 'home/RESET_GUILD_LIST',
+  OPEN_GUILD_LIST_LOADING = 'home/OPEN_GUILD_LIST_LOADING',
+  CLOSE_GUILD_LIST_LOADING = 'home/CLOSE_GUILD_LIST_LOADING',
   LOAD_GUILD_INFO = 'home/LOAD_GUILD_INFO',
   RESET_GUILD_INFO = 'home/RESET_GUILD_INFO',
   JOIN_TO_GUILD = 'home/JOIN_TO_GUILD',
@@ -34,6 +35,12 @@ export interface HomeActions {
   [HomeActionTypes.RESET_GUILD_LIST](
     { commit }: AugmentedActionContext,
   ): void
+  [HomeActionTypes.OPEN_GUILD_LIST_LOADING](
+    { commit }: AugmentedActionContext,
+  ): void
+  [HomeActionTypes.CLOSE_GUILD_LIST_LOADING](
+    { commit }: AugmentedActionContext,
+  ): void
   [HomeActionTypes.LOAD_GUILD_INFO](
     { commit }: AugmentedActionContext,
     payload: string
@@ -54,9 +61,16 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
   [HomeActionTypes.LOAD_GUILD_LIST] ({ commit }) {
     const guildListRes:Array<GuildInfo> = dummyGuilds
     commit(HomeMutationTypes.SET_GUILD_LIST, guildListRes)
+    commit(HomeMutationTypes.SET_GUILD_LIST, [])
   },
   [HomeActionTypes.RESET_GUILD_LIST] ({ commit }) {
     commit(HomeMutationTypes.SET_GUILD_LIST, [])
+  },
+  [HomeActionTypes.OPEN_GUILD_LIST_LOADING] ({ commit }) {
+    commit(HomeMutationTypes.SET_GUILD_LIST_LOADING, true)
+  },
+  [HomeActionTypes.CLOSE_GUILD_LIST_LOADING] ({ commit }) {
+    commit(HomeMutationTypes.SET_GUILD_LIST_LOADING, false)
   },
   [HomeActionTypes.LOAD_GUILD_INFO] ({ commit }, payload) {
     const guildInfoRes = dummyGuilds.find(dg => dg.uid === payload)

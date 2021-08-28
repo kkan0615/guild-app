@@ -10,8 +10,8 @@ export const initDummyGuildTags = () => {
       uid: v4(),
       name: faker.lorem.word(),
       color: faker.commerce.color(),
-      createdAt: dayjs(),
-      updatedAt: dayjs(),
+      createdAt: dayjs().toISOString(),
+      updatedAt: dayjs().toISOString(),
     }
   })
 }

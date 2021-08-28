@@ -1,5 +1,6 @@
 import { FirebaseAttributes } from '@/types/model/attributes'
 import { GuildRole } from '@/types/model/guilds/role'
+import { Notification } from '@/types/systems/notification'
 
 export type UserSystemAuth = 'superAdmin' | 'admin' | 'staff'
 
@@ -17,6 +18,7 @@ export interface GuildUserInfo extends User, FirebaseAttributes {
   guildId: string
   nickname: string // able to set nickname per guild
   role: GuildRole
+  notifications: Array<Notification>
 }
 
 export interface UserLoginForm {

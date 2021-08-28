@@ -10,6 +10,7 @@
     >
       <notification-dropdown
         v-if="isLoggedIn"
+        :notifications="guildNotifications"
         left="auto"
         right="0"
       />
@@ -25,18 +26,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import useUserMixin from '@/mixins/useUserMixin'
 import GuildUserDropdown from '@/components/commons/dropdowns/GuildUser/index.vue'
 import NotificationDropdown from '@/components/commons/dropdowns/Notification/index.vue'
+import useStore from '@/store'
 
 export default defineComponent({
   name: 'GeneralNavbar',
   components: { NotificationDropdown, GuildUserDropdown },
   setup: () => {
     const router = useRouter()
+    const store = useStore()
     const { isLoggedIn } = useUserMixin()
+
+    const guildNotifications = computed(() => store.state.guild.userNotificationList)
 
     const onClickLogo = async () => {
       await router.push({ path: '/' })
@@ -44,6 +49,7 @@ export default defineComponent({
 
     return {
       isLoggedIn,
+      guildNotifications,
       onClickLogo,
     }
   }

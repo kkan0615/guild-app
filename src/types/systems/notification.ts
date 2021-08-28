@@ -11,7 +11,6 @@ export interface Notification extends FirebaseAttributes {
   title?: string
   sendUserId?: string // If it's from system, it's undefined
   guildId?: string // If it's from system, it's undefined
-  createdAt: Date
 }
 
 export interface NotificationInfo extends Notification {
