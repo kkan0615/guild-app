@@ -2,7 +2,7 @@ import { ActionContext, ActionTree } from 'vuex'
 import { RootState } from '@/store'
 import { HomeMutations, HomeMutationTypes } from '@/store/modules/home/mutations'
 import { HomeState } from '@/store/modules/home/state'
-import { GuildInfo, GuildListFilterQuery } from '@/types/model/guilds'
+import { GuildInfo, GuildInfoInList, GuildListFilterQuery } from '@/types/model/guilds'
 import { dummyGuilds } from '@/dummy/guilds'
 import { GuildUserInfo } from '@/types/model/auth/user/user'
 
@@ -59,9 +59,16 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
     commit(HomeMutationTypes.SET_GUILD_LIST_FILTER_OPTION, payload)
   },
   [HomeActionTypes.LOAD_GUILD_LIST] ({ commit }) {
-    const guildListRes:Array<GuildInfo> = dummyGuilds
+    const guildListRes:Array<GuildInfoInList> = dummyGuilds.map(dg => {
+      return {
+        uid: dg.uid,
+        name: dg.name,
+        img: dg.img,
+        description: dg.description,
+        memberIds: dg.memberIds
+      }
+    })
     commit(HomeMutationTypes.SET_GUILD_LIST, guildListRes)
-    commit(HomeMutationTypes.SET_GUILD_LIST, [])
   },
   [HomeActionTypes.RESET_GUILD_LIST] ({ commit }) {
     commit(HomeMutationTypes.SET_GUILD_LIST, [])

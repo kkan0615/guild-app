@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 
 export let dummyGuildTags: Array<GuildTag> = []
 export const initDummyGuildTags = () => {
-  dummyGuildTags = [...Array(50).keys()].map((num) => {
+  dummyGuildTags = [...Array(50).keys()].map(() => {
     return {
       uid: v4(),
       name: faker.lorem.word(),

@@ -1,6 +1,6 @@
 {
   "name": "guild-app",
-  "version": "0.0.9a",
+  "version": "0.0.9b",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -13,6 +13,7 @@
     "@types/faker": "^5.5.8",
     "@types/node": "^16.4.13",
     "@types/uuid": "^8.3.1",
+    "@vueform/multiselect": "^2.1.2",
     "ag-grid-community": "^26.0.0",
     "ag-grid-vue3": "^26.0.0",
     "bootstrap": "^5.1.0",

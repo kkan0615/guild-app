@@ -62,16 +62,19 @@
         >
           tags
         </label>
-        <div
-          class="form-control"
-        >
-          <div>
-            tag
-          </div>
-          <div
-            contenteditable="true"
-          />
-        </div>
+        <!--        <vue-multiselect-->
+        <!--          v-model="tags"-->
+        <!--          options=""-->
+        <!--        />-->
+        <c-multiple-select
+          id="tags"
+          v-model="tags"
+          :options="tagOptions"
+          :rules="rules.tags"
+          searchable
+          :close-on-select="false"
+          mode="tags"
+        />
       </div>
       <!--   description   -->
       <div>
@@ -144,10 +147,12 @@ import { useI18n } from 'vue-i18n'
 import BForm from '@/components/commons/Form/index.vue'
 import BTextarea from '@/components/commons/inputs/Textarea/index.vue'
 import ImageDropzone from '@/components/commons/dropzones/Image/index.vue'
+import CMultipleSelect from '@/components/commons/inputs/Tags/index.vue'
+import { dummyGuildTags } from '@/dummy/guilds/tag'
 
 export default defineComponent({
   name: 'HomeGuildForm',
-  components: { ImageDropzone, BTextarea, BForm, BBaseInput },
+  components: { CMultipleSelect, ImageDropzone, BTextarea, BForm, BBaseInput },
   setup: () => {
     const router = useRouter()
     const i18n = useI18n()
@@ -156,7 +161,12 @@ export default defineComponent({
 
     const currentIndex = ref(0)
     const title = ref('')
+    const tags = ref<Array<string>>([])
     const description = ref('')
+    // @TODO: Consider how to save control common code
+    const tagOptions = dummyGuildTags.map(tag => {
+      return { value: tag.uid, label: tag.name }
+    })
 
     const rules: RuleType = {
       title: [
@@ -165,7 +175,10 @@ export default defineComponent({
       ],
       description: [
         (v: string) => v.length <= 200 || i18n.t('standardRules.maxLength', { length: 200 })
-      ]
+      ],
+      tags: [
+        (v: Array<any>) => (!v || !v.length) ? i18n.t('standardRules.required', { field: 'tags' }) : '',
+      ],
     }
 
     const onClickSaveBtn = () => {
@@ -192,6 +205,8 @@ export default defineComponent({
       formRef,
       currentIndex,
       title,
+      tags,
+      tagOptions,
       description,
       rules,
       onClickSaveBtn,

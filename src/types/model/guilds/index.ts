@@ -20,6 +20,8 @@ export interface GuildInfo extends Guild {
   members: Array<GuildUserInfo>
 }
 
+export type GuildInfoInList = Pick<GuildInfo, 'uid' | 'name' | 'img' | 'memberIds' | 'description'>
+
 export type GuildInDropdown = Pick<Guild, 'uid' | 'img' | 'name'>
 
 export interface GuildListFilterQuery extends SelectListFilterQuery {

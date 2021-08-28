@@ -70,7 +70,7 @@ export default defineComponent({
       default: () => []
     },
     modelValue: {
-      required: true,
+      required: false,
     },
   },
   emits: [

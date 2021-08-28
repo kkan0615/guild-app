@@ -1,27 +1,33 @@
+<!--
+  base lib: https://github.com/vueform/multiselect
+  @TODO:
+    1. add size handler
+-->
 <template>
   <div
-    class="input-group has-validation"
+    class="tw-p-0"
   >
     <slot
       name="prepend"
     />
-    <input
+    <multiselect
       :id="id"
-      ref="inputRef"
-      :type="type"
-      :readonly="readonly"
+      :model-value="modelValue"
       :disabled="disabled"
       :placeholder="placeholder"
-      :list="list"
-      :value="modelValue"
-      class="form-control"
+      :readonly="readonly"
+      :mode="mode"
+      :searchable="searchable"
+      :close-on-select="closeOnSelect"
+      :create-tag="createTag"
       :class="{
         'is-invalid': errorMessage,
-        'form-control-sm': size === 'sm',
-        'form-control-lg': size === 'lg',
+        'form-select-sm': size === 'sm',
+        'form-select-lg': size === 'lg',
       }"
-      @input="onInput"
-    >
+      :options="options"
+      @change="onChangeSelect"
+    />
     <slot
       name="append"
     />
@@ -32,14 +38,46 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, onMounted, onBeforeUnmount, getCurrentInstance, inject } from 'vue'
+import { ref, defineComponent, PropType, inject, onMounted, getCurrentInstance, onBeforeUnmount, defineEmits } from 'vue'
+import Multiselect from '@vueform/multiselect'
+import { BFormProvideKey } from '@/components/commons/Form/types'
 import { validate } from '@/utils/bootstrap/validate'
 import { InputRuleType } from '@/types/bootstrap/validate'
-import { BFormProvideKey } from '@/components/commons/Form/types'
 
 export default defineComponent({
-  name: 'BBaseInput',
+  name: 'CMultipleSelect',
+  components: { Multiselect },
   props: {
+    modelValue: {
+      type: [Array, String, Number],
+      required: false,
+      default: ''
+    },
+    options: {
+      type: Array,
+      required: true,
+      default: () => {}
+    },
+    mode: {
+      type: String as PropType<'single' | 'multiple' | 'tags'>,
+      required: false,
+      default: 'single', // single|multiple|tags
+    },
+    searchable: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    closeOnSelect: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    createTag: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     id: {
       type: String,
       required: true,
@@ -68,20 +106,12 @@ export default defineComponent({
     size: {
       type: String,
       required: false,
-      default: ''
-    },
-    list: {
-      type: String,
-      required: false,
-      default: ''
+      default: 'sm'
     },
     rules: {
       type: Array,
       required: false,
       default: () => []
-    },
-    modelValue: {
-      required: false,
     },
   },
   emits: [
@@ -105,18 +135,17 @@ export default defineComponent({
         form.unregister(instance.uid)
     })
 
-    const onInput = (event: InputEvent) => {
-      if (event.target) {
-        const elemet = event.target as HTMLInputElement
-        inputValidate(elemet.value)
-
-        emit('update:modelValue', elemet.value)
-      }
-    }
+    // const onInput = (event: InputEvent) => {
+    //   if (event.target) {
+    //     const elemet = event.target as HTMLInputElement
+    //     inputValidate(elemet.value)
+    //
+    //     emit('update:modelValue', elemet.value)
+    //   }
+    // }
 
     const inputValidate = (value = props.modelValue) => {
       const result = validate(value, props.rules as Array<InputRuleType>)
-
       if (typeof result === 'string') {
         errorMessage.value = result
       } else {
@@ -131,12 +160,18 @@ export default defineComponent({
         inputRef.value.focus()
     }
 
+    const onChangeSelect = (selection: Array<any> | string | number) => {
+      inputValidate(selection)
+      emit('update:modelValue', selection)
+    }
+
     return {
       errorMessage,
       inputRef,
-      onInput,
+      // onInput,
       inputValidate,
-      focus
+      focus,
+      onChangeSelect,
     }
   }
 })

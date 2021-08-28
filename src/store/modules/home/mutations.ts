@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex'
 import { HomeState } from './state'
-import { GuildInfo, GuildListFilterQuery } from '@/types/model/guilds'
+import { GuildInfo, GuildInfoInList, GuildListFilterQuery } from '@/types/model/guilds'
 
 export enum HomeMutationTypes {
   SET_GUILD_LIST_FILTER_OPTION = 'home/SET_GUILD_LIST_FILTER_OPTION',
@@ -10,7 +10,7 @@ export enum HomeMutationTypes {
 }
 export type HomeMutations<S = HomeState> = {
   [HomeMutationTypes.SET_GUILD_LIST_FILTER_OPTION](state: S, payload: GuildListFilterQuery): void
-  [HomeMutationTypes.SET_GUILD_LIST](state: S, payload: Array<GuildInfo>): void
+  [HomeMutationTypes.SET_GUILD_LIST](state: S, payload: Array<GuildInfoInList>): void
   [HomeMutationTypes.SET_GUILD_LIST_LOADING](state: S, payload: boolean): void
   [HomeMutationTypes.SET_GUILD_INFO](state: S, payload: GuildInfo): void
 }

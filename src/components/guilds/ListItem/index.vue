@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { GuildInfo } from '@/types/model/guilds'
+import { GuildInfo, GuildInfoInList } from '@/types/model/guilds'
 import GuildListItemImage from '@/components/guilds/ListItem/components/Image.vue'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
 import { useRouter } from 'vue-router'
@@ -34,7 +34,7 @@ export default defineComponent({
   components: { GuildListItemImage },
   props: {
     guild: {
-      type: Object as PropType<GuildInfo>,
+      type: Object as PropType<GuildInfoInList>,
       required: true,
       default: () => {
         return {} as GuildInfo

@@ -1,8 +1,8 @@
-import { GuildInfo, GuildListFilterQuery } from '@/types/model/guilds'
+import { GuildInDropdown, GuildInfo, GuildListFilterQuery } from '@/types/model/guilds'
 
 export interface HomeState {
   guildListFilterOption: GuildListFilterQuery
-  guildList: Array<GuildInfo>
+  guildList: Array<GuildInDropdown>
   guildListLoading: boolean
   guildInfo: GuildInfo
 }

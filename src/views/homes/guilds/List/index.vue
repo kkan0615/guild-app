@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onBeforeMount, computed } from 'vue'
+import { defineComponent, onMounted, computed, onBeforeUnmount } from 'vue'
 import useStore from '@/store'
 import { HomeActionTypes } from '@/store/modules/home/actions'
 import GuildListItem from '@/components/guilds/ListItem/index.vue'
@@ -49,7 +49,7 @@ export default defineComponent({
       await store.dispatch(HomeActionTypes.CLOSE_GUILD_LIST_LOADING)
     })
 
-    onBeforeMount(async () => {
+    onBeforeUnmount(async () => {
       /* Reset data */
       await store.dispatch(HomeActionTypes.RESET_GUILD_LIST)
     })

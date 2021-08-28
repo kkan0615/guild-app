@@ -86,8 +86,8 @@ export const initDummyGuilds = () => {
       name: faker.lorem.word(),
       default: false,
       color: 'blue',
-      createdAt: dayjs(),
-      updatedAt: dayjs(),
+      createdAt: dayjs().toISOString(),
+      updatedAt: dayjs().toISOString()
     }
   })
 

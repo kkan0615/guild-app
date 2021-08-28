@@ -12,6 +12,8 @@ import '@/styles/tailwind.scss'
 import i18n from '@/locales'
 /* index scss */
 import '@/styles/index.scss'
+/* vue form multiple select css */
+import '@vueform/multiselect/themes/default.css'
 /* Store */
 import { store } from '@/store'
 
