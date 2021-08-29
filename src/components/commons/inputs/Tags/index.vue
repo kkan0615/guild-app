@@ -135,15 +135,6 @@ export default defineComponent({
         form.unregister(instance.uid)
     })
 
-    // const onInput = (event: InputEvent) => {
-    //   if (event.target) {
-    //     const elemet = event.target as HTMLInputElement
-    //     inputValidate(elemet.value)
-    //
-    //     emit('update:modelValue', elemet.value)
-    //   }
-    // }
-
     const inputValidate = (value = props.modelValue) => {
       const result = validate(value, props.rules as Array<InputRuleType>)
       if (typeof result === 'string') {

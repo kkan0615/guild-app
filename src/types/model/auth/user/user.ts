@@ -16,7 +16,6 @@ export interface User extends FirebaseAttributes {
 export interface GuildUserInfo extends User, FirebaseAttributes {
   userId: string
   guildId: string
-  nickname: string // able to set nickname per guild
   role: GuildRole
   notifications: Array<Notification>
 }

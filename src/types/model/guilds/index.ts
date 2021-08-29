@@ -28,3 +28,5 @@ export interface GuildListFilterQuery extends SelectListFilterQuery {
   name?: string
   tags?: Array<string>
 }
+
+export type GuildCreateForm = Pick<GuildInfo, 'name' | 'img' | 'description' | 'tagIds'>

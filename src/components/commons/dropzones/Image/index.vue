@@ -83,12 +83,12 @@ const emit = defineEmits(['error', 'update'])
 const dropZoneDivRef = ref<HTMLDivElement | null>(null)
 const fileInputRef = ref<HTMLInputElement | null>(null)
 
-const innerPreviewSrc = ref<string>('')
+const innerPreviewSrc = ref<string | ArrayBuffer | null>('')
 
 const uploadFile = (file: any) => {
   const reader = new FileReader()
   reader.onload = el => {
-    if (el) {
+    if (el && el.target) {
       const result = el.target.result
       innerPreviewSrc.value = el.target.result
       emit('update', result)

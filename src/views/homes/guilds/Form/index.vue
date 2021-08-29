@@ -149,11 +149,16 @@ import BTextarea from '@/components/commons/inputs/Textarea/index.vue'
 import ImageDropzone from '@/components/commons/dropzones/Image/index.vue'
 import CMultipleSelect from '@/components/commons/inputs/Tags/index.vue'
 import { dummyGuildTags } from '@/dummy/guilds/tag'
+import useStore from '@/store'
+import { HomeActionTypes } from '@/store/modules/home/actions'
+import { GuildCreateForm } from '@/types/model/guilds'
+import { RouterNameEnum } from '@/types/systems/routers/keys'
 
 export default defineComponent({
   name: 'HomeGuildForm',
   components: { CMultipleSelect, ImageDropzone, BTextarea, BForm, BBaseInput },
   setup: () => {
+    const store = useStore()
     const router = useRouter()
     const i18n = useI18n()
 
@@ -171,19 +176,49 @@ export default defineComponent({
     const rules: RuleType = {
       title: [
         (v: string) => !!v || i18n.t('standardRules.required', { field: 'title' }),
-        (v: string) => v.length <= 20 || i18n.t('standardRules.maxLength', { length: 20 })
+        (v: string) => {
+          if (!v)
+            return true
+          return v.length <= 20 || i18n.t('standardRules.maxLength', { length: 20 })
+        },
       ],
       description: [
-        (v: string) => v.length <= 200 || i18n.t('standardRules.maxLength', { length: 200 })
+        (v: string) => {
+          if (!v) {
+            return true
+          }
+          return v.length <= 200 || i18n.t('standardRules.maxLength', { length: 200 })
+        }
       ],
       tags: [
-        (v: Array<any>) => (!v || !v.length) ? i18n.t('standardRules.required', { field: 'tags' }) : '',
+        (v: any) => {
+          if (!v)
+            return i18n.t('standardRules.required', { field: 'tags' })
+          if (!v.length)
+            return i18n.t('standardRules.required', { field: 'tags' })
+
+          return true
+        },
       ],
     }
 
-    const onClickSaveBtn = () => {
+    const onClickSaveBtn = async () => {
+      if (formRef.value)
+        console.log(formRef.value.checkValidation())
       if (formRef.value && formRef.value.checkValidation()) {
         alert('pass!')
+        try {
+          const uid = await store.dispatch(HomeActionTypes.CREATE_GUILD_INFO, {
+            img: 'https://octodex.github.com/images/saketocat.png',
+            name: title.value,
+            description: description.value,
+            tagIds: tags.value,
+          } as GuildCreateForm)
+
+          await router.push({ name: RouterNameEnum.HOME_GUILD_DETAIL, params: { id: uid } })
+        } catch (e) {
+          console.error(e)
+        }
       } else {
         alert('could not pass')
       }

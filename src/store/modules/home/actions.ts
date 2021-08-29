@@ -2,9 +2,15 @@ import { ActionContext, ActionTree } from 'vuex'
 import { RootState } from '@/store'
 import { HomeMutations, HomeMutationTypes } from '@/store/modules/home/mutations'
 import { HomeState } from '@/store/modules/home/state'
-import { GuildInfo, GuildInfoInList, GuildListFilterQuery } from '@/types/model/guilds'
+import { GuildCreateForm, GuildInfo, GuildInfoInList, GuildListFilterQuery } from '@/types/model/guilds'
 import { dummyGuilds } from '@/dummy/guilds'
 import { GuildUserInfo } from '@/types/model/auth/user/user'
+import { v4 } from 'uuid'
+import dayjs from 'dayjs'
+import { dummyGuildTags } from '@/dummy/guilds/tag'
+import { GuildRole } from '@/types/model/guilds/role'
+import { GuildTag } from '@/types/model/guilds/tag'
+import * as faker from 'faker'
 
 export enum HomeActionTypes {
   SET_GUILD_LIST_FILTER_OPTION = 'home/SET_GUILD_LIST_FILTER_OPTION',
@@ -15,6 +21,10 @@ export enum HomeActionTypes {
   LOAD_GUILD_INFO = 'home/LOAD_GUILD_INFO',
   RESET_GUILD_INFO = 'home/RESET_GUILD_INFO',
   JOIN_TO_GUILD = 'home/JOIN_TO_GUILD',
+  CREATE_GUILD_INFO = 'home/CREATE_GUILD_INFO',
+  CREATE_GUILD_TAGS = 'home/CREATE_GUILD_TAGS',
+  CREATE_GUILD_IMAGE = 'home/CREATE_GUILD_IMAGE',
+  UPDATE_GUILD_INFO = 'home/UPDATE_GUILD_INFO',
 }
 
 export type AugmentedActionContext = {
@@ -52,6 +62,14 @@ export interface HomeActions {
     { commit, rootState }: AugmentedActionContext,
     payload: string
   ): void
+  [HomeActionTypes.CREATE_GUILD_INFO](
+    { commit, rootState }: AugmentedActionContext,
+    payload: GuildCreateForm
+  ): string
+  [HomeActionTypes.CREATE_GUILD_TAGS](
+    { commit, rootState }: AugmentedActionContext,
+    payload: Array<GuildTag>
+  ): Array<string>
 }
 
 export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
@@ -109,4 +127,60 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
       throw new Error('no data')
     }
   },
+  [HomeActionTypes.CREATE_GUILD_INFO] ({ rootState }, payload) {
+    // @FOR_TEST
+    const newGuildUid = v4()
+
+    // @FOR_TEST
+    const guildUser = {
+      uid: v4(),
+      guildId: newGuildUid,
+      userId: rootState.user.uid,
+      email: rootState.user.email,
+      name: rootState.user.name,
+      nickname: rootState.user.nickname,
+      color: rootState.user.color,
+      img: rootState.user.img,
+      auth: rootState.user.auth,
+      role: {} as GuildRole,
+      notifications: [],
+      createdAt: dayjs().toISOString(),
+      updatedAt: dayjs().toISOString(),
+    } as GuildUserInfo
+
+    // @FOR_TEST
+    dummyGuilds.push({
+      uid: newGuildUid,
+      img: payload.img,
+      name: payload.name,
+      description: payload.description,
+      mainMangerId: rootState.user.uid,
+      mainManger: rootState.user,
+      tagIds: payload.tagIds,
+      tags: dummyGuildTags.filter(tag => payload.tagIds.includes(tag.uid)),
+      roles: [],
+      memberIds: [rootState.user.uid],
+      members: [guildUser],
+      createdAt: dayjs().toISOString(),
+      updatedAt: dayjs().toISOString(),
+    })
+
+    return newGuildUid
+  },
+  [HomeActionTypes.CREATE_GUILD_TAGS] ({ commit }, payload) {
+    const result: Array<string> = []
+    for (let i = 0; i < payload.length; i++) {
+      const tag = payload[i]
+      const newTagUid = v4()
+      dummyGuildTags.push({
+        uid: newTagUid,
+        name: tag.name,
+        color: faker.commerce.color(),
+        createdAt: dayjs().toISOString(),
+        updatedAt: dayjs().toISOString(),
+      })
+    }
+
+    return result
+  }
 }
