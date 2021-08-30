@@ -14,6 +14,7 @@
           <image-dropzone
             height="40"
             width="40"
+            @update="onUpdateMainImage"
           />
         </div>
         <div>
@@ -25,20 +26,12 @@
             >
               Logo
             </div>
-            <!--      @TODO: bootstrap 5 tooltip not working now      -->
-            <!--            <div-->
-            <!--              role="button"-->
-            <!--              type="button"-->
-            <!--              data-bs-toggle="tooltip"-->
-            <!--              data-bs-placement="bottom"-->
-            <!--              title="Tooltip will be here"-->
-            <!--            >-->
-            <!--              <span class="material-icons">-->
-            <!--                help_outline-->
-            <!--              </span>-->
-            <!--            </div>-->
           </div>
-          <image-dropzone />
+          <image-dropzone
+            height="32"
+            width="72"
+            @update="onUpdateLogoImage"
+          />
         </div>
       </div>
       <!--   title   -->
@@ -62,13 +55,10 @@
         >
           tags
         </label>
-        <!--        <vue-multiselect-->
-        <!--          v-model="tags"-->
-        <!--          options=""-->
-        <!--        />-->
         <c-multiple-select
           id="tags"
           v-model="tags"
+          placeholder="tags"
           :options="tagOptions"
           :rules="rules.tags"
           searchable
@@ -86,6 +76,7 @@
         <b-textarea
           id="description"
           v-model="description"
+          :height="32"
           :rules="rules.description"
           placeholder="description"
         />
@@ -102,7 +93,6 @@
         class="tw-ml-auto"
       />
       <button
-        v-if="currentIndex === 0"
         type="button"
         class="btn btn-outline-primary"
         @click="onClickCancelBtn"
@@ -110,29 +100,11 @@
         Cancel
       </button>
       <button
-        v-else
-        type="button"
-        class="btn btn-outline-primary"
-        @click="onClickBackBtn"
-      >
-        Prev
-      </button>
-      <!--   next or save   -->
-      <button
-        v-if="currentIndex === 3"
         type="button"
         class="btn btn-primary"
         @click="onClickSaveBtn"
       >
         Save
-      </button>
-      <button
-        v-else
-        type="button"
-        class="btn btn-primary"
-        @click="onClickNextBtn"
-      >
-        Next
       </button>
     </div>
   </div>
@@ -164,7 +136,8 @@ export default defineComponent({
 
     const formRef = ref<InstanceType<typeof BForm> | null>(null)
 
-    const currentIndex = ref(0)
+    const mainImg = ref<File | null>(null)
+    const logoImg = ref<File | null>(null)
     const title = ref('')
     const tags = ref<Array<string>>([])
     const description = ref('')
@@ -210,6 +183,7 @@ export default defineComponent({
         try {
           const uid = await store.dispatch(HomeActionTypes.CREATE_GUILD_INFO, {
             img: 'https://octodex.github.com/images/saketocat.png',
+            logoImg: 'https://octodex.github.com/images/saketocat.png',
             name: title.value,
             description: description.value,
             tagIds: tags.value,
@@ -228,17 +202,16 @@ export default defineComponent({
       await router.go(-1)
     }
 
-    const onClickNextBtn = () => {
-      currentIndex.value += 1
+    const onUpdateMainImage = (file: File) => {
+      mainImg.value = file
     }
 
-    const onClickBackBtn = () => {
-      currentIndex.value -= 1
+    const onUpdateLogoImage = (file: File) => {
+      logoImg.value = file
     }
 
     return {
       formRef,
-      currentIndex,
       title,
       tags,
       tagOptions,
@@ -246,8 +219,8 @@ export default defineComponent({
       rules,
       onClickSaveBtn,
       onClickCancelBtn,
-      onClickNextBtn,
-      onClickBackBtn,
+      onUpdateMainImage,
+      onUpdateLogoImage,
     }
   }
 })

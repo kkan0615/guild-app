@@ -90,8 +90,8 @@ const uploadFile = (file: any) => {
   reader.onload = el => {
     if (el && el.target) {
       const result = el.target.result
-      innerPreviewSrc.value = el.target.result
-      emit('update', result)
+      innerPreviewSrc.value = result
+      emit('update', file)
     }
   }
   reader.readAsDataURL(file)
@@ -108,7 +108,6 @@ const onClickDropzone = () => {
 
 const onChangeFileInput = (data: Event) => {
   if (data.target) {
-    console.log('data', data)
     const files: Array<File> = Array.from((data.target as any).files)
     if (files.length > 1) {
       emit('error', 'Multiple upload is not allowed')

@@ -12,6 +12,7 @@
     class="form-control"
     :class="{
       'is-invalid': errorMessage,
+      [`tw-h-${height}`]: true,
       'form-control-sm': size === 'sm',
       'form-control-lg': size === 'lg',
     }"
@@ -63,6 +64,11 @@ export default defineComponent({
       type: String,
       required: false,
       default: ''
+    },
+    height: {
+      type: Number,
+      required: false,
+      default: 24
     },
     rules: {
       type: Array,

@@ -6,10 +6,12 @@ export interface GuildState {
   guildInfo: GuildInfo
   guildUserInfo: GuildUserInfo
   userNotificationList: Array<NotificationInfo>
+  isOpenSideBar: boolean
 }
 
 export const guildState: GuildState = {
   guildInfo: {} as GuildInfo,
   guildUserInfo: {} as GuildUserInfo,
   userNotificationList: [],
+  isOpenSideBar: true,
 }

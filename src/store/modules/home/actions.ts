@@ -83,7 +83,9 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
         name: dg.name,
         img: dg.img,
         description: dg.description,
-        memberIds: dg.memberIds
+        memberIds: dg.memberIds,
+        tags: dg.tags,
+        tagIds: dg.tagIds,
       }
     })
     commit(HomeMutationTypes.SET_GUILD_LIST, guildListRes)
@@ -152,6 +154,7 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
     dummyGuilds.push({
       uid: newGuildUid,
       img: payload.img,
+      logoImg: payload.img,
       name: payload.name,
       description: payload.description,
       mainMangerId: rootState.user.uid,

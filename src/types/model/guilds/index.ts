@@ -5,6 +5,7 @@ import { GuildRole } from '@/types/model/guilds/role'
 
 export interface Guild extends FirebaseAttributes {
   img: string
+  logoImg: string
   name: string
   description: string
   tagIds: Array<string>
@@ -20,7 +21,7 @@ export interface GuildInfo extends Guild {
   members: Array<GuildUserInfo>
 }
 
-export type GuildInfoInList = Pick<GuildInfo, 'uid' | 'name' | 'img' | 'memberIds' | 'description'>
+export type GuildInfoInList = Pick<GuildInfo, 'uid' | 'name' | 'img' | 'memberIds' | 'tagIds' | 'tags' | 'description'>
 
 export type GuildInDropdown = Pick<Guild, 'uid' | 'img' | 'name'>
 
@@ -29,4 +30,4 @@ export interface GuildListFilterQuery extends SelectListFilterQuery {
   tags?: Array<string>
 }
 
-export type GuildCreateForm = Pick<GuildInfo, 'name' | 'img' | 'description' | 'tagIds'>
+export type GuildCreateForm = Pick<GuildInfo, 'name' | 'img' | 'logoImg' | 'description' | 'tagIds'>

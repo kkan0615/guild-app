@@ -35,6 +35,14 @@ Run `Volar: Switch TS Plugin on/off` from VSCode command palette.
 2. Material icon cdn
 3. sidebar single menu style
 
+## 0.1.0
+1. guild tags display 8 tags and ...
+2. add mobile side bar
+3. change side bar style
+4, add sidebar open and close actions
+5. add side bar store state
+6. add readmd me at store in admin
+
 ## TODO On Week
 1. Snackbar
 2. Notification 기능

@@ -13,6 +13,8 @@ export enum GuildActionTypes {
   LOAD_USER_NOTIFICATION_LIST = 'guild/LOAD_USER_NOTIFICATION_LIST',
   RESET_USER_NOTIFICATION_LIST = 'guild/RESET_USER_NOTIFICATION_LIST',
   READ_USER_NOTIFICATION = 'guild/READ_USER_NOTIFICATION',
+  OPEN_SIDEBAR = 'guild/OPEN_SIDEBAR',
+  CLOSE_SIDEBAR = 'guild/CLOSE_SIDEBAR',
 }
 
 export type AugmentedActionContext = {
@@ -58,6 +60,12 @@ export interface GuildActions {
     { commit }: AugmentedActionContext,
     payload: string
   ): void
+  [GuildActionTypes.OPEN_SIDEBAR](
+    { commit }: AugmentedActionContext,
+  ): void
+  [GuildActionTypes.CLOSE_SIDEBAR](
+    { commit }: AugmentedActionContext,
+  ): void
 }
 
 export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
@@ -93,5 +101,11 @@ export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
   [GuildActionTypes.READ_USER_NOTIFICATION] ({ commit }, payload) {
     // @TODO: Add update notification
     // commit(GuildMutationTypes.SET_GUILD_USER_NOTIFICATION_LIST, [])
+  },
+  [GuildActionTypes.OPEN_SIDEBAR] ({ commit }) {
+    commit(GuildMutationTypes.SET_IS_OPEN_SIDEBAR, true)
+  },
+  [GuildActionTypes.CLOSE_SIDEBAR] ({ commit }) {
+    commit(GuildMutationTypes.SET_IS_OPEN_SIDEBAR, false)
   },
 }

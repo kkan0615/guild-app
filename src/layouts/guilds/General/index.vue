@@ -17,7 +17,7 @@
           />
           <!--     content     -->
           <div
-            class="tw-h-1 tw-flex-grow tw-flex-shrink"
+            class="tw-h-1 tw-flex-grow tw-flex-shrink tw-p-2"
           >
             <router-view />
           </div>
