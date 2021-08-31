@@ -17,9 +17,10 @@ export default router.beforeEach(async (to, from, next) => {
   try {
     /* If it's guild page */
     if (to.meta.isGuild) {
-      const guildId = to.params.id
+      const guildId = to.params.guildId
       if (!guildId) {
         // @TODO: Redirect to 404 page
+        next({ name: RouterNameEnum.HOME })
       }
       /* If no guild information at store */
       if ((!store.state.guild.guildInfo || !store.state.guild.guildInfo.uid) && guildId) {

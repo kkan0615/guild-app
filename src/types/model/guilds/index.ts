@@ -10,9 +10,9 @@ export interface Guild extends FirebaseAttributes {
   introduction: string
   description: string
   tagIds: Array<string>
+  roleIds: Array<string>
   mainMangerId: string
   memberIds: Array<string> // member uids
-  roles: Array<GuildRole>
   isRequirePermission: boolean
   joinQuestions?: Array<string> // questions before join
 }
@@ -21,6 +21,7 @@ export interface GuildInfo extends Guild {
   mainManger: User
   tags: Array<GuildTag>
   members: Array<GuildUserInfo>
+  roles: Array<GuildRole>
 }
 
 export type GuildInfoInList = Pick<GuildInfo, 'uid' | 'name' | 'img' | 'memberIds' | 'tagIds' | 'tags' | 'introduction'>

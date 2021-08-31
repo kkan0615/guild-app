@@ -12,6 +12,8 @@ import { GuildRole } from '@/types/model/guilds/role'
 import { GuildTag } from '@/types/model/guilds/tag'
 import * as faker from 'faker'
 import { dummyGuildUserPermissions } from '@/dummy/user/guild'
+import { dummyGuildUsers } from '@/dummy/user'
+import { dummyGuildRoles } from '@/dummy/guilds/role'
 
 export enum HomeActionTypes {
   SET_GUILD_LIST_FILTER_OPTION = 'home/SET_GUILD_LIST_FILTER_OPTION',
@@ -79,13 +81,14 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
   },
   [HomeActionTypes.LOAD_GUILD_LIST] ({ commit }) {
     const guildListRes:Array<GuildInfoInList> = dummyGuilds.map(dg => {
+      const tagsRes = dummyGuildTags.filter(dgt => dg.tagIds.includes(dgt.uid))
       return {
         uid: dg.uid,
         name: dg.name,
         img: dg.img,
         introduction: dg.introduction,
         memberIds: dg.memberIds,
-        tags: dg.tags,
+        tags: tagsRes,
         tagIds: dg.tagIds,
       }
     })
@@ -102,9 +105,22 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
   },
   [HomeActionTypes.LOAD_GUILD_INFO] ({ commit }, payload) {
     const guildInfoRes = dummyGuilds.find(dg => dg.uid === payload)
-    if (guildInfoRes)
-      commit(HomeMutationTypes.SET_GUILD_INFO, guildInfoRes)
-    else {
+    if (guildInfoRes) {
+      const guildRolesRes = dummyGuildRoles.filter(dgr => dgr.guildId === guildInfoRes.uid)
+      const tagsRes = dummyGuildTags.filter(dgt => guildInfoRes.tagIds.includes(dgt.uid))
+      const members = dummyGuildUsers.filter(dgu => guildInfoRes.memberIds.includes(dgu.uid)).sort((a, b) => a.nickname.localeCompare(b.nickname))
+      const mainMember = dummyGuildUsers.find(dgu => dgu.uid === guildInfoRes.mainMangerId)
+      console.log('hi', members)
+      if (mainMember) {
+        commit(HomeMutationTypes.SET_GUILD_INFO, {
+          ...guildInfoRes,
+          mainManger: mainMember,
+          members: members,
+          roles: guildRolesRes,
+          tags: tagsRes,
+        })
+      }
+    } else {
       commit(HomeMutationTypes.SET_GUILD_INFO, {} as GuildInfo)
       throw new Error('no data')
     }
@@ -117,15 +133,20 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
     if (guildInfoRes) {
       if (!guildInfoRes.isRequirePermission) {
         guildInfoRes.memberIds.push(rootState.user.uid)
-        guildInfoRes.members.push({
-          uid: rootState.user.uid,
+        dummyGuildUsers.push({
+          uid: v4(),
           email: rootState.user.email,
           name: rootState.user.name,
           nickname: rootState.user.nickname,
           color: rootState.user.color,
           img: rootState.user.img,
           auth: rootState.user.auth,
-          role: guildInfoRes.roles[0],
+          role: {} as GuildRole,
+          userId: rootState.user.uid,
+          guildId: guildInfoRes.uid,
+          createdAt: dayjs().toISOString(),
+          updatedAt: dayjs().toISOString(),
+          // roleI: guildInfoRes.roles[0],
         } as GuildUserInfo)
       } else {
         dummyGuildUserPermissions.push({
@@ -161,6 +182,8 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
       updatedAt: dayjs().toISOString(),
     } as GuildUserInfo
 
+    dummyGuildUsers.push(guildUser)
+
     // @FOR_TEST
     dummyGuilds.push({
       uid: newGuildUid,
@@ -170,12 +193,9 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
       introduction: payload.introduction,
       description: payload.description,
       mainMangerId: rootState.user.uid,
-      mainManger: rootState.user,
       tagIds: payload.tagIds,
-      tags: dummyGuildTags.filter(tag => payload.tagIds.includes(tag.uid)),
-      roles: [],
+      roleIds: [],
       memberIds: [rootState.user.uid],
-      members: [guildUser],
       isRequirePermission: payload.isRequirePermission,
       createdAt: dayjs().toISOString(),
       updatedAt: dayjs().toISOString(),

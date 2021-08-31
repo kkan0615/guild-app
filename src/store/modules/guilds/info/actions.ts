@@ -5,6 +5,8 @@ import { dummyGuilds } from '@/dummy/guilds'
 import { GuildMutations, GuildMutationTypes } from '@/store/modules/guilds/info/mutations'
 import { GuildState } from '@/store/modules/guilds/info/state'
 import { dummyGuildUsers } from '@/dummy/user'
+import { dummyGuildRoles } from '@/dummy/guilds/role'
+import { dummyGuildTags } from '@/dummy/guilds/tag'
 
 export enum GuildActionTypes {
   LOAD_GUILD_INFO = 'guild/LOAD_GUILD_INFO',
@@ -71,9 +73,28 @@ export interface GuildActions {
 export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
   [GuildActionTypes.LOAD_GUILD_INFO] ({ commit }, payload) {
     const guildInfoRes = dummyGuilds.find(dg => dg.uid === payload)
-    if (guildInfoRes)
-      commit(GuildMutationTypes.SET_GUILD_INFO, guildInfoRes)
-    else {
+    if (guildInfoRes) {
+      const guildRolesRes = dummyGuildRoles.filter(dgr => dgr.guildId === guildInfoRes.uid)
+      const tagsRes = dummyGuildTags.filter(dgt => guildInfoRes.tagIds.includes(dgt.uid))
+      const members = dummyGuildUsers.filter(dgu => guildInfoRes.memberIds.includes(dgu.uid)).sort((a, b) => a.nickname.localeCompare(b.nickname))
+      const mainMember = dummyGuildUsers.find(dgu => dgu.uid === guildInfoRes.mainMangerId)
+      if (mainMember) {
+        console.log({
+          ...guildInfoRes,
+          mainManger: mainMember,
+          members: members,
+          roles: guildRolesRes,
+          tags: tagsRes,
+        })
+        commit(GuildMutationTypes.SET_GUILD_INFO, {
+          ...guildInfoRes,
+          mainManger: mainMember,
+          members: members,
+          roles: guildRolesRes,
+          tags: tagsRes,
+        })
+      }
+    } else {
       commit(GuildMutationTypes.SET_GUILD_INFO, {} as GuildInfo)
       throw new Error('no data')
     }
@@ -83,8 +104,10 @@ export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
   },
   [GuildActionTypes.UPDATE_GUILD_USER_INFO] ({ commit, rootState }) {
     const guildUserInfo = dummyGuildUsers.find((du) => {
-      return du.userId === rootState.user.uid
+      return du.userId === rootState.user.uid && du.guildId === rootState.guild.guildInfo.uid
     })
+
+    console.log('guildUserInfo', guildUserInfo)
 
     if (guildUserInfo) {
       commit(GuildMutationTypes.SET_GUILD_USER_INFO, guildUserInfo)

@@ -2,7 +2,7 @@
   <span
     class="badge"
     :class="{
-      [`tw-bg-${params.value.color}-500`]: true,
+      [getRoleColor(params)]: true,
     }"
   >{{ getRoleName(params) }}
   </span>
@@ -11,6 +11,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { ICellRendererParams } from 'ag-grid-community'
+import { tailwindDefaultColors } from '@/data/color'
 
 export default defineComponent({
   name: 'RoleColumnBadge',
@@ -19,8 +20,13 @@ export default defineComponent({
       return params.value.name
     }
 
+    const getRoleColor = (params: ICellRendererParams) => {
+      return tailwindDefaultColors.includes(params.value.color) ? `tw-bg-${params.value.color}-500` : 'tw-bg-blue-500'
+    }
+
     return {
-      getRoleName
+      getRoleName,
+      getRoleColor,
     }
   }
 })
