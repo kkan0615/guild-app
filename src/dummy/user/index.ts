@@ -5,7 +5,7 @@ import { GuildRole } from '@/types/model/guilds/role'
 import dayjs from 'dayjs'
 
 export let dummyUsers:Array<User> = []
-export let dummyGuildUsers:Array<GuildUserInfo> = []
+export const dummyGuildUsers:Array<GuildUserInfo> = []
 
 export const initDummyUsers = () => {
   dummyUsers = [...Array(30).keys()].map(() => {
@@ -33,14 +33,15 @@ export const initDummyUsers = () => {
     updatedAt: dayjs().toISOString(),
   })
 
-  dummyGuildUsers = dummyUsers.map(du => {
-    return {
-      ...du,
-      role: {} as GuildRole,
-      userId: du.uid,
-      guildId: '',
-      uid: v4(),
-      notifications: [],
-    }
-  })
+  // dummyGuildUsers = dummyUsers.map(du => {
+  //   return {
+  //     ...du,
+  //     roleId: '',
+  //     role: {} as GuildRole,
+  //     userId: du.uid,
+  //     guildId: '',
+  //     uid: v4(),
+  //     notifications: [],
+  //   }
+  // })
 }

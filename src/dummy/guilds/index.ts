@@ -41,6 +41,7 @@ export const initDummyGuilds = () => {
         ...dummyGuildUser,
         uid: v4(),
         userId: dummyGuildUser.uid,
+        roleId: role.uid,
         role,
         guildId: guildUid,
         notifications: [...Array(50).keys()].map(() => {
@@ -144,6 +145,7 @@ export const initDummyGuilds = () => {
     const dummyGuildUser = {
       ...admin,
       uid: v4(),
+      roleId: role.uid,
       role,
       guildId: 'test-uid',
       notifications: [...Array(50).keys()].map(() => {

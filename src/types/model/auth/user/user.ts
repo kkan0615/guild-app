@@ -13,9 +13,13 @@ export interface User extends FirebaseAttributes {
   auth: UserSystemAuth
 }
 
-export interface GuildUserInfo extends User, FirebaseAttributes {
-  userId: string
+export interface GuildUser extends User{
   guildId: string
+  roleId: string
+  userId: string
+}
+
+export interface GuildUserInfo extends GuildUser, FirebaseAttributes {
   role: GuildRole
   notifications: Array<Notification>
 }
