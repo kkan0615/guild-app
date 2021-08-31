@@ -2,27 +2,16 @@
   <div
     v-if="guildInfo"
   >
-    <!--  header  -->
-    <!--    <div-->
-    <!--      class="tw-flex"-->
-    <!--    >-->
-    <!--      <button-->
-    <!--        class="btn btn-primary tw-ml-auto tw-w-24"-->
-    <!--        type="button"-->
-    <!--      >-->
-    <!--        Join-->
-    <!--      </button>-->
-    <!--    </div>-->
     <div
       class="text-center"
     >
       <div
-        class="tw-flex tw-justify-center"
+        class="tw-flex tw-justify-center tw-mb-2"
       >
         <img
           class="tw-rounded-full tw-border tw-border-black tw-w-44 tw-h-44"
           :src="guildInfo.img"
-          alt="logo"
+          alt="img"
         >
       </div>
       <div
@@ -30,8 +19,11 @@
       >
         {{ guildInfo.name }}
       </div>
-      <div>
-        {{ guildInfo.description }}
+      <!--   Introduction   -->
+      <div
+        class="tw-whitespace-pre"
+      >
+        {{ guildInfo.introduction }}
       </div>
       <!--   Manage div   -->
       <div
@@ -46,19 +38,35 @@
           {{ guildInfo.mainManger.nickname }}
         </span>
       </div>
+      <!--   Created At div   -->
+      <div
+        v-if="guildInfo.mainManger"
+      >
+        <span
+          class="tw-text-gray-500"
+        >
+          Created At:
+        </span>
+        <span>
+          {{ formattedCreatedAt }}
+        </span>
+      </div>
     </div>
     <!--   tags   -->
     <div
       class="my-2"
     >
       <div
-        class="tw-text-xl mb-2"
+        class="tw-text-xl mb-1"
       >
         Tags
       </div>
+      <c-divider
+        class="tw-mb-2"
+      />
       <div
         v-if="guildInfo.tags"
-        class="tw-flex flex- gap-2 tw-w-full tw-flex-wrap"
+        class="tw-flex flex- gap-2 tw-w-full tw-flex-wrap tw-py-2"
       >
         <tag-badge
           v-for="tag in guildInfo.tags"
@@ -69,6 +77,19 @@
         </tag-badge>
       </div>
     </div>
+    <!--  description  -->
+    <div
+      class="tw-text-xl mb-1"
+    >
+      Description
+    </div>
+    <c-divider />
+    <div
+      class="tw-whitespace-pre-wrap tw-py-2"
+    >
+      {{ guildInfo.description }}
+    </div>
+    <c-divider />
     <div
       class="mb-4"
     >
@@ -126,10 +147,13 @@ import RoleColumnBadge from '@/components/columns/badges/Role.vue'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
 import useUserMixin from '@/mixins/useUserMixin'
 import TagBadge from '@/components/badeges/Tag/index.vue'
+import CDivider from '@/components/commons/Divider/index.vue'
+import dayjs from 'dayjs'
 
 export default defineComponent({
   name: 'HomeGuildDetail',
   components: {
+    CDivider,
     TagBadge,
     RoleColumnBadge, // Use in Column component
     CAgGrid,
@@ -152,6 +176,7 @@ export default defineComponent({
         return false
       return loggedInUser.value.guildList.findIndex(guild => guild.uid === guildInfo.value.uid) >= 0
     })
+    const formattedCreatedAt = computed(() => dayjs(guildInfo.value.createdAt).format('ll'))
 
     onMounted(async () => {
       const guildId = route.params.id as string
@@ -167,7 +192,10 @@ export default defineComponent({
     const onClickJoinBtn = async () => {
       if (confirm(`Would like to join to ${guildInfo.value.name}`)) {
         await store.dispatch(HomeActionTypes.JOIN_TO_GUILD, guildInfo.value.uid)
-        await router.push({ name: RouterNameEnum.GUILD_HOME, params: { guildId: guildInfo.value.uid } })
+        /* If permission is not required */
+        if (!guildInfo.value.isRequirePermission) {
+          await router.push({ name: RouterNameEnum.GUILD_HOME, params: { guildId: guildInfo.value.uid } })
+        }
       }
     }
 
@@ -182,6 +210,7 @@ export default defineComponent({
       guildInfo,
       isJoined,
       isLoggedIn,
+      formattedCreatedAt,
       onClickJoinBtn,
       onClickMoveGuildBtn,
     }

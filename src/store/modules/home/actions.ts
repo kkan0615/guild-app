@@ -11,6 +11,7 @@ import { dummyGuildTags } from '@/dummy/guilds/tag'
 import { GuildRole } from '@/types/model/guilds/role'
 import { GuildTag } from '@/types/model/guilds/tag'
 import * as faker from 'faker'
+import { dummyGuildUserPermissions } from '@/dummy/user/guild'
 
 export enum HomeActionTypes {
   SET_GUILD_LIST_FILTER_OPTION = 'home/SET_GUILD_LIST_FILTER_OPTION',
@@ -82,7 +83,7 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
         uid: dg.uid,
         name: dg.name,
         img: dg.img,
-        description: dg.description,
+        introduction: dg.introduction,
         memberIds: dg.memberIds,
         tags: dg.tags,
         tagIds: dg.tagIds,
@@ -114,17 +115,27 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
   [HomeActionTypes.JOIN_TO_GUILD] ({ commit, rootState }, payload: string) {
     const guildInfoRes = dummyGuilds.find(dg => dg.uid === payload)
     if (guildInfoRes) {
-      guildInfoRes.memberIds.push(rootState.user.uid)
-      guildInfoRes.members.push({
-        uid: rootState.user.uid,
-        email: rootState.user.email,
-        name: rootState.user.name,
-        nickname: rootState.user.nickname,
-        color: rootState.user.color,
-        img: rootState.user.img,
-        auth: rootState.user.auth,
-        role: guildInfoRes.roles[0],
-      } as GuildUserInfo)
+      if (!guildInfoRes.isRequirePermission) {
+        guildInfoRes.memberIds.push(rootState.user.uid)
+        guildInfoRes.members.push({
+          uid: rootState.user.uid,
+          email: rootState.user.email,
+          name: rootState.user.name,
+          nickname: rootState.user.nickname,
+          color: rootState.user.color,
+          img: rootState.user.img,
+          auth: rootState.user.auth,
+          role: guildInfoRes.roles[0],
+        } as GuildUserInfo)
+      } else {
+        dummyGuildUserPermissions.push({
+          uid: v4(),
+          userId: rootState.user.uid,
+          guildId: guildInfoRes.uid,
+          createdAt: dayjs().toISOString(),
+          updatedAt: dayjs().toISOString(),
+        })
+      }
     } else {
       throw new Error('no data')
     }
@@ -156,6 +167,7 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
       img: payload.img,
       logoImg: payload.img,
       name: payload.name,
+      introduction: payload.introduction,
       description: payload.description,
       mainMangerId: rootState.user.uid,
       mainManger: rootState.user,
@@ -164,6 +176,7 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
       roles: [],
       memberIds: [rootState.user.uid],
       members: [guildUser],
+      isRequirePermission: payload.isRequirePermission,
       createdAt: dayjs().toISOString(),
       updatedAt: dayjs().toISOString(),
     })

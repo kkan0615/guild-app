@@ -18,10 +18,8 @@ import '@vueform/multiselect/themes/default.css'
 import { store } from '@/store'
 
 /* Dayjs plugins */
-// @TODO: Create utils
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
-dayjs.extend(relativeTime)
+import { initDayjsPlugins } from '@/utils/libs/dayjs'
+initDayjsPlugins()
 
 /* Remove after set firebase */
 import { initDummyData } from '@/dummy'

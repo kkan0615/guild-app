@@ -7,11 +7,13 @@ export interface Guild extends FirebaseAttributes {
   img: string
   logoImg: string
   name: string
+  introduction: string
   description: string
   tagIds: Array<string>
   mainMangerId: string
   memberIds: Array<string> // member uids
   roles: Array<GuildRole>
+  isRequirePermission: boolean
   joinQuestions?: Array<string> // questions before join
 }
 
@@ -21,7 +23,7 @@ export interface GuildInfo extends Guild {
   members: Array<GuildUserInfo>
 }
 
-export type GuildInfoInList = Pick<GuildInfo, 'uid' | 'name' | 'img' | 'memberIds' | 'tagIds' | 'tags' | 'description'>
+export type GuildInfoInList = Pick<GuildInfo, 'uid' | 'name' | 'img' | 'memberIds' | 'tagIds' | 'tags' | 'introduction'>
 
 export type GuildInDropdown = Pick<Guild, 'uid' | 'img' | 'name'>
 
@@ -30,4 +32,4 @@ export interface GuildListFilterQuery extends SelectListFilterQuery {
   tags?: Array<string>
 }
 
-export type GuildCreateForm = Pick<GuildInfo, 'name' | 'img' | 'logoImg' | 'description' | 'tagIds'>
+export type GuildCreateForm = Pick<GuildInfo, 'name' | 'img' | 'logoImg' | 'description' | 'introduction' | 'isRequirePermission' | 'tagIds'>

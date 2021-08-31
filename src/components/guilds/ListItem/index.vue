@@ -14,7 +14,7 @@
     <div
       class="tw-font-light"
     >
-      {{ guild.description }}
+      {{ guild.introduction }}
     </div>
     <div
       class="tw-mt-auto"

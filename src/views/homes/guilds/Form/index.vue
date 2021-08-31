@@ -66,7 +66,31 @@
           mode="tags"
         />
       </div>
+      <div>
+        <b-checkbox
+          id="is-require-permission"
+          v-model="isRequirePermission"
+          type="checkbox"
+          label="require permission"
+        />
+      </div>
+      <!--   introduction   -->
+      <div>
+        <label
+          class="form-label"
+        >
+          Introduction
+        </label>
+        <b-textarea
+          id="introduction"
+          v-model="introduction"
+          :height="32"
+          :rules="rules.introduction"
+          placeholder="Introduction"
+        />
+      </div>
       <!--   description   -->
+      <!--  @TODO: Change to tiptap   -->
       <div>
         <label
           class="form-label"
@@ -125,10 +149,11 @@ import useStore from '@/store'
 import { HomeActionTypes } from '@/store/modules/home/actions'
 import { GuildCreateForm } from '@/types/model/guilds'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
+import BCheckbox from '@/components/commons/inputs/Checkbox/index.vue'
 
 export default defineComponent({
   name: 'HomeGuildForm',
-  components: { CMultipleSelect, ImageDropzone, BTextarea, BForm, BBaseInput },
+  components: { BCheckbox, CMultipleSelect, ImageDropzone, BTextarea, BForm, BBaseInput },
   setup: () => {
     const store = useStore()
     const router = useRouter()
@@ -140,6 +165,8 @@ export default defineComponent({
     const logoImg = ref<File | null>(null)
     const title = ref('')
     const tags = ref<Array<string>>([])
+    const isRequirePermission = ref(false)
+    const introduction = ref('')
     const description = ref('')
     // @TODO: Consider how to save control common code
     const tagOptions = dummyGuildTags.map(tag => {
@@ -154,6 +181,14 @@ export default defineComponent({
             return true
           return v.length <= 20 || i18n.t('standardRules.maxLength', { length: 20 })
         },
+      ],
+      introduction: [
+        (v: string) => {
+          if (!v) {
+            return true
+          }
+          return v.length <= 200 || i18n.t('standardRules.maxLength', { length: 200 })
+        }
       ],
       description: [
         (v: string) => {
@@ -185,6 +220,7 @@ export default defineComponent({
             img: 'https://octodex.github.com/images/saketocat.png',
             logoImg: 'https://octodex.github.com/images/saketocat.png',
             name: title.value,
+            introduction: introduction.value,
             description: description.value,
             tagIds: tags.value,
           } as GuildCreateForm)
@@ -215,6 +251,8 @@ export default defineComponent({
       title,
       tags,
       tagOptions,
+      isRequirePermission,
+      introduction,
       description,
       rules,
       onClickSaveBtn,
