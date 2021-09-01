@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, PropType, inject, onMounted, getCurrentInstance, onBeforeUnmount, defineEmits } from 'vue'
+import { ref, defineComponent, PropType, inject, onMounted, getCurrentInstance, onBeforeUnmount } from 'vue'
 import Multiselect from '@vueform/multiselect'
 import { BFormProvideKey } from '@/components/commons/Form/types'
 import { validate } from '@/utils/bootstrap/validate'
