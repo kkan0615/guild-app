@@ -1,14 +1,14 @@
 <template>
   <div
-    class="tw-w-full tw-border-t tw-border-b tw-border-gray-700 tw-p-1 tw-select-none "
+    class="tw-w-full tw-border-t tw-border-b tw-border-gray-700 tw-p-1 tw-select-none"
   >
     <router-link
-      class="hover:tw-text-white "
+      class="hover:tw-text-white"
       :class="{
-        'tw-text-gray-400': !isActive,
         'tw-text-white': isActive,
+        'tw-text-gray-400': !isActive,
       }"
-      to="#"
+      :to="{ name }"
     >
       <div
         class="tw-text-sm tw-pl-4"

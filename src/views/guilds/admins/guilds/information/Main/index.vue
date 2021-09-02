@@ -8,9 +8,9 @@
 import { ref, defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'MainGuildInfoGuildAdmin',
+  name: 'MainInformationGuildAdmin',
   setup: () => {
-    const message = ref('Hello world Admin main!')
+    const message = ref('Welcome to Guild information main page!')
     return {
       message
     }

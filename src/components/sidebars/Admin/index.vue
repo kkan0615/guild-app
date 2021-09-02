@@ -1,12 +1,13 @@
 <template>
   <aside
+    v-if="isOpenSidebar"
     class="
     md:tw-w-72
-    md:tw-flex
-    md:tw-flex-col
     md:tw-border-r
     md:tw-border-gray-200
     md:tw-relative
+    tw-flex
+    tw-flex-col
     tw-z-10
     tw-absolute
     tw-h-screen
@@ -29,44 +30,116 @@
         >
       </div>
       <admin-sidebar-menu-group
-        v-model:open="test"
+        v-for="menu in menus"
+        :key="menu.id"
+        :title="menu.title"
+        :is-active="menu.children && menu.children.some(child => child.name === route.name)"
       >
         <admin-sidebar-menu
-          v-for="i in 3"
-          :key="i"
+          v-for="child in menu.children"
+          :key="child.id"
+          :name="child.name"
+          :is-active="child.name === route.name"
         >
-          menu - {{ i }}
+          {{ child.title }}
         </admin-sidebar-menu>
       </admin-sidebar-menu-group>
     </div>
+    <div
+      class="tw-mt-auto tw-mb-2"
+    >
+      <admin-sidebar-exit />
+    </div>
   </aside>
+  <div
+    v-if="isOpenSidebar"
+    class="md:tw-hidden tw-w-1/2 tw-absolute tw-left-1/2 tw-z-10 tw-h-full tw-opacity-50 tw-bg-gray-700"
+    @click="onClickOutside"
+  />
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
+import { computed, defineComponent } from 'vue'
 import useStore from '@/store'
-import { useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import useGuildInfoMixin from '@/mixins/useGuildInfoMixin'
 import AdminSidebarMenuGroup from '@/components/sidebars/Admin/components/MenuGroup.vue'
 import AdminSidebarMenu from '@/components/sidebars/Admin/components/Menu.vue'
+import AdminSidebarExit from '@/components/sidebars/Admin/components/Exit.vue'
+import { GuildAdminAppActionTypes } from '@/store/modules/guilds/admins/App/actions'
+import { Menu } from '@/types/systems/routers/menu'
+import { RouterNameEnum } from '@/types/systems/routers/keys'
+import { v4 } from 'uuid'
 
 export default defineComponent({
   name: 'AdminSidebar',
-  components: { AdminSidebarMenu, AdminSidebarMenuGroup },
+  components: { AdminSidebarExit, AdminSidebarMenu, AdminSidebarMenuGroup },
   setup: () => {
     const store = useStore()
-    const router = useRouter()
+    const route = useRoute()
     const { guildInfo } = useGuildInfoMixin()
-
-    const test = ref(false)
 
     const logoSrc = computed(() => guildInfo.value.logoImg)
     const isOpenSidebar = computed(() => store.state.guildAdminApp.isOpenSideBar)
 
+    const menus: Array<Menu> = [
+      {
+        id: v4(),
+        title: 'Guild',
+        icon: '',
+        children: [
+          {
+            id: v4(),
+            title: 'Main',
+            name: RouterNameEnum.GUILD_ADMIN_INFORMATION_MAIN,
+          },
+          {
+            id: v4(),
+            title: 'Importance',
+            name: RouterNameEnum.GUILD_ADMIN_INFORMATION_IMPORTANCE,
+          },
+          {
+            id: v4(),
+            title: 'TEST3',
+            name: '',
+          },
+        ]
+      },
+      {
+        id: v4(),
+        title: 'User',
+        icon: '',
+        children: [
+          {
+            id: v4(),
+            title: 'TEST1',
+            name: RouterNameEnum.GUILD_ADMIN_MAIN_GUILD,
+          },
+          {
+            id: v4(),
+            title: 'TEST2',
+            name: '',
+          },
+          {
+            id: v4(),
+            title: 'TEST3',
+            name: '',
+          },
+        ]
+      }
+    ]
+
+    const onClickOutside = async () => {
+      await store.dispatch(GuildAdminAppActionTypes.CLOSE_SIDEBAR)
+    }
+
     return {
       isOpenSidebar,
       logoSrc,
-      test
+      menus,
+      route,
+      RouterNameEnum,
+      onClickOutside,
     }
   }
 })

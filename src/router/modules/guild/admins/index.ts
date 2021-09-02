@@ -1,6 +1,7 @@
 import { RouteRecordRaw } from 'vue-router'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
 import GuildAdminLayout from '@/layouts/guilds/Admin/index.vue'
+import { informationGuildAdminRoutes } from '@/router/modules/guild/admins/modules/information'
 
 export const guildAdminRoutes: Array<RouteRecordRaw> = [
   {
@@ -20,6 +21,7 @@ export const guildAdminRoutes: Array<RouteRecordRaw> = [
           isGuild: true,
         },
       },
+      ...informationGuildAdminRoutes,
     ]
   },
 ]

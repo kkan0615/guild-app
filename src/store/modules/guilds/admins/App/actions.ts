@@ -4,8 +4,8 @@ import { GuildAdminAppMutations, GuildAdminAppMutationTypes } from '@/store/modu
 import { GuildAdminAppState } from '@/store/modules/guilds/admins/App/state'
 
 export enum GuildAdminAppActionTypes {
-  OPEN_SIDEBAR = 'guild/OPEN_SIDEBAR',
-  CLOSE_SIDEBAR = 'guild/CLOSE_SIDEBAR',
+  OPEN_SIDEBAR = 'guildAdminApp/OPEN_SIDEBAR',
+  CLOSE_SIDEBAR = 'guildAdminApp/CLOSE_SIDEBAR',
 }
 
 export type AugmentedActionContext = {

@@ -12,7 +12,7 @@
       @click="onClickMenuGroup"
     >
       <div>
-        Menu Group name
+        {{ title }}
       </div>
       <div
         v-if="isOpen"
@@ -46,6 +46,11 @@ export default defineComponent({
       required: false,
       default: false,
     },
+    title: {
+      type: String,
+      required: false,
+      default: '',
+    }
     // open: {
     //   type: Boolean,
     //   required: false,
