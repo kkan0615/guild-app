@@ -76,7 +76,9 @@ export default defineComponent({
       default: () => []
     },
     modelValue: {
+      type: String,
       required: false,
+      default: '',
     },
   },
   emits: [

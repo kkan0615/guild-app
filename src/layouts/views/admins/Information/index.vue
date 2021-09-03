@@ -9,7 +9,7 @@
         }"
         :to="{ name: RouterNameEnum.GUILD_ADMIN_INFORMATION_MAIN }"
       >
-        {{ $i18n.t(`router.${RouterNameEnum.GUILD_ADMIN_INFORMATION_MAIN}.title`) }}
+        {{ $t(`router.${RouterNameEnum.GUILD_ADMIN_INFORMATION_MAIN}.title`) }}
       </router-link>
     </li>
     <li class="nav-item">
@@ -21,7 +21,7 @@
         aria-current="page"
         :to="{ name: RouterNameEnum.GUILD_ADMIN_INFORMATION_IMPORTANCE }"
       >
-        {{ $i18n.t(`router.${RouterNameEnum.GUILD_ADMIN_INFORMATION_IMPORTANCE}.title`) }}
+        {{ $t(`router.${RouterNameEnum.GUILD_ADMIN_INFORMATION_IMPORTANCE}.title`) }}
       </router-link>
     </li>
   </ul>

@@ -81,7 +81,9 @@ export default defineComponent({
       default: () => []
     },
     modelValue: {
-      required: true,
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   emits: [

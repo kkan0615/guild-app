@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ message }}
+    setup
   </div>
 </template>
 

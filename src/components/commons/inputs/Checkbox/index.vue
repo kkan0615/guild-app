@@ -96,7 +96,9 @@ export default defineComponent({
       default: ''
     },
     modelValue: {
+      type: Boolean,
       required: false,
+      default: false,
     },
   },
   emits: [
