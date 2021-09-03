@@ -9,17 +9,21 @@ import { GuildState } from '@/store/modules/guilds/info/state'
 import { guildModule, GuildStore } from '@/store/modules/guilds/info'
 import { GuildAdminAppState } from '@/store/modules/guilds/admins/App/state'
 import { guildAdminAppModule } from '@/store/modules/guilds/admins/App'
+import { ApplicationState } from '@/store/modules/applications/state'
+import { applicationModule, ApplicationStore } from '@/store/modules/applications'
 
 // define your typings for the store state
 export interface RootState {
-  home: HomeState
+  application: ApplicationState
   user: UserState
+  home: HomeState
   guild: GuildState
   guildAdminApp: GuildAdminAppState
   count: number
 }
 
 export type RootStore =
+  ApplicationStore<Pick<RootState, 'application'>> &
   UserStore<Pick<RootState, 'user'>> &
   HomeStore<Pick<RootState, 'home'>> &
   GuildStore<Pick<RootState, 'guild'>> &
@@ -33,6 +37,7 @@ const plugins = [createLogger()]
 export const store = createStore<RootState>({
   plugins,
   modules: {
+    application: applicationModule,
     user: userModule,
     home: homeModule,
     guild: guildModule,

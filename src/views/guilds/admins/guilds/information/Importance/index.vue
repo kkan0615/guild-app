@@ -1,18 +1,28 @@
 <template>
-  <div>
-    {{ message }}
+  <div
+    class="tw-p-2"
+  >
+    <button
+      class="btn btn-danger"
+      type="button"
+      @click="onClickDeleteGuildBtn"
+    >
+      DELETE GUILD
+    </button>
   </div>
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'ImportanceInformationGuildAdmin',
   setup: () => {
-    const message = ref('Welcome to Guild information importance page!')
+    const onClickDeleteGuildBtn = () => {
+      console.log('onClickDeleteGuildBtn')
+    }
     return {
-      message
+      onClickDeleteGuildBtn,
     }
   }
 })

@@ -2,7 +2,7 @@
   <div>
     <b-form
       ref="formRef"
-      class="tw-flex tw-flex-col tw-gap-y-2"
+      class="tw-flex tw-flex-col tw-gap-y-2 tw-w-full"
     >
       <div
         class="tw-flex tw-gap-x-4 tw-items-end"
@@ -14,7 +14,6 @@
           <image-dropzone
             height="40"
             width="40"
-            @update="onUpdateMainImage"
           />
         </div>
         <div>
@@ -30,7 +29,6 @@
           <image-dropzone
             height="32"
             width="72"
-            @update="onUpdateLogoImage"
           />
         </div>
       </div>
@@ -39,12 +37,12 @@
         <label
           class="form-label"
         >
-          Title
+          Name
         </label>
         <b-base-input
           id="title"
-          v-model="title"
-          :rules="rules.title"
+          v-model="name"
+          :rules="rules.name"
           placeholder="title"
         />
       </div>
@@ -106,29 +104,22 @@
         />
       </div>
     </b-form>
-    <hr
-      class="my-2"
-    >
+    <c-divider
+      class="tw-my-4"
+    />
     <!--  actions  -->
     <div
-      class="tw-flex tw-gap-x-2"
+      class=" tw-flex tw-gap-x-2"
     >
       <span
         class="tw-ml-auto"
       />
       <button
         type="button"
-        class="btn btn-outline-primary"
-        @click="onClickCancelBtn"
-      >
-        {{ $t('standardBtnLabels.Cancel') }}
-      </button>
-      <button
-        type="button"
         class="btn btn-primary"
         @click="onClickSaveBtn"
       >
-        {{ $t('standardBtnLabels.save') }}
+        {{ $t('standardBtnLabels.edit') }}
       </button>
     </div>
   </div>
@@ -136,46 +127,41 @@
 
 <script lang="ts">
 import { ref, defineComponent } from 'vue'
-import { useRouter } from 'vue-router'
+import useGuildInfoMixin from '@/mixins/useGuildInfoMixin'
 import BBaseInput from '@/components/commons/inputs/Base/index.vue'
-import { RuleType } from '@/types/bootstrap/validate'
-import { useI18n } from 'vue-i18n'
-import BForm from '@/components/commons/Form/index.vue'
 import BTextarea from '@/components/commons/inputs/Textarea/index.vue'
+import BCheckbox from '@/components/commons/inputs/Checkbox/index.vue'
 import ImageDropzone from '@/components/commons/dropzones/Image/index.vue'
 import CMultipleSelect from '@/components/commons/inputs/Tags/index.vue'
+import { useI18n } from 'vue-i18n'
 import { dummyGuildTags } from '@/dummy/guilds/tag'
-import useStore from '@/store'
-import { HomeActionTypes } from '@/store/modules/home/actions'
-import { GuildCreateForm } from '@/types/model/guilds'
-import { RouterNameEnum } from '@/types/systems/routers/keys'
-import BCheckbox from '@/components/commons/inputs/Checkbox/index.vue'
+import { RuleType } from '@/types/bootstrap/validate'
+import BForm from '@/components/commons/Form/index.vue'
+import CDivider from '@/components/commons/Divider/index.vue'
 
 export default defineComponent({
-  name: 'HomeGuildForm',
-  components: { BCheckbox, CMultipleSelect, ImageDropzone, BTextarea, BForm, BBaseInput },
+  name: 'MainInformationGuildAdminForm',
+  components: { CDivider, BForm, CMultipleSelect, BCheckbox, BTextarea, ImageDropzone, BBaseInput },
   setup: () => {
-    const store = useStore()
-    const router = useRouter()
+    const { guildInfo } = useGuildInfoMixin()
     const i18n = useI18n()
 
     const formRef = ref<InstanceType<typeof BForm> | null>(null)
 
-    const mainImg = ref<File | null>(null)
-    const logoImg = ref<File | null>(null)
-    const title = ref('')
-    const tags = ref<Array<string>>([])
-    const isRequirePermission = ref(false)
-    const introduction = ref('')
-    const description = ref('')
+    const name = ref(guildInfo.value.name)
+    const tags = ref(guildInfo.value.tagIds)
+    const isRequirePermission = ref(guildInfo.value.isRequirePermission)
+    const introduction = ref(guildInfo.value.introduction)
+    const description = ref(guildInfo.value.description)
+
     // @TODO: Consider how to save control common code
     const tagOptions = dummyGuildTags.map(tag => {
       return { value: tag.uid, label: tag.name }
     })
 
     const rules: RuleType = {
-      title: [
-        (v: string) => !!v || i18n.t('standardRules.required', { field: 'title' }),
+      name: [
+        (v: string) => !!v || i18n.t('standardRules.required', { field: 'name' }),
         (v: string) => {
           if (!v)
             return true
@@ -213,16 +199,16 @@ export default defineComponent({
     const onClickSaveBtn = async () => {
       if (formRef.value && formRef.value.checkValidation()) {
         try {
-          const uid = await store.dispatch(HomeActionTypes.CREATE_GUILD_INFO, {
-            img: 'https://octodex.github.com/images/saketocat.png',
-            logoImg: 'https://octodex.github.com/images/saketocat.png',
-            name: title.value,
-            introduction: introduction.value,
-            description: description.value,
-            tagIds: tags.value,
-          } as GuildCreateForm)
-
-          await router.push({ name: RouterNameEnum.HOME_GUILD_DETAIL, params: { id: uid } })
+          // const uid = await store.dispatch(HomeActionTypes.CREATE_GUILD_INFO, {
+          //   img: 'https://octodex.github.com/images/saketocat.png',
+          //   logoImg: 'https://octodex.github.com/images/saketocat.png',
+          //   name: title.value,
+          //   introduction: introduction.value,
+          //   description: description.value,
+          //   tagIds: tags.value,
+          // } as GuildCreateForm)
+          //
+          // await router.push({ name: RouterNameEnum.HOME_GUILD_DETAIL, params: { id: uid } })
         } catch (e) {
           console.error(e)
         }
@@ -231,31 +217,17 @@ export default defineComponent({
       }
     }
 
-    const onClickCancelBtn = async () => {
-      await router.go(-1)
-    }
-
-    const onUpdateMainImage = (file: File) => {
-      mainImg.value = file
-    }
-
-    const onUpdateLogoImage = (file: File) => {
-      logoImg.value = file
-    }
-
     return {
+      guildInfo,
       formRef,
-      title,
+      name,
       tags,
-      tagOptions,
       isRequirePermission,
       introduction,
       description,
+      tagOptions,
       rules,
       onClickSaveBtn,
-      onClickCancelBtn,
-      onUpdateMainImage,
-      onUpdateLogoImage,
     }
   }
 })

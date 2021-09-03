@@ -176,6 +176,7 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
       color: rootState.user.color,
       img: rootState.user.img,
       auth: rootState.user.auth,
+      roleId: '',
       role: {} as GuildRole,
       notifications: [],
       createdAt: dayjs().toISOString(),

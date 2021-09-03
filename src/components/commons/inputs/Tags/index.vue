@@ -5,7 +5,7 @@
 -->
 <template>
   <div
-    class="tw-p-0"
+    class="tw-p-0 tw-w-full"
   >
     <slot
       name="prepend"
@@ -24,6 +24,9 @@
         'is-invalid': errorMessage,
         'form-select-sm': size === 'sm',
         'form-select-lg': size === 'lg',
+      }"
+      :classes="{
+        tags: 'multiselect-tags tw-w-1',
       }"
       :options="options"
       @change="onChangeSelect"
