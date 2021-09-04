@@ -3,13 +3,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { ref, defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'GuildBaseLayout',
+  name: 'GuildCalendarLayout',
   setup: () => {
+    const message = ref('Hello world prototype')
     return {
-
+      message
     }
   }
 })

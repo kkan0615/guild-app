@@ -1,6 +1,8 @@
 import { RouteRecordRaw } from 'vue-router'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
 import GeneralLayout from '@/layouts/guilds/General/index.vue'
+import { userGuildRoutes } from '@/router/modules/guild/generals/modules/user'
+import { calendarGuildRoutes } from '@/router/modules/guild/generals/modules/calendar'
 
 export const guildGeneralRoutes: Array<RouteRecordRaw> = [
   {
@@ -19,6 +21,8 @@ export const guildGeneralRoutes: Array<RouteRecordRaw> = [
           isGuild: true,
         },
       },
+      ...userGuildRoutes,
+      ...calendarGuildRoutes,
       {
         path: 'playground',
         name: 'Playground',

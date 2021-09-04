@@ -16,7 +16,7 @@
       >
         {{ toast.title }}
       </strong>
-      <small class="text-muted">just now</small>
+      <small class="text-muted">{{ calendarTime }}</small>
       <button
         type="button"
         class="btn-close"
@@ -45,8 +45,12 @@ export default defineComponent({
     }
   },
   setup: (props) => {
-    const calendarTime = computed(() => dayjs(props.toast.createdAt).fromNow())
+    const calendarTime = computed(() => {
+      const formattedCreatedAt = dayjs(props.toast.createdAt)
+      return  formattedCreatedAt.fromNow()
+    })
     return {
+      calendarTime,
     }
   }
 })

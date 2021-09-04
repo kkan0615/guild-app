@@ -1,14 +1,20 @@
 <template>
-  <div
-    class="tw-flex tw-items-center tw-px-2 tw-py-2 tw-cursor-pointer tw-font-semibold tw-capitalize tw-text-sm hover:tw-bg-gray-200"
-    :class="{
-      'tw-border-l-4': active,
-      'tw-border-blue-500': active,
-      'tw-text-blue-500': active,
+  <router-link
+    :to="{
+      name,
     }"
   >
-    <slot />
-  </div>
+    <div
+      class="tw-flex tw-items-center tw-px-2 tw-py-2 tw-cursor-pointer tw-font-semibold tw-capitalize tw-text-sm hover:tw-bg-gray-200"
+      :class="{
+        'tw-border-l-4': active,
+        'tw-border-blue-500': active,
+        'tw-text-blue-500': active,
+      }"
+    >
+      <slot />
+    </div>
+  </router-link>
 </template>
 
 <script lang="ts">
@@ -21,7 +27,12 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false,
-    }
+    },
+    name: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   setup: () => {
     return { }

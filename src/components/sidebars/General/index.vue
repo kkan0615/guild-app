@@ -3,13 +3,14 @@
     v-if="isOpenSidebar"
     class="
     md:tw-h-full
-    md:tw-w-52 bg-light
+    md:tw-w-56
     md:tw-flex
     md:tw-flex-col
     md:tw-p-2
     md:tw-border-r
     md:tw-border-gray-200
     md:tw-relative
+    bg-light
     tw-z-10
     tw-absolute
     tw-h-screen
@@ -33,27 +34,17 @@
       <side-bar-label>
         Menu
       </side-bar-label>
-      <single-menu>
-        non active
-      </single-menu>
+      {{ currentRouteName }}
       <single-menu
-        active
+        v-for="menu in menus"
+        :key="menu.id"
+        :active="menu.name === currentRouteName"
+        :name="menu.name"
       >
-        active
-      </single-menu>
-      <!--  users  -->
-      <single-menu>
         <sing-menu-icon>
-          people
+          {{ menu.icon }}
         </sing-menu-icon>
-        User list
-      </single-menu>
-      <!--  calendar  -->
-      <single-menu>
-        <sing-menu-icon>
-          today
-        </sing-menu-icon>
-        Calendar
+        {{ menu.title }}
       </single-menu>
       <!--  Post  -->
       <single-menu>
@@ -110,12 +101,14 @@
 import { computed, defineComponent } from 'vue'
 import SingleMenu from '@/components/menus/Single/inedx.vue'
 import SideBarLabel from '@/components/labels/Sidebar/index.vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import useGuildInfoMixin from '@/mixins/useGuildInfoMixin'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
 import SingMenuIcon from '@/components/menus/Single/components/Icon.vue'
 import useStore from '@/store'
 import { GuildActionTypes } from '@/store/modules/guilds/info/actions'
+import { Menu } from '@/types/systems/routers/menu'
+import { v4 } from 'uuid'
 
 export default defineComponent({
   name: 'GeneralSideBar',
@@ -123,10 +116,29 @@ export default defineComponent({
   setup: () => {
     const store = useStore()
     const router = useRouter()
+    const route = useRoute()
     const { guildInfo } = useGuildInfoMixin()
+
+    const menus: Array<Menu> = [
+      {
+        id: v4(),
+        name: RouterNameEnum.GUILD_USER_LIST,
+        icon: 'people',
+        index: 0,
+        title: 'User list'
+      },
+      {
+        id: v4(),
+        name: RouterNameEnum.GUILD_CALENDAR_MAIN,
+        icon: 'today',
+        index: 1,
+        title: 'Calendar'
+      },
+    ]
 
     const logoSrc = computed(() => guildInfo.value.logoImg)
     const isOpenSidebar = computed(() => store.state.guild.isOpenSideBar)
+    const currentRouteName = computed(() => route.name)
 
     const onClickLogo = async () =>{
       await router.push({ name: RouterNameEnum.GUILD_HOME, params: { guildId: guildInfo.value.uid } })
@@ -141,8 +153,10 @@ export default defineComponent({
     }
 
     return {
+      menus,
       logoSrc,
       isOpenSidebar,
+      currentRouteName,
       onClickLogo,
       onClickToAdminMenu,
       onClickOutside,

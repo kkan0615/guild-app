@@ -7,17 +7,17 @@
     >
       <general-side-bar />
       <div
-        class="tw-h-full tw-flex-grow"
+        class="tw-h-full tw-w-full"
       >
         <div
-          class="tw-h-full tw-flex tw-flex-col tw-overflow-y-scroll"
+          class="tw-h-full tw-flex tw-flex-col tw-overflow-y-auto"
         >
           <general-navbar
-            class="tw-flex-grow-0 tw-flex-shrink-0"
+            class="tw-flex-grow-0 tw-flex-shrink"
           />
           <!--     content     -->
           <div
-            class="tw-h-1 tw-flex-grow tw-flex-shrink tw-p-2"
+            class="tw-flex-grow tw-flex-shrink-0 tw-p-2"
           >
             <router-view />
           </div>
@@ -29,9 +29,7 @@
 
 <script lang="ts">
 import { ref, defineComponent } from 'vue'
-import Auth from '@/components/commons/menus/Auth/Auth.vue'
 import GeneralNavbar from '@/components/commons/navbars/General/index.vue'
-import SingleMenu from '@/components/menus/Single/inedx.vue'
 import GeneralSideBar from '@/components/sidebars/General/index.vue'
 
 export default defineComponent({

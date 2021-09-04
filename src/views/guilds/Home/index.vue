@@ -8,36 +8,36 @@
     >
       playground
     </button>
-    <div
-      v-for="i in 100"
-      :key="i"
-    >
-      Home is here! -{{ i }}
-      <button
-        type="button"
-        class="btn btn-primary"
-      >
-        Primary
-      </button>
+    <div>
+      <div>
+        {{ guildInfo.name }}
+      </div>
+      <div>
+        {{ guildInfo.description }}
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
+import useGuildInfoMixin from '@/mixins/useGuildInfoMixin'
 
 export default defineComponent({
   name: 'GuildHome',
   setup: () => {
-    const count = ref(0)
     const router = useRouter()
+    const { guildInfo } = useGuildInfoMixin()
 
     const onClickPlaygroundBtn = async () =>{
       await router.push({ name: 'Playground' })
     }
 
-    return { count, onClickPlaygroundBtn }
+    return {
+      guildInfo,
+      onClickPlaygroundBtn
+    }
   }
 })
 </script>
