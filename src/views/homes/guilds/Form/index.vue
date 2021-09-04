@@ -66,14 +66,6 @@
           mode="tags"
         />
       </div>
-      <div>
-        <b-checkbox
-          id="is-require-permission"
-          v-model="isRequirePermission"
-          type="checkbox"
-          label="require permission"
-        />
-      </div>
       <!--   introduction   -->
       <div>
         <label
@@ -103,6 +95,14 @@
           :height="32"
           :rules="rules.description"
           placeholder="description"
+        />
+      </div>
+      <div>
+        <b-checkbox
+          id="is-require-permission"
+          v-model="isRequirePermission"
+          type="checkbox"
+          label="require permission"
         />
       </div>
     </b-form>

@@ -5,7 +5,7 @@
       class="tw-flex tw-flex-col tw-gap-y-2 tw-w-full"
     >
       <div
-        class="tw-flex tw-gap-x-4 tw-items-end"
+        class="tw-flex tw-flex-wrap tw-gap-x-4 tw-items-end"
       >
         <div>
           <div>
@@ -64,14 +64,6 @@
           mode="tags"
         />
       </div>
-      <div>
-        <b-checkbox
-          id="is-require-permission"
-          v-model="isRequirePermission"
-          type="checkbox"
-          label="require permission"
-        />
-      </div>
       <!--   introduction   -->
       <div>
         <label
@@ -101,6 +93,14 @@
           :height="32"
           :rules="rules.description"
           placeholder="description"
+        />
+      </div>
+      <div>
+        <b-checkbox
+          id="is-require-permission"
+          v-model="isRequirePermission"
+          type="checkbox"
+          label="require permission"
         />
       </div>
     </b-form>
@@ -138,13 +138,16 @@ import { dummyGuildTags } from '@/dummy/guilds/tag'
 import { RuleType } from '@/types/bootstrap/validate'
 import BForm from '@/components/commons/Form/index.vue'
 import CDivider from '@/components/commons/Divider/index.vue'
+import useToast from '@/mixins/useToast'
 
 export default defineComponent({
   name: 'MainInformationGuildAdminForm',
   components: { CDivider, BForm, CMultipleSelect, BCheckbox, BTextarea, ImageDropzone, BBaseInput },
-  setup: () => {
-    const { guildInfo } = useGuildInfoMixin()
+  emits: ['edited'],
+  setup: (props, { emit }) => {
     const i18n = useI18n()
+    const { guildInfo } = useGuildInfoMixin()
+    const { addToast } = useToast()
 
     const formRef = ref<InstanceType<typeof BForm> | null>(null)
 
@@ -199,6 +202,11 @@ export default defineComponent({
     const onClickSaveBtn = async () => {
       if (formRef.value && formRef.value.checkValidation()) {
         try {
+          addToast({
+            title: 'Information',
+            content: 'Success to edit',
+            type: 'info',
+          })
           // const uid = await store.dispatch(HomeActionTypes.CREATE_GUILD_INFO, {
           //   img: 'https://octodex.github.com/images/saketocat.png',
           //   logoImg: 'https://octodex.github.com/images/saketocat.png',
@@ -209,6 +217,7 @@ export default defineComponent({
           // } as GuildCreateForm)
           //
           // await router.push({ name: RouterNameEnum.HOME_GUILD_DETAIL, params: { id: uid } })
+          emit('edited')
         } catch (e) {
           console.error(e)
         }

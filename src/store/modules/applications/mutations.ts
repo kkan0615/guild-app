@@ -1,15 +1,26 @@
 import { MutationTree } from 'vuex'
 import { ApplicationState } from './state'
+import { Toast } from '@/types/systems/toast'
 
 export enum ApplicationMutationTypes {
-  ADD_SNACKBAR = 'application/ADD_SNACKBAR',
+  SET_TOASTS = 'application/SET_TOASTS',
+  ADD_TOAST = 'application/ADD_TOAST',
+  REMOVE_TOAST = 'application/REMOVE_TOAST',
 }
 export type ApplicationMutations<S = ApplicationState> = {
-  [ApplicationMutationTypes.ADD_SNACKBAR](state: S, payload: any): void
+  [ApplicationMutationTypes.SET_TOASTS](state: S, payload: Array<Toast>): void
+  [ApplicationMutationTypes.ADD_TOAST](state: S, payload: Toast): void
+  [ApplicationMutationTypes.REMOVE_TOAST](state: S, payload: Toast): void
 }
 
 export const applicationMutations: MutationTree<ApplicationState> & ApplicationMutations = {
-  [ApplicationMutationTypes.ADD_SNACKBAR] (state, payload) {
-    state.snackbars.push(payload)
+  [ApplicationMutationTypes.SET_TOASTS] (state, payload) {
+    state.toasts = payload
+  },
+  [ApplicationMutationTypes.ADD_TOAST] (state, payload) {
+    state.toasts.push(payload)
+  },
+  [ApplicationMutationTypes.REMOVE_TOAST] (state, payload) {
+    state.toasts.splice(state.toasts.indexOf(payload), 1)
   },
 }

@@ -3,7 +3,7 @@
     v-if="isOpenSidebar"
     class="
     md:tw-h-full
-    md:tw-w-56
+    md:tw-w-64
     md:tw-flex
     md:tw-flex-col
     md:tw-p-2
@@ -31,10 +31,11 @@
     <div
       class="tw-mt-4"
     >
-      <side-bar-label>
+      <side-bar-label
+        class="tw-mb-2"
+      >
         Menu
       </side-bar-label>
-      {{ currentRouteName }}
       <single-menu
         v-for="menu in menus"
         :key="menu.id"

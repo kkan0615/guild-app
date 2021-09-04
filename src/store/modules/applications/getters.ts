@@ -3,9 +3,9 @@ import { RootState } from '@/store'
 import { ApplicationState } from '@/store/modules/applications/state'
 
 export type ApplicationGetters<S = ApplicationState> = {
-  snackbars(state: S): Array<any>
+  toasts(state: S): Array<any>
 }
 
 export const applicationGetters: GetterTree<ApplicationState, RootState> & ApplicationGetters = {
-  snackbars: (state) => state.snackbars,
+  toasts: (state) => state.toasts,
 }

@@ -1,7 +1,7 @@
 export interface ApplicationState {
-  snackbars: Array<any>
+  toasts: Array<any>
 }
 
 export const applicationState: ApplicationState = {
-  snackbars: [],
+  toasts: [],
 }

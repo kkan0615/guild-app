@@ -6,6 +6,7 @@
     >
       <main-information-guild-admin-form
         @input="onInputFromForm"
+        @edited="onEdited"
       />
     </div>
   </div>
@@ -18,7 +19,9 @@ import { RouterNameEnum } from '@/types/systems/routers/keys'
 
 export default defineComponent({
   name: 'MainInformationGuildAdmin',
-  components: { MainInformationGuildAdminForm },
+  components: {
+    MainInformationGuildAdminForm
+  },
   setup: () => {
     const isChanged = ref(false)
     const onInputFromForm = () => {
@@ -31,9 +34,17 @@ export default defineComponent({
       }
     })
 
+    /**
+     * Edit button is clicked and event is success
+     */
+    const onEdited = () =>{
+      isChanged.value = false
+    }
+
     return {
       RouterNameEnum,
       onInputFromForm,
+      onEdited,
     }
   }
 })

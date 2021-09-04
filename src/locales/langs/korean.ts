@@ -34,7 +34,7 @@ export const koreanDictionary = {
       title: '길드 정보'
     },
     GuildAdminInformationImportance: {
-      title: '길드 중요도'
+      title: 'Danger zone'
     },
   },
   views: {

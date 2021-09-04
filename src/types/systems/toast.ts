@@ -4,5 +4,5 @@ export interface Toast {
   content: string
   type: string
   title?: string
-  createdAt: CustomDate
+  createdAt?: CustomDate
 }

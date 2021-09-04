@@ -5,17 +5,15 @@
     <div
       class="tw-h-full tw-flex tw-w-full"
     >
-      <admin-sidebar
-        class="flex-grow-0 flex-shrink-1"
-      />
+      <admin-sidebar />
       <div
-        class="flex-grow-1 flex-shrink-0 tw-min-h-full tw-flex tw-flex-col"
+        class="tw-w-full tw-h-full tw-flex tw-flex-col tw-overflow-y-scroll"
       >
         <admin-navbar
           class="flex-grow-0 flex-shrink-1"
         />
         <div
-          class="tw-p-2 flex-grow-1 flex-shrink-0 tw-h-1 tw-overflow-y-auto"
+          class="tw-p-2 flex-grow-1 flex-shrink-0"
         >
           <!--     breadcrumb     -->
           <!--          <nav-->
