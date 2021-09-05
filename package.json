@@ -1,6 +1,6 @@
 {
   "name": "guild-app",
-  "version": "0.1.6",
+  "version": "0.1.6a",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -13,6 +13,7 @@
     "@popperjs/core": "^2.9.3",
     "@types/bootstrap": "^5.1.4",
     "@types/faker": "^5.5.8",
+    "@types/lodash": "^4.14.172",
     "@types/node": "^16.4.13",
     "@types/uuid": "^8.3.1",
     "@vueform/multiselect": "^2.1.2",
@@ -21,6 +22,7 @@
     "bootstrap": "^5.1.0",
     "dayjs": "^1.10.6",
     "faker": "^5.5.3",
+    "lodash": "^4.17.21",
     "uuid": "^8.3.2",
     "vue": "^3.0.5",
     "vue-class-component": "^8.0.0-rc.1",

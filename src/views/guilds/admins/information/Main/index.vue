@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { ref, defineComponent, onBeforeUnmount } from 'vue'
-import MainInformationGuildAdminForm from '@/views/guilds/admins/guilds/information/Main/components/Form.vue'
+import MainInformationGuildAdminForm from '@/views/guilds/admins/information/Main/components/Form.vue'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
 
 export default defineComponent({

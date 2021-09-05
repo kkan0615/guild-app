@@ -15,7 +15,7 @@ export const informationGuildAdminRoutes: Array<RouteRecordRaw> = [
       {
         path: 'main',
         name: RouterNameEnum.GUILD_ADMIN_INFORMATION_MAIN,
-        component: () => import('@/views/guilds/admins/guilds/information/Main/index.vue'),
+        component: () => import('@/views/guilds/admins/information/Main/index.vue'),
         meta: {
           isGuild: true,
         },
@@ -23,7 +23,7 @@ export const informationGuildAdminRoutes: Array<RouteRecordRaw> = [
       {
         path: 'importance',
         name: RouterNameEnum.GUILD_ADMIN_INFORMATION_IMPORTANCE,
-        component: () => import('@/views/guilds/admins/guilds/information/Importance/index.vue'),
+        component: () => import('@/views/guilds/admins/information/Importance/index.vue'),
         meta: {
           isGuild: true,
         },

@@ -24,6 +24,14 @@
     >
       Loading...
     </div>
+    <!--      -->
+    <div
+      class="tw-mt-4 tw-flex tw-justify-center"
+    >
+      <c-pagination
+        @click:next="onClickNext"
+      />
+    </div>
   </div>
 </template>
 
@@ -33,10 +41,11 @@ import useStore from '@/store'
 import { HomeActionTypes } from '@/store/modules/home/actions'
 import GuildListItem from '@/components/guilds/ListItem/index.vue'
 import GuildListFilter from '@/components/filters/GuildList/index.vue'
+import CPagination from '@/components/Pagination/index.vue'
 
 export default defineComponent({
   name: 'HomeGuildList',
-  components: { GuildListFilter, GuildListItem },
+  components: { CPagination, GuildListFilter, GuildListItem },
   setup: () => {
     const store = useStore()
 
@@ -54,9 +63,26 @@ export default defineComponent({
       await store.dispatch(HomeActionTypes.RESET_GUILD_LIST)
     })
 
+    const onClickNext = async () => {
+      console.log('test')
+      await store.dispatch(HomeActionTypes.SET_GUILD_LIST_FILTER_OPTION, {
+        ...store.state.home.guildListFilterOption,
+        offset: store.state.home.guildListFilterOption.offset ? store.state.home.guildListFilterOption.offset + 1 : 1,
+      })
+      // await store.dispatch(HomeActionTypes.RESET_GUILD_LIST)
+      await store.dispatch(HomeActionTypes.OPEN_GUILD_LIST_LOADING)
+      await store.dispatch(HomeActionTypes.LOAD_GUILD_LIST)
+      window.scroll({
+        top: 0,
+        behavior: 'smooth',
+      })
+      await store.dispatch(HomeActionTypes.CLOSE_GUILD_LIST_LOADING)
+    }
+
     return {
       guildList,
       guildListLoading,
+      onClickNext,
     }
   }
 })

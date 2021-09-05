@@ -2,7 +2,13 @@ import { ActionContext, ActionTree } from 'vuex'
 import { RootState } from '@/store'
 import { HomeMutations, HomeMutationTypes } from '@/store/modules/home/mutations'
 import { HomeState } from '@/store/modules/home/state'
-import { GuildCreateForm, GuildInfo, GuildInfoInList, GuildListFilterQuery } from '@/types/model/guilds'
+import {
+  DEFAULT_GUILD_LIST_FILTER_LIMIT,
+  GuildCreateForm,
+  GuildInfo,
+  GuildInfoInList,
+  GuildListFilterQuery
+} from '@/types/model/guilds'
 import { dummyGuilds } from '@/dummy/guilds'
 import { GuildUserInfo } from '@/types/model/auth/user/user'
 import { v4 } from 'uuid'
@@ -17,6 +23,7 @@ import { dummyGuildRoles } from '@/dummy/guilds/role'
 
 export enum HomeActionTypes {
   SET_GUILD_LIST_FILTER_OPTION = 'home/SET_GUILD_LIST_FILTER_OPTION',
+  RESET_GUILD_LIST_FILTER_OPTION = 'home/RESET_GUILD_LIST_FILTER_OPTION',
   LOAD_GUILD_LIST = 'home/LOAD_GUILD_LIST',
   RESET_GUILD_LIST = 'home/RESET_GUILD_LIST',
   OPEN_GUILD_LIST_LOADING = 'home/OPEN_GUILD_LIST_LOADING',
@@ -42,8 +49,12 @@ export interface HomeActions {
     { commit }: AugmentedActionContext,
     payload: GuildListFilterQuery
   ): void
-  [HomeActionTypes.LOAD_GUILD_LIST](
+  [HomeActionTypes.RESET_GUILD_LIST_FILTER_OPTION](
     { commit }: AugmentedActionContext,
+    payload: GuildListFilterQuery
+  ): void
+  [HomeActionTypes.LOAD_GUILD_LIST](
+    { commit, state }: AugmentedActionContext,
   ): void
   [HomeActionTypes.RESET_GUILD_LIST](
     { commit }: AugmentedActionContext,
@@ -79,8 +90,13 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
   [HomeActionTypes.SET_GUILD_LIST_FILTER_OPTION] ({ commit }, payload) {
     commit(HomeMutationTypes.SET_GUILD_LIST_FILTER_OPTION, payload)
   },
-  [HomeActionTypes.LOAD_GUILD_LIST] ({ commit }) {
-    const guildListRes:Array<GuildInfoInList> = dummyGuilds.map(dg => {
+  [HomeActionTypes.RESET_GUILD_LIST_FILTER_OPTION] ({ commit }) {
+    commit(HomeMutationTypes.SET_GUILD_LIST_FILTER_OPTION, {
+      limit: DEFAULT_GUILD_LIST_FILTER_LIMIT,
+    } as GuildListFilterQuery)
+  },
+  [HomeActionTypes.LOAD_GUILD_LIST] ({ commit, state }) {
+    let guildListRes:Array<GuildInfoInList> = dummyGuilds.map(dg => {
       const tagsRes = dummyGuildTags.filter(dgt => dg.tagIds.includes(dgt.uid))
       return {
         uid: dg.uid,
@@ -92,6 +108,35 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
         tagIds: dg.tagIds,
       }
     })
+
+    const totalGuildList = guildListRes.length
+    /* set total size of guild list */
+    commit(HomeMutationTypes.SET_TOTAL_GUILD_LIST, guildListRes.length)
+
+    /* Name filtering */
+    if (state.guildListFilterOption.name) {
+      guildListRes = guildListRes.filter(guild => guild.name.includes(state.guildListFilterOption.name || ''))
+    }
+    /* Tag filtering */
+    if (state.guildListFilterOption.tags) {
+      guildListRes = guildListRes.filter(guild => guild.tagIds.every(tagId => (state.guildListFilterOption.tags || []).includes(tagId)))
+    }
+
+    /* limit offset divider */
+    if (state.guildListFilterOption.limit) {
+      const limit = state.guildListFilterOption.limit
+      const offset = state.guildListFilterOption.offset || 0
+      if (!offset) {
+        guildListRes = guildListRes.slice(0, limit)
+      } else if (((offset + 1) * limit) >= totalGuildList) {
+        guildListRes = guildListRes.slice((offset * limit), totalGuildList)
+      } else if (((offset + 1) * limit) < guildListRes.length) {
+        guildListRes = guildListRes.slice((offset * limit), ((offset + 1) * limit))
+      } else {
+        guildListRes = []
+      }
+    }
+
     commit(HomeMutationTypes.SET_GUILD_LIST, guildListRes)
   },
   [HomeActionTypes.RESET_GUILD_LIST] ({ commit }) {

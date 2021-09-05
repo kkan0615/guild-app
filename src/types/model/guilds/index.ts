@@ -33,4 +33,6 @@ export interface GuildListFilterQuery extends SelectListFilterQuery {
   tags?: Array<string>
 }
 
+export const DEFAULT_GUILD_LIST_FILTER_LIMIT = 16
+
 export type GuildCreateForm = Pick<GuildInfo, 'name' | 'img' | 'logoImg' | 'description' | 'introduction' | 'isRequirePermission' | 'tagIds'>

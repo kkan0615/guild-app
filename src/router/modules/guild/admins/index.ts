@@ -16,7 +16,7 @@ export const guildAdminRoutes: Array<RouteRecordRaw> = [
       {
         path: 'guild/main',
         name: RouterNameEnum.GUILD_ADMIN_MAIN_GUILD,
-        component: () => import('@/views/guilds/admins/guilds/Main/index.vue'),
+        component: () => import('@/views/guilds/admins/Main/index.vue'),
         meta: {
           isGuild: true,
         },

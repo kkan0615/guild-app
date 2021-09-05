@@ -8,6 +8,8 @@ export interface FirebaseAttributes {
 }
 
 export interface SelectListFilterQuery {
-  createdAtFrom?: any
-  createdAtto?: any
+  offset?: number
+  limit?: number
+  createdAtFrom?: CustomDate
+  createdAtTo?: CustomDate
 }
