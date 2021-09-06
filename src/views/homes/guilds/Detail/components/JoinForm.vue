@@ -82,7 +82,7 @@ import useUserMixin from '@/mixins/useUserMixin'
 import BForm from '@/components/commons/Form/index.vue'
 import BBaseInput from '@/components/commons/inputs/Base/index.vue'
 import { GuildJoinQuestion } from '@/types/model/guilds/question'
-import { GuildJoin, GuildJoinCreateForm } from '@/types/model/guilds/join'
+import { GuildJoinCreateForm } from '@/types/model/guilds/join'
 import { RuleType } from '@/types/bootstrap/validate'
 import { useI18n } from 'vue-i18n'
 
@@ -141,6 +141,7 @@ export default defineComponent({
         nickname: nickname.value,
         guildQuestions: questions.value,
       }
+      // @TODO: Join 생성 기능 로직 만들기 (store action 만들기)
       console.log('onClickSaveBtn', guildJoinForm)
     }
 
