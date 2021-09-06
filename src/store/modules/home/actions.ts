@@ -151,7 +151,7 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
   [HomeActionTypes.LOAD_GUILD_INFO] ({ commit }, payload) {
     const guildInfoRes = dummyGuilds.find(dg => dg.uid === payload)
     if (guildInfoRes) {
-      const guildRolesRes = dummyGuildRoles.filter(dgr => dgr.guildId === guildInfoRes.uid)
+      const guildRolesRes = dummyGuildRoles.filter(dgr => dgr.guildId === guildInfoRes.uid).sort((a, b) => a.index - b.index)
       const tagsRes = dummyGuildTags.filter(dgt => guildInfoRes.tagIds.includes(dgt.uid))
       const members = dummyGuildUsers.filter(dgu => guildInfoRes.memberIds.includes(dgu.uid)).sort((a, b) => a.nickname.localeCompare(b.nickname))
       const mainMember = dummyGuildUsers.find(dgu => dgu.uid === guildInfoRes.mainMangerId)

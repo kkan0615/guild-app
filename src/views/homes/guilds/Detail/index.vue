@@ -106,14 +106,17 @@
     </div>
     <!--  Join to guild button  -->
     <!--  If the logged in user is not joined  -->
-    <button
+    <!--    <button-->
+    <!--      v-if="!isJoined && isLoggedIn"-->
+    <!--      class="btn btn-primary tw-ml-auto tw-w-full"-->
+    <!--      type="button"-->
+    <!--      @click="onClickJoinBtn"-->
+    <!--    >-->
+    <!--      Join to the {{ guildInfo.name }}-->
+    <!--    </button>-->
+    <home-guild-detail-join-form
       v-if="!isJoined && isLoggedIn"
-      class="btn btn-primary tw-ml-auto tw-w-full"
-      type="button"
-      @click="onClickJoinBtn"
-    >
-      Join to the {{ guildInfo.name }}
-    </button>
+    />
     <!--  If the logged in user is already joined  -->
     <button
       v-else-if="isJoined && isLoggedIn"
@@ -149,10 +152,12 @@ import useUserMixin from '@/mixins/useUserMixin'
 import TagBadge from '@/components/badeges/Tag/index.vue'
 import CDivider from '@/components/commons/Divider/index.vue'
 import dayjs from 'dayjs'
+import HomeGuildDetailJoinForm from '@/views/homes/guilds/Detail/components/JoinForm.vue'
 
 export default defineComponent({
   name: 'HomeGuildDetail',
   components: {
+    HomeGuildDetailJoinForm,
     CDivider,
     TagBadge,
     RoleColumnBadge, // Use in Column component

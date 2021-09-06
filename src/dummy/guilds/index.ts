@@ -22,6 +22,7 @@ export const initDummyGuilds = () => {
         name: faker.lorem.word(),
         default: false,
         color: faker.commerce.color(),
+        index: num,
         createdAt: dayjs().toISOString(),
         updatedAt: dayjs().toISOString(),
       } as GuildRole
@@ -93,6 +94,7 @@ export const initDummyGuilds = () => {
       name: faker.lorem.word(),
       default: false,
       color: faker.commerce.color(),
+      index: num,
       createdAt: dayjs().toISOString(),
       updatedAt: dayjs().toISOString(),
     } as GuildRole
