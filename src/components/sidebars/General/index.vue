@@ -4,12 +4,13 @@
     class="
     md:tw-h-full
     md:tw-w-64
-    md:tw-flex
-    md:tw-flex-col
     md:tw-p-2
     md:tw-border-r
     md:tw-border-gray-200
-    md:tw-relative
+    md:tw-fixed
+    tw-left-0
+    tw-flex
+    tw-flex-col
     bg-light
     tw-z-10
     tw-absolute

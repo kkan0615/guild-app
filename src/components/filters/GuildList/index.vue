@@ -34,6 +34,7 @@
           </label>
           <b-base-input
             id="title"
+            ref="nameElRef"
             v-model="name"
             placeholder="Name"
           />
@@ -66,6 +67,7 @@
         <button
           class="btn btn-primary btn-sm mt-2 tw-w-full"
           type="button"
+          @click="onClickSearchBtn"
         >
           search
         </button>
@@ -100,6 +102,7 @@ export default defineComponent({
   setup: (props) => {
     const store = useStore()
 
+    const nameElRef = ref<InstanceType<typeof BBaseInput>>(null)
     const name = ref('')
     const tags = ref<Array<string>>([])
 
@@ -108,22 +111,36 @@ export default defineComponent({
       return { value: tag.uid, label: tag.name }
     })
 
-    const onClickFilterBtn = async () => {
+    const focusOnNameEl = () => {
+      if (nameElRef.value) {
+        nameElRef.value.focus()
+      }
+    }
+
+    const onClickFilterBtn = () => {
+      focusOnNameEl()
+    }
+
+    const onClickSearchBtn = async () =>{
+      console.log('name', name.value)
       await store.dispatch(HomeActionTypes.SET_GUILD_LIST_FILTER_OPTION, {
         ...store.state.home.guildListFilterOption,
-        name: name.value,
-        tags: tags.value,
-      })
+        offset: undefined,
+        name: name.value || undefined,
+        tags: tags.value || undefined,
+      } as GuildListFilterQuery)
       await store.dispatch(HomeActionTypes.OPEN_GUILD_LIST_LOADING)
       await store.dispatch(HomeActionTypes.LOAD_GUILD_LIST)
       await store.dispatch(HomeActionTypes.CLOSE_GUILD_LIST_LOADING)
     }
 
     return {
+      nameElRef,
       name,
       tags,
       tagOptions,
       onClickFilterBtn,
+      onClickSearchBtn,
     }
   }
 })

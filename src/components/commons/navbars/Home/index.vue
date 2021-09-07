@@ -34,6 +34,7 @@
       </button>
       <guilds-dropdown
         v-if="isLoggedIn"
+        end
       />
       <!--   sign up if it's not logged in   -->
       <button
@@ -47,6 +48,7 @@
       <!--   if it's logged in   -->
       <user-dropdown
         v-else
+        end
       />
     </div>
   </nav>

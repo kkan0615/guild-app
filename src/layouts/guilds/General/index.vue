@@ -1,26 +1,20 @@
 <template>
   <div
-    class="tw-h-screen"
+    class="tw-h-full"
   >
+    <general-side-bar />
     <div
-      class="tw-h-full tw-flex"
+      class="md:tw-pl-64 tw-h-full"
     >
-      <general-side-bar />
       <div
-        class="tw-h-full tw-w-full"
+        class="tw-h-full"
       >
+        <general-navbar />
+        <!--     content     -->
         <div
-          class="tw-h-full tw-flex tw-flex-col tw-overflow-y-auto"
+          class="tw-p-2"
         >
-          <general-navbar
-            class="tw-flex-grow-0 tw-flex-shrink"
-          />
-          <!--     content     -->
-          <div
-            class="tw-flex-grow tw-flex-shrink-0 tw-p-2"
-          >
-            <router-view />
-          </div>
+          <router-view />
         </div>
       </div>
     </div>

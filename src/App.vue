@@ -2,11 +2,11 @@
   <!--  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />-->
   <div
     id="app"
-    class="tw-height-full"
+    class="tw-h-screen"
   >
     <div
       id="app-body"
-      class="tw-height-full"
+      class="tw-h-full tw-overflow-auto"
     >
       <router-view />
       <toast-list />

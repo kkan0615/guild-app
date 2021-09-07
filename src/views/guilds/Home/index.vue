@@ -8,7 +8,10 @@
     >
       playground
     </button>
-    <div>
+    <div
+      v-for="i in 100"
+      :key="i"
+    >
       <div>
         {{ guildInfo.name }}
       </div>

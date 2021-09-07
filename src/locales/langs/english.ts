@@ -1,3 +1,5 @@
+import { RouterNameEnum } from '@/types/systems/routers/keys'
+
 export const englishDictionary = {
   message: {
     hello: 'hello world'
@@ -24,16 +26,19 @@ export const englishDictionary = {
     GuildAdminLayout: {
       title: 'Guild Admin layout'
     },
-    GuildAdminMainGuild: {
+    [RouterNameEnum.GUILD_ADMIN_MAIN_GUILD]: {
       title: 'Guild Main'
     },
     GuildAdminInformationLayout: {
       title: 'Guild information layout'
     },
-    GuildAdminInformationMain: {
+    [RouterNameEnum.GUILD_ADMIN_INFORMATION_MAIN]: {
       title: 'Information'
     },
-    GuildAdminInformationImportance: {
+    [RouterNameEnum.GUILD_ADMIN_INFORMATION_QUESTION]: {
+      title: 'Join question'
+    },
+    [RouterNameEnum.GUILD_ADMIN_INFORMATION_IMPORTANCE]: {
       title: 'Importance'
     },
   },

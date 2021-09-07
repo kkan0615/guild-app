@@ -7,7 +7,10 @@
       apps
     </div>
     <div
-      class="dropdown-menu tw-h-64 tw-w-72 tw-overflow-y-scroll"
+      class="dropdown-menu tw-h-64 tw-w-72 tw-overflow-y-auto"
+      :class="{
+        'dropdown-menu-end': end,
+      }"
     >
       <div
         class="tw-p-4 tw-grid tw-grid-cols-3 tw-gap-4"
@@ -39,6 +42,13 @@ import useStore from '@/store'
 
 export default defineComponent({
   name: 'GuildsDropdown',
+  props: {
+    end: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
   setup: () => {
     const router = useRouter()
     const store = useStore()

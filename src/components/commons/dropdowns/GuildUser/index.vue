@@ -22,9 +22,8 @@
     </t-avatar>
     <div
       class="dropdown-menu"
-      :style="{
-        right,
-        left,
+      :class="{
+        'dropdown-menu-end': end,
       }"
     >
       <div
@@ -54,15 +53,10 @@ export default defineComponent({
   name: 'GuildUserDropdown',
   components: { TAvatar },
   props: {
-    right: {
-      type: [String, Number],
+    end: {
+      type: Boolean,
       required: false,
-      default: 'auto',
-    },
-    left: {
-      type: [String, Number],
-      required: false,
-      default: 0,
+      default: false,
     },
   },
   setup: () => {

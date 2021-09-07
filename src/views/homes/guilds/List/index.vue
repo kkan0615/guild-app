@@ -11,7 +11,7 @@
     </div>
     <div
       v-if="guildList.length"
-      class="tw-grid tw-grid-cols-4 tw-gap-4"
+      class="tw-grid md:tw-grid-cols-4 tw-grid-cols-1 tw-gap-4"
     >
       <guild-list-item
         v-for="guild in guildList"

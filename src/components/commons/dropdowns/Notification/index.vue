@@ -20,9 +20,8 @@
     </div>
     <div
       class="dropdown-menu tw-h-80 tw-w-96 tw-overflow-y-auto tw-px-2"
-      :style="{
-        right,
-        left,
+      :class="{
+        'dropdown-menu-end': end,
       }"
     >
       <!-- title -->
@@ -70,15 +69,10 @@ export default defineComponent({
       required: false,
       default: false
     },
-    right: {
-      type: [String, Number],
+    end: {
+      type: Boolean,
       required: false,
-      default: 'auto',
-    },
-    left: {
-      type: [String, Number],
-      required: false,
-      default: 0,
+      default: false,
     },
     notifications: {
       type: Array as PropType<Array<Notification>>,

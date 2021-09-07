@@ -21,7 +21,7 @@
       </div>
       <!--   Introduction   -->
       <div
-        class="tw-whitespace-pre"
+        class="tw-whitespace"
       >
         {{ guildInfo.introduction }}
       </div>

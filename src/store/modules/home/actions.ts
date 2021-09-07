@@ -113,12 +113,15 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
     /* set total size of guild list */
     commit(HomeMutationTypes.SET_TOTAL_GUILD_LIST, guildListRes.length)
 
+    console.log('guildListFilterOption??', state.guildListFilterOption)
+    console.log('guildListFilterOption.name', state.guildListFilterOption.name)
     /* Name filtering */
     if (state.guildListFilterOption.name) {
-      guildListRes = guildListRes.filter(guild => guild.name.includes(state.guildListFilterOption.name || ''))
+      const name = state.guildListFilterOption.name
+      guildListRes = guildListRes.filter(guild => (guild.name.toLowerCase()).includes(name ? name.toLowerCase() : ''))
     }
     /* Tag filtering */
-    if (state.guildListFilterOption.tags) {
+    if (state.guildListFilterOption.tags && state.guildListFilterOption.tags.length) {
       guildListRes = guildListRes.filter(guild => guild.tagIds.every(tagId => (state.guildListFilterOption.tags || []).includes(tagId)))
     }
 

@@ -12,22 +12,20 @@
       <notification-dropdown
         v-if="guildUserInfo.uid"
         :notifications="guildNotifications"
-        left="auto"
-        right="0"
+        end
       />
       <!--   if it's logged in   -->
       <guild-user-dropdown
         v-if="guildUserInfo.guildId"
         class="tw-mr-2"
-        left="auto"
-        right="0"
+        end
       />
     </div>
   </nav>
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, computed } from 'vue'
+import { defineComponent, computed } from 'vue'
 import NotificationDropdown from '@/components/commons/dropdowns/Notification/index.vue'
 import useStore from '@/store'
 import useGuildInfoMixin from '@/mixins/useGuildInfoMixin'

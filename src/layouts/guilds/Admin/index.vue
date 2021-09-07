@@ -2,41 +2,35 @@
   <div
     class="tw-h-full"
   >
+    <admin-sidebar />
     <div
-      class="tw-h-full tw-flex tw-w-full"
+      class="md:tw-pl-72 tw-h-full"
     >
-      <admin-sidebar />
+      <admin-navbar />
       <div
-        class="tw-w-full tw-h-full tw-flex tw-flex-col tw-overflow-y-scroll"
+        class="tw-p-3"
       >
-        <admin-navbar
-          class="flex-grow-0 flex-shrink-1"
-        />
-        <div
-          class="tw-p-2 flex-grow-1 flex-shrink-0"
-        >
-          <!--     breadcrumb     -->
-          <!--          <nav-->
-          <!--            aria-label="breadcrumb"-->
-          <!--          >-->
-          <!--            <ol-->
-          <!--              class="breadcrumb"-->
-          <!--            >-->
-          <!--              <li-->
-          <!--                v-for="breadcrumbItem in breadcrumb"-->
-          <!--                :key="breadcrumbItem"-->
-          <!--                class="breadcrumb-item"-->
-          <!--              >-->
-          <!--                <span-->
-          <!--                  class="tw-text-sm"-->
-          <!--                >-->
-          <!--                  {{ breadcrumbItem }}-->
-          <!--                </span>-->
-          <!--              </li>-->
-          <!--            </ol>-->
-          <!--          </nav>-->
-          <router-view />
-        </div>
+        <!--     breadcrumb     -->
+        <!--          <nav-->
+        <!--            aria-label="breadcrumb"-->
+        <!--          >-->
+        <!--            <ol-->
+        <!--              class="breadcrumb"-->
+        <!--            >-->
+        <!--              <li-->
+        <!--                v-for="breadcrumbItem in breadcrumb"-->
+        <!--                :key="breadcrumbItem"-->
+        <!--                class="breadcrumb-item"-->
+        <!--              >-->
+        <!--                <span-->
+        <!--                  class="tw-text-sm"-->
+        <!--                >-->
+        <!--                  {{ breadcrumbItem }}-->
+        <!--                </span>-->
+        <!--              </li>-->
+        <!--            </ol>-->
+        <!--          </nav>-->
+        <router-view />
       </div>
     </div>
   </div>

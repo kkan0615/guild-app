@@ -4,8 +4,10 @@
     class="
     md:tw-w-72
     md:tw-border-r
+    md:tw-h-full
     md:tw-border-gray-200
-    md:tw-relative
+    md:tw-fixed
+    tw-left-0
     tw-flex
     tw-flex-col
     tw-z-10

@@ -12,15 +12,13 @@
       <notification-dropdown
         v-if="guildUserInfo.uid"
         :notifications="guildNotifications"
-        left="auto"
-        right="0"
+        end
       />
       <!--   if it's logged in   -->
       <guild-user-dropdown
         v-if="guildUserInfo.guildId"
         class="tw-mr-2"
-        left="auto"
-        right="0"
+        end
       />
     </div>
   </nav>

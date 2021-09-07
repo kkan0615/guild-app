@@ -24,5 +24,6 @@ export enum RouterNameEnum {
   GUILD_ADMIN_MAIN_GUILD = 'GuildAdminMainGuild',
   GUILD_ADMIN_INFORMATION_LAYOUT = 'GuildAdminInformationLayout',
   GUILD_ADMIN_INFORMATION_MAIN = 'GuildAdminInformationMain',
+  GUILD_ADMIN_INFORMATION_QUESTION = 'GuildAdminInformationQuestion',
   GUILD_ADMIN_INFORMATION_IMPORTANCE = 'GuildAdminInformationImportance',
 }

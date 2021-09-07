@@ -1,37 +1,29 @@
 <template>
   <div
-    class="tw-h-screen tw-overflow-y-scroll"
+    class="tw-h-screen md:tw-p-0 tw-p-4"
   >
     <div
       class="tw-h-full tw-relative"
     >
+      <home-navbar
+        class="tw-w-full tw-mx-auto standard-max-width"
+      />
       <div
         class="tw-h-full tw-flex tw-flex-col"
       >
-        <home-navbar
-          class="tw-flex-grow-0 tw-flex-shrink tw-w-full tw-mx-auto standard-max-width"
-        />
         <div
-          class="tw-flex-grow tw-flex-shrink-0 tw-h-1"
+          class="tw-w-full tw-mx-auto standard-max-width tw-mb-4"
+        >
+          <router-view />
+        </div>
+        <!--     Bottom     tw-h-60  -->
+        <div
+          class="tw-bg-gray-500 tw-p-2 tw-text-white tw-mt-auto"
         >
           <div
-            class="tw-h-full tw-flex tw-flex-col"
+            class="tw-text-right"
           >
-            <div
-              class="tw-w-full tw-mx-auto standard-max-width tw-mb-4"
-            >
-              <router-view />
-            </div>
-            <!--     Bottom     tw-h-60  -->
-            <div
-              class="tw-bg-gray-500 tw-p-2 tw-text-white tw-mt-auto"
-            >
-              <div
-                class="tw-text-right"
-              >
-                Copyright 2021. Crocom inc. all rights reserved.
-              </div>
-            </div>
+            Copyright 2021. Crocom inc. all rights reserved.
           </div>
         </div>
       </div>

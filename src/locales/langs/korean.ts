@@ -1,3 +1,5 @@
+import { RouterNameEnum } from '@/types/systems/routers/keys'
+
 export const koreanDictionary = {
   message: {
     hello: '세계야 반가워!'
@@ -24,16 +26,19 @@ export const koreanDictionary = {
     GuildAdminLayout: {
       title: '길드 어드민 레이아웃'
     },
-    GuildAdminMainGuild: {
+    [RouterNameEnum.GUILD_ADMIN_MAIN_GUILD]: {
       title: '길드 메인화면'
     },
     GuildAdminInformationLayout: {
       title: '길드 정보 레이아웃'
     },
-    GuildAdminInformationMain: {
+    [RouterNameEnum.GUILD_ADMIN_INFORMATION_MAIN]: {
       title: '길드 정보'
     },
-    GuildAdminInformationImportance: {
+    [RouterNameEnum.GUILD_ADMIN_INFORMATION_QUESTION]: {
+      title: '가입 질문'
+    },
+    [RouterNameEnum.GUILD_ADMIN_INFORMATION_IMPORTANCE]: {
       title: 'Danger zone'
     },
   },

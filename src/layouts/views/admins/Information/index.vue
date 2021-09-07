@@ -1,5 +1,6 @@
 <template>
   <ul class="nav nav-tabs">
+    <!--  Main  -->
     <li class="nav-item">
       <router-link
         class="nav-link"
@@ -12,6 +13,20 @@
         {{ $t(`router.${RouterNameEnum.GUILD_ADMIN_INFORMATION_MAIN}.title`) }}
       </router-link>
     </li>
+    <!--  Join questions  -->
+    <li class="nav-item">
+      <router-link
+        class="nav-link"
+        :class="{
+          active: routerKey === RouterNameEnum.GUILD_ADMIN_INFORMATION_QUESTION,
+        }"
+        aria-current="page"
+        :to="{ name: RouterNameEnum.GUILD_ADMIN_INFORMATION_QUESTION }"
+      >
+        {{ $t(`router.${RouterNameEnum.GUILD_ADMIN_INFORMATION_QUESTION}.title`) }}
+      </router-link>
+    </li>
+    <!--  Importance  -->
     <li class="nav-item">
       <router-link
         class="nav-link"
