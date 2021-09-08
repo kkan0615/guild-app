@@ -1,10 +1,10 @@
 <template>
   <div>
     <div
-      class="tw-flex"
+      class="md:tw-flex"
     >
       <div
-        class="tw-flex tw-items-center tw-w-2/5"
+        class="tw-flex tw-items-center md:tw-w-2/5"
       >
         <div
           class="tw-w-full"
@@ -33,7 +33,7 @@
         </div>
       </div>
       <div
-        class="tw-w-3/5"
+        class="md:tw-w-3/5"
       >
         <img
           style="height: 570px; width: 100%"

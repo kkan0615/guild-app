@@ -1,6 +1,6 @@
 <template>
   <div
-    class="input-group has-validation"
+    class="input-group has-validation tw-items-center"
   >
     <slot
       name="prepend"

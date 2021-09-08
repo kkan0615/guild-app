@@ -1,6 +1,6 @@
 {
   "name": "guild-app",
-  "version": "0.1.7a",
+  "version": "0.1.7b",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -28,6 +28,7 @@
     "vue-class-component": "^8.0.0-rc.1",
     "vue-i18n": "^9.1.7",
     "vue-router": "4",
+    "vuedraggable": "^4.1.0",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

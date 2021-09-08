@@ -7,6 +7,7 @@ import { GuildState } from '@/store/modules/guilds/info/state'
 import { dummyGuildUsers } from '@/dummy/user'
 import { dummyGuildRoles } from '@/dummy/guilds/role'
 import { dummyGuildTags } from '@/dummy/guilds/tag'
+import { GuildJoinQuestionForm } from '@/types/model/guilds/question'
 
 export enum GuildActionTypes {
   LOAD_GUILD_INFO = 'guild/LOAD_GUILD_INFO',
@@ -17,6 +18,7 @@ export enum GuildActionTypes {
   READ_USER_NOTIFICATION = 'guild/READ_USER_NOTIFICATION',
   OPEN_SIDEBAR = 'guild/OPEN_SIDEBAR',
   CLOSE_SIDEBAR = 'guild/CLOSE_SIDEBAR',
+  UPDATE_GUILD_QUESTIONS = 'UPDATE_GUILD_QUESTIONS',
 }
 
 export type AugmentedActionContext = {
@@ -68,6 +70,16 @@ export interface GuildActions {
   [GuildActionTypes.CLOSE_SIDEBAR](
     { commit }: AugmentedActionContext,
   ): void
+
+  /**
+   * Update guild questions
+   * @param commit
+   * @param payload - list of question form
+   */
+  [GuildActionTypes.UPDATE_GUILD_QUESTIONS](
+    { state, dispatch }: AugmentedActionContext,
+    payload: Array<GuildJoinQuestionForm>
+  ): void
 }
 
 export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
@@ -79,13 +91,6 @@ export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
       const members = dummyGuildUsers.filter(dgu => guildInfoRes.memberIds.includes(dgu.uid)).sort((a, b) => a.nickname.localeCompare(b.nickname))
       const mainMember = dummyGuildUsers.find(dgu => dgu.uid === guildInfoRes.mainMangerId)
       if (mainMember) {
-        console.log({
-          ...guildInfoRes,
-          mainManger: mainMember,
-          members: members,
-          roles: guildRolesRes,
-          tags: tagsRes,
-        })
         commit(GuildMutationTypes.SET_GUILD_INFO, {
           ...guildInfoRes,
           mainManger: mainMember,
@@ -130,5 +135,24 @@ export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
   },
   [GuildActionTypes.CLOSE_SIDEBAR] ({ commit }) {
     commit(GuildMutationTypes.SET_IS_OPEN_SIDEBAR, false)
+  },
+  async [GuildActionTypes.UPDATE_GUILD_QUESTIONS] ({ state, dispatch }, payload) {
+    try {
+      /* Add at dummy */
+      const guildInfoRes = dummyGuilds.find(dg => dg.uid === state.guildInfo.uid)
+      if (guildInfoRes) {
+        guildInfoRes.joinQuestions = payload.map(gqf => {
+          return {
+            question: gqf.question,
+            index: gqf.index,
+          }
+        })
+
+        await dispatch(GuildActionTypes.LOAD_GUILD_INFO, state.guildInfo.uid)
+      }
+    } catch (e) {
+      console.error(e)
+      throw new Error()
+    }
   },
 }

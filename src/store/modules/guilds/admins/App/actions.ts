@@ -11,7 +11,7 @@ export enum GuildAdminAppActionTypes {
 export type AugmentedActionContext = {
   commit<K extends keyof GuildAdminAppMutations>(
     key: K,
-    payload: Parameters<GuildAdminAppMutations[K]>[1]
+    payload?: Parameters<GuildAdminAppMutations[K]>[1]
   ): ReturnType<GuildAdminAppMutations[K]>
 } & Omit<ActionContext<GuildAdminAppState, RootState>, 'commit'>
 

@@ -2,6 +2,7 @@ import { FirebaseAttributes, SelectListFilterQuery } from '@/types/model/attribu
 import { GuildUserInfo, User } from '@/types/model/auth/user/user'
 import { GuildTag } from '@/types/model/guilds/tag'
 import { GuildRole } from '@/types/model/guilds/role'
+import { GuildJoinQuestion } from '@/types/model/guilds/question'
 
 export interface Guild extends FirebaseAttributes {
   img: string
@@ -14,7 +15,7 @@ export interface Guild extends FirebaseAttributes {
   mainMangerId: string
   memberIds: Array<string> // member uids
   isRequirePermission: boolean
-  joinQuestions?: Array<string> // questions before join
+  joinQuestions?: Array<GuildJoinQuestion> // questions before join
 }
 
 export interface GuildInfo extends Guild {

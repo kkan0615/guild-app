@@ -43,7 +43,7 @@
           :name="child.name"
           :is-active="child.name === route.name"
         >
-          {{ child.title }}
+          {{ $t(`router.${child.name}.title`) }}
         </admin-sidebar-menu>
       </admin-sidebar-menu-group>
     </div>
@@ -97,13 +97,13 @@ export default defineComponent({
           },
           {
             id: v4(),
-            title: 'Importance',
-            name: RouterNameEnum.GUILD_ADMIN_INFORMATION_IMPORTANCE,
+            title: 'Question',
+            name: RouterNameEnum.GUILD_ADMIN_INFORMATION_QUESTION,
           },
           {
             id: v4(),
-            title: 'TEST3',
-            name: '',
+            title: 'Importance',
+            name: RouterNameEnum.GUILD_ADMIN_INFORMATION_IMPORTANCE,
           },
         ]
       },
