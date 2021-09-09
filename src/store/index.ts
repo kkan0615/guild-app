@@ -8,9 +8,11 @@ import { homeModule, HomeStore } from '@/store/modules/home'
 import { GuildState } from '@/store/modules/guilds/info/state'
 import { guildModule, GuildStore } from '@/store/modules/guilds/info'
 import { GuildAdminAppState } from '@/store/modules/guilds/admins/App/state'
-import { guildAdminAppModule } from '@/store/modules/guilds/admins/App'
+import { guildAdminAppModule, GuildAdminAppStore } from '@/store/modules/guilds/admins/App'
 import { ApplicationState } from '@/store/modules/applications/state'
 import { applicationModule, ApplicationStore } from '@/store/modules/applications'
+import { GuildAdminUserState } from '@/store/modules/guilds/admins/User/state'
+import { guildAdminUserModule, GuildAdminUserStore } from '@/store/modules/guilds/admins/User'
 
 // define your typings for the store state
 export interface RootState {
@@ -19,6 +21,7 @@ export interface RootState {
   home: HomeState
   guild: GuildState
   guildAdminApp: GuildAdminAppState
+  guildAdminUser: GuildAdminUserState
   count: number
 }
 
@@ -27,7 +30,9 @@ export type RootStore =
   UserStore<Pick<RootState, 'user'>> &
   HomeStore<Pick<RootState, 'home'>> &
   GuildStore<Pick<RootState, 'guild'>> &
-  GuildStore<Pick<RootState, 'guildAdminApp'>>
+  GuildAdminAppStore<Pick<RootState, 'guildAdminApp'>> &
+  GuildAdminUserStore<Pick<RootState, 'guildAdminUser'>>
+
 
 // define injection key
 export const key: InjectionKey<Store<RootState>> = Symbol()
@@ -42,6 +47,7 @@ export const store = createStore<RootState>({
     home: homeModule,
     guild: guildModule,
     guildAdminApp: guildAdminAppModule,
+    guildAdminUser: guildAdminUserModule,
   }
   // state: {
   //   count: 50

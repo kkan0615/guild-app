@@ -4,7 +4,10 @@
   >
     <admin-sidebar />
     <div
-      class="md:tw-pl-72 tw-h-full"
+      class="tw-h-full"
+      :class="{
+        'md:tw-pl-72': isOpenSidebar,
+      }"
     >
       <admin-navbar />
       <div
@@ -42,18 +45,22 @@ import AdminSidebar from '@/components/sidebars/Admin/index.vue'
 import AdminNavbar from '@/components/commons/navbars/Admin/index.vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import useStore from '@/store'
 
 export default defineComponent({
   name: 'GuildAdminLayout',
   components: { AdminNavbar, AdminSidebar },
   setup: () => {
+    const store = useStore()
     const route = useRoute()
     const i18n = useI18n()
 
     const breadcrumb = computed(() => route.matched.map(matchRoute => i18n.t(`router.${matchRoute.name}.title`)))
+    const isOpenSidebar = computed(() => store.state.guildAdminApp.isOpenSideBar)
 
     return {
       breadcrumb,
+      isOpenSidebar,
     }
   }
 })

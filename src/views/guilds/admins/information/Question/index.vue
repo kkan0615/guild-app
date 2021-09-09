@@ -26,6 +26,7 @@
             class="tw-my-2"
             :num="index + 1"
             :question="element"
+            :disabled="!isRequirePermission"
           />
         </template>
       </draggable>
@@ -91,6 +92,7 @@ export default defineComponent({
     const editBtnLoading = ref(false)
 
     onMounted(() => {
+      console.log('asd', guildInfo.value.isRequirePermission)
       isRequirePermission.value = guildInfo.value.isRequirePermission
       questions.value = guildInfo.value.joinQuestions
         ? guildInfo.value.joinQuestions.map((jq, index) => {

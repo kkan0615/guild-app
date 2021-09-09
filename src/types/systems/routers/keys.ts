@@ -22,8 +22,13 @@ export enum RouterNameEnum {
   /* Guild Admin */
   GUILD_ADMIN_LAYOUT = 'GuildAdminLayout',
   GUILD_ADMIN_MAIN_GUILD = 'GuildAdminMainGuild',
+  /* Information */
   GUILD_ADMIN_INFORMATION_LAYOUT = 'GuildAdminInformationLayout',
   GUILD_ADMIN_INFORMATION_MAIN = 'GuildAdminInformationMain',
   GUILD_ADMIN_INFORMATION_QUESTION = 'GuildAdminInformationQuestion',
   GUILD_ADMIN_INFORMATION_IMPORTANCE = 'GuildAdminInformationImportance',
+  /* User */
+  GUILD_ADMIN_USER_LAYOUT = 'GuildAdminUserLayout',
+  GUILD_ADMIN_USER_MAIN = 'GuildAdminUserMain',
+  GUILD_ADMIN_USER_JOINS = 'GuildAdminUserJoins',
 }

@@ -24,7 +24,8 @@
   >
     <div>
       <div
-        class="tw-mb-2"
+        class="tw-mb-2 tw-cursor-pointer"
+        @click="onClickLogo"
       >
         <img
           alt="logo"
@@ -63,7 +64,7 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 import useStore from '@/store'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import useGuildInfoMixin from '@/mixins/useGuildInfoMixin'
 import AdminSidebarMenuGroup from '@/components/sidebars/Admin/components/MenuGroup.vue'
 import AdminSidebarMenu from '@/components/sidebars/Admin/components/Menu.vue'
@@ -79,6 +80,7 @@ export default defineComponent({
   setup: () => {
     const store = useStore()
     const route = useRoute()
+    const router = useRouter()
     const { guildInfo } = useGuildInfoMixin()
 
     const logoSrc = computed(() => guildInfo.value.logoImg)
@@ -114,18 +116,13 @@ export default defineComponent({
         children: [
           {
             id: v4(),
-            title: 'TEST1',
-            name: RouterNameEnum.GUILD_ADMIN_MAIN_GUILD,
+            title: 'join',
+            name: RouterNameEnum.GUILD_ADMIN_USER_MAIN,
           },
           {
             id: v4(),
             title: 'TEST2',
-            name: '',
-          },
-          {
-            id: v4(),
-            title: 'TEST3',
-            name: '',
+            name: RouterNameEnum.GUILD_ADMIN_USER_JOINS,
           },
         ]
       }
@@ -135,12 +132,21 @@ export default defineComponent({
       await store.dispatch(GuildAdminAppActionTypes.CLOSE_SIDEBAR)
     }
 
+    const onClickLogo = async () => {
+      try {
+        await router.push({ name: RouterNameEnum.GUILD_ADMIN_MAIN_GUILD })
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
     return {
       isOpenSidebar,
       logoSrc,
       menus,
       route,
       RouterNameEnum,
+      onClickLogo,
       onClickOutside,
     }
   }

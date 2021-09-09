@@ -10,7 +10,7 @@ import { guildAdminAppGetters, GuildAdminAppGetters } from '@/store/modules/guil
 import { guildAdminAppMutations, GuildAdminAppMutations } from '@/store/modules/guilds/admins/App/mutations'
 import { guildAdminAppActions, GuildAdminAppActions } from '@/store/modules/guilds/admins/App/actions'
 
-export type GuildStore<S = GuildAdminAppState> = Omit<
+export type GuildAdminAppStore<S = GuildAdminAppState> = Omit<
 VuexStore<S>,
 'commit' | 'getters' | 'dispatch'
 > & {

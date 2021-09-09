@@ -4,6 +4,7 @@
       :id="randomId"
       :model-value="modelValue"
       :placeholder="placeholder"
+      :disabled="disabled"
       @update:modelValue="onUpdateModelValue"
     >
       <template
@@ -43,6 +44,11 @@ export default defineComponent({
       required: false,
       default: () => {},
     },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    }
   },
   emits: [
     'update:modelValue',

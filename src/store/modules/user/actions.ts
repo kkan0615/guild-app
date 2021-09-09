@@ -65,17 +65,12 @@ export const userActions: ActionTree<UserState, RootState> & UserActions = {
 
     /* Set users */
     commit(UserMutationTypes.SET_USER, {
+      ...userInfo,
       uid: payload,
-      color: userInfo.color,
-      name: userInfo.name,
-      email: userInfo.email,
-      nickname: userInfo.nickname,
-      img: userInfo.img,
-      auth: userInfo.auth,
     })
     /* Set notifications */
     commit(UserMutationTypes.SET_NOTIFICATIONS, [])
-    const joinedGuildsRes = dummyGuilds.filter(dg => !!dg.memberIds.find(memberId => memberId === payload))
+    const joinedGuildsRes = dummyGuilds.filter(dg => dg.memberIds.indexOf(payload))
     let guildListRes = joinedGuildsRes.map(joinedGuild =>{
       return {
         uid: joinedGuild.uid,

@@ -41,6 +41,12 @@ export const koreanDictionary = {
     [RouterNameEnum.GUILD_ADMIN_INFORMATION_IMPORTANCE]: {
       title: 'Danger zone'
     },
+    [RouterNameEnum.GUILD_ADMIN_USER_MAIN]: {
+      title: '유저 리스트'
+    },
+    [RouterNameEnum.GUILD_ADMIN_USER_JOINS]: {
+      title: '가입 신고 목록'
+    },
   },
   views: {
     Home: {

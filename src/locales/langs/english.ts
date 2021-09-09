@@ -41,6 +41,12 @@ export const englishDictionary = {
     [RouterNameEnum.GUILD_ADMIN_INFORMATION_IMPORTANCE]: {
       title: 'Importance'
     },
+    [RouterNameEnum.GUILD_ADMIN_USER_MAIN]: {
+      title: 'User list'
+    },
+    [RouterNameEnum.GUILD_ADMIN_USER_JOINS]: {
+      title: 'Join forms'
+    },
   },
   views: {
     Home: {

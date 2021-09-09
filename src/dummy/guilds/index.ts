@@ -8,6 +8,7 @@ import { dummyGuildTags } from '@/dummy/guilds/tag'
 import dayjs from 'dayjs'
 import { Notification } from '@/types/systems/notification'
 import { dummyGuildRoles } from '@/dummy/guilds/role'
+import { dummyGuildJoins } from '@/dummy/guilds/joins'
 
 export let dummyGuilds: Array<Guild> = []
 
@@ -146,7 +147,7 @@ export const initDummyGuilds = () => {
     const role = roles[Math.floor(Math.random() * roles.length)]
     const dummyGuildUser = {
       ...admin,
-      uid: v4(),
+      uid: 'test-uid-guild-user',
       roleId: role.uid,
       role,
       guildId: 'test-uid',
@@ -167,6 +168,28 @@ export const initDummyGuilds = () => {
     }
     dummyGuildUsers.push(dummyGuildUser)
 
+    const joinQuestions = [...Array(5).keys()].map(num => {
+      return {
+        question: faker.lorem.words(),
+        index: num,
+      }
+    })
+
+    dummyGuildJoins.unshift({
+      uid: v4(),
+      guildId: 'test-uid',
+      userId: admin.uid,
+      nickname: admin.nickname,
+      guildQuestions: joinQuestions.map(jq => {
+        return {
+          ...jq,
+          answer: faker.lorem.words()
+        }
+      }),
+      createdAt: dayjs().toISOString(),
+      updatedAt: dayjs().toISOString(),
+    })
+
     dummyGuilds.unshift({
       uid: 'test-uid',
       img: faker.image.city(),
@@ -179,6 +202,7 @@ export const initDummyGuilds = () => {
       memberIds: members.map((member) => member.uid).concat([admin.uid]),
       roleIds: roles.map(role => role.uid),
       isRequirePermission: true,
+      joinQuestions,
       createdAt: dayjs().toISOString(),
       updatedAt: dayjs().toISOString(),
     })

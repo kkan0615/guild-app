@@ -13,14 +13,14 @@
       :disabled="disabled"
       :placeholder="placeholder"
       :list="list"
-      :value="modelValue"
       class="form-check-input"
       :class="{
         'is-invalid': errorMessage,
         'form-control-sm': size === 'sm',
         'form-control-lg': size === 'lg',
       }"
-      @input="onInput"
+      :checked="modelValue"
+      @change="onChangeValue"
     >
     <slot
       name="checkbox"
@@ -122,12 +122,12 @@ export default defineComponent({
         form.unregister(instance.uid)
     })
 
-    const onInput = (event: InputEvent) => {
+    const onChangeValue = (event: InputEvent) => {
       if (event.target) {
         const elemet = event.target as HTMLInputElement
-        inputValidate(elemet.value)
+        inputValidate(elemet.checked)
 
-        emit('update:modelValue', elemet.value)
+        emit('update:modelValue', elemet.checked)
       }
     }
 
@@ -151,7 +151,7 @@ export default defineComponent({
     return {
       errorMessage,
       inputRef,
-      onInput,
+      onChangeValue,
       inputValidate,
       focus
     }
