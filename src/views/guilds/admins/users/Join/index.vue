@@ -1,9 +1,17 @@
 <template>
-  <div>
-    joinForms
-    <div>
-      {{ joinForms }}
+  <div
+    class="tw-py-2"
+  >
+    <div
+      class="tw-font-bold tw-mb-2"
+    >
+      Total: {{ joinForms.length }}
     </div>
+    <join-user-guild-admin-join
+      v-for="joinForm in joinForms"
+      :key="joinForm.uid"
+      :guild-join="joinForm"
+    />
   </div>
 </template>
 
@@ -11,9 +19,11 @@
 import { computed, defineComponent, onBeforeUnmount, onMounted, ref } from 'vue'
 import useStore from '@/store'
 import { GuildAdminUserActionTypes } from '@/store/modules/guilds/admins/User/actions'
+import JoinUserGuildAdminJoin from '@/views/guilds/admins/users/Join/components/Join.vue'
 
 export default defineComponent({
   name: 'JoinUserGuildAdmin',
+  components: { JoinUserGuildAdminJoin },
   setup: () => {
     const store = useStore()
 

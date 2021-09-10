@@ -13,6 +13,13 @@ export const koreanDictionary = {
     edit: '수정',
     cancel: '취소',
   },
+  standardResult: {
+    saved: '저장에 성공했습니다.',
+    created: '생성에 성공했습니다.',
+    updated: '수정에 성공했습니다.',
+    removed: '삭제에 성공했습니다.',
+    failed: '저장에 실패했습니다. 새로고침 후 다시 시도해주세요.',
+  },
   router: {
     GuildBaseLayout: {
       title: '길드 레이아웃'

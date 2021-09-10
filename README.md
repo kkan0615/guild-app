@@ -43,7 +43,7 @@ Run `Volar: Switch TS Plugin on/off` from VSCode command palette.
 5. add side bar store state
 6. add readmd me at store in admin
 
-## 0.1.7
+## 0.1.7d
 
 ## TODO On Week
 1. Snackbar

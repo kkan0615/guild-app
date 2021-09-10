@@ -58,7 +58,7 @@ export default defineComponent({
   setup: (props) => {
     const store = useStore()
 
-    const toastRef = ref<HTMLDivElement>(null)
+    const toastRef = ref<HTMLDivElement | undefined>(undefined)
 
     const calendarTime = computed(() => {
       if (!props.toast.createdAt) {
@@ -70,7 +70,7 @@ export default defineComponent({
 
     onMounted(() => {
       if (toastRef.value) {
-        const toast = new BToast(toastRef.value)
+        const toast = new BToast(toastRef.value as any)
         toastRef.value.addEventListener('hide.bs.toast', handleCloseEvent)
         toast.show()
       }
@@ -78,7 +78,7 @@ export default defineComponent({
 
     onUnmounted(() => {
       if (toastRef.value) {
-        const toast = new BToast(toastRef.value)
+        const toast = new BToast(toastRef.value as any)
         toast.hide()
         toastRef.value.removeEventListener('hide.bs.toast', handleCloseEvent)
       }

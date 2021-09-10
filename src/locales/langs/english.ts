@@ -13,6 +13,13 @@ export const englishDictionary = {
     edit: 'Edit',
     cancel: 'Cancel',
   },
+  standardResult: {
+    saved: 'Success to save',
+    created: 'Success to create',
+    updated: 'Success to update',
+    removed: 'Success to remove',
+    failed: 'Fail to save. Please try again after press F5 (Refresh)',
+  },
   router: {
     GuildBaseLayout: {
       title: 'Guild layout'
