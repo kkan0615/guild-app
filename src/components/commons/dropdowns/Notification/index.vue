@@ -5,18 +5,18 @@
     <div
       role="button"
       type="button"
-      class=" tw-cursor-pointer tw-flex tw-justify-center tw-items-center position-relative"
+      class="tw-cursor-pointer tw-flex tw-justify-center tw-items-center position-relative"
       data-bs-toggle="dropdown"
     >
       <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
         {{ notifications.length }}
         <span class="visually-hidden">unread messages</span>
       </span>
-      <span
-        class="material-icons-outlined"
+      <c-material-icon
+        type="outlined"
       >
         notifications
-      </span>
+      </c-material-icon>
     </div>
     <div
       class="dropdown-menu tw-h-80 tw-w-96 tw-overflow-y-auto tw-px-2"
@@ -42,13 +42,16 @@
       <div
         class="tw-py-1"
       >
-        notifications will be here
-        <notification-dropdown-item
-          v-for="notification in notifications"
-          :key="notification.uid"
+        <div
+          v-if="notifications"
         >
-          {{ notification.content }}
-        </notification-dropdown-item>
+          <notification-dropdown-item
+            v-for="notification in notifications"
+            :key="notification.uid"
+          >
+            {{ notification.content }}
+          </notification-dropdown-item>
+        </div>
       </div>
     </div>
   </div>
@@ -59,10 +62,11 @@ import { defineComponent, PropType } from 'vue'
 import CDivider from '@/components/commons/Divider/index.vue'
 import NotificationDropdownItem from '@/components/commons/dropdowns/Notification/components/item.vue'
 import { Notification } from '@/types/systems/notification'
+import CMaterialIcon from '@/components/commons/icons/Material/index.vue'
 
 export default defineComponent({
   name: 'NotificationDropdown',
-  components: { NotificationDropdownItem, CDivider },
+  components: { CMaterialIcon, NotificationDropdownItem, CDivider },
   props: {
     isAtGuild: {
       type: Boolean,

@@ -8,23 +8,46 @@
       <div
         class="tw-flex tw-items-center"
       >
-        <!--    Expand icon    -->
         <div
-          class="tw-mr-2 tw-pt-1"
+          class="tw-flex tw-items-center"
         >
-          <c-material-icon
-            v-if="isExpand"
+          <div
+            class="tw-flex tw-items-center"
           >
-            expand_less
-          </c-material-icon>
-          <c-material-icon
-            v-else
-          >
-            expand_more
-          </c-material-icon>
-        </div>
-        <div>
-          {{ guildJoin.nickname }}
+            <!--    Expand icon    -->
+            <div
+              class="tw-mr-2 tw-pt-1"
+            >
+              <c-material-icon
+                v-if="isExpand"
+              >
+                expand_less
+              </c-material-icon>
+              <c-material-icon
+                v-else
+              >
+                expand_more
+              </c-material-icon>
+            </div>
+            <div>
+              <div
+                class="tw-flex tw-items-center"
+              >
+                <t-avatar
+                  size="8"
+                  class="tw-ring tw-rounded-full tw-mr-2"
+                  :src="guildJoin.User.img"
+                  :name="guildJoin.nickname"
+                />
+                <div>
+                  {{ guildJoin.nickname }}
+                </div>
+              </div>
+              <div>
+                {{ sendDate }}
+              </div>
+            </div>
+          </div>
         </div>
         <div
           class="tw-ml-auto tw-flex tw-gap-x-2"
@@ -80,10 +103,12 @@ import { GuildActionTypes } from '@/store/modules/guilds/info/actions'
 import nProgress from 'nprogress'
 import { GuildAdminUserActionTypes } from '@/store/modules/guilds/admins/User/actions'
 import { GuildBlackCreateForm } from '@/types/model/guilds/blackList'
+import TAvatar from '@/components/tailwinds/Avatar/index.vue'
+import dayjs from 'dayjs'
 
 export default defineComponent({
   name: 'JoinUserGuildAdminJoin',
-  components: { JoinUserGuildAdminQuestion, CMaterialIcon },
+  components: { TAvatar, JoinUserGuildAdminQuestion, CMaterialIcon },
   props: {
     guildJoin: {
       type: Object as PropType<GuildJoinInfo>,
@@ -100,6 +125,13 @@ export default defineComponent({
     const isExpand = ref(false)
     /* Question list in guildJoin props */
     const questions = computed(() => props.guildJoin.guildQuestions)
+    const sendDate = computed(() => {
+      const now = dayjs()
+      const diffDates = dayjs(props.guildJoin.updatedAt).diff(now, 'days')
+      if (diffDates < 7) {
+        return dayjs(props.guildJoin.updatedAt).fromNow()
+      } else  dayjs(props.guildJoin.updatedAt).format('ll')
+    })
 
     const onClickCard = () => {
       isExpand.value = !isExpand.value
@@ -197,6 +229,7 @@ export default defineComponent({
     return {
       isExpand,
       questions,
+      sendDate,
       onClickCard,
       onClickAcceptBtn,
       onClickRejectBtn,

@@ -6,20 +6,10 @@
       size="8"
       aria-expanded="false"
       class="tw-ring tw-rounded-full"
-    >
-      <img
-        v-if="guildUserInfo.img"
-        :src="guildUserInfo.img"
-        :alt="guildUserInfo.nickname"
-        class="tw-object-cover tw-object-center tw-w-full tw-h-full"
-      >
-      <span
-        v-else
-        class="tw-font-bold tw-w-full tw-h-full tw-flex tw-justify-center tw-items-center"
-      >
-        KR
-      </span>
-    </t-avatar>
+      :src="guildUserInfo.img"
+      :name="guildUserInfo.nickname"
+      :color="guildUserInfo.color || 'primary'"
+    />
     <div
       class="dropdown-menu"
       :class="{

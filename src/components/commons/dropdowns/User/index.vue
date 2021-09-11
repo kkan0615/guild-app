@@ -6,20 +6,9 @@
       size="8"
       aria-expanded="false"
       class="tw-ring tw-rounded-full"
-    >
-      <img
-        v-if="loggedInUser.img"
-        :src="loggedInUser.img"
-        :alt="loggedInUser.nickname"
-        class="tw-object-cover tw-object-center tw-w-full tw-h-full"
-      >
-      <span
-        v-else
-        class="tw-font-bold tw-w-full tw-h-full tw-flex tw-justify-center tw-items-center"
-      >
-        KR
-      </span>
-    </t-avatar>
+      :src="loggedInUser.img"
+      :name="loggedInUser.nickname"
+    />
     <div
       class="dropdown-menu"
       :class="{

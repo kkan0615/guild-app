@@ -28,6 +28,14 @@ export const userGuildAdminRoutes: Array<RouteRecordRaw> = [
           isGuild: true,
         },
       },
+      {
+        path: 'black-list',
+        name: RouterNameEnum.GUILD_ADMIN_USER_BLACK_LIST,
+        component: () => import('@/views/guilds/admins/users/BlackList/index.vue'),
+        meta: {
+          isGuild: true,
+        },
+      },
     ]
   },
 ]

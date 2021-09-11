@@ -31,4 +31,5 @@ export enum RouterNameEnum {
   GUILD_ADMIN_USER_LAYOUT = 'GuildAdminUserLayout',
   GUILD_ADMIN_USER_MAIN = 'GuildAdminUserMain',
   GUILD_ADMIN_USER_JOINS = 'GuildAdminUserJoins',
+  GUILD_ADMIN_USER_BLACK_LIST = 'GuildAdminUserBlackList',
 }

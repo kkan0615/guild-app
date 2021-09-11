@@ -54,6 +54,9 @@ export const englishDictionary = {
     [RouterNameEnum.GUILD_ADMIN_USER_JOINS]: {
       title: 'Join forms'
     },
+    [RouterNameEnum.GUILD_ADMIN_USER_BLACK_LIST]: {
+      title: 'Black List'
+    },
   },
   views: {
     Home: {

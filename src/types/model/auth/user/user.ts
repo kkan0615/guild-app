@@ -19,10 +19,16 @@ export interface GuildUser extends User {
   userId: string
 }
 
-export interface GuildUserInfo extends GuildUser, FirebaseAttributes {
+export interface GuildUserInfo extends GuildUser {
   role: GuildRole
   notifications: Array<Notification>
 }
+
+/**
+ * User list
+ * Using at admin user page
+ */
+export type GuildUserAtAdminUserList = Pick<GuildUserInfo, 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId'>
 
 export interface UserLoginForm {
   email: string

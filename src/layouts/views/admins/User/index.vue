@@ -26,6 +26,19 @@
         {{ $t(`router.${RouterNameEnum.GUILD_ADMIN_USER_JOINS}.title`) }}
       </router-link>
     </li>
+    <!--  BlackList  -->
+    <li class="nav-item">
+      <router-link
+        class="nav-link"
+        :class="{
+          active: routerKey === RouterNameEnum.GUILD_ADMIN_USER_BLACK_LIST,
+        }"
+        aria-current="page"
+        :to="{ name: RouterNameEnum.GUILD_ADMIN_USER_BLACK_LIST }"
+      >
+        {{ $t(`router.${RouterNameEnum.GUILD_ADMIN_USER_BLACK_LIST}.title`) }}
+      </router-link>
+    </li>
   </ul>
   <router-view
     :key="routerKey"

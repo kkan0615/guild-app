@@ -66,7 +66,7 @@ export default defineComponent({
         return ''
       }
       const formattedCreatedAt = dayjs(props.toast.createdAt)
-      return  formattedCreatedAt.fromNow()
+      return formattedCreatedAt.fromNow()
     })
 
     onMounted(() => {

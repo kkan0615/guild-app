@@ -116,13 +116,18 @@ export default defineComponent({
         children: [
           {
             id: v4(),
-            title: 'join',
+            title: 'Main',
             name: RouterNameEnum.GUILD_ADMIN_USER_MAIN,
           },
           {
             id: v4(),
-            title: 'TEST2',
+            title: 'Joins',
             name: RouterNameEnum.GUILD_ADMIN_USER_JOINS,
+          },
+          {
+            id: v4(),
+            title: 'BlackList',
+            name: RouterNameEnum.GUILD_ADMIN_USER_BLACK_LIST,
           },
         ]
       }

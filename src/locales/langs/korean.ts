@@ -54,6 +54,9 @@ export const koreanDictionary = {
     [RouterNameEnum.GUILD_ADMIN_USER_JOINS]: {
       title: '가입 신고 목록'
     },
+    [RouterNameEnum.GUILD_ADMIN_USER_BLACK_LIST]: {
+      title: '블랙리스트'
+    },
   },
   views: {
     Home: {
