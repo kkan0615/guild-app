@@ -7,11 +7,12 @@
     aria-atomic="true"
     data-bs-delay="2500"
   >
-    <div class="toast-header">
-      <!--      <img-->
-      <!--        class="rounded me-2"-->
-      <!--        alt="Logo"-->
-      <!--      >-->
+    <div
+      class="toast-header bg-info tw-text-white"
+      :class="{
+        [`bg-${toast.type}`]: true
+      }"
+    >
       <strong
         v-if="toast.title"
         class="me-auto"
@@ -26,7 +27,7 @@
       </small>
       <button
         type="button"
-        class="btn-close"
+        class="btn-close tw-text-white"
         data-bs-dismiss="toast"
         aria-label="Close"
         @click="onClickCloseBtn"
@@ -86,10 +87,14 @@ export default defineComponent({
 
     const handleCloseEvent = async () => {
       await store.dispatch(ApplicationActionTypes.REMOVE_TOAST)
+      if (props.toast.afterClose)
+        props.toast.afterClose()
     }
 
     const onClickCloseBtn = async () => {
       await store.dispatch(ApplicationActionTypes.REMOVE_TOAST)
+      if (props.toast.afterClose)
+        props.toast.afterClose()
     }
 
     return {

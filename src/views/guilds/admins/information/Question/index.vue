@@ -120,7 +120,7 @@ export default defineComponent({
         addToast({
           title: 'onClickSaveBtn',
           content: 'onClickSaveBtn',
-          type: 'error',
+          type: 'success',
         })
         editBtnLoading.value = false
       } catch (e) {
@@ -128,7 +128,7 @@ export default defineComponent({
         addToast({
           title: 'Error',
           content: 'Error',
-          type: 'error',
+          type: 'danger',
         })
         editBtnLoading.value = false
       }

@@ -1,4 +1,4 @@
-import { FirebaseAttributes } from '@/types/model/attributes'
+import { FirebaseAttributes, SelectListFilterQuery } from '@/types/model/attributes'
 import { GuildRole } from '@/types/model/guilds/role'
 import { Notification } from '@/types/systems/notification'
 
@@ -13,7 +13,7 @@ export interface User extends FirebaseAttributes {
   auth: UserSystemAuth
 }
 
-export interface GuildUser extends User{
+export interface GuildUser extends User {
   guildId: string
   roleId: string
   userId: string
@@ -27,4 +27,8 @@ export interface GuildUserInfo extends GuildUser, FirebaseAttributes {
 export interface UserLoginForm {
   email: string
   password: string
+}
+
+export interface GuildUserSelectListQuery extends SelectListFilterQuery {
+  nickname?: string
 }

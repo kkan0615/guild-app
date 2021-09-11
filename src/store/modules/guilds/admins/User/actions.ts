@@ -5,11 +5,14 @@ import { GuildAdminUserState } from '@/store/modules/guilds/admins/User/state'
 import { dummyGuildJoins } from '@/dummy/guilds/joins'
 import { GuildJoinInfo } from '@/types/model/guilds/join'
 import { dummyUsers } from '@/dummy/user'
-import { User } from '@/types/model/auth/user/user'
+import { GuildUserSelectListQuery, User } from '@/types/model/auth/user/user'
 
 export enum GuildAdminUserActionTypes {
   LOAD_GUILD_JOIN_FORMS = 'guildAdminUser/LOAD_GUILD_JOIN_FORMS',
   RESET_GUILD_JOIN_FORMS = 'guildAdminUser/RESET_GUILD_JOIN_FORMS',
+  SET_USER_FILTER_OPTION = 'guildAdminUser/SET_USER_FILTER_OPTION',
+  LOAD_BLACK_LIST = 'guildAdminUser/LOAD_BLACK_LIST',
+  RESET_BLACK_LIST = 'guildAdminUser/RESET_BLACK_LIST',
 }
 
 export type AugmentedActionContext = {
@@ -24,6 +27,31 @@ export interface GuildAdminUserActions {
     { commit }: AugmentedActionContext,
   ): void
   [GuildAdminUserActionTypes.RESET_GUILD_JOIN_FORMS](
+    { commit }: AugmentedActionContext,
+  ): void
+  /**
+   * Set user filter option
+   * @param commit
+   * @param payload - filter option
+   */
+  [GuildAdminUserActionTypes.SET_USER_FILTER_OPTION](
+    { commit }: AugmentedActionContext,
+    payload: GuildUserSelectListQuery,
+  ): void
+
+  /**
+   * Load black list
+   * @param commit
+   */
+  [GuildAdminUserActionTypes.LOAD_BLACK_LIST](
+    { commit }: AugmentedActionContext,
+  ): void
+
+  /**
+   * Reset black list
+   * @param commit
+   */
+  [GuildAdminUserActionTypes.RESET_BLACK_LIST](
     { commit }: AugmentedActionContext,
   ): void
 }
@@ -46,5 +74,14 @@ export const guildAdminUserActions: ActionTree<GuildAdminUserState, RootState> &
   },
   [GuildAdminUserActionTypes.RESET_GUILD_JOIN_FORMS] ({ commit }) {
     commit(GuildAdminUserMutationTypes.SET_GUILD_JOIN_FORMS, [])
+  },
+  [GuildAdminUserActionTypes.SET_USER_FILTER_OPTION] ({ commit }, payload) {
+    commit(GuildAdminUserMutationTypes.SET_USER_FILTER_OPTION, payload)
+  },
+  [GuildAdminUserActionTypes.LOAD_BLACK_LIST] ({ commit }) {
+    commit(GuildAdminUserMutationTypes.SET_BLACK_LIST, [])
+  },
+  [GuildAdminUserActionTypes.RESET_BLACK_LIST] ({ commit }) {
+    commit(GuildAdminUserMutationTypes.SET_BLACK_LIST, [])
   },
 }

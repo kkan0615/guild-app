@@ -8,6 +8,13 @@ import { dummyGuildUsers } from '@/dummy/user'
 import { dummyGuildRoles } from '@/dummy/guilds/role'
 import { dummyGuildTags } from '@/dummy/guilds/tag'
 import { GuildJoinQuestionForm } from '@/types/model/guilds/question'
+import { dummyGuildJoins } from '@/dummy/guilds/joins'
+import _ from 'lodash'
+import { v4 } from 'uuid'
+import { GuildJoinInfo } from '@/types/model/guilds/join'
+import { dummyGuildBlackList } from '@/dummy/guilds/blackList'
+import dayjs from 'dayjs'
+import { GuildBlackCreateForm } from '@/types/model/guilds/blackList'
 
 export enum GuildActionTypes {
   LOAD_GUILD_INFO = 'guild/LOAD_GUILD_INFO',
@@ -18,7 +25,10 @@ export enum GuildActionTypes {
   READ_USER_NOTIFICATION = 'guild/READ_USER_NOTIFICATION',
   OPEN_SIDEBAR = 'guild/OPEN_SIDEBAR',
   CLOSE_SIDEBAR = 'guild/CLOSE_SIDEBAR',
-  UPDATE_GUILD_QUESTIONS = 'UPDATE_GUILD_QUESTIONS',
+  UPDATE_GUILD_QUESTIONS = 'guild/UPDATE_GUILD_QUESTIONS',
+  ACCEPT_JOIN_TO_GUILD = 'guild/ACCEPT_JOIN_TO_GUILD',
+  REJECT_JOIN_TO_GUILD = 'guild/REJECT_JOIN_TO_GUILD',
+  BLOCK_JOIN_TO_GUILD = 'guild/BLOCK_JOIN_TO_GUILD',
 }
 
 export type AugmentedActionContext = {
@@ -79,6 +89,37 @@ export interface GuildActions {
   [GuildActionTypes.UPDATE_GUILD_QUESTIONS](
     { state, dispatch }: AugmentedActionContext,
     payload: Array<GuildJoinQuestionForm>
+  ): void
+
+  /**
+   * Accept join
+   * @param state
+   * @param dispatch
+   * @param payload - guild join
+   */
+  [GuildActionTypes.ACCEPT_JOIN_TO_GUILD](
+    { state, dispatch }: AugmentedActionContext,
+    payload: GuildJoinInfo
+  ): void
+  /**
+   * Reject join
+   * @param state
+   * @param dispatch
+   * @param payload - guild join
+   */
+  [GuildActionTypes.REJECT_JOIN_TO_GUILD](
+    { state, dispatch }: AugmentedActionContext,
+    payload: GuildJoinInfo
+  ): void
+  /**
+   * Block join
+   * @param state
+   * @param dispatch
+   * @param payload - black form
+   */
+  [GuildActionTypes.BLOCK_JOIN_TO_GUILD](
+    { state, dispatch }: AugmentedActionContext,
+    payload: GuildBlackCreateForm
   ): void
 }
 
@@ -153,6 +194,63 @@ export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
     } catch (e) {
       console.error(e)
       throw new Error()
+    }
+  },
+  async [GuildActionTypes.ACCEPT_JOIN_TO_GUILD] ({ state, dispatch }, payload) {
+    const index = dummyGuildJoins.findIndex(join => join.uid === payload.uid)
+    if (index >= 0) {
+      const foundDummyGuild = dummyGuilds.find(dg => dg.uid === state.guildInfo.uid)
+      if (foundDummyGuild) {
+        /* Remove from join form */
+        dummyGuildJoins.splice(index, 1)
+        /* Create guild user */
+        const dummyGuildUserUid = v4()
+        dummyGuildUsers.push({
+          ...payload.User,
+          uid: dummyGuildUserUid,
+          guildId: state.guildInfo.uid,
+          nickname: payload.nickname,
+        })
+        foundDummyGuild.memberIds.push(dummyGuildUserUid)
+
+        /* Reload */
+        try {
+          await dispatch(GuildActionTypes.LOAD_GUILD_INFO, state.guildInfo.uid)
+        } catch (e) {
+          console.error(e)
+          throw new Error(e)
+        }
+      } else {
+        throw new Error('no guild')
+      }
+    } else {
+      throw new Error('index is -1')
+    }
+  },
+  async [GuildActionTypes.REJECT_JOIN_TO_GUILD] ({ }, payload) {
+    const index = dummyGuildJoins.findIndex(join => join.uid === payload.uid)
+    if (index >= 0) {
+      /* Remove from join form */
+      dummyGuildJoins.splice(index, 1)
+    } else {
+      throw new Error('index is -1')
+    }
+  },
+  async [GuildActionTypes.BLOCK_JOIN_TO_GUILD] ({ state }, payload) {
+    const index = dummyGuildJoins.findIndex(join => join.uid === payload.guildJoinId)
+    if (index >= 0) {
+      /* Remove from join form */
+      dummyGuildJoins.splice(index, 1)
+      /* Create black list */
+      dummyGuildBlackList.push({
+        uid: v4(),
+        guildId: state.guildInfo.uid,
+        userId: payload.userId,
+        createdAt: dayjs().toISOString(),
+        updatedAt: dayjs().toISOString(),
+      })
+    } else {
+      throw new Error('index is -1')
     }
   },
 }

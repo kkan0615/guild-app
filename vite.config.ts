@@ -14,5 +14,8 @@ export default defineConfig({
     host: true,
     open: true,
   },
+  build: {
+    sourcemap: 'hidden', // Remove all comments on build
+  },
 })
 
