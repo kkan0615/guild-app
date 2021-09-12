@@ -28,7 +28,7 @@ export interface GuildUserInfo extends GuildUser {
  * User list
  * Using at admin user page
  */
-export type GuildUserAtAdminUserList = Pick<GuildUserInfo, 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId'>
+export type GuildUserAtAdminUserList = Pick<GuildUserInfo, 'uid' | 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId'>
 
 export interface UserLoginForm {
   email: string

@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, computed, PropType } from 'vue'
+import { defineComponent, computed, PropType } from 'vue'
 import { AgGridVue } from 'ag-grid-vue3'
 import { ColDef } from 'ag-grid-community/dist/lib/entities/colDef'
 
@@ -24,7 +24,7 @@ export default defineComponent({
   },
   props: {
     columns: {
-      type: Array as PropType<ColDef>,
+      type: Array as PropType<Array<ColDef>>,
       required: false,
       default: () => []
     },

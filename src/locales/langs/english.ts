@@ -19,6 +19,7 @@ export const englishDictionary = {
     updated: 'Success to update',
     removed: 'Success to remove',
     failed: 'Fail to save. Please try again after press F5 (Refresh)',
+    failRedirect: 'Fail to redirect page.',
   },
   router: {
     GuildBaseLayout: {

@@ -17,11 +17,12 @@ export default defineComponent({
   name: 'RoleColumnBadge',
   setup: () => {
     const getRoleName = (params: ICellRendererParams) => {
-      return params.value.name
+      return params.value
     }
 
     const getRoleColor = (params: ICellRendererParams) => {
-      return tailwindDefaultColors.includes(params.value.color) ? `tw-bg-${params.value.color}-500` : 'tw-bg-blue-500'
+      const color = params.data.role.color
+      return tailwindDefaultColors.includes(color) ? `tw-bg-${color}-500` : 'tw-bg-blue-500'
     }
 
     return {

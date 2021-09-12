@@ -1,6 +1,7 @@
 <template>
-  <div>
-    users
+  <div
+    class="tw-p-2"
+  >
     <main-user-guild-admin-table />
   </div>
 </template>

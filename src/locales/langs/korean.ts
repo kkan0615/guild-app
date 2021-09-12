@@ -19,6 +19,7 @@ export const koreanDictionary = {
     updated: '수정에 성공했습니다.',
     removed: '삭제에 성공했습니다.',
     failed: '저장에 실패했습니다. 새로고침 후 다시 시도해주세요.',
+    failRedirect: '페이지 이동에 문제가 발생했습니다.',
   },
   router: {
     GuildBaseLayout: {

@@ -106,24 +106,27 @@ export const initDummyGuilds = () => {
 
   const members: Array<GuildUserInfo> = []
   for (let i = 0; i < 50; i++) {
-    const dummyGuildUser = dummyUsers[Math.floor(Math.random() * dummyUsers.length)]
-    if (members.findIndex(member => member.userId === dummyGuildUser.uid) !== -1)
+    const dummyUser = dummyUsers[Math.floor(Math.random() * dummyUsers.length)]
+    if (members.findIndex(member => member.userId === dummyUser.uid) !== -1)
+      continue
+    if (dummyUser.nickname === 'Super Admin')
       continue
     const role = roles[Math.floor(Math.random() * roles.length)]
 
     const result = {
-      ...dummyGuildUser,
+      ...dummyUser,
       uid: v4(),
-      userId: dummyGuildUser.uid,
+      userId: dummyUser.uid,
       role,
+      roleId: role.uid,
       guildId: 'test-uid',
       notifications: [...Array(50).keys()].map(() => {
         return {
           uid: v4(),
           guildId: 'test-uid',
           type: 'success',
-          targetUserId: dummyGuildUser.uid,
-          sendUserId: dummyGuildUser.uid,
+          targetUserId: dummyUser.uid,
+          sendUserId: dummyUser.uid,
           title: faker.lorem.sentence(),
           content: faker.lorem.sentence(),
           createdAt: dayjs().toISOString(),
@@ -166,7 +169,8 @@ export const initDummyGuilds = () => {
       }),
       userId: admin.uid,
     }
-    dummyGuildUsers.push(dummyGuildUser)
+    dummyGuildUsers.unshift(dummyGuildUser)
+    members.unshift(dummyGuildUser)
 
     const joinQuestions = [...Array(5).keys()].map(num => {
       return {

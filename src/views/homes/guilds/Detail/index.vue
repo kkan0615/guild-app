@@ -142,8 +142,6 @@ import { computed, defineComponent, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import useStore from '@/store'
 import { HomeActionTypes } from '@/store/modules/home/actions'
-import 'ag-grid-community/dist/styles/ag-grid.css'
-import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 import CAgGrid from '@/components/commons/AgGrid/index.vue'
 import { UserColumn } from '@/types/model/auth/user/column'
 import RoleColumnBadge from '@/components/columns/badges/Role.vue'
@@ -169,9 +167,6 @@ export default defineComponent({
     const store = useStore()
     const { loggedInUser, isLoggedIn } = useUserMixin()
 
-    const defaultColumn = {
-      resizable: true,
-    }
     const columns = UserColumn
 
     const rows = computed(() => guildInfo.value.members)
@@ -209,7 +204,6 @@ export default defineComponent({
     }
 
     return {
-      defaultColumn,
       columns,
       rows,
       guildInfo,

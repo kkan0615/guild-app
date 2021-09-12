@@ -38,4 +38,20 @@ export const userGuildAdminRoutes: Array<RouteRecordRaw> = [
       },
     ]
   },
+  {
+    path: 'user/detail/:userId',
+    name: RouterNameEnum.GUILD_ADMIN_USER_DETAIL,
+    component: () => import('@/views/guilds/admins/users/Detail/index.vue'),
+    meta: {
+      isGuild: true,
+    },
+  },
+  {
+    path: 'user/edit/:userId',
+    name: RouterNameEnum.GUILD_ADMIN_USER_EDIT,
+    component: () => import('@/views/guilds/admins/users/Edit/index.vue'),
+    meta: {
+      isGuild: true,
+    },
+  },
 ]
