@@ -1,5 +1,9 @@
 import { GuildJoinInfo } from '@/types/model/guilds/join'
-import { GuildUserAtAdminUserList, GuildUserSelectListQuery } from '@/types/model/auth/user/user'
+import {
+  GuildUserAtAdminDetail,
+  GuildUserAtAdminUserList,
+  GuildUserSelectListQuery
+} from '@/types/model/auth/user/user'
 import { GuildBlackInfo } from '@/types/model/guilds/blackList'
 
 export interface GuildAdminUserState {
@@ -7,6 +11,7 @@ export interface GuildAdminUserState {
   userFilterOption: GuildUserSelectListQuery
   joinForms: Array<GuildJoinInfo>
   blackList: Array<GuildBlackInfo>
+  userDetail: GuildUserAtAdminDetail
 }
 
 export const guildAdminUserState: GuildAdminUserState = {
@@ -14,4 +19,5 @@ export const guildAdminUserState: GuildAdminUserState = {
   userFilterOption: {} as GuildUserSelectListQuery,
   joinForms: [],
   blackList: [],
+  userDetail: {} as GuildUserAtAdminDetail,
 }

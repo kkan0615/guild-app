@@ -80,7 +80,7 @@
     <div
       v-if="isExpand"
       role="list"
-      class="tw-flex tw-flex-col tw-gap-y-3 tw-px-4 tw-py-2"
+      class="tw-flex tw-flex-col tw-gap-y-3 tw-pl-4 tw-py-2"
     >
       <join-user-guild-admin-question
         v-for="(question, i) in questions"

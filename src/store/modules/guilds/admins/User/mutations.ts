@@ -1,7 +1,11 @@
 import { MutationTree } from 'vuex'
 import { GuildAdminUserState } from './state'
 import { GuildJoinInfo } from '@/types/model/guilds/join'
-import { GuildUserAtAdminUserList, GuildUserSelectListQuery } from '@/types/model/auth/user/user'
+import {
+  GuildUserAtAdminDetail,
+  GuildUserAtAdminUserList,
+  GuildUserSelectListQuery
+} from '@/types/model/auth/user/user'
 import { GuildBlackInfo } from '@/types/model/guilds/blackList'
 import _ from 'lodash'
 
@@ -10,12 +14,14 @@ export enum GuildAdminUserMutationTypes {
   SET_GUILD_JOIN_FORMS = 'guildAdminUser/SET_GUILD_JOIN_FORMS',
   SET_USER_FILTER_OPTION = 'guildAdminUser/SET_USER_FILTER_OPTION',
   SET_BLACK_LIST = 'guildAdminUser/SET_BLACK_LIST',
+  SET_USER_DETAIL = 'guildAdminUser/SET_USER_DETAIL',
 }
 export type GuildAdminUserMutations<S = GuildAdminUserState> = {
   [GuildAdminUserMutationTypes.SET_USER_LIST](state: S, payload: Array<GuildUserAtAdminUserList>): void
   [GuildAdminUserMutationTypes.SET_GUILD_JOIN_FORMS](state: S, payload: Array<GuildJoinInfo>): void
   [GuildAdminUserMutationTypes.SET_USER_FILTER_OPTION](state: S, payload: GuildUserSelectListQuery): void
   [GuildAdminUserMutationTypes.SET_BLACK_LIST](state: S, payload: Array<GuildBlackInfo>): void
+  [GuildAdminUserMutationTypes.SET_USER_DETAIL](state: S, payload: GuildUserAtAdminDetail): void
 }
 
 export const guildAdminUserMutations: MutationTree<GuildAdminUserState> & GuildAdminUserMutations = {
@@ -29,5 +35,8 @@ export const guildAdminUserMutations: MutationTree<GuildAdminUserState> & GuildA
   },
   [GuildAdminUserMutationTypes.SET_BLACK_LIST] (state, payload) {
     state.blackList = _.cloneDeep(payload)
+  },
+  [GuildAdminUserMutationTypes.SET_USER_DETAIL] (state, payload) {
+    state.userDetail = _.cloneDeep(payload)
   },
 }

@@ -30,6 +30,8 @@ export interface GuildUserInfo extends GuildUser {
  */
 export type GuildUserAtAdminUserList = Pick<GuildUserInfo, 'uid' | 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId'>
 
+export type GuildUserAtAdminDetail = Pick<GuildUserInfo, 'uid' | 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId'>
+
 export interface UserLoginForm {
   email: string
   password: string
