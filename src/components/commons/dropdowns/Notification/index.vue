@@ -3,8 +3,6 @@
     class="dropdown"
   >
     <div
-      role="button"
-      type="button"
       class="tw-cursor-pointer tw-flex tw-justify-center tw-items-center position-relative"
       data-bs-toggle="dropdown"
     >
@@ -13,6 +11,7 @@
         <span class="visually-hidden">unread messages</span>
       </span>
       <c-material-icon
+        class="tw-cursor-pointer"
         type="outlined"
       >
         notifications

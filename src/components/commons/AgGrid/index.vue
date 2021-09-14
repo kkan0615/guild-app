@@ -63,10 +63,15 @@ export default defineComponent({
       require: false,
       default: true,
     },
-    flex: {
-      type: Number,
+    suppressAutoSize: {
+      type: Boolean,
       require: false,
-      default: 1,
+      default: true,
+    },
+    flex: {
+      type: [Number, undefined],
+      require: false,
+      default: undefined,
     },
   },
   setup: (props) => {
@@ -74,9 +79,10 @@ export default defineComponent({
       return {
         editable: props.editable,
         sortable: props.sortable,
-        flex: props.flex,
         filter: props.filter,
+        flex: props.flex,
         resizable: props.resizable,
+        suppressAutoSize: props.suppressAutoSize,
       }
     })
     return {

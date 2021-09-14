@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, onMounted } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import useStore from '@/store'
 import { UserColumnAtAdminUser } from '@/types/model/auth/user/column'
 import CAgGrid from '@/components/commons/AgGrid/index.vue'
@@ -39,10 +39,6 @@ export default defineComponent({
     const columns = ref(UserColumnAtAdminUser)
 
     const userList = computed(() => store.state.guildAdminUser.userList)
-
-    onMounted(() => {
-      console.log(userList.value.map(test => test.role))
-    })
 
     return {
       columns,

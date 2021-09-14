@@ -2,7 +2,21 @@
   <div
     class="tw-p-2"
   >
-    <main-user-guild-admin-table />
+    <div
+      class="tw-font-bold tw-mb-2"
+    >
+      Managers
+    </div>
+    <div
+      class="tw-grid md:tw-grid-cols-6 tw-gap-4"
+    >
+      <main-user-guild-admin-manager />
+    </div>
+    <div
+      class="tw-my-2"
+    >
+      <main-user-guild-admin-table />
+    </div>
   </div>
 </template>
 
@@ -12,10 +26,11 @@ import useStore from '@/store'
 import { GuildAdminUserActionTypes } from '@/store/modules/guilds/admins/User/actions'
 import nProgress from 'nprogress'
 import MainUserGuildAdminTable from '@/views/guilds/admins/users/Main/components/Table.vue'
+import MainUserGuildAdminManager from '@/views/guilds/admins/users/Main/components/Manager.vue'
 
 export default defineComponent({
   name: 'MainUserGuildAdmin',
-  components: { MainUserGuildAdminTable },
+  components: { MainUserGuildAdminManager, MainUserGuildAdminTable },
   setup: () => {
     const store = useStore()
 
