@@ -59,6 +59,27 @@ export const koreanDictionary = {
       title: '블랙리스트'
     },
   },
+  types: {
+    models: {
+      auth: {
+        user: {
+          fields: {
+            name: '이름',
+            nickname: '닉네임',
+            email: '이메일',
+            auth: '내부 역할',
+          }, // fields end
+        }, // user ends
+      }, // auth ends
+      guilds: {
+        role: {
+          fields: {
+            name: '역할명',
+          }, // fields end
+        }, // role end
+      }, // guilds end
+    }, // model end
+  }, // types end
   views: {
     Home: {
       guildListLink: '길드 찾기',

@@ -28,10 +28,12 @@ export const UserColumnAtAdminUser: Array<ColDef> = [
     field: 'nickname',
     headerName: 'Nickname',
     flex: 1,
+    minWidth: 300,
   },
   {
     field: 'createdAt',
     headerName: 'Join',
+    width: 300,
     filter: 'agDateColumnFilter',
     // // add extra parameters for the date filter
     filterParams: {
@@ -56,7 +58,6 @@ export const UserColumnAtAdminUser: Array<ColDef> = [
       const value = params.value as GuildUserInfo
       return dayjs(value.createdAt).format('llll')
     },
-    flex: 1,
   },
   {
     field: 'role.name',

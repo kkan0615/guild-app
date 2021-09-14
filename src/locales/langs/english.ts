@@ -59,6 +59,27 @@ export const englishDictionary = {
       title: 'Black List'
     },
   },
+  types: {
+    models: {
+      auth: {
+        user: {
+          fields: {
+            name: 'Name',
+            nickname: 'Nickname',
+            email: 'Email',
+            auth: 'Position',
+          }, // fields end
+        }, // user ends
+      }, // auth ends
+      guilds: {
+        role: {
+          fields: {
+            name: '역할명',
+          }, // fields end
+        }, // role end
+      }, // guilds end
+    } // model end
+  }, // types end
   views: {
     Home: {
       guildListLink: 'Find Guild',
