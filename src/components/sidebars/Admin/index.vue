@@ -130,7 +130,19 @@ export default defineComponent({
             name: RouterNameEnum.GUILD_ADMIN_USER_BLACK_LIST,
           },
         ]
-      }
+      },
+      {
+        id: v4(),
+        title: 'Role',
+        icon: '',
+        children: [
+          {
+            id: v4(),
+            title: 'Main',
+            name: RouterNameEnum.GUILD_ADMIN_ROLE_MAIN,
+          },
+        ]
+      },
     ]
 
     const onClickOutside = async () => {

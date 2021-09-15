@@ -13,6 +13,8 @@ import { ApplicationState } from '@/store/modules/applications/state'
 import { applicationModule, ApplicationStore } from '@/store/modules/applications'
 import { GuildAdminUserState } from '@/store/modules/guilds/admins/User/state'
 import { guildAdminUserModule, GuildAdminUserStore } from '@/store/modules/guilds/admins/User'
+import { GuildAdminRoleState } from '@/store/modules/guilds/admins/Role/state'
+import { guildAdminRoleModule, GuildAdminRoleStore } from '@/store/modules/guilds/admins/Role'
 
 // define your typings for the store state
 export interface RootState {
@@ -22,6 +24,7 @@ export interface RootState {
   guild: GuildState
   guildAdminApp: GuildAdminAppState
   guildAdminUser: GuildAdminUserState
+  guildAdminRole: GuildAdminRoleState
   count: number
 }
 
@@ -31,7 +34,8 @@ export type RootStore =
   HomeStore<Pick<RootState, 'home'>> &
   GuildStore<Pick<RootState, 'guild'>> &
   GuildAdminAppStore<Pick<RootState, 'guildAdminApp'>> &
-  GuildAdminUserStore<Pick<RootState, 'guildAdminUser'>>
+  GuildAdminUserStore<Pick<RootState, 'guildAdminUser'>> &
+  GuildAdminRoleStore<Pick<RootState, 'guildAdminRole'>>
 
 
 // define injection key
@@ -48,6 +52,8 @@ export const store = createStore<RootState>({
     guild: guildModule,
     guildAdminApp: guildAdminAppModule,
     guildAdminUser: guildAdminUserModule,
+    guildAdminRole: guildAdminRoleModule,
+
   }
   // state: {
   //   count: 50

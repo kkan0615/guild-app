@@ -34,4 +34,10 @@ export enum RouterNameEnum {
   GUILD_ADMIN_USER_BLACK_LIST = 'GuildAdminUserBlackList',
   GUILD_ADMIN_USER_DETAIL = 'GuildAdminUserBlackDetail',
   GUILD_ADMIN_USER_EDIT = 'GuildAdminUserBlackEdit',
+  /* Admin Role */
+  GUILD_ADMIN_ROLE_LAYOUT = 'GuildAdminRoleLayout',
+  GUILD_ADMIN_ROLE_MAIN = 'GuildAdminRolesMain',
+  GUILD_ADMIN_ROLE_DETAIL = 'GuildAdminRolesDetail',
+  GUILD_ADMIN_ROLE_CREATE_FORM = 'GuildAdminRolesCreateForm',
+  GUILD_ADMIN_ROLE_UPDATE_FORM = 'GuildAdminRolesUpdateForm',
 }

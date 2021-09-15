@@ -58,6 +58,9 @@ export const englishDictionary = {
     [RouterNameEnum.GUILD_ADMIN_USER_BLACK_LIST]: {
       title: 'Black List'
     },
+    [RouterNameEnum.GUILD_ADMIN_ROLE_MAIN]: {
+      title: 'Role list'
+    },
   },
   types: {
     models: {

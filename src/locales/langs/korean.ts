@@ -58,6 +58,9 @@ export const koreanDictionary = {
     [RouterNameEnum.GUILD_ADMIN_USER_BLACK_LIST]: {
       title: '블랙리스트'
     },
+    [RouterNameEnum.GUILD_ADMIN_ROLE_MAIN]: {
+      title: '권한 및 역할'
+    },
   },
   types: {
     models: {

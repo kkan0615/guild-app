@@ -3,6 +3,7 @@ import { RouterNameEnum } from '@/types/systems/routers/keys'
 import GuildAdminLayout from '@/layouts/guilds/Admin/index.vue'
 import { informationGuildAdminRoutes } from '@/router/modules/guild/admins/modules/information'
 import { userGuildAdminRoutes } from '@/router/modules/guild/admins/modules/user'
+import { roleGuildAdminRoutes } from '@/router/modules/guild/admins/modules/role'
 
 export const guildAdminRoutes: Array<RouteRecordRaw> = [
   {
@@ -24,6 +25,7 @@ export const guildAdminRoutes: Array<RouteRecordRaw> = [
       },
       ...informationGuildAdminRoutes,
       ...userGuildAdminRoutes,
+      ...roleGuildAdminRoutes,
     ]
   },
 ]
