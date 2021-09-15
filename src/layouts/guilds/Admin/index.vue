@@ -13,7 +13,7 @@
         class="tw-flex-grow-0 tw-flex-shrink"
       />
       <div
-        class="tw-p-3 tw-flex-grow tw-flex-shrink-0"
+        class="tw-p-3  tw-h-1 tw-flex-grow tw-flex-shrink-0"
       >
         <!--     breadcrumb     -->
         <!--          <nav-->

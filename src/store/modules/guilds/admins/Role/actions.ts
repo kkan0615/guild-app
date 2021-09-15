@@ -69,7 +69,8 @@ export const guildAdminRoleActions: ActionTree<GuildAdminRoleState, RootState> &
   [GuildAdminRoleActionTypes.LOAD_SELECTED_ROLE] ({ commit, rootState }, payload) {
     const guildUid = rootState.guild.guildInfo.uid
     if (guildUid) {
-      const guildRolesRes = dummyGuildRoles.filter(dgr => dgr.guildId === guildUid).find(dgr => dgr.uid === payload)
+      const guildRolesRes = dummyGuildRoles.find(dgr => dgr.uid === payload)
+      console.log(payload, guildRolesRes)
       if (guildRolesRes)
         commit(GuildAdminRoleMutationTypes.SET_SELECTED_ROLE, guildRolesRes)
       else {
