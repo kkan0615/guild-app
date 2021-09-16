@@ -1,6 +1,6 @@
 <template>
   <div
-    class="md:tw-w-10/12 md:tw-text-sm tw-w-full"
+    class="md:tw-w-10/12 md:tw-text-base tw-w-full"
   >
     <slot />
   </div>

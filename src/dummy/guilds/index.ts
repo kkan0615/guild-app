@@ -1,4 +1,4 @@
-import { Guild, GuildInfo } from '@/types/model/guilds'
+import { Guild } from '@/types/model/guilds'
 import { v4 } from 'uuid'
 import * as faker from 'faker'
 import { dummyGuildUsers, dummyUsers } from '@/dummy/user'
@@ -9,6 +9,7 @@ import dayjs from 'dayjs'
 import { Notification } from '@/types/systems/notification'
 import { dummyGuildRoles } from '@/dummy/guilds/role'
 import { dummyGuildJoins } from '@/dummy/guilds/joins'
+import { tailwindDefaultColors } from '@/data/color'
 
 export let dummyGuilds: Array<Guild> = []
 
@@ -22,7 +23,7 @@ export const initDummyGuilds = () => {
         guildId: guildUid,
         name: faker.lorem.word(),
         default: false,
-        color: faker.commerce.color(),
+        color: tailwindDefaultColors[Math.floor(Math.random() * tailwindDefaultColors.length)],
         index: num,
         createdAt: dayjs().toISOString(),
         updatedAt: dayjs().toISOString(),
@@ -94,7 +95,7 @@ export const initDummyGuilds = () => {
       guildId: 'test-uid',
       name: faker.lorem.word(),
       default: false,
-      color: faker.commerce.color(),
+      color: tailwindDefaultColors[Math.floor(Math.random() * tailwindDefaultColors.length)],
       index: num,
       createdAt: dayjs().toISOString(),
       updatedAt: dayjs().toISOString(),

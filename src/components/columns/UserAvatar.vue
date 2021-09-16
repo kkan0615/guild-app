@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-full tw-flex tw-items-center"
+    class="h-full tw-flex tw-items-center tw-pt-1"
   >
     <div
       class="tw-relative"
@@ -13,7 +13,7 @@
         auto_awesome
       </c-material-icon>
       <t-avatar
-        size="8"
+        size="7"
         :src="params.data.img"
         :name="params.data.nickname"
       />

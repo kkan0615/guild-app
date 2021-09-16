@@ -9,8 +9,15 @@
       <div
         class="tw-flex-grow-0 tw-flex-shrink tw-flex"
       >
-        <div>
-          {{ selectedRole.name }}
+        <c-material-icon
+          @click="onClickBackBtn"
+        >
+          chevron_left
+        </c-material-icon>
+        <div
+          v-if="mode === 'UPDATE'"
+        >
+          {{ $t('standardBtnLabels.edit') }}
         </div>
         <button
           type="button"
@@ -26,11 +33,9 @@
       <div
         class="tw-flex-grow tw-flex-shrink-0 tw-h-1"
       >
-        <div
+        <main-role-guild-admin-info
           v-if="mode === 'READ'"
-        >
-          {{ selectedRole }}
-        </div>
+        />
         <main-role-guild-admin-edit
           v-else
         />
@@ -57,10 +62,13 @@ import { useRoute, useRouter } from 'vue-router'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
 import MainRoleGuildAdminEdit from '@/views/guilds/admins/roles/Main/components/Edit.vue'
 import CDivider from '@/components/commons/Divider/index.vue'
+import MainRoleGuildAdminUserTable from '@/views/guilds/admins/roles/Main/components/UserTable.vue'
+import MainRoleGuildAdminInfo from '@/views/guilds/admins/roles/Main/components/info.vue'
+import CMaterialIcon from '@/components/commons/icons/Material/index.vue'
 
 export default defineComponent({
   name: 'MainRoleGuildAdmin',
-  components: { CDivider, MainRoleGuildAdminEdit },
+  components: { CMaterialIcon, MainRoleGuildAdminInfo, MainRoleGuildAdminUserTable, CDivider, MainRoleGuildAdminEdit },
   setup: () => {
     const store = useStore()
     const route = useRoute()
@@ -86,6 +94,7 @@ export default defineComponent({
     onBeforeUnmount(async () => {
       try {
         await store.dispatch(GuildAdminRoleActionTypes.RESET_SELECTED_ROLE)
+        await store.dispatch(GuildAdminRoleActionTypes.SET_MODE, 'READ')
       } catch (e) {
         console.error(e)
       }
@@ -99,11 +108,16 @@ export default defineComponent({
       }
     }
 
+    const onClickBackBtn = async () => {
+      await router.push({ name: RouterNameEnum.GUILD_ADMIN_ROLE_MAIN })
+    }
+
     return {
       selectedRole,
       isMainRoute,
       mode,
       onClickEditBtn,
+      onClickBackBtn,
     }
   }
 })
