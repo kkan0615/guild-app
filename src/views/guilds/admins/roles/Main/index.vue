@@ -55,16 +55,12 @@ import useStore from '@/store'
 import { GuildAdminRoleActionTypes } from '@/store/modules/guilds/admins/Role/actions'
 import { useRoute, useRouter } from 'vue-router'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
-import CHorizontalView from '@/components/commons/HorizontalView/index.vue'
-import CHorizontalViewLabel from '@/components/commons/HorizontalView/components/Label.vue'
-import CHorizontalViewContent from '@/components/commons/HorizontalView/components/Content.vue'
-import BBaseInput from '@/components/commons/inputs/Base/index.vue'
 import MainRoleGuildAdminEdit from '@/views/guilds/admins/roles/Main/components/Edit.vue'
 import CDivider from '@/components/commons/Divider/index.vue'
 
 export default defineComponent({
   name: 'MainRoleGuildAdmin',
-  components: { CDivider, MainRoleGuildAdminEdit, BBaseInput, CHorizontalViewContent, CHorizontalViewLabel, CHorizontalView },
+  components: { CDivider, MainRoleGuildAdminEdit },
   setup: () => {
     const store = useStore()
     const route = useRoute()
