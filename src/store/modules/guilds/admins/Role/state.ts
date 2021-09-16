@@ -1,11 +1,13 @@
-import { GuildRole } from '@/types/model/guilds/role'
+import { GuildRole, GuildRoleAtAdmin } from '@/types/model/guilds/role'
 
 export interface GuildAdminRoleState {
   roleList: Array<GuildRole>
-  selectedRole: GuildRole
+  selectedRole: GuildRoleAtAdmin
+  mode: 'READ' | 'UPDATE'
 }
 
 export const guildAdminRoleState: GuildAdminRoleState = {
   roleList: [],
-  selectedRole: {} as GuildRole
+  selectedRole: {} as GuildRoleAtAdmin,
+  mode: 'READ',
 }

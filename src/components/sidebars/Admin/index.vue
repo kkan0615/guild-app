@@ -42,7 +42,7 @@
           v-for="child in menu.children"
           :key="child.id"
           :name="child.name"
-          :is-active="child.name === route.name"
+          :is-active="child.activeCondition ? child.activeCondition() : child.name === route.name"
         >
           {{ $t(`router.${child.name}.title`) }}
         </admin-sidebar-menu>
@@ -140,6 +140,9 @@ export default defineComponent({
             id: v4(),
             title: 'Main',
             name: RouterNameEnum.GUILD_ADMIN_ROLE_MAIN,
+            activeCondition: () => {
+              return route.name === RouterNameEnum.GUILD_ADMIN_ROLE_MAIN || route.name === RouterNameEnum.GUILD_ADMIN_ROLE_DETAIL
+            }
           },
         ]
       },

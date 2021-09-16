@@ -3,13 +3,15 @@ import { RootState } from '@/store'
 import { GuildAdminRoleMutations, GuildAdminRoleMutationTypes } from '@/store/modules/guilds/admins/Role/mutations'
 import { GuildAdminRoleState } from '@/store/modules/guilds/admins/Role/state'
 import { dummyGuildRoles } from '@/dummy/guilds/role'
-import { GuildRole } from '@/types/model/guilds/role'
+import { GuildRole, GuildRoleAtAdmin } from '@/types/model/guilds/role'
+import { dummyGuildUsers } from '@/dummy/user'
 
 export enum GuildAdminRoleActionTypes {
   LOAD_ROLE_LIST = 'guildAdminRole/LOAD_ROLE_LIST',
   RESET_ROLE_LIST = 'guildAdminRole/RESET_ROLE_LIST',
   LOAD_SELECTED_ROLE = 'guildAdminRole/LOAD_SELECTED_ROLE',
   RESET_SELECTED_ROLE = 'guildAdminRole/RESET_SELECTED_ROLE',
+  SET_MODE = 'guildAdminRole/SET_MODE',
 }
 
 export type AugmentedActionContext = {
@@ -39,6 +41,7 @@ export interface GuildAdminRoleActions {
    * Load user list
    * @param commit
    * @param rootState
+   * @param payload - selected role id
    */
   [GuildAdminRoleActionTypes.LOAD_SELECTED_ROLE](
     { commit, rootState }: AugmentedActionContext,
@@ -50,6 +53,14 @@ export interface GuildAdminRoleActions {
    */
   [GuildAdminRoleActionTypes.RESET_SELECTED_ROLE](
     { commit }: AugmentedActionContext,
+  ): void
+  /**
+   * SET ROLE MODE
+   * @param commit
+   */
+  [GuildAdminRoleActionTypes.SET_MODE](
+    { commit }: AugmentedActionContext,
+    payload: 'READ' | 'UPDATE',
   ): void
 }
 
@@ -69,10 +80,14 @@ export const guildAdminRoleActions: ActionTree<GuildAdminRoleState, RootState> &
   [GuildAdminRoleActionTypes.LOAD_SELECTED_ROLE] ({ commit, rootState }, payload) {
     const guildUid = rootState.guild.guildInfo.uid
     if (guildUid) {
-      const guildRolesRes = dummyGuildRoles.filter(dgr => dgr.guildId === guildUid).find(dgr => dgr.uid === payload)
-      if (guildRolesRes)
-        commit(GuildAdminRoleMutationTypes.SET_SELECTED_ROLE, guildRolesRes)
-      else {
+      const guildRolesRes = dummyGuildRoles.find(dgr => dgr.uid === payload)
+      if (guildRolesRes) {
+        const userRes = dummyGuildUsers.filter(dgu => dgu.roleId === guildRolesRes.uid)
+        commit(GuildAdminRoleMutationTypes.SET_SELECTED_ROLE, {
+          ...guildRolesRes,
+          Users: userRes,
+        })
+      } else {
         throw new Error('no guild role')
       }
     } else {
@@ -80,6 +95,9 @@ export const guildAdminRoleActions: ActionTree<GuildAdminRoleState, RootState> &
     }
   },
   [GuildAdminRoleActionTypes.RESET_SELECTED_ROLE] ({ commit }) {
-    commit(GuildAdminRoleMutationTypes.SET_SELECTED_ROLE, {} as GuildRole)
+    commit(GuildAdminRoleMutationTypes.SET_SELECTED_ROLE, {} as GuildRoleAtAdmin)
+  },
+  [GuildAdminRoleActionTypes.SET_MODE] ({ commit }, payload) {
+    commit(GuildAdminRoleMutationTypes.SET_MODE, payload)
   },
 }

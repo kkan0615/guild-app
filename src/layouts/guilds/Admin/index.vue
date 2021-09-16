@@ -13,7 +13,7 @@
         class="tw-flex-grow-0 tw-flex-shrink"
       />
       <div
-        class="tw-p-3 tw-flex-grow tw-flex-shrink-0"
+        class="tw-p-3  tw-h-1 tw-flex-grow tw-flex-shrink-0"
       >
         <!--     breadcrumb     -->
         <!--          <nav-->
@@ -35,7 +35,9 @@
         <!--              </li>-->
         <!--            </ol>-->
         <!--          </nav>-->
-        <router-view />
+        <router-view
+          :key="routerViewKey"
+        />
       </div>
     </div>
   </div>
@@ -57,10 +59,12 @@ export default defineComponent({
     const route = useRoute()
     const i18n = useI18n()
 
+    const routerViewKey = computed(() => route.path)
     const breadcrumb = computed(() => route.matched.map(matchRoute => i18n.t(`router.${matchRoute.name}.title`)))
     const isOpenSidebar = computed(() => store.state.guildAdminApp.isOpenSideBar)
 
     return {
+      routerViewKey,
       breadcrumb,
       isOpenSidebar,
     }
