@@ -3,7 +3,7 @@ import { RootState } from '@/store'
 import { GuildAdminRoleMutations, GuildAdminRoleMutationTypes } from '@/store/modules/guilds/admins/Role/mutations'
 import { GuildAdminRoleState } from '@/store/modules/guilds/admins/Role/state'
 import { dummyGuildRoles } from '@/dummy/guilds/role'
-import { GuildRole, GuildRoleAtAdmin } from '@/types/model/guilds/role'
+import { GuildRoleAtAdmin, GuildRoleUpdateForm } from '@/types/model/guilds/role'
 import { dummyGuildUsers } from '@/dummy/user'
 
 export enum GuildAdminRoleActionTypes {
@@ -12,6 +12,8 @@ export enum GuildAdminRoleActionTypes {
   LOAD_SELECTED_ROLE = 'guildAdminRole/LOAD_SELECTED_ROLE',
   RESET_SELECTED_ROLE = 'guildAdminRole/RESET_SELECTED_ROLE',
   SET_MODE = 'guildAdminRole/SET_MODE',
+  UPDATE_ROLE = 'guildAdminRole/UPDATE_ROLE',
+  DELETE_ROLE = 'guildAdminRole/DELETE_ROLE',
 }
 
 export type AugmentedActionContext = {
@@ -57,10 +59,30 @@ export interface GuildAdminRoleActions {
   /**
    * SET ROLE MODE
    * @param commit
+   * @param payload
    */
   [GuildAdminRoleActionTypes.SET_MODE](
     { commit }: AugmentedActionContext,
     payload: 'READ' | 'UPDATE',
+  ): void
+
+  /**
+   * Update role information
+   * @param commit
+   * @param payload
+   */
+  [GuildAdminRoleActionTypes.UPDATE_ROLE](
+    { commit }: AugmentedActionContext,
+    payload: GuildRoleUpdateForm,
+  ): void
+  /**
+   * Delete  role
+   * @param commit
+   * @param payload - role id
+   */
+  [GuildAdminRoleActionTypes.DELETE_ROLE](
+    { commit }: AugmentedActionContext,
+    payload: string,
   ): void
 }
 
@@ -99,5 +121,23 @@ export const guildAdminRoleActions: ActionTree<GuildAdminRoleState, RootState> &
   },
   [GuildAdminRoleActionTypes.SET_MODE] ({ commit }, payload) {
     commit(GuildAdminRoleMutationTypes.SET_MODE, payload)
+  },
+  [GuildAdminRoleActionTypes.UPDATE_ROLE] ({ commit }, payload) {
+    const guildRolesRes = dummyGuildRoles.find(dgr => dgr.uid === payload.uid)
+    if (guildRolesRes) {
+      guildRolesRes.name = payload.name
+      guildRolesRes.color = payload.color
+      guildRolesRes.default = payload.default
+    } else {
+      throw new Error('no guild role')
+    }
+  },
+  [GuildAdminRoleActionTypes.DELETE_ROLE] ({ commit }, payload) {
+    const foundIndex = dummyGuildRoles.findIndex(dgr => dgr.uid === payload)
+    if (foundIndex >= 0) {
+      dummyGuildRoles.splice(foundIndex, 1)
+    } else {
+      throw new Error('no guild role')
+    }
   },
 }

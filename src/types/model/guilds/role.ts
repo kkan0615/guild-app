@@ -12,3 +12,5 @@ export interface GuildRole extends FirebaseAttributes {
 export interface GuildRoleAtAdmin extends GuildRole {
   Users: Array<GuildUser>
 }
+
+export type GuildRoleUpdateForm = Pick<GuildRole, 'uid' | 'name' | 'color' | 'default' | 'index'>
