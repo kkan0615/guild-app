@@ -14,6 +14,7 @@ export enum GuildAdminRoleActionTypes {
   SET_MODE = 'guildAdminRole/SET_MODE',
   UPDATE_ROLE = 'guildAdminRole/UPDATE_ROLE',
   DELETE_ROLE = 'guildAdminRole/DELETE_ROLE',
+  CHANGE_MEMBER_ROLE = 'guildAdminRole/CHANGE_MEMBER_ROLE',
 }
 
 export type AugmentedActionContext = {
@@ -84,6 +85,16 @@ export interface GuildAdminRoleActions {
     { commit }: AugmentedActionContext,
     payload: string,
   ): void
+
+  /**
+   * Change member role (add and remove)
+   * @param state
+   * @param payload - target user id
+   */
+  [GuildAdminRoleActionTypes.CHANGE_MEMBER_ROLE](
+    { state } : AugmentedActionContext,
+    payload: string,
+  ): void
 }
 
 export const guildAdminRoleActions: ActionTree<GuildAdminRoleState, RootState> & GuildAdminRoleActions = {
@@ -122,22 +133,46 @@ export const guildAdminRoleActions: ActionTree<GuildAdminRoleState, RootState> &
   [GuildAdminRoleActionTypes.SET_MODE] ({ commit }, payload) {
     commit(GuildAdminRoleMutationTypes.SET_MODE, payload)
   },
-  [GuildAdminRoleActionTypes.UPDATE_ROLE] ({ commit }, payload) {
-    const guildRolesRes = dummyGuildRoles.find(dgr => dgr.uid === payload.uid)
-    if (guildRolesRes) {
-      guildRolesRes.name = payload.name
-      guildRolesRes.color = payload.color
-      guildRolesRes.default = payload.default
+  [GuildAdminRoleActionTypes.UPDATE_ROLE] ({ state }, payload) {
+    const guildRoleRes = dummyGuildRoles.find(dgr => dgr.uid === payload.uid)
+    if (guildRoleRes) {
+      /* Change default role */
+      if (payload.default === true) {
+        const guildRolesRes = dummyGuildRoles.filter(dgr => dgr.guildId === state.selectedRole.guildId)
+        guildRolesRes.forEach(grr => grr.default = false)
+      }
+
+      guildRoleRes.name = payload.name
+      guildRoleRes.color = payload.color
+      guildRoleRes.default = payload.default
     } else {
       throw new Error('no guild role')
     }
   },
-  [GuildAdminRoleActionTypes.DELETE_ROLE] ({ commit }, payload) {
+  [GuildAdminRoleActionTypes.DELETE_ROLE] (_, payload) {
     const foundIndex = dummyGuildRoles.findIndex(dgr => dgr.uid === payload)
+    const foundDefaultRole = dummyGuildRoles.find(dgr => dgr.default)
+    if (!foundDefaultRole) {
+      throw new Error('no default role')
+    }
     if (foundIndex >= 0) {
       dummyGuildRoles.splice(foundIndex, 1)
+      /* Change all members in the role to default role */
+      const usersRes = dummyGuildUsers.filter(dgu => dgu.roleId === payload)
+      usersRes.forEach(user => user.roleId = foundDefaultRole.uid)
     } else {
       throw new Error('no guild role')
     }
   },
+  [GuildAdminRoleActionTypes.CHANGE_MEMBER_ROLE] ({ state }, payload) {
+    if (!state.selectedRole.uid) {
+      throw new Error('no selected role id')
+    }
+    const userRes = dummyGuildUsers.find(dgu => dgu.userId === payload)
+    if (userRes) {
+      userRes.roleId = state.selectedRole.uid
+    } else {
+      throw new Error('no user id')
+    }
+  }
 }

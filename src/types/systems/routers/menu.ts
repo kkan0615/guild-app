@@ -7,5 +7,5 @@ export interface Menu {
   name?: RouterNameEnum
   index?: number
   children?: Menu[]
-  activeCondition: () => boolean
+  activeCondition?: () => boolean
 }

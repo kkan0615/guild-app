@@ -12,6 +12,7 @@ export const englishDictionary = {
     save: 'Save',
     edit: 'Edit',
     cancel: 'Cancel',
+    delete: 'Delete',
   },
   standardResult: {
     saved: 'Success to save',
@@ -20,6 +21,10 @@ export const englishDictionary = {
     removed: 'Success to remove',
     failed: 'Fail to save. Please try again after press F5 (Refresh)',
     failRedirect: 'Fail to redirect page.',
+  },
+  standardToastTitle: {
+    saved: 'Saved',
+    failed: 'Failed',
   },
   router: {
     GuildBaseLayout: {
@@ -77,7 +82,9 @@ export const englishDictionary = {
       guilds: {
         role: {
           fields: {
-            name: '역할명',
+            name: 'Role name',
+            color: 'color',
+            default: 'Default',
           }, // fields end
         }, // role end
       }, // guilds end

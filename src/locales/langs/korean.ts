@@ -12,6 +12,7 @@ export const koreanDictionary = {
     save: '저장',
     edit: '수정',
     cancel: '취소',
+    delete: '삭제',
   },
   standardResult: {
     saved: '저장에 성공했습니다.',
@@ -20,6 +21,10 @@ export const koreanDictionary = {
     removed: '삭제에 성공했습니다.',
     failed: '저장에 실패했습니다. 새로고침 후 다시 시도해주세요.',
     failRedirect: '페이지 이동에 문제가 발생했습니다.',
+  },
+  standardToastTitle: {
+    saved: '저장 성공',
+    failed: '실패',
   },
   router: {
     GuildBaseLayout: {
@@ -78,6 +83,8 @@ export const koreanDictionary = {
         role: {
           fields: {
             name: '역할명',
+            color: '색상',
+            default: '기본',
           }, // fields end
         }, // role end
       }, // guilds end

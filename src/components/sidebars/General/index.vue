@@ -33,43 +33,48 @@
       class="tw-mt-4"
     >
       <side-bar-label
-        class="tw-mb-2"
+        class="tw-mb-1"
       >
-        Menu
+        MENU
       </side-bar-label>
-      <single-menu
-        v-for="menu in menus"
-        :key="menu.id"
-        :active="menu.name === currentRouteName"
-        :name="menu.name"
-      >
-        <sing-menu-icon>
-          {{ menu.icon }}
-        </sing-menu-icon>
-        {{ menu.title }}
-      </single-menu>
-      <!--  Post  -->
-      <single-menu>
-        <sing-menu-icon>
-          library_books
-        </sing-menu-icon>
-        Post
-      </single-menu>
-      <!--  Survey  -->
-      <single-menu>
-        <sing-menu-icon>
-          list_alt
-        </sing-menu-icon>
-        survey
-      </single-menu>
-      <!--  meetings  -->
-      <!-- @TODO: Create as Group with offline and online -->
-      <single-menu>
-        <sing-menu-icon>
-          meeting_room
-        </sing-menu-icon>
-        meeting
-      </single-menu>
+      <ul>
+        <li
+          v-for="menu in menus"
+          :key="menu.id"
+        >
+          <single-menu
+            :active="menu.name === currentRouteName"
+            :name="menu.name"
+          >
+            <sing-menu-icon>
+              {{ menu.icon }}
+            </sing-menu-icon>
+            {{ menu.title }}
+          </single-menu>
+        </li>
+        <!--  Post  -->
+        <single-menu>
+          <sing-menu-icon>
+            library_books
+          </sing-menu-icon>
+          Post
+        </single-menu>
+        <!--  Survey  -->
+        <single-menu>
+          <sing-menu-icon>
+            list_alt
+          </sing-menu-icon>
+          survey
+        </single-menu>
+        <!--  meetings  -->
+        <!-- @TODO: Create as Group with offline and online -->
+        <single-menu>
+          <sing-menu-icon>
+            meeting_room
+          </sing-menu-icon>
+          meeting
+        </single-menu>
+      </ul>
     </div>
     <!--  footer   -->
     <div
@@ -127,7 +132,7 @@ export default defineComponent({
         name: RouterNameEnum.GUILD_USER_LIST,
         icon: 'people',
         index: 0,
-        title: 'User list'
+        title: 'User list',
       },
       {
         id: v4(),

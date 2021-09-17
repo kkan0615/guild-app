@@ -14,7 +14,7 @@ import CAgGrid from '@/components/commons/AgGrid/index.vue'
 import UserAvatarColumn from '@/components/columns/UserAvatar.vue'
 import MainUserGuildAdminColumnActions from '@/views/guilds/admins/users/Main/components/ColumnActions.vue'
 import RoleColumnBadge from '@/components/columns/badges/Role.vue'
-import { UserColumnAtAdminUser } from '@/types/model/auth/user/column'
+import { UserColumnAtAdminRole } from '@/types/model/auth/user/column'
 
 export default defineComponent({
   name: 'MainRoleGuildAdminUserTable',
@@ -28,7 +28,7 @@ export default defineComponent({
     const store = useStore()
 
     const userList = computed(() => store.state.guildAdminRole.selectedRole.Users)
-    const columns = ref(UserColumnAtAdminUser)
+    const columns = ref(UserColumnAtAdminRole)
 
     return {
       userList,

@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeUnmount, onMounted } from 'vue'
+import { defineComponent } from 'vue'
 import useStore from '@/store'
 
 export default defineComponent({

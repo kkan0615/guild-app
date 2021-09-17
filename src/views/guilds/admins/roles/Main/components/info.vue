@@ -7,7 +7,7 @@
     >
       <c-horizontal-view>
         <c-horizontal-view-label>
-          name
+          {{ $t('types.models.guilds.role.fields.name') }}
         </c-horizontal-view-label>
         <c-horizontal-view-content>
           {{ selectedRole.name }}
@@ -15,7 +15,7 @@
       </c-horizontal-view>
       <c-horizontal-view>
         <c-horizontal-view-label>
-          color
+          {{ $t('types.models.guilds.role.fields.color') }}
         </c-horizontal-view-label>
         <c-horizontal-view-content>
           <div
@@ -28,7 +28,7 @@
       </c-horizontal-view>
       <c-horizontal-view>
         <c-horizontal-view-label>
-          Default
+          {{ $t('types.models.guilds.role.fields.default') }}
         </c-horizontal-view-label>
         <c-horizontal-view-content>
           {{ selectedRole.default ? 'yes' : 'no' }}
@@ -38,13 +38,18 @@
     <div
       class="tw-flex-shrink-0 tw-flex-grow tw-h-1"
     >
-      <main-role-guild-admin-user-table />
+      <div
+        class="tw-min-h-full"
+        style="height: 500px;"
+      >
+        <main-role-guild-admin-user-table />
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, computed } from 'vue'
+import { defineComponent, computed } from 'vue'
 import useStore from '@/store'
 import CHorizontalView from '@/components/commons/HorizontalView/index.vue'
 import CHorizontalViewLabel from '@/components/commons/HorizontalView/components/Label.vue'

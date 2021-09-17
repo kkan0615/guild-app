@@ -1,16 +1,18 @@
 <template>
-  <span
-    class="material-icons tw-mr-2 tw-text-base"
+  <c-material-icon
+    class="material-icons tw-mr-4 tw-text-base"
   >
     <slot />
-  </span>
+  </c-material-icon>
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
+import CMaterialIcon from '@/components/commons/icons/Material/index.vue'
 
 export default defineComponent({
   name: 'SingMenuIcon',
+  components: { CMaterialIcon },
   setup: () => {
     return {
 
