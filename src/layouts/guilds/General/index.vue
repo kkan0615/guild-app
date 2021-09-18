@@ -4,7 +4,10 @@
   >
     <general-side-bar />
     <div
-      class="md:tw-pl-64 tw-h-full tw-flex tw-flex-col"
+      class="tw-h-full tw-flex tw-flex-col"
+      :class="{
+        'md:tw-pl-64': isOpenSideBar,
+      }"
     >
       <general-navbar
         class="tw-flex-grow-0 tw-flex-shrink"
@@ -20,16 +23,22 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import GeneralNavbar from '@/components/commons/navbars/General/index.vue'
 import GeneralSideBar from '@/components/sidebars/General/index.vue'
+import useStore from '@/store'
 
 export default defineComponent({
   name: 'GuildGeneralLayout',
   components: { GeneralSideBar, GeneralNavbar },
   setup: () => {
-    const message = ref('Hello world prototype')
-    return { message }
+    const store = useStore()
+
+    const isOpenSideBar = computed(() => store.state.guild.isOpenSideBar)
+
+    return {
+      isOpenSideBar,
+    }
   }
 })
 </script>
