@@ -1,6 +1,7 @@
 import { FirebaseAttributes, SelectListFilterQuery } from '@/types/model/attributes'
 import { GuildRole } from '@/types/model/guilds/role'
 import { Notification } from '@/types/systems/notification'
+import { Guild } from '@/types/model/guilds'
 
 export type UserSystemAuth = 'superAdmin' | 'admin' | 'staff'
 
@@ -24,6 +25,8 @@ export interface GuildUserInfo extends GuildUser {
   notifications: Array<Notification>
 }
 
+
+export type GuildUserAtUserList = Pick<GuildUserInfo, 'uid' | 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId'>
 /**
  * User list
  * Using at admin user page

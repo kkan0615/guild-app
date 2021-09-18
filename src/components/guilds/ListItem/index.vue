@@ -23,7 +23,7 @@
         class="mt-2"
       />
       <div
-        class="tw-my-2 tw-flex tw-flex-wrap tw-gap-x-2"
+        class="tw-my-2 tw-flex tw-flex-wrap tw-space-x-2"
       >
         <tag-badge
           v-for="tag in tags"

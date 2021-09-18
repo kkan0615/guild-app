@@ -1,6 +1,6 @@
 <template>
   <ul
-    class="tw-flex tw-flex-col tw-gap-y-1"
+    class="tw-flex tw-flex-col tw-space-y-1"
   >
     <guild-admin-role-layout-role-list-item
       v-for="role in roleList"

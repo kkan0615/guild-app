@@ -18,7 +18,7 @@
     class="tw-h-full md:tw-p-2"
   >
     <div
-      class="tw-h-full tw-flex tw-gap-x-4"
+      class="tw-h-full tw-flex tw-space-x-4"
     >
       <!--   LEFT   -->
       <div

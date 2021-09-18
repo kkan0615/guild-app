@@ -122,7 +122,6 @@ export default defineComponent({
     }
 
     const onClickSearchBtn = async () =>{
-      console.log('name', name.value)
       await store.dispatch(HomeActionTypes.SET_GUILD_LIST_FILTER_OPTION, {
         ...store.state.home.guildListFilterOption,
         offset: undefined,

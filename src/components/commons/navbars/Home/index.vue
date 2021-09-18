@@ -6,7 +6,7 @@
       logo
     </div>
     <div
-      class="tw-ml-auto tw-flex tw-items-center tw-gap-x-4"
+      class="tw-ml-auto tw-flex tw-items-center tw-space-x-4"
     >
       <!--   Guild list   -->
       <div

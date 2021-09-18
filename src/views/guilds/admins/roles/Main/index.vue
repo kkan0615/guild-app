@@ -20,7 +20,7 @@
           {{ $t('standardBtnLabels.edit') }}
         </div>
         <div
-          class="tw-ml-auto tw-flex tw-gap-x-2"
+          class="tw-ml-auto tw-flex tw-space-x-2"
         >
           <button
             type="button"

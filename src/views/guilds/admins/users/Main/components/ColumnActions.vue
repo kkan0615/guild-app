@@ -1,6 +1,6 @@
 <template>
   <div
-    class="tw-h-full tw-flex tw-items-center tw-gap-x-2"
+    class="tw-h-full tw-flex tw-items-center tw-space-x-2"
   >
     <c-material-icon
       class="tw-cursor-pointer"

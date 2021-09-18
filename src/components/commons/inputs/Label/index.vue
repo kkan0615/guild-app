@@ -1,16 +1,16 @@
 <template>
-  <div
-    class="tw-flex tw-flex-col tw-space-y-3"
+  <label
+    class="form-label"
   >
     <slot />
-  </div>
+  </label>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'BlackListUserGuildAdminList',
+  name: 'CInputLabel',
   setup: () => {
     return {
     }

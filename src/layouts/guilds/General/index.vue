@@ -4,18 +4,16 @@
   >
     <general-side-bar />
     <div
-      class="md:tw-pl-64 tw-h-full"
+      class="md:tw-pl-64 tw-h-full tw-flex tw-flex-col"
     >
+      <general-navbar
+        class="tw-flex-grow-0 tw-flex-shrink"
+      />
+      <!--     content     -->
       <div
-        class="tw-h-full"
+        class="tw-p-4 tw-flex-grow tw-flex-shrink-0 tw-h-1"
       >
-        <general-navbar />
-        <!--     content     -->
-        <div
-          class="tw-p-2"
-        >
-          <router-view />
-        </div>
+        <router-view />
       </div>
     </div>
   </div>

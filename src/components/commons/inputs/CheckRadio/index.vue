@@ -108,7 +108,7 @@ export default defineComponent({
     const onInput = (event: InputEvent) => {
       if (event.target) {
         const elemet = event.target as HTMLInputElement
-        inputValidate(elemet.value)
+        inputValidate(elemet.value as boolean | undefined)
 
         emit('update:modelValue', elemet.value)
       }

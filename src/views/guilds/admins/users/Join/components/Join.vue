@@ -50,7 +50,7 @@
           </div>
         </div>
         <div
-          class="tw-ml-auto tw-flex tw-gap-x-2"
+          class="tw-ml-auto tw-flex tw-space-x-2"
         >
           <!--     accept     -->
           <c-material-icon
@@ -80,7 +80,7 @@
     <div
       v-if="isExpand"
       role="list"
-      class="tw-flex tw-flex-col tw-gap-y-3 tw-pl-4 tw-py-2"
+      class="tw-flex tw-flex-col tw-space-y-3 tw-pl-4 tw-py-2"
     >
       <join-user-guild-admin-question
         v-for="(question, i) in questions"

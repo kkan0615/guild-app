@@ -1,5 +1,7 @@
 <template>
-  <form>
+  <form
+    @keydown.enter.stop.prevent=""
+  >
     <slot />
   </form>
 </template>

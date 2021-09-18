@@ -42,7 +42,7 @@
       class="tw-my-4"
     />
     <div
-      class="tw-flex tw-gap-x-2"
+      class="tw-flex tw-space-x-2"
     >
       <span
         class="tw-ml-auto"

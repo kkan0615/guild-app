@@ -2,10 +2,10 @@
   <div>
     <b-form
       ref="formRef"
-      class="tw-flex tw-flex-col tw-gap-y-2"
+      class="tw-flex tw-flex-col tw-space-y-2"
     >
       <div
-        class="tw-flex tw-gap-x-4 tw-items-end"
+        class="tw-flex tw-space-x-4 tw-items-end"
       >
         <div>
           <div>
@@ -111,7 +111,7 @@
     >
     <!--  actions  -->
     <div
-      class="tw-flex tw-gap-x-2"
+      class="tw-flex tw-space-x-2"
     >
       <span
         class="tw-ml-auto"

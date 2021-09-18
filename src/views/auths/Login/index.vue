@@ -23,7 +23,7 @@
       <!--   Form part   -->
       <b-form
         ref="formRef"
-        class="tw-flex tw-flex-col tw-gap-y-4"
+        class="tw-flex tw-flex-col tw-space-y-4"
       >
         <!--   id   -->
         <div>

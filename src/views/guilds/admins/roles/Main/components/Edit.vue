@@ -24,7 +24,7 @@
       />
     </b-form>
     <div
-      class="tw-flex tw-gap-x-2 tw-mt-auto tw-justify-end"
+      class="tw-flex tw-space-x-2 tw-mt-auto tw-justify-end"
     >
       <button
         type="button"
