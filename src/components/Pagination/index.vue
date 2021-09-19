@@ -84,20 +84,21 @@ export default defineComponent({
   },
   emits: ['click:page', 'click:next', 'click:prev'],
   setup: (props, { emit }) => {
-    const halftDisplayCount = computed(() => parseInt((props.displayCount / 2).toString()))
+    const checkedDisplayCount = computed(() =>  props.displayCount > props.maxSize ? props.maxSize : props.displayCount)
+    const halfDisplayCount = computed(() => parseInt((checkedDisplayCount.value / 2).toString()))
 
     const visibleCounts = computed(() => {
       let result: Array<number> = []
       let start = 0
-      let end = props.displayCount
-      if (props.modelValue < halftDisplayCount.value) {
+      let end = checkedDisplayCount.value
+      if (props.modelValue < halfDisplayCount.value) {
         start = 0
-      } else if ((props.modelValue) > (props.maxSize - props.displayCount)) {
-        start = props.maxSize - props.displayCount
+      } else if ((props.modelValue) > (props.maxSize - checkedDisplayCount.value)) {
+        start = props.maxSize - checkedDisplayCount.value
         end = props.maxSize
       } else {
-        start = props.modelValue - halftDisplayCount.value
-        end = props.modelValue + 1 + halftDisplayCount.value
+        start = props.modelValue - halfDisplayCount.value
+        end = props.modelValue + 1 + halfDisplayCount.value
       }
 
       for (let i = start; i < end; i++) {

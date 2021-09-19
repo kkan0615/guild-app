@@ -29,7 +29,7 @@
       class="tw-mt-4 tw-flex tw-justify-center"
     >
       <c-pagination
-        :display-count="displayCounts"
+        :display-count="3"
         :model-value="offset"
         :max-size="pageMaxSize"
         @click:prev="onClickPrev"
