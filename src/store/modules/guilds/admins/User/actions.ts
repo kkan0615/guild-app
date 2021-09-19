@@ -15,6 +15,7 @@ import {
 import { dummyGuildRoles } from '@/dummy/guilds/role'
 import { GuildRole } from '@/types/model/guilds/role'
 import { dummyGuildBlackList } from '@/dummy/guilds/blackList'
+import { GuildUserFormAtAdminUser } from '@/types/model/guilds/user'
 
 export enum GuildAdminUserActionTypes {
   LOAD_USER_LIST = 'guildAdminUser/LOAD_USER_LIST',
@@ -27,6 +28,9 @@ export enum GuildAdminUserActionTypes {
   REMOVE_FROM_BLACK_LIST = 'guildAdminUser/REMOVE_FROM_BLACK_LIST',
   LOAD_USER_DETAIL = 'guildAdminUser/LOAD_USER_DETAIL',
   RESET_USER_DETAIL = 'guildAdminUser/RESET_USER_DETAIL',
+  LOAD_ROLE_LIST = 'guildAdminUser/LOAD_ROLE_LIST',
+  RESET_ROLE_LIST = 'guildAdminUser/RESET_ROLE_LIST',
+  UPDATE_GUILD_USER_INFO = 'guildAdminUser/UPDATE_GUILD_USER_INFO'
 }
 
 export type AugmentedActionContext = {
@@ -106,6 +110,30 @@ export interface GuildAdminUserActions {
    */
   [GuildAdminUserActionTypes.RESET_USER_DETAIL](
     { dispatch }: AugmentedActionContext,
+  ): void
+  /**
+   * load role list by guild id
+   * @param commit
+   * @param payload - guild id, default is current guild id
+   */
+  [GuildAdminUserActionTypes.LOAD_ROLE_LIST](
+    { commit }: AugmentedActionContext,
+    payload: string
+  ): void
+  /**
+   * Reset user detail before come out from detail page
+   * @param commit
+   */
+  [GuildAdminUserActionTypes.RESET_ROLE_LIST](
+    { dispatch }: AugmentedActionContext,
+  ): void
+  /**
+   * Update guild user info
+   * @param commit
+   */
+  [GuildAdminUserActionTypes.UPDATE_GUILD_USER_INFO](
+    { dispatch }: AugmentedActionContext,
+    payload: GuildUserFormAtAdminUser
   ): void
 }
 
@@ -198,5 +226,31 @@ export const guildAdminUserActions: ActionTree<GuildAdminUserState, RootState> &
   },
   [GuildAdminUserActionTypes.RESET_USER_DETAIL] ({ commit }) {
     commit(GuildAdminUserMutationTypes.SET_USER_DETAIL, {} as GuildUserAtAdminDetail)
+  },
+  [GuildAdminUserActionTypes.LOAD_ROLE_LIST] ({ commit, rootState }, payload = rootState.guild.guildInfo.uid) {
+    if (!payload) {
+      throw new Error('no guild id')
+    }
+
+    const roleListRes = dummyGuildRoles.filter(dgu => dgu.guildId === payload)
+    commit(GuildAdminUserMutationTypes.SET_ROLE_LIST, roleListRes)
+  },
+  [GuildAdminUserActionTypes.RESET_ROLE_LIST] ({ commit }) {
+    commit(GuildAdminUserMutationTypes.SET_ROLE_LIST, [])
+  },
+  [GuildAdminUserActionTypes.UPDATE_GUILD_USER_INFO] ({ state }, payload) {
+    if (!state.userDetail.uid) {
+      throw new Error('No user id')
+    }
+
+    const guildUserRes = dummyGuildUsers.find(guildUser => guildUser.uid === state.userDetail.uid)
+    if (guildUserRes) {
+      if (payload.roleId)
+        guildUserRes.roleId = payload.roleId
+      if (payload.remark)
+        guildUserRes.remark = payload.remark
+    } else {
+      throw new Error('found is failed')
+    }
   },
 }

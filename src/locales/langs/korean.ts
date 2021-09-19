@@ -87,6 +87,14 @@ export const koreanDictionary = {
             default: '기본',
           }, // fields end
         }, // role end
+        user: {
+          fields: {
+            nickname: '닉네임',
+            email: '이메일',
+            description: '소개',
+            remark: '비고',
+          }, // fields end
+        }, // user end
       }, // guilds end
     }, // model end
   }, // types end

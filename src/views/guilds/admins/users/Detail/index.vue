@@ -5,15 +5,7 @@
     <div
       class="md:tw-w-1/2"
     >
-      <div>
-        <button
-          type="button"
-          class="btn btn-primary"
-          @click="onClickBackBtn"
-        >
-          back
-        </button>
-      </div>
+      <detail-user-guild-admin-header-actions />
       <div
         class="tw-flex tw-justify-center tw-mb-12"
       >
@@ -50,7 +42,7 @@
             <th
               class="tw-border tw-border-gray-400 tw-p-2 tw-bg-gray-300 tw-w-1/3"
             >
-              {{ $t('types.models.auth.user.fields.nickname') }}
+              {{ $t('types.models.guilds.user.fields.nickname') }}
             </th>
             <td
               class="tw-border tw-border-gray-400 tw-p-2"
@@ -79,7 +71,7 @@
             <th
               class="tw-border tw-border-gray-400 tw-p-2 tw-bg-gray-300 tw-w-1/3"
             >
-              {{ $t('types.models.auth.user.fields.email') }}
+              {{ $t('types.models.guilds.user.fields.email') }}
             </th>
             <td
               class="tw-border tw-border-gray-400 tw-p-2"
@@ -99,6 +91,30 @@
               {{ user.auth }}
             </td>
           </tr>
+          <tr>
+            <th
+              class="tw-border tw-border-gray-400 tw-p-2 tw-bg-gray-300 tw-w-1/3"
+            >
+              {{ $t('types.models.guilds.user.fields.description') }}
+            </th>
+            <td
+              class="tw-border tw-border-gray-400 tw-p-2"
+            >
+              {{ user.description || '' }}
+            </td>
+          </tr>
+          <tr>
+            <th
+              class="tw-border tw-border-gray-400 tw-p-2 tw-bg-gray-300 tw-w-1/3"
+            >
+              {{ $t('types.models.guilds.user.fields.remark') }}
+            </th>
+            <td
+              class="tw-border tw-border-gray-400 tw-p-2"
+            >
+              {{ user.remark || '' }}
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -112,10 +128,11 @@ import { useRoute, useRouter } from 'vue-router'
 import { GuildAdminUserActionTypes } from '@/store/modules/guilds/admins/User/actions'
 import TAvatar from '@/components/tailwinds/Avatar/index.vue'
 import TagBadge from '@/components/badeges/Tag/index.vue'
+import DetailUserGuildAdminHeaderActions from '@/views/guilds/admins/users/Detail/components/HeaderActions.vue'
 
 export default defineComponent({
   name: 'DetailUserGuildAdmin',
-  components: { TagBadge, TAvatar },
+  components: { DetailUserGuildAdminHeaderActions, TagBadge, TAvatar },
   setup: () => {
     const store = useStore()
     const route = useRoute()
@@ -137,16 +154,8 @@ export default defineComponent({
       }
     })
 
-    /**
-     * Back button click event
-     */
-    const onClickBackBtn = () => {
-      router.back()
-    }
-
     return {
       user,
-      onClickBackBtn,
     }
   }
 })

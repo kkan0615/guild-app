@@ -3,7 +3,7 @@
     class="tw-py-2"
   >
     <div
-      class="tw-font-bold tw-mb-2"
+      class="tw-text-lg tw-font-bold tw-mb-2"
     >
       Total: {{ joinForms.length }}
     </div>

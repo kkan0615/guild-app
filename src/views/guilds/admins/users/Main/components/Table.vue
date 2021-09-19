@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="tw-font-bold"
+      class="tw-text-lg tw-font-bold tw-mb-2"
     >
       Total: {{ userList.length }}
     </div>

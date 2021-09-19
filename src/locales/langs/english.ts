@@ -87,6 +87,14 @@ export const englishDictionary = {
             default: 'Default',
           }, // fields end
         }, // role end
+        user: {
+          fields: {
+            nickname: 'Nickname',
+            email: 'Email',
+            description: 'Description',
+            remark: 'Remark',
+          }, // fields end
+        }, // user end
       }, // guilds end
     } // model end
   }, // types end

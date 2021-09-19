@@ -1,7 +1,9 @@
 <template>
-  <div>
+  <div
+    class="tw-py-2"
+  >
     <div
-      class="tw-font-bold"
+      class="tw-text-lg tw-font-bold"
     >
       Black list
     </div>

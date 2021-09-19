@@ -14,10 +14,15 @@ export interface User extends FirebaseAttributes {
   auth: UserSystemAuth
 }
 
+/**
+ * Remark - for guild manager
+ */
 export interface GuildUser extends User {
   guildId: string
   roleId: string
   userId: string
+  description?: string
+  remark?: string
 }
 
 export interface GuildUserInfo extends GuildUser {
@@ -26,19 +31,21 @@ export interface GuildUserInfo extends GuildUser {
 }
 
 
-export type GuildUserAtUserList = Pick<GuildUserInfo, 'uid' | 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId'>
+export type GuildUserAtUserList = Pick<GuildUserInfo, 'uid' | 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId' | 'description' | 'remark'>
 /**
  * User list
  * Using at admin user page
  */
-export type GuildUserAtAdminUserList = Pick<GuildUserInfo, 'uid' | 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId'>
+export type GuildUserAtAdminUserList = Pick<GuildUserInfo, 'uid' | 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId' | 'description' | 'remark'>
 
-export type GuildUserAtAdminDetail = Pick<GuildUserInfo, 'uid' | 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId'>
+export type GuildUserAtAdminDetail = Pick<GuildUserInfo, 'uid' | 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId' | 'description' | 'remark'>
 
 export interface UserLoginForm {
   email: string
   password: string
 }
+
+export const DEFAULT_USER_SELECT_LIST_QUERY_LIMIT = 30
 
 export interface GuildUserSelectListQuery extends SelectListFilterQuery {
   nickname?: string

@@ -5,6 +5,7 @@ import {
   GuildUserSelectListQuery
 } from '@/types/model/auth/user/user'
 import { GuildBlackInfo } from '@/types/model/guilds/blackList'
+import { GuildRole } from '@/types/model/guilds/role'
 
 export interface GuildAdminUserState {
   userList: Array<GuildUserAtAdminUserList>
@@ -12,6 +13,7 @@ export interface GuildAdminUserState {
   joinForms: Array<GuildJoinInfo>
   blackList: Array<GuildBlackInfo>
   userDetail: GuildUserAtAdminDetail
+  roleList: Array<GuildRole>
 }
 
 export const guildAdminUserState: GuildAdminUserState = {
@@ -20,4 +22,5 @@ export const guildAdminUserState: GuildAdminUserState = {
   joinForms: [],
   blackList: [],
   userDetail: {} as GuildUserAtAdminDetail,
+  roleList: [],
 }

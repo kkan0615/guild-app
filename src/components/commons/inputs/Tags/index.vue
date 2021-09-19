@@ -86,11 +86,6 @@ export default defineComponent({
       required: true,
       default: ''
     },
-    type: {
-      type: String,
-      required: false,
-      default: 'text'
-    },
     placeholder: {
       type: String,
       required: false,

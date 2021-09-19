@@ -8,6 +8,7 @@ import {
 } from '@/types/model/auth/user/user'
 import { GuildBlackInfo } from '@/types/model/guilds/blackList'
 import _ from 'lodash'
+import { GuildRole } from '@/types/model/guilds/role'
 
 export enum GuildAdminUserMutationTypes {
   SET_USER_LIST = 'guildAdminUser/SET_USER_LIST',
@@ -15,6 +16,7 @@ export enum GuildAdminUserMutationTypes {
   SET_USER_FILTER_OPTION = 'guildAdminUser/SET_USER_FILTER_OPTION',
   SET_BLACK_LIST = 'guildAdminUser/SET_BLACK_LIST',
   SET_USER_DETAIL = 'guildAdminUser/SET_USER_DETAIL',
+  SET_ROLE_LIST = 'guildAdminUser/SET_ROLE_LIST',
 }
 export type GuildAdminUserMutations<S = GuildAdminUserState> = {
   [GuildAdminUserMutationTypes.SET_USER_LIST](state: S, payload: Array<GuildUserAtAdminUserList>): void
@@ -22,6 +24,7 @@ export type GuildAdminUserMutations<S = GuildAdminUserState> = {
   [GuildAdminUserMutationTypes.SET_USER_FILTER_OPTION](state: S, payload: GuildUserSelectListQuery): void
   [GuildAdminUserMutationTypes.SET_BLACK_LIST](state: S, payload: Array<GuildBlackInfo>): void
   [GuildAdminUserMutationTypes.SET_USER_DETAIL](state: S, payload: GuildUserAtAdminDetail): void
+  [GuildAdminUserMutationTypes.SET_ROLE_LIST](state: S, payload: Array<GuildRole>): void
 }
 
 export const guildAdminUserMutations: MutationTree<GuildAdminUserState> & GuildAdminUserMutations = {
@@ -38,5 +41,8 @@ export const guildAdminUserMutations: MutationTree<GuildAdminUserState> & GuildA
   },
   [GuildAdminUserMutationTypes.SET_USER_DETAIL] (state, payload) {
     state.userDetail = _.cloneDeep(payload)
+  },
+  [GuildAdminUserMutationTypes.SET_ROLE_LIST] (state, payload) {
+    state.roleList = _.cloneDeep(payload)
   },
 }

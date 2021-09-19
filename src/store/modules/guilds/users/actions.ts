@@ -9,11 +9,12 @@ import { dummyGuildRoles } from '@/dummy/guilds/role'
 import { GuildRole } from '@/types/model/guilds/role'
 import { GuildUserMutations, GuildUserMutationTypes } from '@/store/modules/guilds/users/mutations'
 import { GuildUserState } from '@/store/modules/guilds/users/state'
+import { pagenate } from '@/utils/helpers/pagination'
 
 export enum GuildUserActionTypes {
-  LOAD_USER_LIST = 'guildAdminUser/LOAD_USER_LIST',
-  RESET_USER_LIST = 'guildAdminUser/RESET_USER_LIST',
-  SET_USER_FILTER_OPTION = 'guildAdminUser/SET_USER_FILTER_OPTION',
+  LOAD_USER_LIST = 'guildUser/LOAD_USER_LIST',
+  RESET_USER_LIST = 'guildUser/RESET_USER_LIST',
+  SET_USER_FILTER_OPTION = 'guildUser/SET_USER_FILTER_OPTION',
 }
 
 export type AugmentedActionContext = {
@@ -51,12 +52,30 @@ export interface GuildUserActions {
 }
 
 export const guildUserActions: ActionTree<GuildUserState, RootState> & GuildUserActions = {
-  [GuildUserActionTypes.LOAD_USER_LIST] ({ commit, rootState }) {
+  [GuildUserActionTypes.LOAD_USER_LIST] ({ commit, state, rootState }) {
     const guildUid = rootState.guild.guildInfo.uid
     if (guildUid) {
       let result: Array<GuildUserAtUserList> = []
       /* Load user list */
-      const userListRes = dummyGuildUsers.filter(dgu => rootState.guild.guildInfo.memberIds.includes(dgu.uid))
+      let userListRes = dummyGuildUsers.filter(dgu => rootState.guild.guildInfo.memberIds.includes(dgu.uid))
+      /* Set total user list */
+      const totalUserList = userListRes.length
+      commit(GuildUserMutationTypes.SET_TOTAL_USER_LIST, totalUserList)
+
+      /* nickname filtering */
+      if (state.userFilterOption.nickname) {
+        const nickname = state.userFilterOption.nickname
+        userListRes = userListRes.filter(user => (user.nickname.toLowerCase()).includes(nickname ? nickname.toLowerCase() : ''))
+        console.log('pass?')
+      }
+
+      console.log(userListRes)
+
+      // /* limit offset divider */
+      // if (state.userFilterOption.limit) {
+      //   userListRes = pagenate(userListRes, state.userFilterOption.limit, state.userFilterOption.offset || 0, totalUserList)
+      // }
+
       result = userListRes.map(user => {
         /* find role */
         const role = dummyGuildRoles.find(dgr => dgr.uid === user.roleId)

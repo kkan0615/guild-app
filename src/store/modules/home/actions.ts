@@ -20,6 +20,7 @@ import * as faker from 'faker'
 import { dummyGuildUserPermissions } from '@/dummy/user/guild'
 import { dummyGuildUsers } from '@/dummy/user'
 import { dummyGuildRoles } from '@/dummy/guilds/role'
+import { pagenate } from '@/utils/helpers/pagination'
 
 export enum HomeActionTypes {
   SET_GUILD_LIST_FILTER_OPTION = 'home/SET_GUILD_LIST_FILTER_OPTION',
@@ -125,17 +126,7 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
 
     /* limit offset divider */
     if (state.guildListFilterOption.limit) {
-      const limit = state.guildListFilterOption.limit
-      const offset = state.guildListFilterOption.offset || 0
-      if (!offset) {
-        guildListRes = guildListRes.slice(0, limit)
-      } else if (((offset + 1) * limit) >= totalGuildList) {
-        guildListRes = guildListRes.slice((offset * limit), totalGuildList)
-      } else if (((offset + 1) * limit) < guildListRes.length) {
-        guildListRes = guildListRes.slice((offset * limit), ((offset + 1) * limit))
-      } else {
-        guildListRes = []
-      }
+      guildListRes = pagenate(guildListRes, state.guildListFilterOption.limit, state.guildListFilterOption.offset || 0, totalGuildList)
     }
 
     commit(HomeMutationTypes.SET_GUILD_LIST, guildListRes)

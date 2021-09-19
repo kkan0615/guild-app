@@ -1,5 +1,6 @@
 <template>
   <form
+    class="tw-flex tw-flex-col tw-space-y-2"
     @keydown.enter.stop.prevent=""
   >
     <slot />
