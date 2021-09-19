@@ -1,15 +1,16 @@
 import { ColDef, ValueFormatterParams } from 'ag-grid-community/dist/lib/entities/colDef'
 import { CustomDate } from '@/types/systems/date'
 import dayjs from 'dayjs'
-import { GuildUser, GuildUserInfo } from '@/types/model/auth/user/user'
+import { GuildUserInfo } from '@/types/model/auth/user/user'
 
 export const UserColumn: Array<ColDef> = [
   {
     field: 'nickname',
-    headerName: 'Nickname'
+    headerName: 'Nickname',
+    flex: 1,
   },
   {
-    field: 'role',
+    field: 'role.name',
     headerName: 'Role name',
     cellRendererFramework: 'RoleColumnBadge',
   },

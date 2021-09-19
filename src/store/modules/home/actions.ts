@@ -94,6 +94,7 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
   [HomeActionTypes.RESET_GUILD_LIST_FILTER_OPTION] ({ commit }) {
     commit(HomeMutationTypes.SET_GUILD_LIST_FILTER_OPTION, {
       limit: DEFAULT_GUILD_LIST_FILTER_LIMIT,
+      displayCounts: 3,
     } as GuildListFilterQuery)
   },
   [HomeActionTypes.LOAD_GUILD_LIST] ({ commit, state }) {
@@ -147,7 +148,7 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
       const tagsRes = dummyGuildTags.filter(dgt => guildInfoRes.tagIds.includes(dgt.uid))
       const members = dummyGuildUsers.filter(dgu => guildInfoRes.memberIds.includes(dgu.uid)).sort((a, b) => a.nickname.localeCompare(b.nickname))
       const mainMember = dummyGuildUsers.find(dgu => dgu.uid === guildInfoRes.mainMangerId)
-      console.log('hi', members)
+
       if (mainMember) {
         commit(HomeMutationTypes.SET_GUILD_INFO, {
           ...guildInfoRes,
@@ -165,7 +166,7 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
   [HomeActionTypes.RESET_GUILD_INFO] ({ commit }) {
     commit(HomeMutationTypes.SET_GUILD_INFO, {} as GuildInfo)
   },
-  [HomeActionTypes.JOIN_TO_GUILD] ({ commit, rootState }, payload: string) {
+  [HomeActionTypes.JOIN_TO_GUILD] ({ rootState }, payload: string) {
     const guildInfoRes = dummyGuilds.find(dg => dg.uid === payload)
     if (guildInfoRes) {
       if (!guildInfoRes.isRequirePermission) {

@@ -32,6 +32,7 @@ export type GuildInDropdown = Pick<Guild, 'uid' | 'img' | 'name'>
 export interface GuildListFilterQuery extends SelectListFilterQuery {
   name?: string
   tags?: Array<string>
+  displayCounts?: number
 }
 
 export const DEFAULT_GUILD_LIST_FILTER_LIMIT = 16
