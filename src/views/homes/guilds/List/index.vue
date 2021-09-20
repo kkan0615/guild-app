@@ -56,7 +56,7 @@ export default defineComponent({
 
     const guildList = computed(() => store.state.home.guildList)
     const displayCounts = computed(() => store.state.home.guildListFilterOption.displayCounts)
-    const pageMaxSize = computed(() => Math.ceil(store.state.home.totalGuildList / store.state.home.guildListFilterOption.limit))
+    const pageMaxSize = computed(() => Math.ceil(store.state.home.totalGuildList / (store.state.home.guildListFilterOption.limit || 0)))
     const offset = computed(() => store.state.home.guildListFilterOption.offset || 0)
     const guildListLoading = computed(() => store.state.home.guildListLoading)
 

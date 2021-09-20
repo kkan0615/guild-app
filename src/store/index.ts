@@ -48,7 +48,7 @@ export const key: InjectionKey<Store<RootState>> = Symbol()
 const plugins = [createLogger()]
 
 export const store = createStore<RootState>({
-  plugins,
+  // plugins,
   modules: {
     application: applicationModule,
     user: userModule,

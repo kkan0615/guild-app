@@ -3,7 +3,7 @@ import { RootState } from '@/store'
 import { GuildAdminRoleMutations, GuildAdminRoleMutationTypes } from '@/store/modules/guilds/admins/Role/mutations'
 import { GuildAdminRoleState } from '@/store/modules/guilds/admins/Role/state'
 import { dummyGuildRoles } from '@/dummy/guilds/role'
-import { GuildRoleAtAdmin, GuildRoleUpdateForm } from '@/types/model/guilds/role'
+import { GuildRole, GuildRoleAtAdmin, GuildRoleUpdateForm } from '@/types/model/guilds/role'
 import { dummyGuildUsers } from '@/dummy/user'
 
 export enum GuildAdminRoleActionTypes {
@@ -15,6 +15,8 @@ export enum GuildAdminRoleActionTypes {
   UPDATE_ROLE = 'guildAdminRole/UPDATE_ROLE',
   DELETE_ROLE = 'guildAdminRole/DELETE_ROLE',
   CHANGE_MEMBER_ROLE = 'guildAdminRole/CHANGE_MEMBER_ROLE',
+  ROLE_INDEX_UP = 'guildAdminRole/ROLE_INDEX_UP',
+  ROLE_INDEX_DOWN = 'guildAdminRole/ROLE_INDEX_DOWN',
 }
 
 export type AugmentedActionContext = {
@@ -95,6 +97,14 @@ export interface GuildAdminRoleActions {
     { state } : AugmentedActionContext,
     payload: string,
   ): void
+  [GuildAdminRoleActionTypes.ROLE_INDEX_UP](
+    { state } : AugmentedActionContext,
+    payload: GuildRole,
+  ): void
+  [GuildAdminRoleActionTypes.ROLE_INDEX_DOWN](
+    { state } : AugmentedActionContext,
+    payload: GuildRole,
+  ): void
 }
 
 export const guildAdminRoleActions: ActionTree<GuildAdminRoleState, RootState> & GuildAdminRoleActions = {
@@ -102,6 +112,12 @@ export const guildAdminRoleActions: ActionTree<GuildAdminRoleState, RootState> &
     const guildUid = rootState.guild.guildInfo.uid
     if (guildUid) {
       const guildRolesRes = dummyGuildRoles.filter(dgr => dgr.guildId === guildUid)
+      if (guildRolesRes.some(guildRolesRes => guildRolesRes.index === undefined)) {
+        guildRolesRes.map((guildRoleRes, index) => {
+          guildRoleRes.index = index
+        })
+      }
+      guildRolesRes.sort(((a, b) => a.index - b.index))
       commit(GuildAdminRoleMutationTypes.SET_ROLE_LIST, guildRolesRes)
     } else {
       throw new Error('no guild id')
@@ -174,5 +190,33 @@ export const guildAdminRoleActions: ActionTree<GuildAdminRoleState, RootState> &
     } else {
       throw new Error('no user id')
     }
-  }
+  },
+  [GuildAdminRoleActionTypes.ROLE_INDEX_UP] ({ state, rootState }, payload) {
+    if (payload.index === state.roleList.length) {
+      throw new Error('index is already max')
+    }
+
+    const currentRole = dummyGuildRoles.find(role => role.uid === payload.uid)
+    const nextRoleRes = dummyGuildRoles.find(role => role.guildId === rootState.guild.guildInfo.uid && role.index === payload.index + 1)
+    if (nextRoleRes && currentRole) {
+      currentRole.index = currentRole.index + 1
+      nextRoleRes.index = nextRoleRes.index - 1
+    } else {
+      throw new Error('no next or no current role')
+    }
+  },
+  [GuildAdminRoleActionTypes.ROLE_INDEX_DOWN] ({ rootState }, payload) {
+    if (payload.index === 0) {
+      throw new Error('index is 0')
+    }
+
+    const currentRole = dummyGuildRoles.find(role => role.uid === payload.uid)
+    const prevRoleRes = dummyGuildRoles.find(role => role.guildId === rootState.guild.guildInfo.uid && role.index === payload.index - 1)
+    if (prevRoleRes && currentRole) {
+      currentRole.index = currentRole.index - 1
+      prevRoleRes.index = prevRoleRes.index + 1
+    } else {
+      throw new Error('no next or no current role')
+    }
+  },
 }

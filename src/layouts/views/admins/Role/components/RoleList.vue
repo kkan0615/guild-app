@@ -22,7 +22,7 @@ export default defineComponent({
   setup: () => {
     const store = useStore()
 
-    const roleList = computed(() => store.state.guildAdminRole.roleList)
+    const roleList = computed(() => store.getters.sortedRoleList)
     const selectedRole = computed(() => store.state.guildAdminRole.selectedRole)
 
     return {
