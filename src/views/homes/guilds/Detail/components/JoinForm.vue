@@ -102,7 +102,7 @@ export default defineComponent({
     const isJoined = computed(() => {
       if (!loggedInUser)
         return false
-      return loggedInUser.value.guildList.findIndex(guild => guild.uid === guildInfo.value.uid) >= 0
+      return loggedInUser.value.guildList.findIndex(guild => guild.id === guildInfo.value.id) >= 0
     })
 
     const rules: RuleType = {
@@ -136,8 +136,8 @@ export default defineComponent({
 
     const onClickSaveBtn = () => {
       const guildJoinForm: GuildJoinCreateForm = {
-        guildId: guildInfo.value.uid,
-        userId: loggedInUser.value.uid,
+        guildId: guildInfo.value.id,
+        userId: loggedInUser.value.id,
         nickname: nickname.value,
         guildQuestions: questions.value,
       }

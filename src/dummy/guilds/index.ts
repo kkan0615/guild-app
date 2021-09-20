@@ -15,12 +15,12 @@ export let dummyGuilds: Array<Guild> = []
 
 export const initDummyGuilds = () => {
   dummyGuilds = [...Array(50).keys()].map((num) => {
-    const guildUid = v4()
+    const guildId = v4()
 
     const roles: Array<GuildRole> = [...Array(15).keys()].map((num) => {
       const role = {
-        uid: v4(),
-        guildId: guildUid,
+        id: v4(),
+        guildId: guildId,
         name: faker.lorem.word(),
         default: num === 0,
         color: tailwindDefaultColors[Math.floor(Math.random() * tailwindDefaultColors.length)],
@@ -36,24 +36,24 @@ export const initDummyGuilds = () => {
     const members: Array<GuildUserInfo> = []
     for (let i = 0; i < 50; i++) {
       const dummyGuildUser = dummyUsers[Math.floor(Math.random() * dummyUsers.length)]
-      if (members.findIndex(member => member.userId === dummyGuildUser.uid) !== -1)
+      if (members.findIndex(member => member.userId === dummyGuildUser.id) !== -1)
         continue
       const role = roles[Math.floor(Math.random() * roles.length)]
 
       const result = {
         ...dummyGuildUser,
-        uid: v4(),
-        userId: dummyGuildUser.uid,
-        roleId: role.uid,
+        id: v4(),
+        userId: dummyGuildUser.id,
+        roleId: role.id,
         role,
-        guildId: guildUid,
+        guildId: guildId,
         notifications: [...Array(50).keys()].map(() => {
           return {
-            uid: v4(),
-            guildId: 'test-uid',
+            id: v4(),
+            guildId: guildId,
             type: 'success',
-            targetUserId: dummyGuildUser.uid,
-            sendUserId: dummyGuildUser.uid,
+            targetUserId: dummyGuildUser.id,
+            sendUserId: dummyGuildUser.id,
             title: faker.lorem.sentence(),
             content: faker.lorem.sentence(),
             createdAt: dayjs().toISOString(),
@@ -73,26 +73,28 @@ export const initDummyGuilds = () => {
     })))
 
     return {
-      uid: guildUid,
+      id: guildId,
       img: faker.image.city(),
       logoImg: faker.image.nature(),
       name: faker.company.companyName(),
-      tagIds: tags.map(tag => tag.uid),
-      mainMangerId: members[0].uid,
+      tagIds: tags.map(tag => tag.id),
+      mainMangerId: members[0].id,
       description: faker.lorem.paragraphs(),
       introduction: faker.lorem.lines(),
-      memberIds: members.map((member) => member.uid),
-      roleIds: roles.map(role => role.uid),
+      memberIds: members.map((member) => member.userId),
+      roleIds: roles.map(role => role.id),
       isRequirePermission: false,
       createdAt: dayjs().toISOString(),
       updatedAt: dayjs().toISOString(),
     }
   })
 
+  /* test - id guild */
+
   const roles: Array<GuildRole> = [...Array(15).keys()].map((num) => {
     const role = {
-      uid: v4(),
-      guildId: 'test-uid',
+      id: v4(),
+      guildId: 'test-id',
       name: faker.lorem.word(),
       default: num === 0,
       color: tailwindDefaultColors[Math.floor(Math.random() * tailwindDefaultColors.length)],
@@ -108,7 +110,7 @@ export const initDummyGuilds = () => {
   const members: Array<GuildUserInfo> = []
   for (let i = 0; i < 50; i++) {
     const dummyUser = dummyUsers[Math.floor(Math.random() * dummyUsers.length)]
-    if (members.findIndex(member => member.userId === dummyUser.uid) !== -1)
+    if (members.findIndex(member => member.userId === dummyUser.id) !== -1)
       continue
     if (dummyUser.nickname === 'Super Admin')
       continue
@@ -116,18 +118,18 @@ export const initDummyGuilds = () => {
 
     const result = {
       ...dummyUser,
-      uid: v4(),
-      userId: dummyUser.uid,
+      id: v4(),
+      userId: dummyUser.id,
       role,
-      roleId: role.uid,
-      guildId: 'test-uid',
+      roleId: role.id,
+      guildId: 'test-id',
       notifications: [...Array(50).keys()].map(() => {
         return {
-          uid: v4(),
-          guildId: 'test-uid',
+          id: v4(),
+          guildId: 'test-id',
           type: 'success',
-          targetUserId: dummyUser.uid,
-          sendUserId: dummyUser.uid,
+          targetUserId: dummyUser.id,
+          sendUserId: dummyUser.id,
           title: faker.lorem.sentence(),
           content: faker.lorem.sentence(),
           createdAt: dayjs().toISOString(),
@@ -149,29 +151,29 @@ export const initDummyGuilds = () => {
 
   if (admin) {
     const role = roles[Math.floor(Math.random() * roles.length)]
-    const dummyGuildUser = {
+    const dummyAdminGuildUser = {
       ...admin,
-      uid: 'test-uid-guild-user',
-      roleId: role.uid,
+      id: 'test-id-guild-user',
+      roleId: role.id,
       role,
-      guildId: 'test-uid',
+      guildId: 'test-id',
       notifications: [...Array(50).keys()].map(() => {
         return {
-          uid: v4(),
-          guildId: 'test-uid',
+          id: v4(),
+          guildId: 'test-id',
           type: 'success',
-          targetUserId: admin.uid,
-          sendUserId: admin.uid,
+          targetUserId: admin.id,
+          sendUserId: admin.id,
           title: faker.lorem.sentence(),
           content: faker.lorem.sentence(),
           createdAt: dayjs().toISOString(),
           updatedAt: dayjs().toISOString(),
         } as Notification
       }),
-      userId: admin.uid,
+      userId: admin.id,
     }
-    dummyGuildUsers.unshift(dummyGuildUser)
-    members.unshift(dummyGuildUser)
+    dummyGuildUsers.unshift(dummyAdminGuildUser)
+    members.unshift(dummyAdminGuildUser)
 
     const joinQuestions = [...Array(5).keys()].map(num => {
       return {
@@ -181,9 +183,9 @@ export const initDummyGuilds = () => {
     })
 
     dummyGuildJoins.unshift({
-      uid: v4(),
-      guildId: 'test-uid',
-      userId: admin.uid,
+      id: v4(),
+      guildId: 'test-id',
+      userId: admin.id,
       nickname: admin.nickname,
       guildQuestions: joinQuestions.map(jq => {
         return {
@@ -196,16 +198,16 @@ export const initDummyGuilds = () => {
     })
 
     dummyGuilds.unshift({
-      uid: 'test-uid',
+      id: 'test-id',
       img: faker.image.city(),
       logoImg: faker.image.nature(),
-      name: faker.company.companyName(),
-      tagIds: tags.map(tag => tag.uid),
-      mainMangerId: dummyGuildUser.uid,
+      name: 'Test guild name',
+      tagIds: tags.map(tag => tag.id),
+      mainMangerId: dummyAdminGuildUser.id,
       description: faker.lorem.paragraphs(),
       introduction: faker.lorem.lines(),
-      memberIds: members.map((member) => member.uid).concat([admin.uid]),
-      roleIds: roles.map(role => role.uid),
+      memberIds: members.map((member) => member.id),
+      roleIds: roles.map(role => role.id),
       isRequirePermission: true,
       joinQuestions,
       createdAt: dayjs().toISOString(),

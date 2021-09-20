@@ -16,7 +16,7 @@ export type UserMutations<S = UserState> = {
 
 export const userMutations: MutationTree<UserState> & UserMutations = {
   [UserMutationTypes.SET_USER] (state, payload) {
-    state.uid = payload.uid
+    state.id = payload.id
     state.email = payload.email
     state.name = payload.name
     state.nickname = payload.nickname

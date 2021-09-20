@@ -8,7 +8,7 @@ export interface UserState extends User {
 }
 
 export const userState: UserState = {
-  uid: '',
+  id: '',
   email: '',
   name: '',
   nickname: '',

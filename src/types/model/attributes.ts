@@ -1,7 +1,7 @@
 import { CustomDate } from '@/types/systems/date'
 
 export interface FirebaseAttributes {
-  uid: string
+  id: string
   createdAt: CustomDate
   updatedAt: CustomDate
   deletedAt?: CustomDate

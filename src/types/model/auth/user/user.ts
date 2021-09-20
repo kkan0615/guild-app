@@ -31,14 +31,14 @@ export interface GuildUserInfo extends GuildUser {
 }
 
 
-export type GuildUserAtUserList = Pick<GuildUserInfo, 'uid' | 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId' | 'description' | 'remark'>
+export type GuildUserAtUserList = Pick<GuildUserInfo, 'id' | 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId' | 'description' | 'remark'>
 /**
  * User list
  * Using at admin user page
  */
-export type GuildUserAtAdminUserList = Pick<GuildUserInfo, 'uid' | 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId' | 'description' | 'remark'>
+export type GuildUserAtAdminUserList = Pick<GuildUserInfo, 'id' | 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId' | 'description' | 'remark'>
 
-export type GuildUserAtAdminDetail = Pick<GuildUserInfo, 'uid' | 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId' | 'description' | 'remark'>
+export type GuildUserAtAdminDetail = Pick<GuildUserInfo, 'id' | 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId' | 'description' | 'remark'>
 
 export interface UserLoginForm {
   email: string

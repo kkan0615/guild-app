@@ -148,7 +148,7 @@ export default defineComponent({
     const currentRouteName = computed(() => route.name)
 
     const onClickLogo = async () =>{
-      await router.push({ name: RouterNameEnum.GUILD_HOME, params: { guildId: guildInfo.value.uid } })
+      await router.push({ name: RouterNameEnum.GUILD_HOME, params: { guildId: guildInfo.value.id } })
     }
 
     const onClickToAdminMenu = async () =>{

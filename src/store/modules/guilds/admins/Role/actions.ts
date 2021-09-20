@@ -120,9 +120,9 @@ export interface GuildAdminRoleActions {
 
 export const guildAdminRoleActions: ActionTree<GuildAdminRoleState, RootState> & GuildAdminRoleActions = {
   [GuildAdminRoleActionTypes.LOAD_ROLE_LIST] ({ commit, rootState }) {
-    const guildUid = rootState.guild.guildInfo.uid
-    if (guildUid) {
-      const guildRolesRes = dummyGuildRoles.filter(dgr => dgr.guildId === guildUid)
+    const guildId = rootState.guild.guildInfo.id
+    if (guildId) {
+      const guildRolesRes = dummyGuildRoles.filter(dgr => dgr.guildId === guildId)
       if (guildRolesRes.some(guildRolesRes => guildRolesRes.index === undefined)) {
         guildRolesRes.map((guildRoleRes, index) => {
           guildRoleRes.index = index
@@ -138,11 +138,11 @@ export const guildAdminRoleActions: ActionTree<GuildAdminRoleState, RootState> &
     commit(GuildAdminRoleMutationTypes.SET_ROLE_LIST, [])
   },
   [GuildAdminRoleActionTypes.LOAD_SELECTED_ROLE] ({ commit, rootState }, payload) {
-    const guildUid = rootState.guild.guildInfo.uid
+    const guildUid = rootState.guild.guildInfo.id
     if (guildUid) {
-      const guildRolesRes = dummyGuildRoles.find(dgr => dgr.uid === payload)
+      const guildRolesRes = dummyGuildRoles.find(dgr => dgr.id === payload)
       if (guildRolesRes) {
-        const userRes = dummyGuildUsers.filter(dgu => dgu.roleId === guildRolesRes.uid)
+        const userRes = dummyGuildUsers.filter(dgu => dgu.roleId === guildRolesRes.id)
         commit(GuildAdminRoleMutationTypes.SET_SELECTED_ROLE, {
           ...guildRolesRes,
           Users: userRes,
@@ -165,13 +165,13 @@ export const guildAdminRoleActions: ActionTree<GuildAdminRoleState, RootState> &
 
     /* Change default role */
     if (payload.default === true) {
-      const guildRolesRes = dummyGuildRoles.filter(dgr => dgr.guildId === rootState.guild.guildInfo.uid)
+      const guildRolesRes = dummyGuildRoles.filter(dgr => dgr.guildId === rootState.guild.guildInfo.id)
       guildRolesRes.forEach(grr => grr.default = false)
     }
 
     dummyGuildRoles.push({
-      uid: newRoleId,
-      guildId: rootState.guild.guildInfo.uid,
+      id: newRoleId,
+      guildId: rootState.guild.guildInfo.id,
       ...payload,
       createdAt: dayjs().toISOString(),
       updatedAt: dayjs().toISOString(),
@@ -180,7 +180,7 @@ export const guildAdminRoleActions: ActionTree<GuildAdminRoleState, RootState> &
     return newRoleId
   },
   [GuildAdminRoleActionTypes.UPDATE_ROLE] ({ state }, payload) {
-    const guildRoleRes = dummyGuildRoles.find(dgr => dgr.uid === payload.uid)
+    const guildRoleRes = dummyGuildRoles.find(dgr => dgr.id === payload.id)
     if (guildRoleRes) {
       /* Change default role */
       if (payload.default === true) {
@@ -196,7 +196,7 @@ export const guildAdminRoleActions: ActionTree<GuildAdminRoleState, RootState> &
     }
   },
   [GuildAdminRoleActionTypes.DELETE_ROLE] (_, payload) {
-    const foundIndex = dummyGuildRoles.findIndex(dgr => dgr.uid === payload)
+    const foundIndex = dummyGuildRoles.findIndex(dgr => dgr.id === payload)
     const foundDefaultRole = dummyGuildRoles.find(dgr => dgr.default)
     if (!foundDefaultRole) {
       throw new Error('no default role')
@@ -205,18 +205,18 @@ export const guildAdminRoleActions: ActionTree<GuildAdminRoleState, RootState> &
       dummyGuildRoles.splice(foundIndex, 1)
       /* Change all members in the role to default role */
       const usersRes = dummyGuildUsers.filter(dgu => dgu.roleId === payload)
-      usersRes.forEach(user => user.roleId = foundDefaultRole.uid)
+      usersRes.forEach(user => user.roleId = foundDefaultRole.id)
     } else {
       throw new Error('no guild role')
     }
   },
   [GuildAdminRoleActionTypes.CHANGE_MEMBER_ROLE] ({ state }, payload) {
-    if (!state.selectedRole.uid) {
+    if (!state.selectedRole.id) {
       throw new Error('no selected role id')
     }
     const userRes = dummyGuildUsers.find(dgu => dgu.userId === payload)
     if (userRes) {
-      userRes.roleId = state.selectedRole.uid
+      userRes.roleId = state.selectedRole.id
     } else {
       throw new Error('no user id')
     }
@@ -226,8 +226,8 @@ export const guildAdminRoleActions: ActionTree<GuildAdminRoleState, RootState> &
       throw new Error('index is already max')
     }
 
-    const currentRole = dummyGuildRoles.find(role => role.uid === payload.uid)
-    const nextRoleRes = dummyGuildRoles.find(role => role.guildId === rootState.guild.guildInfo.uid && role.index === payload.index + 1)
+    const currentRole = dummyGuildRoles.find(role => role.id === payload.id)
+    const nextRoleRes = dummyGuildRoles.find(role => role.guildId === rootState.guild.guildInfo.id && role.index === payload.index + 1)
     if (nextRoleRes && currentRole) {
       currentRole.index = currentRole.index + 1
       nextRoleRes.index = nextRoleRes.index - 1
@@ -240,8 +240,8 @@ export const guildAdminRoleActions: ActionTree<GuildAdminRoleState, RootState> &
       throw new Error('index is 0')
     }
 
-    const currentRole = dummyGuildRoles.find(role => role.uid === payload.uid)
-    const prevRoleRes = dummyGuildRoles.find(role => role.guildId === rootState.guild.guildInfo.uid && role.index === payload.index - 1)
+    const currentRole = dummyGuildRoles.find(role => role.id === payload.id)
+    const prevRoleRes = dummyGuildRoles.find(role => role.guildId === rootState.guild.guildInfo.id && role.index === payload.index - 1)
     if (prevRoleRes && currentRole) {
       currentRole.index = currentRole.index - 1
       prevRoleRes.index = prevRoleRes.index + 1

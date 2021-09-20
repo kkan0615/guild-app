@@ -170,7 +170,7 @@ export default defineComponent({
     const description = ref('')
     // @TODO: Consider how to save control common code
     const tagOptions = dummyGuildTags.map(tag => {
-      return { value: tag.uid, label: tag.name }
+      return { value: tag.id, label: tag.name }
     })
 
     const rules: RuleType = {
@@ -213,7 +213,7 @@ export default defineComponent({
     const onClickSaveBtn = async () => {
       if (formRef.value && formRef.value.checkValidation()) {
         try {
-          const uid = await store.dispatch(HomeActionTypes.CREATE_GUILD_INFO, {
+          const id = await store.dispatch(HomeActionTypes.CREATE_GUILD_INFO, {
             img: 'https://octodex.github.com/images/saketocat.png',
             logoImg: 'https://octodex.github.com/images/saketocat.png',
             name: title.value,
@@ -222,7 +222,7 @@ export default defineComponent({
             tagIds: tags.value,
           } as GuildCreateForm)
 
-          await router.push({ name: RouterNameEnum.HOME_GUILD_DETAIL, params: { id: uid } })
+          await router.push({ name: RouterNameEnum.HOME_GUILD_DETAIL, params: { id: id } })
         } catch (e) {
           console.error(e)
         }

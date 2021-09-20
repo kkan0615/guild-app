@@ -42,8 +42,8 @@ export default defineComponent({
 
     const onClickEditBtn = async () =>{
       try {
-        if (userDetail.value.uid)
-          await router.push({ name: RouterNameEnum.GUILD_ADMIN_USER_EDIT, params: { userId: userDetail.value.uid } })
+        if (userDetail.value.id)
+          await router.push({ name: RouterNameEnum.GUILD_ADMIN_USER_EDIT, params: { userId: userDetail.value.id } })
         else
           throw new Error('no user id')
       } catch (e) {

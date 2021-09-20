@@ -4,9 +4,9 @@
   >
     <guild-admin-role-layout-role-list-item
       v-for="role in roleList"
-      :key="role.uid"
+      :key="role.id"
       :role="role"
-      :active="role.uid === selectedRole.uid"
+      :active="role.id === selectedRole.id"
     />
   </ul>
 </template>

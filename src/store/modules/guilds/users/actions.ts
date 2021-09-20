@@ -53,11 +53,11 @@ export interface GuildUserActions {
 
 export const guildUserActions: ActionTree<GuildUserState, RootState> & GuildUserActions = {
   [GuildUserActionTypes.LOAD_USER_LIST] ({ commit, state, rootState }) {
-    const guildUid = rootState.guild.guildInfo.uid
-    if (guildUid) {
+    const guildId = rootState.guild.guildInfo.id
+    if (guildId) {
       let result: Array<GuildUserAtUserList> = []
       /* Load user list */
-      let userListRes = dummyGuildUsers.filter(dgu => rootState.guild.guildInfo.memberIds.includes(dgu.uid))
+      let userListRes = dummyGuildUsers.filter(dgu => rootState.guild.guildInfo.memberIds.includes(dgu.id))
       /* Set total user list */
       const totalUserList = userListRes.length
       commit(GuildUserMutationTypes.SET_TOTAL_USER_LIST, totalUserList)
@@ -75,7 +75,7 @@ export const guildUserActions: ActionTree<GuildUserState, RootState> & GuildUser
 
       result = userListRes.map(user => {
         /* find role */
-        const role = dummyGuildRoles.find(dgr => dgr.uid === user.roleId)
+        const role = dummyGuildRoles.find(dgr => dgr.id === user.roleId)
         return {
           ...user,
           role: role || {} as GuildRole,

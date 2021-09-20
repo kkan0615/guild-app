@@ -17,9 +17,9 @@
       >
         <div
           v-for="guild in guilds"
-          :key="guild.uid"
+          :key="guild.id"
           class="tw-text-center tw-cursor-pointer"
-          @click="onClickGuildApp(guild.uid)"
+          @click="onClickGuildApp(guild.id)"
         >
           <img
             :src="guild.img"
@@ -55,8 +55,8 @@ export default defineComponent({
 
     const guilds = computed(() => store.state.user.guildList)
 
-    const onClickGuildApp = async (appUid: string) => {
-      await router.push({ name: RouterNameEnum.GUILD_HOME, params: { guildId: appUid } })
+    const onClickGuildApp = async (appId: string) => {
+      await router.push({ name: RouterNameEnum.GUILD_HOME, params: { guildId: appId } })
     }
 
     return {

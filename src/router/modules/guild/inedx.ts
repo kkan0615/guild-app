@@ -15,7 +15,7 @@ export const guildRoutes: RouteRecordRaw = {
   },
   beforeEnter: (async (to, from, next) => {
     const guildId = to.params.guildId
-    if (guildId && (!store.state.guild.guildInfo || !store.state.guild.guildInfo.uid)) {
+    if (guildId && (!store.state.guild.guildInfo || !store.state.guild.guildInfo.id)) {
       await store.dispatch(GuildActionTypes.LOAD_GUILD_INFO, guildId)
     }
     next()

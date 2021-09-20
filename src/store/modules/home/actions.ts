@@ -99,9 +99,9 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
   },
   [HomeActionTypes.LOAD_GUILD_LIST] ({ commit, state }) {
     let guildListRes:Array<GuildInfoInList> = dummyGuilds.map(dg => {
-      const tagsRes = dummyGuildTags.filter(dgt => dg.tagIds.includes(dgt.uid))
+      const tagsRes = dummyGuildTags.filter(dgt => dg.tagIds.includes(dgt.id))
       return {
-        uid: dg.uid,
+        id: dg.id,
         name: dg.name,
         img: dg.img,
         introduction: dg.introduction,
@@ -142,12 +142,14 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
     commit(HomeMutationTypes.SET_GUILD_LIST_LOADING, false)
   },
   [HomeActionTypes.LOAD_GUILD_INFO] ({ commit }, payload) {
-    const guildInfoRes = dummyGuilds.find(dg => dg.uid === payload)
+    const guildInfoRes = dummyGuilds.find(dg => dg.id === payload)
     if (guildInfoRes) {
-      const guildRolesRes = dummyGuildRoles.filter(dgr => dgr.guildId === guildInfoRes.uid).sort((a, b) => a.index - b.index)
-      const tagsRes = dummyGuildTags.filter(dgt => guildInfoRes.tagIds.includes(dgt.uid))
-      const members = dummyGuildUsers.filter(dgu => guildInfoRes.memberIds.includes(dgu.uid)).sort((a, b) => a.nickname.localeCompare(b.nickname))
-      const mainMember = dummyGuildUsers.find(dgu => dgu.uid === guildInfoRes.mainMangerId)
+      const guildRolesRes = dummyGuildRoles.filter(dgr => dgr.guildId === guildInfoRes.id).sort((a, b) => a.index - b.index)
+      const tagsRes = dummyGuildTags.filter(dgt => guildInfoRes.tagIds.includes(dgt.id))
+      const members = dummyGuildUsers
+        .filter(dgu => dgu.guildId === guildInfoRes.id && guildInfoRes.memberIds.includes(dgu.id))
+        .sort((a, b) => a.nickname.localeCompare(b.nickname))
+      const mainMember = dummyGuildUsers.find(dgu => dgu.id === guildInfoRes.mainMangerId)
 
       if (mainMember) {
         commit(HomeMutationTypes.SET_GUILD_INFO, {
@@ -167,12 +169,12 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
     commit(HomeMutationTypes.SET_GUILD_INFO, {} as GuildInfo)
   },
   [HomeActionTypes.JOIN_TO_GUILD] ({ rootState }, payload: string) {
-    const guildInfoRes = dummyGuilds.find(dg => dg.uid === payload)
+    const guildInfoRes = dummyGuilds.find(dg => dg.id === payload)
     if (guildInfoRes) {
       if (!guildInfoRes.isRequirePermission) {
-        guildInfoRes.memberIds.push(rootState.user.uid)
+        guildInfoRes.memberIds.push(rootState.user.id)
         dummyGuildUsers.push({
-          uid: v4(),
+          id: v4(),
           email: rootState.user.email,
           name: rootState.user.name,
           nickname: rootState.user.nickname,
@@ -180,17 +182,17 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
           img: rootState.user.img,
           auth: rootState.user.auth,
           role: {} as GuildRole,
-          userId: rootState.user.uid,
-          guildId: guildInfoRes.uid,
+          userId: rootState.user.id,
+          guildId: guildInfoRes.id,
           createdAt: dayjs().toISOString(),
           updatedAt: dayjs().toISOString(),
           // roleI: guildInfoRes.roles[0],
         } as GuildUserInfo)
       } else {
         dummyGuildUserPermissions.push({
-          uid: v4(),
-          userId: rootState.user.uid,
-          guildId: guildInfoRes.uid,
+          id: v4(),
+          userId: rootState.user.id,
+          guildId: guildInfoRes.id,
           createdAt: dayjs().toISOString(),
           updatedAt: dayjs().toISOString(),
         })
@@ -201,13 +203,13 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
   },
   [HomeActionTypes.CREATE_GUILD_INFO] ({ rootState }, payload) {
     // @FOR_TEST
-    const newGuildUid = v4()
+    const newGuildId = v4()
 
     // @FOR_TEST
     const guildUser = {
-      uid: v4(),
-      guildId: newGuildUid,
-      userId: rootState.user.uid,
+      id: v4(),
+      guildId: newGuildId,
+      userId: rootState.user.id,
       email: rootState.user.email,
       name: rootState.user.name,
       nickname: rootState.user.nickname,
@@ -225,30 +227,30 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
 
     // @FOR_TEST
     dummyGuilds.push({
-      uid: newGuildUid,
+      id: newGuildId,
       img: payload.img,
       logoImg: payload.img,
       name: payload.name,
       introduction: payload.introduction,
       description: payload.description,
-      mainMangerId: rootState.user.uid,
+      mainMangerId: rootState.user.id,
       tagIds: payload.tagIds,
       roleIds: [],
-      memberIds: [rootState.user.uid],
+      memberIds: [rootState.user.id],
       isRequirePermission: payload.isRequirePermission,
       createdAt: dayjs().toISOString(),
       updatedAt: dayjs().toISOString(),
     })
 
-    return newGuildUid
+    return newGuildId
   },
-  [HomeActionTypes.CREATE_GUILD_TAGS] ({ commit }, payload) {
+  [HomeActionTypes.CREATE_GUILD_TAGS] (_, payload) {
     const result: Array<string> = []
     for (let i = 0; i < payload.length; i++) {
       const tag = payload[i]
-      const newTagUid = v4()
+      const newTagId = v4()
       dummyGuildTags.push({
-        uid: newTagUid,
+        id: newTagId,
         name: tag.name,
         color: faker.commerce.color(),
         createdAt: dayjs().toISOString(),

@@ -139,14 +139,14 @@ export interface GuildAdminUserActions {
 
 export const guildAdminUserActions: ActionTree<GuildAdminUserState, RootState> & GuildAdminUserActions = {
   [GuildAdminUserActionTypes.LOAD_USER_LIST] ({ commit, rootState }) {
-    const guildUid = rootState.guild.guildInfo.uid
-    if (guildUid) {
+    const guildId = rootState.guild.guildInfo.id
+    if (guildId) {
       let result: Array<GuildUserAtAdminUserList> = []
       /* Load user list */
-      const userListRes = dummyGuildUsers.filter(dgu => rootState.guild.guildInfo.memberIds.includes(dgu.uid))
+      const userListRes = dummyGuildUsers.filter(dgu => rootState.guild.guildInfo.memberIds.includes(dgu.id))
       result = userListRes.map(user => {
         /* find role */
-        const role = dummyGuildRoles.find(dgr => dgr.uid === user.roleId)
+        const role = dummyGuildRoles.find(dgr => dgr.id === user.roleId)
         return {
           ...user,
           role: role || {} as GuildRole,
@@ -161,13 +161,13 @@ export const guildAdminUserActions: ActionTree<GuildAdminUserState, RootState> &
     commit(GuildAdminUserMutationTypes.SET_USER_LIST, [])
   },
   [GuildAdminUserActionTypes.LOAD_GUILD_JOIN_FORMS] ({ commit, rootState }) {
-    const guildUid = rootState.guild.guildInfo.uid
-    if (guildUid) {
-      const joinFormsRes = dummyGuildJoins.filter(dgj => dgj.guildId === guildUid)
+    const guildId = rootState.guild.guildInfo.id
+    if (guildId) {
+      const joinFormsRes = dummyGuildJoins.filter(dgj => dgj.guildId === guildId)
       const joinForms = joinFormsRes.map(jfr => {
         return {
           ...jfr,
-          User: dummyUsers.find(du => du.uid === jfr.userId) || {} as User
+          User: dummyUsers.find(du => du.id === jfr.userId) || {} as User
         } as GuildJoinInfo
       })
       commit(GuildAdminUserMutationTypes.SET_GUILD_JOIN_FORMS, joinForms)
@@ -182,9 +182,9 @@ export const guildAdminUserActions: ActionTree<GuildAdminUserState, RootState> &
     commit(GuildAdminUserMutationTypes.SET_USER_FILTER_OPTION, payload)
   },
   [GuildAdminUserActionTypes.LOAD_BLACK_LIST] ({ commit, rootState }) {
-    const blackListRes = dummyGuildBlackList.filter(dgbl => dgbl.guildId === rootState.guild.guildInfo.uid)
+    const blackListRes = dummyGuildBlackList.filter(dgbl => dgbl.guildId === rootState.guild.guildInfo.id)
     const result = blackListRes.map(blr => {
-      const userRes = dummyUsers.find(du => du.uid === blr.userId)
+      const userRes = dummyUsers.find(du => du.id === blr.userId)
       return {
         ...blr,
         User: userRes || {} as User,
@@ -196,7 +196,7 @@ export const guildAdminUserActions: ActionTree<GuildAdminUserState, RootState> &
     commit(GuildAdminUserMutationTypes.SET_BLACK_LIST, [])
   },
   async [GuildAdminUserActionTypes.REMOVE_FROM_BLACK_LIST] ({ dispatch, state }, payload) {
-    const foundIndex = dummyGuildBlackList.findIndex(dgbl => dgbl.uid === payload)
+    const foundIndex = dummyGuildBlackList.findIndex(dgbl => dgbl.id === payload)
     if (foundIndex >= 0) {
       /* Remove at black list */
       dummyGuildBlackList.splice(foundIndex, 1)
@@ -211,9 +211,9 @@ export const guildAdminUserActions: ActionTree<GuildAdminUserState, RootState> &
     }
   },
   [GuildAdminUserActionTypes.LOAD_USER_DETAIL] ({ commit, rootState }, payload) {
-    const guildUserRes = dummyGuildUsers.find(dgu => dgu.uid === payload && dgu.guildId === rootState.guild.guildInfo.uid)
+    const guildUserRes = dummyGuildUsers.find(dgu => dgu.id === payload && dgu.guildId === rootState.guild.guildInfo.id)
     if (guildUserRes) {
-      const roleRes = dummyGuildRoles.find(dgr => dgr.uid === guildUserRes.roleId)
+      const roleRes = dummyGuildRoles.find(dgr => dgr.id === guildUserRes.roleId)
       if (roleRes) {
         guildUserRes.role = roleRes
         commit(GuildAdminUserMutationTypes.SET_USER_DETAIL, guildUserRes)
@@ -227,7 +227,7 @@ export const guildAdminUserActions: ActionTree<GuildAdminUserState, RootState> &
   [GuildAdminUserActionTypes.RESET_USER_DETAIL] ({ commit }) {
     commit(GuildAdminUserMutationTypes.SET_USER_DETAIL, {} as GuildUserAtAdminDetail)
   },
-  [GuildAdminUserActionTypes.LOAD_ROLE_LIST] ({ commit, rootState }, payload = rootState.guild.guildInfo.uid) {
+  [GuildAdminUserActionTypes.LOAD_ROLE_LIST] ({ commit, rootState }, payload = rootState.guild.guildInfo.id) {
     if (!payload) {
       throw new Error('no guild id')
     }
@@ -239,11 +239,11 @@ export const guildAdminUserActions: ActionTree<GuildAdminUserState, RootState> &
     commit(GuildAdminUserMutationTypes.SET_ROLE_LIST, [])
   },
   [GuildAdminUserActionTypes.UPDATE_GUILD_USER_INFO] ({ state }, payload) {
-    if (!state.userDetail.uid) {
+    if (!state.userDetail.id) {
       throw new Error('No user id')
     }
 
-    const guildUserRes = dummyGuildUsers.find(guildUser => guildUser.uid === state.userDetail.uid)
+    const guildUserRes = dummyGuildUsers.find(guildUser => guildUser.id === state.userDetail.id)
     if (guildUserRes) {
       if (payload.roleId)
         guildUserRes.roleId = payload.roleId

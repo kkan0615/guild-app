@@ -38,7 +38,7 @@ export default defineComponent({
     const onClickVisibilityBtn = async (params: ICellRendererParams) => {
       const rowData = params.data as GuildUserAtAdminUserList
       try {
-        await router.push({ name: RouterNameEnum.GUILD_ADMIN_USER_DETAIL, params: { userId: rowData.uid } })
+        await router.push({ name: RouterNameEnum.GUILD_ADMIN_USER_DETAIL, params: { userId: rowData.id } })
       } catch (e) {
         console.error(e)
         addToast({
@@ -52,7 +52,7 @@ export default defineComponent({
     const onClickEditBtn = async (params: ICellRendererParams) => {
       const rowData = params.data as GuildUserAtAdminUserList
       try {
-        await router.push({ name: RouterNameEnum.GUILD_ADMIN_USER_EDIT, params: { userId: rowData.uid } })
+        await router.push({ name: RouterNameEnum.GUILD_ADMIN_USER_EDIT, params: { userId: rowData.id } })
       } catch (e) {
         console.error(e)
         addToast({

@@ -70,7 +70,7 @@
       >
         <tag-badge
           v-for="tag in guildInfo.tags"
-          :key="tag.uid"
+          :key="tag.id"
           :color="tag.color"
         >
           {{ tag.name }}
@@ -174,7 +174,7 @@ export default defineComponent({
     const isJoined = computed(() => {
       if (!loggedInUser)
         return false
-      return loggedInUser.value.guildList.findIndex(guild => guild.uid === guildInfo.value.uid) >= 0
+      return loggedInUser.value.guildList.findIndex(guild => guild.id === guildInfo.value.id) >= 0
     })
     const formattedCreatedAt = computed(() => dayjs(guildInfo.value.createdAt).format('ll'))
 
@@ -191,16 +191,16 @@ export default defineComponent({
 
     const onClickJoinBtn = async () => {
       if (confirm(`Would like to join to ${guildInfo.value.name}`)) {
-        await store.dispatch(HomeActionTypes.JOIN_TO_GUILD, guildInfo.value.uid)
+        await store.dispatch(HomeActionTypes.JOIN_TO_GUILD, guildInfo.value.id)
         /* If permission is not required */
         if (!guildInfo.value.isRequirePermission) {
-          await router.push({ name: RouterNameEnum.GUILD_HOME, params: { guildId: guildInfo.value.uid } })
+          await router.push({ name: RouterNameEnum.GUILD_HOME, params: { guildId: guildInfo.value.id } })
         }
       }
     }
 
     const onClickMoveGuildBtn = async () => {
-      await router.push({ name: RouterNameEnum.GUILD_HOME, params: { guildId: guildInfo.value.uid } })
+      await router.push({ name: RouterNameEnum.GUILD_HOME, params: { guildId: guildInfo.value.id } })
     }
 
     return {

@@ -7,7 +7,7 @@ export let dummyGuildTags: Array<GuildTag> = []
 export const initDummyGuildTags = () => {
   dummyGuildTags = [...Array(50).keys()].map(() => {
     return {
-      uid: v4(),
+      id: v4(),
       name: faker.lorem.word(),
       color: faker.commerce.color(),
       createdAt: dayjs().toISOString(),

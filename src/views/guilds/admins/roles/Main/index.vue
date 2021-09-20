@@ -3,7 +3,7 @@
     class="tw-h-full md:tw-p-2"
   >
     <div
-      v-if="selectedRole.uid"
+      v-if="selectedRole.id"
       class="tw-h-full tw-flex tw-flex-col"
     >
       <div
@@ -138,7 +138,7 @@ export default defineComponent({
       if (!selectedRole.value.default) {
         try {
           /* Delete Role */
-          await store.dispatch(GuildAdminRoleActionTypes.DELETE_ROLE, selectedRole.value.uid)
+          await store.dispatch(GuildAdminRoleActionTypes.DELETE_ROLE, selectedRole.value.id)
           /* Reload role list */
           await store.dispatch(GuildAdminRoleActionTypes.LOAD_ROLE_LIST)
           /* Redirect to main */

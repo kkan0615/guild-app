@@ -10,7 +10,7 @@ export const dummyGuildUsers:Array<GuildUserInfo> = []
 export const initDummyUsers = () => {
   dummyUsers = [...Array(30).keys()].map(() => {
     return {
-      uid: v4(),
+      id: v4(),
       nickname: faker.internet.userName(),
       auth: 'staff',
       name: faker.internet.userName(),
@@ -22,7 +22,7 @@ export const initDummyUsers = () => {
     }
   })
   dummyUsers.unshift({
-    uid: 'admin-uid',
+    id: 'admin-id',
     nickname: 'Super Admin',
     auth: 'superAdmin',
     name: 'Super Admin',

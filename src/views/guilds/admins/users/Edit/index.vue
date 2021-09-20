@@ -143,7 +143,7 @@ export default defineComponent({
 
     const userDetail = computed(() => store.state.guildAdminUser.userDetail)
     const roleList = computed(() => store.state.guildAdminUser.roleList.map(role => {
-      return { value: role.uid, label: role.name } as MultiselectOption
+      return { value: role.id, label: role.name } as MultiselectOption
     }))
 
     onMounted(async () => {
@@ -186,7 +186,7 @@ export default defineComponent({
         } as GuildUserFormAtAdminUser)
         // /* Reload detail */
         // await store.dispatch(GuildAdminUserActionTypes.LOAD_USER_DETAIL, userDetail.value.uid)
-        await router.push({ name: RouterNameEnum.GUILD_ADMIN_USER_DETAIL, params: { userId: userDetail.value.uid } })
+        await router.push({ name: RouterNameEnum.GUILD_ADMIN_USER_DETAIL, params: { userId: userDetail.value.id } })
         addToast({
           title: 'Success',
           type: 'success',

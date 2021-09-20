@@ -125,12 +125,14 @@ export interface GuildActions {
 
 export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
   [GuildActionTypes.LOAD_GUILD_INFO] ({ commit }, payload) {
-    const guildInfoRes = dummyGuilds.find(dg => dg.uid === payload)
+    const guildInfoRes = dummyGuilds.find(dg => dg.id === payload)
     if (guildInfoRes) {
-      const guildRolesRes = dummyGuildRoles.filter(dgr => dgr.guildId === guildInfoRes.uid).sort((a, b) => a.index - b.index)
-      const tagsRes = dummyGuildTags.filter(dgt => guildInfoRes.tagIds.includes(dgt.uid))
-      const members = dummyGuildUsers.filter(dgu => guildInfoRes.memberIds.includes(dgu.uid)).sort((a, b) => a.nickname.localeCompare(b.nickname))
-      const mainMember = dummyGuildUsers.find(dgu => dgu.uid === guildInfoRes.mainMangerId)
+      const guildRolesRes = dummyGuildRoles.filter(dgr => dgr.guildId === guildInfoRes.id).sort((a, b) => a.index - b.index)
+      const tagsRes = dummyGuildTags.filter(dgt => guildInfoRes.tagIds.includes(dgt.id))
+      const members = dummyGuildUsers
+        .filter(dgu => dgu.guildId === guildInfoRes.id && guildInfoRes.memberIds.includes(dgu.id))
+        .sort((a, b) => a.nickname.localeCompare(b.nickname))
+      const mainMember = dummyGuildUsers.find(dgu => dgu.id === guildInfoRes.mainMangerId)
       if (mainMember) {
         commit(GuildMutationTypes.SET_GUILD_INFO, {
           ...guildInfoRes,
@@ -150,7 +152,7 @@ export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
   },
   [GuildActionTypes.UPDATE_GUILD_USER_INFO] ({ commit, rootState }) {
     const guildUserInfo = dummyGuildUsers.find((du) => {
-      return du.userId === rootState.user.uid && du.guildId === rootState.guild.guildInfo.uid
+      return du.userId === rootState.user.id && du.guildId === rootState.guild.guildInfo.id
     })
 
     if (guildUserInfo) {
@@ -178,7 +180,7 @@ export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
   async [GuildActionTypes.UPDATE_GUILD_QUESTIONS] ({ state, dispatch }, payload) {
     try {
       /* Add at dummy */
-      const guildInfoRes = dummyGuilds.find(dg => dg.uid === state.guildInfo.uid)
+      const guildInfoRes = dummyGuilds.find(dg => dg.id === state.guildInfo.id)
       if (guildInfoRes) {
         guildInfoRes.joinQuestions = payload.map(gqf => {
           return {
@@ -187,7 +189,7 @@ export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
           }
         })
 
-        await dispatch(GuildActionTypes.LOAD_GUILD_INFO, state.guildInfo.uid)
+        await dispatch(GuildActionTypes.LOAD_GUILD_INFO, state.guildInfo.id)
       }
     } catch (e) {
       console.error(e)
@@ -195,25 +197,25 @@ export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
     }
   },
   async [GuildActionTypes.ACCEPT_JOIN_TO_GUILD] ({ state, dispatch }, payload) {
-    const index = dummyGuildJoins.findIndex(join => join.uid === payload.uid)
+    const index = dummyGuildJoins.findIndex(join => join.id === payload.id)
     if (index >= 0) {
-      const foundDummyGuild = dummyGuilds.find(dg => dg.uid === state.guildInfo.uid)
+      const foundDummyGuild = dummyGuilds.find(dg => dg.id === state.guildInfo.id)
       if (foundDummyGuild) {
         /* Remove from join form */
         dummyGuildJoins.splice(index, 1)
         /* Create guild user */
-        const dummyGuildUserUid = v4()
+        const dummyGuildUserId = v4()
         dummyGuildUsers.push({
           ...payload.User,
-          uid: dummyGuildUserUid,
-          guildId: state.guildInfo.uid,
+          id: dummyGuildUserId,
+          guildId: state.guildInfo.id,
           nickname: payload.nickname,
         })
-        foundDummyGuild.memberIds.push(dummyGuildUserUid)
+        foundDummyGuild.memberIds.push(dummyGuildUserId)
 
         /* Reload */
         try {
-          await dispatch(GuildActionTypes.LOAD_GUILD_INFO, state.guildInfo.uid)
+          await dispatch(GuildActionTypes.LOAD_GUILD_INFO, state.guildInfo.id)
         } catch (e) {
           console.error(e)
           throw new Error(e)
@@ -225,8 +227,8 @@ export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
       throw new Error('index is -1')
     }
   },
-  async [GuildActionTypes.REJECT_JOIN_TO_GUILD] ({ }, payload) {
-    const index = dummyGuildJoins.findIndex(join => join.uid === payload.uid)
+  async [GuildActionTypes.REJECT_JOIN_TO_GUILD] (_, payload) {
+    const index = dummyGuildJoins.findIndex(join => join.id === payload.id)
     if (index >= 0) {
       /* Remove from join form */
       dummyGuildJoins.splice(index, 1)
@@ -235,14 +237,14 @@ export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
     }
   },
   async [GuildActionTypes.BLOCK_JOIN_TO_GUILD] ({ state }, payload) {
-    const index = dummyGuildJoins.findIndex(join => join.uid === payload.guildJoinId)
+    const index = dummyGuildJoins.findIndex(join => join.id === payload.guildJoinId)
     if (index >= 0) {
       /* Remove from join form */
       dummyGuildJoins.splice(index, 1)
       /* Create black list */
       dummyGuildBlackList.push({
-        uid: v4(),
-        guildId: state.guildInfo.uid,
+        id: v4(),
+        guildId: state.guildInfo.id,
         userId: payload.userId,
         createdAt: dayjs().toISOString(),
         updatedAt: dayjs().toISOString(),

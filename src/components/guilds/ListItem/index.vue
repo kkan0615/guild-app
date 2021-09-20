@@ -27,7 +27,7 @@
       >
         <tag-badge
           v-for="tag in tags"
-          :key="tag.uid"
+          :key="tag.id"
           class="tw-mb-1"
           :color="tag.color"
         >
@@ -83,7 +83,7 @@ export default defineComponent({
     })
 
     const onClickListItem = async () => {
-      await router.push({ name: RouterNameEnum.HOME_GUILD_DETAIL, params: { id: props.guild.uid } })
+      await router.push({ name: RouterNameEnum.HOME_GUILD_DETAIL, params: { id: props.guild.id } })
     }
 
     return {

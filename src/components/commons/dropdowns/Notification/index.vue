@@ -46,7 +46,7 @@
         >
           <notification-dropdown-item
             v-for="notification in notifications"
-            :key="notification.uid"
+            :key="notification.id"
           >
             {{ notification.content }}
           </notification-dropdown-item>

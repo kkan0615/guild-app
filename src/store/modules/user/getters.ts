@@ -8,6 +8,6 @@ export type UserGetters<S = UserState> = {
 
 export const userGetters: GetterTree<UserState, RootState> & UserGetters = {
   isLoggedIn: (state) => {
-    return !!state.uid
+    return !!state.id
   },
 }

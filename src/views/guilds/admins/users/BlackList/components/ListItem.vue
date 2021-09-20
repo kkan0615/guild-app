@@ -57,7 +57,7 @@ export default defineComponent({
 
     const onClickCancelBtn = async () => {
       try {
-        await store.dispatch(GuildAdminUserActionTypes.REMOVE_FROM_BLACK_LIST, props.black.uid)
+        await store.dispatch(GuildAdminUserActionTypes.REMOVE_FROM_BLACK_LIST, props.black.id)
         addToast({
           title: 'Success',
           type: 'success',

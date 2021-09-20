@@ -159,7 +159,7 @@ export default defineComponent({
 
     // @TODO: Consider how to save control common code
     const tagOptions = dummyGuildTags.map(tag => {
-      return { value: tag.uid, label: tag.name }
+      return { value: tag.id, label: tag.name }
     })
 
     const rules: RuleType = {

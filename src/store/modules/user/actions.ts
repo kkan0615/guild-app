@@ -1,8 +1,7 @@
 import { ActionContext, ActionTree } from 'vuex'
 import { UserMutations, UserMutationTypes } from './mutations'
-import { userState, UserState } from './state'
+import { UserState } from './state'
 import { RootState } from '@/store'
-import { v4 } from 'uuid'
 import { UserLoginForm } from '@/types/model/auth/user/user'
 import { LocalstorageKeyEnum } from '@/types/systems/localstrage'
 import { dummyGuilds } from '@/dummy/guilds'
@@ -53,7 +52,7 @@ export const userActions: ActionTree<UserState, RootState> & UserActions = {
   },
   async [UserActionTypes.UPDATE_USER] ({ commit, dispatch }, payload) {
     const userInfo = dummyUsers.find((du) => {
-      return du.uid === payload
+      return du.id === payload
     })
     if (!userInfo) {
       await dispatch(UserActionTypes.LOGOUT)
@@ -66,26 +65,24 @@ export const userActions: ActionTree<UserState, RootState> & UserActions = {
     /* Set users */
     commit(UserMutationTypes.SET_USER, {
       ...userInfo,
-      uid: payload,
+      id: payload,
     })
     /* Set notifications */
     commit(UserMutationTypes.SET_NOTIFICATIONS, [])
-    const joinedGuildsRes = dummyGuilds.filter(dg => dg.memberIds.indexOf(payload))
-    let guildListRes = joinedGuildsRes.map(joinedGuild =>{
+    const joinedGuildsRes = dummyGuilds.map(guild => {
       return {
-        uid: joinedGuild.uid,
+        ...guild,
+        Members: dummyGuildUsers.filter(guildUser => guild.memberIds.indexOf(guildUser.id) !== -1)
+      }
+    }).filter(guild => guild.Members.findIndex(member => member.userId === payload) !== -1)
+
+    const guildListRes = joinedGuildsRes.map(joinedGuild =>{
+      return {
+        id: joinedGuild.id,
         img: joinedGuild.img,
         name: joinedGuild.name,
       }
     })
-    /* @TODO: After test, remove it */
-    const foundGuildTest = dummyGuilds.find((dg) => dg.uid === 'test-uid')
-    if (foundGuildTest)
-      guildListRes = guildListRes.concat([{
-        uid: foundGuildTest.uid,
-        img: foundGuildTest.img,
-        name: foundGuildTest.name
-      }])
     commit(UserMutationTypes.SET_GUILD_LIST, guildListRes)
   },
   async [UserActionTypes.LOGIN] ({ dispatch }, payload) {
@@ -98,7 +95,7 @@ export const userActions: ActionTree<UserState, RootState> & UserActions = {
       })
       /* If it's success to login */
       if (loggedInRes) {
-        await dispatch(UserActionTypes.UPDATE_USER, loggedInRes.uid)
+        await dispatch(UserActionTypes.UPDATE_USER, loggedInRes.id)
         result = true
       }
     } catch (e) {

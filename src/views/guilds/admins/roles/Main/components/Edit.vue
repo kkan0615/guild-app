@@ -110,7 +110,7 @@ export default defineComponent({
       saveBtnLoading.value = true
       try {
         await store.dispatch(GuildAdminRoleActionTypes.UPDATE_ROLE, {
-          uid: selectedRole.value.uid,
+          id: selectedRole.value.id,
           name: name.value,
           color: color.value,
           default: isDefault.value,
@@ -119,7 +119,7 @@ export default defineComponent({
         /* Reload role list */
         await store.dispatch(GuildAdminRoleActionTypes.LOAD_ROLE_LIST)
         /* reload selected role */
-        await store.dispatch(GuildAdminRoleActionTypes.LOAD_SELECTED_ROLE, selectedRole.value.uid)
+        await store.dispatch(GuildAdminRoleActionTypes.LOAD_SELECTED_ROLE, selectedRole.value.id)
         /* Change mode to 'READ' */
         await store.dispatch(GuildAdminRoleActionTypes.SET_MODE, 'READ')
         addToast({

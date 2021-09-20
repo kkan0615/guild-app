@@ -15,7 +15,7 @@
     >
       <guild-list-item
         v-for="guild in guildList"
-        :key="guild.uid"
+        :key="guild.id"
         :guild="guild"
       />
     </div>

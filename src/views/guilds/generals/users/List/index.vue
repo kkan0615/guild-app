@@ -57,7 +57,7 @@
       >
         <guild-user-list-user-card
           v-for="user in userList"
-          :key="user.uid"
+          :key="user.id"
           :user="user"
         />
       </div>

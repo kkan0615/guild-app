@@ -9,9 +9,9 @@ import nProgress from 'nprogress'
 export default router.beforeEach(async (to, from, next) => {
   nProgress.start()
   const accessToken = localStorage.getItem(LocalstorageKeyEnum.ACCESS_TOKEN)
-  if (!store.state.user.uid && accessToken) {
+  if (!store.state.user.id && accessToken) {
     await store.dispatch(UserActionTypes.UPDATE_USER, localStorage.getItem(LocalstorageKeyEnum.ACCESS_TOKEN))
-  } else if (store.state.user.uid && !accessToken) {
+  } else if (store.state.user.id && !accessToken) {
     next({ name: RouterNameEnum.LOGOUT, query: { redirect: from.name as string || '' } })
     nProgress.done()
     return
@@ -27,14 +27,14 @@ export default router.beforeEach(async (to, from, next) => {
         next({ name: RouterNameEnum.HOME })
       }
       /* If no guild information at store */
-      if ((!store.state.guild.guildInfo || !store.state.guild.guildInfo.uid) && guildId) {
+      if ((!store.state.guild.guildInfo || !store.state.guild.guildInfo.id) && guildId) {
         await store.dispatch(GuildActionTypes.LOAD_GUILD_INFO, guildId)
         await store.dispatch(GuildActionTypes.UPDATE_GUILD_USER_INFO)
       } else {
         // @TODO: Redirect to 404 page
         nProgress.done()
       }
-      if (!store.state.guild.guildUserInfo || !store.state.guild.guildUserInfo.uid) {
+      if (!store.state.guild.guildUserInfo || !store.state.guild.guildUserInfo.id) {
         await store.dispatch(GuildActionTypes.UPDATE_GUILD_USER_INFO)
       } else {
         // @TODO: Redirect to Home

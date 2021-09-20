@@ -10,7 +10,7 @@
       class="tw-ml-auto tw-flex tw-items-center tw-space-x-4"
     >
       <notification-dropdown
-        v-if="guildUserInfo.uid"
+        v-if="guildUserInfo.id"
         :notifications="guildNotifications"
         end
       />

@@ -9,7 +9,7 @@
     </div>
     <join-user-guild-admin-join
       v-for="joinForm in joinForms"
-      :key="joinForm.uid"
+      :key="joinForm.id"
       :guild-join="joinForm"
     />
   </div>

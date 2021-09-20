@@ -10,7 +10,7 @@
     <black-list-user-guild-admin-list>
       <black-list-user-guild-admin-list-item
         v-for="black in blackList"
-        :key="black.uid"
+        :key="black.id"
         :black="black"
       />
     </black-list-user-guild-admin-list>

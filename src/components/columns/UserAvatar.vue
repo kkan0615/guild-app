@@ -40,7 +40,7 @@ export default defineComponent({
     }
 
     const isGuildManager = (params: ICellRendererParams) => {
-      return store.state.guild.guildInfo.mainMangerId === params.data.uid
+      return store.state.guild.guildInfo.mainMangerId === params.data.id
     }
 
     return {

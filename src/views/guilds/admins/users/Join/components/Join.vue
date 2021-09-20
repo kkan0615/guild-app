@@ -204,7 +204,7 @@ export default defineComponent({
           userId: props.guildJoin.userId,
           guildId: props.guildJoin.guildId,
           description: '',
-          guildJoinId: props.guildJoin.uid,
+          guildJoinId: props.guildJoin.id,
         } as GuildBlackCreateForm)
         /* Refresh Joins */
         await store.dispatch(GuildAdminUserActionTypes.LOAD_GUILD_JOIN_FORMS)

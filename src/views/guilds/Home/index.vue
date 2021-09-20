@@ -33,7 +33,7 @@ export default defineComponent({
     const router = useRouter()
     const { guildInfo } = useGuildInfoMixin()
 
-    const onClickPlaygroundBtn = async () =>{
+    const onClickPlaygroundBtn = async () => {
       await router.push({ name: 'Playground' })
     }
 
