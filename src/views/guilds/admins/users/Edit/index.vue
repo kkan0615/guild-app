@@ -179,7 +179,6 @@ export default defineComponent({
     }
 
     const onClickSaveBtn = async () => {
-      console.log('onClickSaveBtn')
       try {
         await store.dispatch(GuildAdminUserActionTypes.UPDATE_GUILD_USER_INFO, {
           roleId: roleId.value,

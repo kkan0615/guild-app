@@ -92,7 +92,6 @@ export default defineComponent({
     const editBtnLoading = ref(false)
 
     onMounted(() => {
-      console.log('asd', guildInfo.value.isRequirePermission)
       isRequirePermission.value = guildInfo.value.isRequirePermission
       questions.value = guildInfo.value.joinQuestions
         ? guildInfo.value.joinQuestions.map((jq, index) => {

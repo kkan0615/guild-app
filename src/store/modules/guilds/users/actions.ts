@@ -66,10 +66,7 @@ export const guildUserActions: ActionTree<GuildUserState, RootState> & GuildUser
       if (state.userFilterOption.nickname) {
         const nickname = state.userFilterOption.nickname
         userListRes = userListRes.filter(user => (user.nickname.toLowerCase()).includes(nickname ? nickname.toLowerCase() : ''))
-        console.log('pass?')
       }
-
-      console.log(userListRes)
 
       // /* limit offset divider */
       // if (state.userFilterOption.limit) {

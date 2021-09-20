@@ -153,8 +153,6 @@ export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
       return du.userId === rootState.user.uid && du.guildId === rootState.guild.guildInfo.uid
     })
 
-    console.log('guildUserInfo', guildUserInfo)
-
     if (guildUserInfo) {
       commit(GuildMutationTypes.SET_GUILD_USER_INFO, guildUserInfo)
       commit(GuildMutationTypes.SET_GUILD_USER_NOTIFICATION_LIST, guildUserInfo.notifications)

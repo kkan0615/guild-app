@@ -29,6 +29,3 @@ export const guildRoutes: RouteRecordRaw = {
     ...guildGeneralRoutes,
   ]
 }
-
-
-console.log(guildRoutes)

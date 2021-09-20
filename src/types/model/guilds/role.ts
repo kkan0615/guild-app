@@ -14,3 +14,4 @@ export interface GuildRoleAtAdmin extends GuildRole {
 }
 
 export type GuildRoleUpdateForm = Pick<GuildRole, 'uid' | 'name' | 'color' | 'default' | 'index'>
+export type GuildRoleCreateForm = Pick<GuildRole, 'name' | 'color' | 'default' | 'index'>

@@ -10,6 +10,7 @@ export const koreanDictionary = {
   },
   standardBtnLabels: {
     save: '저장',
+    create: '생성',
     edit: '수정',
     cancel: '취소',
     delete: '삭제',
@@ -25,6 +26,9 @@ export const koreanDictionary = {
   standardToastTitle: {
     saved: '저장 성공',
     failed: '실패',
+  },
+  standardAsking: {
+    beforeOutWritingForm: '작성중인 양식이 있습니다. 나가시겠습니까?',
   },
   router: {
     GuildBaseLayout: {

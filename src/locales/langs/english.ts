@@ -10,6 +10,7 @@ export const englishDictionary = {
   },
   standardBtnLabels: {
     save: 'Save',
+    create: 'Create',
     edit: 'Edit',
     cancel: 'Cancel',
     delete: 'Delete',
@@ -25,6 +26,9 @@ export const englishDictionary = {
   standardToastTitle: {
     saved: 'Saved',
     failed: 'Failed',
+  },
+  standardAsking: {
+    beforeOutWritingForm: 'Would you like to cancel to write form?',
   },
   router: {
     GuildBaseLayout: {

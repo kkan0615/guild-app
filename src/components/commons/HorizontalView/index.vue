@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mb-2 md:tw-flex md:tw-items-center md:tw-w-full"
+    class="mb-2 tw-flex tw-items-center tw-w-full"
   >
     <slot />
   </div>

@@ -3,8 +3,10 @@ import { RootState } from '@/store'
 import { GuildAdminRoleMutations, GuildAdminRoleMutationTypes } from '@/store/modules/guilds/admins/Role/mutations'
 import { GuildAdminRoleState } from '@/store/modules/guilds/admins/Role/state'
 import { dummyGuildRoles } from '@/dummy/guilds/role'
-import { GuildRole, GuildRoleAtAdmin, GuildRoleUpdateForm } from '@/types/model/guilds/role'
+import { GuildRole, GuildRoleAtAdmin, GuildRoleCreateForm, GuildRoleUpdateForm } from '@/types/model/guilds/role'
 import { dummyGuildUsers } from '@/dummy/user'
+import { v4 } from 'uuid'
+import dayjs from 'dayjs'
 
 export enum GuildAdminRoleActionTypes {
   LOAD_ROLE_LIST = 'guildAdminRole/LOAD_ROLE_LIST',
@@ -12,6 +14,7 @@ export enum GuildAdminRoleActionTypes {
   LOAD_SELECTED_ROLE = 'guildAdminRole/LOAD_SELECTED_ROLE',
   RESET_SELECTED_ROLE = 'guildAdminRole/RESET_SELECTED_ROLE',
   SET_MODE = 'guildAdminRole/SET_MODE',
+  CREATE_ROLE = 'guildAdminRole/CREATE_ROLE',
   UPDATE_ROLE = 'guildAdminRole/UPDATE_ROLE',
   DELETE_ROLE = 'guildAdminRole/DELETE_ROLE',
   CHANGE_MEMBER_ROLE = 'guildAdminRole/CHANGE_MEMBER_ROLE',
@@ -68,7 +71,15 @@ export interface GuildAdminRoleActions {
     { commit }: AugmentedActionContext,
     payload: 'READ' | 'UPDATE',
   ): void
-
+  /**
+   * Create role information
+   * @param commit
+   * @param payload
+   */
+  [GuildAdminRoleActionTypes.CREATE_ROLE](
+    { commit }: AugmentedActionContext,
+    payload: GuildRoleCreateForm,
+  ): void
   /**
    * Update role information
    * @param commit
@@ -148,6 +159,25 @@ export const guildAdminRoleActions: ActionTree<GuildAdminRoleState, RootState> &
   },
   [GuildAdminRoleActionTypes.SET_MODE] ({ commit }, payload) {
     commit(GuildAdminRoleMutationTypes.SET_MODE, payload)
+  },
+  [GuildAdminRoleActionTypes.CREATE_ROLE] ({ rootState }, payload) {
+    const newRoleId = v4()
+
+    /* Change default role */
+    if (payload.default === true) {
+      const guildRolesRes = dummyGuildRoles.filter(dgr => dgr.guildId === rootState.guild.guildInfo.uid)
+      guildRolesRes.forEach(grr => grr.default = false)
+    }
+
+    dummyGuildRoles.push({
+      uid: newRoleId,
+      guildId: rootState.guild.guildInfo.uid,
+      ...payload,
+      createdAt: dayjs().toISOString(),
+      updatedAt: dayjs().toISOString(),
+    })
+
+    return newRoleId
   },
   [GuildAdminRoleActionTypes.UPDATE_ROLE] ({ state }, payload) {
     const guildRoleRes = dummyGuildRoles.find(dgr => dgr.uid === payload.uid)
