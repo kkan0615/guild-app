@@ -10,6 +10,7 @@ import { Notification } from '@/types/systems/notification'
 import { dummyGuildRoles } from '@/dummy/guilds/role'
 import { dummyGuildJoins } from '@/dummy/guilds/joins'
 import { tailwindDefaultColors } from '@/data/color'
+import { guildUserStatesData } from '@/data/guilds/user'
 
 export let dummyGuilds: Array<Guild> = []
 
@@ -47,6 +48,7 @@ export const initDummyGuilds = () => {
         roleId: role.id,
         role,
         guildId: guildId,
+        state: guildUserStatesData[Math.floor(Math.random() * guildUserStatesData.length)],
         notifications: [...Array(50).keys()].map(() => {
           return {
             id: v4(),
@@ -123,6 +125,7 @@ export const initDummyGuilds = () => {
       role,
       roleId: role.id,
       guildId: 'test-id',
+      state: guildUserStatesData[Math.floor(Math.random() * guildUserStatesData.length)],
       notifications: [...Array(50).keys()].map(() => {
         return {
           id: v4(),
@@ -157,6 +160,7 @@ export const initDummyGuilds = () => {
       roleId: role.id,
       role,
       guildId: 'test-id',
+      state: 'OFFLINE',
       notifications: [...Array(50).keys()].map(() => {
         return {
           id: v4(),
@@ -171,7 +175,8 @@ export const initDummyGuilds = () => {
         } as Notification
       }),
       userId: admin.id,
-    }
+    } as GuildUserInfo
+
     dummyGuildUsers.unshift(dummyAdminGuildUser)
     members.unshift(dummyAdminGuildUser)
 

@@ -14,6 +14,17 @@ export interface User extends FirebaseAttributes {
   auth: UserSystemAuth
 }
 
+/* @TODO: Guild user 관련 내용 모두 옮기기 */
+
+/**
+ * ONLINE - Online, 온라인
+ * IDLE - Idle, 자리 비움
+ * DO_NOT_DISTURB - Do not disturb, 방해금지 모드
+ * INVISIBLE - invisible, offline 처럼 변경
+ * OFFLINE - offline, 실제 오프라인
+ */
+export type GuildUserState = 'ONLINE' | 'IDLE' | 'DO_NOT_DISTURB' | 'INVISIBLE' | 'OFFLINE'
+
 /**
  * Remark - for guild manager
  */
@@ -23,6 +34,7 @@ export interface GuildUser extends User {
   userId: string
   description?: string
   remark?: string
+  state: GuildUserState
 }
 
 export interface GuildUserInfo extends GuildUser {
@@ -30,8 +42,7 @@ export interface GuildUserInfo extends GuildUser {
   notifications: Array<Notification>
 }
 
-
-export type GuildUserAtUserList = Pick<GuildUserInfo, 'id' | 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId' | 'description' | 'remark'>
+export type GuildUserAtUserList = Pick<GuildUserInfo, 'id' | 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId' | 'description' | 'remark' | 'state'>
 /**
  * User list
  * Using at admin user page

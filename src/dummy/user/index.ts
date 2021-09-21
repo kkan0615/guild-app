@@ -1,7 +1,6 @@
 import { GuildUserInfo, User } from '@/types/model/auth/user/user'
 import { v4 } from 'uuid'
 import * as faker from 'faker'
-import { GuildRole } from '@/types/model/guilds/role'
 import dayjs from 'dayjs'
 
 export let dummyUsers:Array<User> = []

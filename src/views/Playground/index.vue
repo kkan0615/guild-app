@@ -18,25 +18,32 @@
       >
         test
       </button>
-      <button
-        type="button"
-        class="btn btn-primary"
-        @click="onClickTest2Btn"
+      <b-tooltip
+        title="Tooltip on top"
       >
-        test2
-      </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          @click="onClickTest2Btn"
+        >
+          test2
+        </button>
+      </b-tooltip>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { ref, defineComponent, computed } from 'vue'
+import { Tooltip as BTooltip } from 'bootstrap'
+
 import useStore from '@/store'
 import BBaseInput from '@/components/commons/inputs/Base/index.vue'
+import BTooltip from '@/components/bootstraps/Tooltip/index.vue'
 
 export default defineComponent({
   name: 'Prototype',
-  components: { BBaseInput },
+  components: { BTooltip, BBaseInput },
   setup: () => {
     const store = useStore()
 
@@ -47,6 +54,11 @@ export default defineComponent({
 
     const onClickTestBtn = async () => {
       console.log('onClickTestBtn')
+      const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new BTooltip(tooltipTriggerEl)
+      })
+      console.log(tooltipList)
     }
 
     const onClickTest2Btn = async () => {

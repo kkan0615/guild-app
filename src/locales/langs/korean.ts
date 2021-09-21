@@ -97,6 +97,13 @@ export const koreanDictionary = {
             email: '이메일',
             description: '소개',
             remark: '비고',
+            states: {
+              ONLINE: '온라인',
+              IDLE: '자리 비움',
+              DO_NOT_DISTURB: '방해 금지',
+              INVISIBLE: '사라짐',
+              OFFLINE: '오프라인',
+            },
           }, // fields end
         }, // user end
       }, // guilds end

@@ -15,11 +15,13 @@ import { GuildJoinInfo } from '@/types/model/guilds/join'
 import { dummyGuildBlackList } from '@/dummy/guilds/blackList'
 import dayjs from 'dayjs'
 import { GuildBlackCreateForm } from '@/types/model/guilds/blackList'
+import { GuildUserState } from '@/types/model/auth/user/user'
 
 export enum GuildActionTypes {
   LOAD_GUILD_INFO = 'guild/LOAD_GUILD_INFO',
   RESET_GUILD_INFO = 'guild/RESET_GUILD_INFO',
   UPDATE_GUILD_USER_INFO = 'guild/UPDATE_GUILD_USER_INFO',
+  UPDATE_GUILD_USER_STATE = 'guild/UPDATE_GUILD_USER_STATE',
   LOAD_USER_NOTIFICATION_LIST = 'guild/LOAD_USER_NOTIFICATION_LIST',
   RESET_USER_NOTIFICATION_LIST = 'guild/RESET_USER_NOTIFICATION_LIST',
   READ_USER_NOTIFICATION = 'guild/READ_USER_NOTIFICATION',
@@ -48,6 +50,10 @@ export interface GuildActions {
   ): void
   [GuildActionTypes.UPDATE_GUILD_USER_INFO](
     { commit, rootState }: AugmentedActionContext,
+  ): void
+  [GuildActionTypes.UPDATE_GUILD_USER_STATE](
+    { commit, rootState }: AugmentedActionContext,
+    payload: GuildUserState
   ): void
   /**
    * Load guild user notifications
@@ -156,10 +162,27 @@ export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
     })
 
     if (guildUserInfo) {
+      /* Offline to online, other state, just keep it */
+      if (guildUserInfo.state === 'OFFLINE') {
+        guildUserInfo.state = 'ONLINE'
+      }
+
       commit(GuildMutationTypes.SET_GUILD_USER_INFO, guildUserInfo)
       commit(GuildMutationTypes.SET_GUILD_USER_NOTIFICATION_LIST, guildUserInfo.notifications)
     } else
       throw new Error('no data')
+  },
+  [GuildActionTypes.UPDATE_GUILD_USER_STATE] ({ commit, state }, payload) {
+    const guildUserInfo = dummyGuildUsers.find((guildUser) => {
+      return guildUser.id === state.guildUserInfo.id
+    })
+
+    if (guildUserInfo) {
+      guildUserInfo.state = payload
+      commit(GuildMutationTypes.SET_GUILD_USER_INFO, guildUserInfo)
+    } else {
+      throw new Error('no guild user info')
+    }
   },
   [GuildActionTypes.LOAD_USER_NOTIFICATION_LIST] ({ commit }) {
     commit(GuildMutationTypes.SET_GUILD_USER_NOTIFICATION_LIST, [])

@@ -26,6 +26,9 @@
         {{ formattedName }}
       </span>
     </div>
+    <slot
+      name="badge"
+    />
   </div>
 </template>
 

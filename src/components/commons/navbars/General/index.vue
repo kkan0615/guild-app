@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light tw-h-16 tw-border-b tw-border-gray-300 tw-px-2 tw-py-0">
+  <nav class="navbar navbar-expand-lg navbar-light tw-h-16 tw-border-b tw-border-gray-300 tw-pl-2 tw-pr-4 tw-py-0">
     <span
       class="material-icons tw-cursor-pointer"
       @click="onClickHamburgerBtn"
@@ -11,6 +11,7 @@
     >
       <notification-dropdown
         v-if="guildUserInfo.id"
+        class="tw-mr-2"
         :notifications="guildNotifications"
         end
       />

@@ -97,6 +97,13 @@ export const englishDictionary = {
             email: 'Email',
             description: 'Description',
             remark: 'Remark',
+            states: {
+              ONLINE: 'Online',
+              IDLE: 'Idle',
+              DO_NOT_DISTURB: 'Do not disturb',
+              INVISIBLE: 'Invisible',
+              OFFLINE: 'Offline',
+            },
           }, // fields end
         }, // user end
       }, // guilds end

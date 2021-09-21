@@ -21,6 +21,11 @@ import ToastList from '@/components/ToastList/index.vue'
 export default defineComponent({
   name: 'App',
   components: { ToastList },
+  setup: () => {
+    return {
+
+    }
+  }
 })
 </script>
 <style lang="scss">
