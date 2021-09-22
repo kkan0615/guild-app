@@ -1,5 +1,7 @@
+import { Toast } from '@/types/systems/toast'
+
 export interface ApplicationState {
-  toasts: Array<any>
+  toasts: Array<Toast>
 }
 
 export const applicationState: ApplicationState = {

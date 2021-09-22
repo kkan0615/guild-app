@@ -17,6 +17,8 @@ import { GuildAdminRoleState } from '@/store/modules/guilds/admins/Role/state'
 import { guildAdminRoleModule, GuildAdminRoleStore } from '@/store/modules/guilds/admins/Role'
 import { GuildUserState } from '@/store/modules/guilds/users/state'
 import { guildUserModule, GuildUserStore } from '@/store/modules/guilds/users'
+import { GuildCalendarState } from '@/store/modules/guilds/calendars/state'
+import { guildCalendarModule, GuildCalendarStore } from '@/store/modules/guilds/calendars'
 
 // define your typings for the store state
 export interface RootState {
@@ -25,6 +27,7 @@ export interface RootState {
   home: HomeState
   guild: GuildState
   guildUser: GuildUserState
+  guildCalendar: GuildCalendarState
   guildAdminApp: GuildAdminAppState
   guildAdminUser: GuildAdminUserState
   guildAdminRole: GuildAdminRoleState
@@ -37,6 +40,7 @@ export type RootStore =
   HomeStore<Pick<RootState, 'home'>> &
   GuildStore<Pick<RootState, 'guild'>> &
   GuildUserStore<Pick<RootState, 'guildUser'>> &
+  GuildCalendarStore<Pick<RootState, 'guildCalendar'>> &
   GuildAdminAppStore<Pick<RootState, 'guildAdminApp'>> &
   GuildAdminUserStore<Pick<RootState, 'guildAdminUser'>> &
   GuildAdminRoleStore<Pick<RootState, 'guildAdminRole'>>
@@ -48,17 +52,17 @@ export const key: InjectionKey<Store<RootState>> = Symbol()
 const plugins = [createLogger()]
 
 export const store = createStore<RootState>({
-  // plugins,
+  plugins,
   modules: {
     application: applicationModule,
     user: userModule,
     home: homeModule,
     guild: guildModule,
     guildUser: guildUserModule,
+    guildCalendar: guildCalendarModule,
     guildAdminApp: guildAdminAppModule,
     guildAdminUser: guildAdminUserModule,
     guildAdminRole: guildAdminRoleModule,
-
   }
   // state: {
   //   count: 50

@@ -1,5 +1,9 @@
 <template>
-  <router-view />
+  <div
+    class="tw-p-4 tw-h-full"
+  >
+    <router-view />
+  </div>
 </template>
 
 <script lang="ts">

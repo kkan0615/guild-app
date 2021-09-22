@@ -16,34 +16,31 @@
           <b-tooltip
             class="tw-absolute tw--bottom-1 tw--right-1.5 tw-translate-middle tw-p-3 tw-border tw-rounded-full tw-shadow-inner"
             :class="{
-              'tw-bg-green-500': user.state === 'ONLINE',
-              'tw-bg-yellow-500': user.state === 'IDLE',
-              'tw-bg-red-500': user.state === 'DO_NOT_DISTURB',
-              'tw-bg-gray-100': user.state === 'INVISIBLE',
-              'tw-bg-gray-200': user.state === 'OFFLINE',
+              [`tw-bg-${guildUserStateColorsData[user.state]}`]: true,
             }"
             :title="$t(`types.models.guilds.user.fields.states.${user.state}`)"
           />
         </template>
       </t-avatar>
     </div>
+    <!--  content  -->
     <div
       class="tw-mt-12 tw-text-center"
     >
+      <!--   nickname   -->
       <div
         class="tw-text-lg tw-font-semibold"
       >
         {{ user.nickname }}
       </div>
-      <div>
-        <span
-          class="badge"
-          :class="{
-            [`tw-bg-${user.role.color}-500`]: true,
-          }"
-        >
-          {{ user.role.name }}
-        </span>
+      <!--   role   -->
+      <div
+        class="badge"
+        :class="{
+          [`tw-bg-${user.role.color}-500`]: true,
+        }"
+      >
+        {{ user.role.name }}
       </div>
     </div>
   </div>
@@ -54,6 +51,7 @@ import { defineComponent, PropType } from 'vue'
 import { GuildUserAtUserList } from '@/types/model/auth/user/user'
 import TAvatar from '@/components/tailwinds/Avatar/index.vue'
 import BTooltip from '@/components/bootstraps/Tooltip/index.vue'
+import { guildUserStateColorsData } from '@/data/guilds/user'
 
 export default defineComponent({
   name: 'GuildUserListUserCard',
@@ -69,6 +67,7 @@ export default defineComponent({
   },
   setup: () => {
     return {
+      guildUserStateColorsData,
     }
   }
 })

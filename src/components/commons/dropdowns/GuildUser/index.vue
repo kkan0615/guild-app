@@ -16,11 +16,7 @@
         <span
           class="tw-absolute tw--bottom-1 tw--right-2 tw-translate-middle tw-p-2 tw-border tw-rounded-full tw-shadow-inner"
           :class="{
-            'tw-bg-green-500': guildUserInfo.state === 'ONLINE',
-            'tw-bg-yellow-500': guildUserInfo.state === 'IDLE',
-            'tw-bg-red-500': guildUserInfo.state === 'DO_NOT_DISTURB',
-            'tw-bg-gray-100': guildUserInfo.state === 'INVISIBLE',
-            'tw-bg-gray-200': guildUserInfo.state === 'OFFLINE',
+            [`tw-bg-${guildUserStateColorsData[guildUserInfo.state]}`]: true,
           }"
         />
       </template>
@@ -52,11 +48,7 @@
           <span
             class="badge tw-p-1 tw-border tw-rounded-full tw-shadow-inner tw-mr-2"
             :class="{
-              'tw-bg-green-500': guildUserState === 'ONLINE',
-              'tw-bg-yellow-500': guildUserState === 'IDLE',
-              'tw-bg-red-500': guildUserState === 'DO_NOT_DISTURB',
-              'tw-bg-gray-100': guildUserState === 'INVISIBLE',
-              'tw-bg-gray-200': guildUserState === 'OFFLINE',
+              [`tw-bg-${guildUserStateColorsData[guildUserState]}`]: true,
             }"
           >
             <span class="visually-hidden">{{ guildUserState }}</span>
@@ -84,7 +76,7 @@ import { useRouter } from 'vue-router'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
 import TAvatar from '@/components/tailwinds/Avatar/index.vue'
 import useGuildInfoMixin from '@/mixins/useGuildInfoMixin'
-import { guildUserStatesData } from '@/data/guilds/user'
+import { guildUserStateColorsData, guildUserStatesData } from '@/data/guilds/user'
 import CDivider from '@/components/commons/Divider/index.vue'
 import useStore from '@/store'
 import { GuildActionTypes } from '@/store/modules/guilds/info/actions'
@@ -112,7 +104,6 @@ export default defineComponent({
     const onClickLogoutItem = async () => {
       await router.push({ name: RouterNameEnum.LOGOUT })
     }
-
     const onClickStateListItem = async (targetState: GuildUserState) => {
       try {
         await store.dispatch(GuildActionTypes.UPDATE_GUILD_USER_STATE, targetState)
@@ -134,6 +125,7 @@ export default defineComponent({
     return {
       guildUserInfo,
       guildUserStatesData,
+      guildUserStateColorsData,
       onClickLogoutItem,
       onClickStateListItem,
     }

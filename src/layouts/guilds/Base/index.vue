@@ -3,13 +3,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onBeforeUnmount } from 'vue'
+import useStore from '@/store'
+import { GuildActionTypes } from '@/store/modules/guilds/info/actions'
 
 export default defineComponent({
   name: 'GuildBaseLayout',
   setup: () => {
-    return {
+    const store = useStore()
 
+    onBeforeUnmount(async () => {
+      /* Clear store data */
+      try {
+        await store.dispatch(GuildActionTypes.RESET_GUILD_USER_INFO)
+      } catch (e) {
+        console.error(e)
+      }
+    })
+
+    return {
     }
   }
 })

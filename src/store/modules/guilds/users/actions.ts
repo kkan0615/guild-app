@@ -9,7 +9,6 @@ import { dummyGuildRoles } from '@/dummy/guilds/role'
 import { GuildRole } from '@/types/model/guilds/role'
 import { GuildUserMutations, GuildUserMutationTypes } from '@/store/modules/guilds/users/mutations'
 import { GuildUserState } from '@/store/modules/guilds/users/state'
-import { pagenate } from '@/utils/helpers/pagination'
 
 export enum GuildUserActionTypes {
   LOAD_USER_LIST = 'guildUser/LOAD_USER_LIST',
@@ -67,11 +66,6 @@ export const guildUserActions: ActionTree<GuildUserState, RootState> & GuildUser
         const nickname = state.userFilterOption.nickname
         userListRes = userListRes.filter(user => (user.nickname.toLowerCase()).includes(nickname ? nickname.toLowerCase() : ''))
       }
-
-      // /* limit offset divider */
-      // if (state.userFilterOption.limit) {
-      //   userListRes = pagenate(userListRes, state.userFilterOption.limit, state.userFilterOption.offset || 0, totalUserList)
-      // }
 
       result = userListRes.map(user => {
         /* find role */

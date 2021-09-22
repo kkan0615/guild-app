@@ -12,11 +12,11 @@
     tw-flex
     tw-flex-col
     bg-light
-    tw-z-10
+    tw-z-50
     tw-absolute
     tw-h-screen
     tw-overflow-auto
-    tw-w-1/2
+    tw-w-2/3
 "
     :class="{
       'tw-hidden': !isOpenSidebar,
@@ -99,7 +99,7 @@
   </div>
   <div
     v-if="isOpenSidebar"
-    class="md:tw-hidden tw-w-1/2 tw-absolute tw-left-1/2 tw-z-10 tw-h-full tw-opacity-50 tw-bg-gray-700"
+    class="md:tw-hidden tw-w-1/3 tw-absolute tw-right-0 tw-z-50 tw-h-full tw-opacity-50 tw-bg-gray-700"
     @click="onClickOutside"
   />
 </template>

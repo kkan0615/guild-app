@@ -27,7 +27,6 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { useRouter } from 'vue-router'
 import GuildUserDropdown from '@/components/commons/dropdowns/GuildUser/index.vue'
 import NotificationDropdown from '@/components/commons/dropdowns/Notification/index.vue'
 import useStore from '@/store'
@@ -39,7 +38,7 @@ export default defineComponent({
   components: { NotificationDropdown, GuildUserDropdown },
   setup: () => {
     const store = useStore()
-    const { guildInfo, guildUserInfo } = useGuildInfoMixin()
+    const { guildUserInfo } = useGuildInfoMixin()
 
     const guildNotifications = computed(() => store.state.guild.userNotificationList)
     const isOpensidebar = computed(() => store.state.guild.isOpenSideBar)

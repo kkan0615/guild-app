@@ -15,13 +15,14 @@ import { GuildJoinInfo } from '@/types/model/guilds/join'
 import { dummyGuildBlackList } from '@/dummy/guilds/blackList'
 import dayjs from 'dayjs'
 import { GuildBlackCreateForm } from '@/types/model/guilds/blackList'
-import { GuildUserState } from '@/types/model/auth/user/user'
+import { GuildUserInfo, GuildUserState } from '@/types/model/auth/user/user'
 
 export enum GuildActionTypes {
   LOAD_GUILD_INFO = 'guild/LOAD_GUILD_INFO',
   RESET_GUILD_INFO = 'guild/RESET_GUILD_INFO',
   UPDATE_GUILD_USER_INFO = 'guild/UPDATE_GUILD_USER_INFO',
   UPDATE_GUILD_USER_STATE = 'guild/UPDATE_GUILD_USER_STATE',
+  RESET_GUILD_USER_INFO = 'guild/RESET_GUILD_USER_INFO',
   LOAD_USER_NOTIFICATION_LIST = 'guild/LOAD_USER_NOTIFICATION_LIST',
   RESET_USER_NOTIFICATION_LIST = 'guild/RESET_USER_NOTIFICATION_LIST',
   READ_USER_NOTIFICATION = 'guild/READ_USER_NOTIFICATION',
@@ -51,9 +52,23 @@ export interface GuildActions {
   [GuildActionTypes.UPDATE_GUILD_USER_INFO](
     { commit, rootState }: AugmentedActionContext,
   ): void
+  /**
+   * Update User state
+   * @param commit
+   * @param rootState
+   * @param payload
+   */
   [GuildActionTypes.UPDATE_GUILD_USER_STATE](
     { commit, rootState }: AugmentedActionContext,
     payload: GuildUserState
+  ): void
+  /**
+   * Reset data in store
+   * @param commit
+   * @param rootState
+   */
+  [GuildActionTypes.RESET_GUILD_USER_INFO](
+    { commit, rootState }: AugmentedActionContext,
   ): void
   /**
    * Load guild user notifications
@@ -182,6 +197,19 @@ export const guildActions: ActionTree<GuildState, RootState> & GuildActions = {
       commit(GuildMutationTypes.SET_GUILD_USER_INFO, guildUserInfo)
     } else {
       throw new Error('no guild user info')
+    }
+  },
+  [GuildActionTypes.RESET_GUILD_USER_INFO] ({ commit, state }) {
+    const foundUser = dummyGuildUsers.find(guildUser => guildUser.id === state.guildUserInfo.id)
+    if (foundUser) {
+      /* Online state => Offline state */
+      if (foundUser.state === 'ONLINE') {
+        foundUser.state = 'OFFLINE'
+      }
+      /* Reset */
+      commit(GuildMutationTypes.SET_GUILD_USER_INFO, {} as GuildUserInfo)
+    } else {
+      throw new Error('no found user')
     }
   },
   [GuildActionTypes.LOAD_USER_NOTIFICATION_LIST] ({ commit }) {

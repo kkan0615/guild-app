@@ -40,6 +40,11 @@ export interface UserActions {
     { dispatch }: AugmentedActionContext,
     payload: UserLoginForm
   ): Promise<boolean>
+
+  /**
+   * Logout
+   * @param commit
+   */
   [UserActionTypes.LOGOUT](
     { commit }: AugmentedActionContext,
   ): void

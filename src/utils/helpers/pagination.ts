@@ -1,4 +1,4 @@
-export const pagenate = <T = any>(list: Array<T>, limit: number, offset: number, total: number) => {
+export const paginate = <T = any>(list: Array<T>, limit: number, offset: number, total: number) => {
   let result = list
   if (!offset) {
     result = result.slice(0, limit)

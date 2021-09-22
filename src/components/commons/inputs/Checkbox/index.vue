@@ -14,6 +14,10 @@
       :placeholder="placeholder"
       :list="list"
       class="form-check-input"
+      :style="{
+        'background-color': color,
+        'border-color': color,
+      }"
       :class="{
         'is-invalid': errorMessage,
         'form-control-sm': size === 'sm',
@@ -76,6 +80,11 @@ export default defineComponent({
       default: false,
     },
     size: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    color: {
       type: String,
       required: false,
       default: ''

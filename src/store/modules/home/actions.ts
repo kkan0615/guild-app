@@ -20,7 +20,7 @@ import * as faker from 'faker'
 import { dummyGuildUserPermissions } from '@/dummy/user/guild'
 import { dummyGuildUsers } from '@/dummy/user'
 import { dummyGuildRoles } from '@/dummy/guilds/role'
-import { pagenate } from '@/utils/helpers/pagination'
+import { paginate } from '@/utils/helpers/pagination'
 
 export enum HomeActionTypes {
   SET_GUILD_LIST_FILTER_OPTION = 'home/SET_GUILD_LIST_FILTER_OPTION',
@@ -127,7 +127,7 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
 
     /* limit offset divider */
     if (state.guildListFilterOption.limit) {
-      guildListRes = pagenate(guildListRes, state.guildListFilterOption.limit, state.guildListFilterOption.offset || 0, totalGuildList)
+      guildListRes = paginate(guildListRes, state.guildListFilterOption.limit, state.guildListFilterOption.offset || 0, totalGuildList)
     }
 
     commit(HomeMutationTypes.SET_GUILD_LIST, guildListRes)
@@ -221,6 +221,7 @@ export const homeActions: ActionTree<HomeState, RootState> & HomeActions = {
       notifications: [],
       createdAt: dayjs().toISOString(),
       updatedAt: dayjs().toISOString(),
+      state: 'ONLINE',
     } as GuildUserInfo
 
     dummyGuildUsers.push(guildUser)
