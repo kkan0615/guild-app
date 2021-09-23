@@ -26,6 +26,7 @@ export const koreanDictionary = {
   standardToastTitle: {
     saved: '저장 성공',
     failed: '실패',
+    failedRedirect: '페이지 이동 실패',
   },
   standardAsking: {
     beforeOutWritingForm: '작성중인 양식이 있습니다. 나가시겠습니까?',
@@ -69,6 +70,15 @@ export const koreanDictionary = {
     },
     [RouterNameEnum.GUILD_ADMIN_ROLE_MAIN]: {
       title: '권한 및 역할'
+    },
+    [RouterNameEnum.GUILD_ADMIN_CALENDAR_LAYOUT]: {
+      title: '캘린더 관리'
+    },
+    [RouterNameEnum.GUILD_ADMIN_CALENDAR_MAIN]: {
+      title: '캘린더 리스트'
+    },
+    [RouterNameEnum.GUILD_ADMIN_CALENDAR_CREATE_FORM]: {
+      title: '캘린더 신규 생성'
     },
   },
   types: {

@@ -32,12 +32,18 @@ export enum RouterNameEnum {
   GUILD_ADMIN_USER_MAIN = 'GuildAdminUserMain',
   GUILD_ADMIN_USER_JOINS = 'GuildAdminUserJoins',
   GUILD_ADMIN_USER_BLACK_LIST = 'GuildAdminUserBlackList',
-  GUILD_ADMIN_USER_DETAIL = 'GuildAdminUserBlackDetail',
-  GUILD_ADMIN_USER_EDIT = 'GuildAdminUserBlackEdit',
+  GUILD_ADMIN_USER_DETAIL = 'GuildAdminUserDetail',
+  GUILD_ADMIN_USER_EDIT = 'GuildAdminUserEdit',
   /* Admin Role */
   GUILD_ADMIN_ROLE_LAYOUT = 'GuildAdminRoleLayout',
   GUILD_ADMIN_ROLE_MAIN = 'GuildAdminRolesMain',
   GUILD_ADMIN_ROLE_DETAIL = 'GuildAdminRolesDetail',
   GUILD_ADMIN_ROLE_CREATE_FORM = 'GuildAdminRolesCreateForm',
   GUILD_ADMIN_ROLE_UPDATE_FORM = 'GuildAdminRolesUpdateForm',
+  /* Admin Calendar */
+  GUILD_ADMIN_CALENDAR_LAYOUT = 'GuildAdminCalendarLayout',
+  GUILD_ADMIN_CALENDAR_MAIN = 'GuildAdminCalendarsMain',
+  GUILD_ADMIN_CALENDAR_DETAIL = 'GuildAdminCalendarsDetail',
+  GUILD_ADMIN_CALENDAR_CREATE_FORM = 'GuildAdminCalendarsCreateForm',
+  GUILD_ADMIN_CALENDAR_UPDATE_FORM = 'GuildAdminCalendarsUpdateForm',
 }

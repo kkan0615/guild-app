@@ -30,3 +30,7 @@ export interface GuildCalendarAtCalendar extends GuildCalendar {
  * CalendarId - list of tasks by date to date
  */
 export type GuildCalendarTasksByCalendarId = Record<string, Array<GuildCalendarTask>>
+
+
+export type GuildCalendarCreateForm = Pick<GuildCalendar, 'name' | 'color' | 'description'>
+export type GuildCalendarUpdateForm = Pick<GuildCalendar, 'id' | 'name' | 'color' | 'description'>

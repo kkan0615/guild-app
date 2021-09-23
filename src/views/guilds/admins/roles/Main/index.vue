@@ -101,9 +101,9 @@ export default defineComponent({
     onMounted(async () => {
       if (!isMainRoute.value) {
         try {
-          const { id } = route.params
-          if (id)
-            await store.dispatch(GuildAdminRoleActionTypes.LOAD_SELECTED_ROLE, id as string)
+          const { roleId } = route.params
+          if (roleId)
+            await store.dispatch(GuildAdminRoleActionTypes.LOAD_SELECTED_ROLE, roleId as string)
         } catch (e) {
           console.error(e)
           await router.push({ name: RouterNameEnum.GUILD_ADMIN_ROLE_MAIN })

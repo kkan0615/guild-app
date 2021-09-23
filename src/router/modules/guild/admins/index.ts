@@ -4,6 +4,7 @@ import GuildAdminLayout from '@/layouts/guilds/Admin/index.vue'
 import { informationGuildAdminRoutes } from '@/router/modules/guild/admins/modules/information'
 import { userGuildAdminRoutes } from '@/router/modules/guild/admins/modules/user'
 import { roleGuildAdminRoutes } from '@/router/modules/guild/admins/modules/role'
+import { calendarGuildAdminRoutes } from '@/router/modules/guild/admins/modules/calendar'
 
 export const guildAdminRoutes: Array<RouteRecordRaw> = [
   {
@@ -26,6 +27,7 @@ export const guildAdminRoutes: Array<RouteRecordRaw> = [
       ...informationGuildAdminRoutes,
       ...userGuildAdminRoutes,
       ...roleGuildAdminRoutes,
+      ...calendarGuildAdminRoutes,
     ]
   },
 ]

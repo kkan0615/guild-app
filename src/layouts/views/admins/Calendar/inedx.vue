@@ -15,21 +15,23 @@
         <div
           class="tw-bg-gray-400 tw-p-2 tw-rounded-t"
         >
-          Role Groups
+          Guild Calendars
         </div>
         <div
           class="p-2"
         >
           <button
             class="btn btn-outline-primary btn-sm tw-flex"
-            @click="onClickAddRoleBtn"
+            @click="onClickAddCalendarBtn"
           >
-            Add Role
+            Add Calendar
           </button>
           <c-divider
             class="tw-my-2"
           />
-          <guild-admin-role-layout-role-list />
+          <guild-admin-role-layout-calendar-list
+            :calendars="guildCalendars"
+          />
         </div>
       </div>
       <!--   RIGHT   -->
@@ -52,14 +54,14 @@ import { computed, defineComponent, onBeforeUnmount, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
 import useStore from '@/store'
-import { GuildAdminRoleActionTypes } from '@/store/modules/guilds/admins/Role/actions'
 import CDivider from '@/components/commons/Divider/index.vue'
-import GuildAdminRoleLayoutRoleList from '@/layouts/views/admins/Role/components/RoleList.vue'
+import { GuildAdminCalendarActionTypes } from '@/store/modules/guilds/admins/Calendar/actions'
+import GuildAdminRoleLayoutCalendarList from '@/layouts/views/admins/Calendar/components/CalendarList.vue'
 
 export default defineComponent({
-  name: 'GuildAdminRoleLayout',
+  name: 'GuildAdminCalendarLayout',
   components: {
-    GuildAdminRoleLayoutRoleList,
+    GuildAdminRoleLayoutCalendarList,
     CDivider
   },
   setup: () => {
@@ -68,13 +70,12 @@ export default defineComponent({
     const router = useRouter()
 
     const routerKey = computed(() => route.path)
-    const roleList = computed(() => store.state.guildAdminRole.roleList)
-    const selectedRole = computed(() => store.state.guildAdminRole.selectedRole)
-    const isMainRoute = computed(() => route.name === RouterNameEnum.GUILD_ADMIN_ROLE_MAIN)
+    const guildCalendars = computed(() => store.state.guildAdminCalendar.guildCalendars)
+    const isMainRoute = computed(() => route.name === RouterNameEnum.GUILD_ADMIN_CALENDAR_MAIN)
 
     onMounted(async () => {
       try {
-        await store.dispatch(GuildAdminRoleActionTypes.LOAD_ROLE_LIST)
+        await store.dispatch(GuildAdminCalendarActionTypes.LOAD_GUILD_CALENDARS)
       } catch (e) {
         console.error(e)
       }
@@ -82,15 +83,15 @@ export default defineComponent({
 
     onBeforeUnmount(async () => {
       try {
-        await store.dispatch(GuildAdminRoleActionTypes.RESET_ROLE_LIST)
+        await store.dispatch(GuildAdminCalendarActionTypes.RESET_GUILD_CALENDARS)
       } catch (e) {
         console.error(e)
       }
     })
 
-    const onClickAddRoleBtn = async () => {
+    const onClickAddCalendarBtn = async () => {
       try {
-        await router.push({ name: RouterNameEnum.GUILD_ADMIN_ROLE_CREATE_FORM })
+        await router.push({ name: RouterNameEnum.GUILD_ADMIN_CALENDAR_CREATE_FORM })
       } catch (e) {
         console.error(e)
       }
@@ -99,10 +100,9 @@ export default defineComponent({
     return {
       RouterNameEnum,
       routerKey,
-      roleList,
       isMainRoute,
-      selectedRole,
-      onClickAddRoleBtn,
+      guildCalendars,
+      onClickAddCalendarBtn,
     }
   }
 })

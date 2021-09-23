@@ -15,8 +15,8 @@
       :list="list"
       class="form-check-input"
       :style="{
-        'background-color': color,
-        'border-color': color,
+        'background-color': modelValue ? color : undefined,
+        'border-color': modelValue ? color : undefined,
       }"
       :class="{
         'is-invalid': errorMessage,

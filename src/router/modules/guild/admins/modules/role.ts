@@ -21,7 +21,7 @@ export const roleGuildAdminRoutes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: 'main/detail/:id',
+        path: 'main/detail/:roleId',
         name: RouterNameEnum.GUILD_ADMIN_ROLE_DETAIL,
         component: () => import('@/views/guilds/admins/roles/Main/index.vue'),
         meta: {

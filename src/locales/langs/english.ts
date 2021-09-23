@@ -26,6 +26,7 @@ export const englishDictionary = {
   standardToastTitle: {
     saved: 'Saved',
     failed: 'Failed',
+    failedRedirect: 'Failed to redirect',
   },
   standardAsking: {
     beforeOutWritingForm: 'Would you like to cancel to write form?',
@@ -69,6 +70,15 @@ export const englishDictionary = {
     },
     [RouterNameEnum.GUILD_ADMIN_ROLE_MAIN]: {
       title: 'Role list'
+    },
+    [RouterNameEnum.GUILD_ADMIN_CALENDAR_LAYOUT]: {
+      title: 'Calendars'
+    },
+    [RouterNameEnum.GUILD_ADMIN_CALENDAR_MAIN]: {
+      title: 'Calendar list'
+    },
+    [RouterNameEnum.GUILD_ADMIN_CALENDAR_CREATE_FORM]: {
+      title: 'Create new calendar'
     },
   },
   types: {

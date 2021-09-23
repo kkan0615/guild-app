@@ -146,6 +146,26 @@ export default defineComponent({
           },
         ]
       },
+      {
+        id: v4(),
+        title: 'Calendar',
+        icon: '',
+        children: [
+          {
+            id: v4(),
+            title: 'Main',
+            name: RouterNameEnum.GUILD_ADMIN_CALENDAR_MAIN,
+            activeCondition: () => {
+              return route.name === RouterNameEnum.GUILD_ADMIN_CALENDAR_MAIN || route.name === RouterNameEnum.GUILD_ADMIN_CALENDAR_DETAIL
+            }
+          },
+          {
+            id: v4(),
+            title: 'CreateForm',
+            name: RouterNameEnum.GUILD_ADMIN_CALENDAR_CREATE_FORM,
+          },
+        ]
+      },
     ]
 
     const onClickOutside = async () => {

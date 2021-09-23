@@ -43,7 +43,7 @@ export default defineComponent({
         console.error(e)
         addToast({
           title: 'Redirect error',
-          content: '',
+          content: e,
           type: 'danger',
         })
       }
@@ -57,7 +57,7 @@ export default defineComponent({
         console.error(e)
         addToast({
           title: 'Redirect error',
-          content: '',
+          content: e,
           type: 'danger',
         })
       }

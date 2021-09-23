@@ -68,7 +68,7 @@ export default defineComponent({
     const selectedRole = computed(() => store.state.guildAdminRole.selectedRole)
 
     const onClickRoleItem = async () => {
-      await router.push({ name: RouterNameEnum.GUILD_ADMIN_ROLE_DETAIL, params: { id: props.role.id } })
+      await router.push({ name: RouterNameEnum.GUILD_ADMIN_ROLE_DETAIL, params: { roleId: props.role.id } })
     }
 
     const onClickUpBtn = async () => {

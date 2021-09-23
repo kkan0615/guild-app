@@ -43,14 +43,14 @@ export default defineComponent({
     const onClickEditBtn = async () =>{
       try {
         if (userDetail.value.id)
-          await router.push({ name: RouterNameEnum.GUILD_ADMIN_USER_EDIT, params: { userId: userDetail.value.id } })
+          await router.push({ name: RouterNameEnum.GUILD_ADMIN_USER_EDIT, params: { id: userDetail.value.id } })
         else
           throw new Error('no user id')
       } catch (e) {
         console.error(e)
         addToast({
           title: 'Redirect error',
-          content: '',
+          content: 'Redirect fail',
           type: 'danger',
         })
       }

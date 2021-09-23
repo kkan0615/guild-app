@@ -19,6 +19,8 @@ import { GuildUserState } from '@/store/modules/guilds/users/state'
 import { guildUserModule, GuildUserStore } from '@/store/modules/guilds/users'
 import { GuildCalendarState } from '@/store/modules/guilds/calendars/state'
 import { guildCalendarModule, GuildCalendarStore } from '@/store/modules/guilds/calendars'
+import { GuildAdminCalendarState } from '@/store/modules/guilds/admins/Calendar/state'
+import { guildAdminCalendarModule, GuildAdminCalendarStore } from '@/store/modules/guilds/admins/Calendar'
 
 // define your typings for the store state
 export interface RootState {
@@ -31,6 +33,7 @@ export interface RootState {
   guildAdminApp: GuildAdminAppState
   guildAdminUser: GuildAdminUserState
   guildAdminRole: GuildAdminRoleState
+  guildAdminCalendar: GuildAdminCalendarState
   count: number
 }
 
@@ -43,7 +46,8 @@ export type RootStore =
   GuildCalendarStore<Pick<RootState, 'guildCalendar'>> &
   GuildAdminAppStore<Pick<RootState, 'guildAdminApp'>> &
   GuildAdminUserStore<Pick<RootState, 'guildAdminUser'>> &
-  GuildAdminRoleStore<Pick<RootState, 'guildAdminRole'>>
+  GuildAdminRoleStore<Pick<RootState, 'guildAdminRole'>> &
+  GuildAdminCalendarStore<Pick<RootState, 'guildAdminCalendar'>>
 
 // define injection key
 export const key: InjectionKey<Store<RootState>> = Symbol()
@@ -63,6 +67,7 @@ export const store = createStore<RootState>({
     guildAdminApp: guildAdminAppModule,
     guildAdminUser: guildAdminUserModule,
     guildAdminRole: guildAdminRoleModule,
+    guildAdminCalendar: guildAdminCalendarModule,
   }
   // state: {
   //   count: 50
