@@ -4,7 +4,7 @@
   >
     <guild-calendar-view-sidebar />
     <div
-      class="md:tw-w-10/12 tw-w-full md:tw-block md:tw-border tw-rounded-md"
+      class="md:tw-w-10/12 tw-w-full md:tw-block md:tw-border md: tw-p-2 tw-rounded-md"
     >
       <div>
         <c-material-icon
@@ -12,7 +12,6 @@
         >
           menu
         </c-material-icon>
-        {{ isOpenSidebar }}
       </div>
       <router-view />
     </div>
@@ -38,6 +37,8 @@ export default defineComponent({
     onMounted(async () => {
       try {
         await store.dispatch(GuildCalendarActionTypes.LOAD_MY_CALENDAR_LIST)
+        await store.dispatch(GuildCalendarActionTypes.LOAD_CALENDAR_CALENDAR_LIST)
+        await store.dispatch(GuildCalendarActionTypes.LOAD_OTHER_CALENDAR_LIST)
       } catch (e) {
         console.error(e)
       }
@@ -46,6 +47,8 @@ export default defineComponent({
     onBeforeUnmount(async () => {
       try {
         await store.dispatch(GuildCalendarActionTypes.RESET_MY_CALENDAR_LIST)
+        await store.dispatch(GuildCalendarActionTypes.RESET_CALENDAR_CALENDAR_LIST)
+        await store.dispatch(GuildCalendarActionTypes.RESET_OTHER_CALENDAR_LIST)
       } catch (e) {
         console.error(e)
       }

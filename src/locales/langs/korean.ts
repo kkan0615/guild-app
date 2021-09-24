@@ -20,6 +20,7 @@ export const koreanDictionary = {
     created: '생성에 성공했습니다.',
     updated: '수정에 성공했습니다.',
     removed: '삭제에 성공했습니다.',
+    invalidated: '필수값을 모두 입력해주세요.',
     failed: '저장에 실패했습니다. 새로고침 후 다시 시도해주세요.',
     failRedirect: '페이지 이동에 문제가 발생했습니다.',
   },
@@ -80,6 +81,9 @@ export const koreanDictionary = {
     [RouterNameEnum.GUILD_ADMIN_CALENDAR_CREATE_FORM]: {
       title: '캘린더 신규 생성'
     },
+    [RouterNameEnum.GUILD_ADMIN_CALENDAR_UPDATE_FORM]: {
+      title: '캘린더 수정'
+    },
   },
   types: {
     models: {
@@ -113,9 +117,16 @@ export const koreanDictionary = {
               DO_NOT_DISTURB: '방해 금지',
               INVISIBLE: '사라짐',
               OFFLINE: '오프라인',
-            },
+            }, // states end
           }, // fields end
         }, // user end
+        calendar: {
+          fields: {
+            name: '캘린더명',
+            color: '색상',
+            description: '비고',
+          } // fields end
+        } // calendar end
       }, // guilds end
     }, // model end
   }, // types end

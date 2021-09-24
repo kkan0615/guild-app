@@ -1,5 +1,6 @@
 import { FirebaseAttributes } from '@/types/model/attributes'
 import { CustomDate } from '@/types/systems/date'
+import { GuildUser } from '@/types/model/auth/user/user'
 
 export interface GuildCalendar extends FirebaseAttributes {
   guildId: string
@@ -8,7 +9,7 @@ export interface GuildCalendar extends FirebaseAttributes {
   description?: string
   isGuild?: boolean // Is it created by guild
   userId?: string // created by user
-  isShare?: boolean // share this calendar
+  targets?: Array<string> // share this calendar
 }
 
 export interface GuildCalendarTask extends FirebaseAttributes {
@@ -26,11 +27,15 @@ export interface GuildCalendarAtCalendar extends GuildCalendar {
   isDisplay: boolean // display or not
 }
 
+export interface GuildCalendarAtAdminCalendar extends GuildCalendar {
+  Targets: Array<GuildUser>
+}
+
 /**
  * CalendarId - list of tasks by date to date
  */
 export type GuildCalendarTasksByCalendarId = Record<string, Array<GuildCalendarTask>>
 
 
-export type GuildCalendarCreateForm = Pick<GuildCalendar, 'name' | 'color' | 'description'>
-export type GuildCalendarUpdateForm = Pick<GuildCalendar, 'id' | 'name' | 'color' | 'description'>
+export type GuildCalendarCreateForm = Pick<GuildCalendar, 'name' | 'color' | 'targets' | 'description'>
+export type GuildCalendarUpdateForm = Pick<GuildCalendar, 'id' | 'name' | 'color' | 'targets' | 'description'>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="tw-h-full md:tw-p-2"
+    class="tw-h-full md:tw-p-2 tw-flex tw-flex-col"
   >
     <div
       class="tw-flex-grow-0 tw-flex-shrink tw-flex"
@@ -11,11 +11,6 @@
       >
         chevron_left
       </c-material-icon>
-      <div
-        v-if="mode === 'UPDATE'"
-      >
-        {{ $t('standardBtnLabels.edit') }}
-      </div>
       <div
         class="tw-ml-auto tw-flex tw-space-x-2"
       >
@@ -38,8 +33,56 @@
     <c-divider
       class="tw-my-2"
     />
-    <div>
-      {{ selectedCalendar }}
+    <div
+      class="tw-flex-grow tw-flex-shrink-0 tw-h-1"
+    >
+      <div
+        class="tw-flex tw-flex-col tw-space-y-2 tw-h-full"
+      >
+        <div
+          class="tw-flex-grow-0 tw-flex-shrink tw-flex tw-flex-col tw-space-y-2"
+        >
+          <c-horizontal-view>
+            <c-horizontal-view-label>
+              {{ $t('types.models.guilds.calendar.fields.name') }}
+            </c-horizontal-view-label>
+            <c-horizontal-view-content>
+              {{ selectedCalendar.name }}
+            </c-horizontal-view-content>
+          </c-horizontal-view>
+          <c-horizontal-view>
+            <c-horizontal-view-label>
+              {{ $t('types.models.guilds.calendar.fields.color') }}
+            </c-horizontal-view-label>
+            <c-horizontal-view-content
+              class="tw-flex tw-items-center"
+            >
+              <span
+                class="badge tw-p-2 tw-border tw-rounded-full tw-shadow-inner tw-mr-2"
+                :style="{
+                  'background-color': selectedCalendar.color,
+                }"
+              >
+                <span class="visually-hidden">{{ selectedCalendar.color }}</span>
+              </span>
+              {{ selectedCalendar.color }}
+            </c-horizontal-view-content>
+          </c-horizontal-view>
+          <c-horizontal-view>
+            <c-horizontal-view-label>
+              {{ $t('types.models.guilds.calendar.fields.description') }}
+            </c-horizontal-view-label>
+            <c-horizontal-view-content>
+              {{ selectedCalendar.description }}
+            </c-horizontal-view-content>
+          </c-horizontal-view>
+        </div>
+        <div
+          class="tw-flex-grow tw-flex-shrink-0 tw-h-1"
+        >
+          <detail-calendar-guild-admin-user-table />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -54,10 +97,18 @@ import useToast from '@/mixins/useToast'
 import { useI18n } from 'vue-i18n'
 import CMaterialIcon from '@/components/commons/icons/Material/index.vue'
 import CDivider from '@/components/commons/Divider/index.vue'
+import CHorizontalView from '@/components/commons/HorizontalView/index.vue'
+import CHorizontalViewLabel from '@/components/commons/HorizontalView/components/Label.vue'
+import CHorizontalViewContent from '@/components/commons/HorizontalView/components/Content.vue'
+import DetailCalendarGuildAdminUserTable from '@/views/guilds/admins/calendars/Detail/components/UserTable.vue'
 
 export default defineComponent({
   name: 'DetailCalendarGuildAdmin',
   components: {
+    DetailCalendarGuildAdminUserTable,
+    CHorizontalViewContent,
+    CHorizontalViewLabel,
+    CHorizontalView,
     CDivider,
     CMaterialIcon
   },

@@ -3,6 +3,7 @@ import { v4 } from 'uuid'
 import { lightTextBgColors } from '@/data/color'
 import * as faker from 'faker'
 import dayjs from 'dayjs'
+import { dummyGuildUsers } from '@/dummy/user'
 
 // eslint-disable-next-line
 export let dummyGuildCalendars: Array<GuildCalendar> = []
@@ -11,6 +12,7 @@ export let dummyGuildCalendars: Array<GuildCalendar> = []
 export let dummyGuildCalendarTasks: Array<GuildCalendarTask> = []
 
 export const initDummyGuildCalendars = () => {
+  const testIdGuildUsers = dummyGuildUsers.filter(dgu => dgu.guildId === 'test-id')
   dummyGuildCalendars = [...Array(12).keys()].map(() => {
     const color = lightTextBgColors[Math.floor(Math.random() * lightTextBgColors.length)]
 
@@ -25,7 +27,23 @@ export const initDummyGuildCalendars = () => {
       updatedAt: dayjs().toISOString(),
       isGuild: isGuildCalendar !== 0,
       userId: isGuildCalendar === 0 ? 'test-id-guild-user' : undefined,
-      isShare: isGuildCalendar === 0,
+      targets: isGuildCalendar === 1 ? testIdGuildUsers.map(guildUser => guildUser.id) : [] as Array<string>,
     } as GuildCalendar
   })
+
+  dummyGuildCalendars = dummyGuildCalendars.concat([...Array(7).keys()].map(() => {
+    const color = lightTextBgColors[Math.floor(Math.random() * lightTextBgColors.length)]
+
+    return {
+      id: v4(),
+      guildId: 'test-id',
+      color,
+      name: faker.name.title(),
+      createdAt: dayjs().toISOString(),
+      updatedAt: dayjs().toISOString(),
+      isGuild: false,
+      userId: testIdGuildUsers[Math.floor(Math.random() * testIdGuildUsers.length)].id,
+      targets: ['test-id-guild-user'],
+    } as GuildCalendar
+  }))
 }

@@ -5,7 +5,7 @@
 -->
 <template>
   <div
-    class="tw-p-0 tw-w-full"
+    class="tw-p-0 tw-w-full has-validation"
   >
     <slot
       name="prepend"
@@ -20,6 +20,7 @@
       :searchable="searchable"
       :close-on-select="closeOnSelect"
       :create-tag="createTag"
+      class="form-control"
       :class="{
         'is-invalid': errorMessage,
         'form-select-sm': size === 'sm',
@@ -30,7 +31,24 @@
       }"
       :options="options"
       @change="onChangeSelect"
-    />
+    >
+      <template
+        #singlelabel="{ value }"
+      >
+        <slot
+          name="singlelabel"
+          v-bind="value"
+        />
+      </template>
+      <template
+        #option="{ option }"
+      >
+        <slot
+          name="option"
+          v-bind="{ option }"
+        />
+      </template>
+    </multiselect>
     <slot
       name="append"
     />

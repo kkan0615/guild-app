@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="isOpenSidebar"
-    class="md:tw-static md:tw-visible md:tw-z-0 md:tw-bg-none md:tw-w-2/12 md:tw-block md:tw-border md:tw-overflow-auto tw-absolute tw-rounded-md tw-h-full tw-w-2/3 tw-z-10 p-2"
+    class="md:tw-static md:tw-visible md:tw-z-0 md:tw-bg-none md:tw-w-2/12 md:tw-block md:tw-border md:tw-overflow-auto tw-absolute tw-rounded-md tw-h-full tw-w-2/3 tw-z-10 p-2 tw-overflow-y-scroll"
     :class="{
       'tw-invisible':isOpenLayoutSidebar,
       'tw-bg-white': !isOpenLayoutSidebar,
@@ -15,49 +15,83 @@
     <c-divider
       class="tw-my-2"
     />
-    <!--  My Calendars  -->
-    <div>
-      <div
-        class="tw-uppercase tw-text-sm"
-      >
-        My calendars
-      </div>
+    <div
+      class="tw-flex tw-flex-col tw-space-y-4"
+    >
+      <!--  My Calendars  -->
       <div>
         <div
-          v-for="myCalendar in myCalendarList"
-          :key="myCalendar.id"
-          class="tw-flex tw-items-center"
+          class="tw-uppercase tw-text-sm"
         >
-          <b-checkbox
-            :id="`my-calendar-${myCalendar.id}-display`"
-            v-model="myCalendar.isDisplay"
-            :label="myCalendar.name"
-            :color="myCalendar.color"
-            class="tw-mr-1"
-          />
+          My calendars ({{ myCalendarList.length }})
+        </div>
+        <div
+          class="tw-pl-3"
+        >
+          <div
+            v-for="myCalendar in myCalendarList"
+            :key="myCalendar.id"
+            class="tw-flex tw-items-center"
+          >
+            <b-checkbox
+              :id="`my-calendar-${myCalendar.id}-display`"
+              v-model="myCalendar.isDisplay"
+              :label="myCalendar.name"
+              :color="myCalendar.color"
+              class="tw-mr-1"
+            />
+          </div>
         </div>
       </div>
-    </div>
-    <!--  Guild Calendars  -->
-    <div>
-      <div
-        class="tw-uppercase tw-text-sm"
-      >
-        Guild Calendars
-      </div>
+      <!--  Guild Calendars  -->
       <div>
-        list...
+        <div
+          class="tw-uppercase tw-text-sm tw-mb-1"
+        >
+          Guild Calendars ({{ guildCalendarList.length }})
+        </div>
+        <div
+          class="tw-pl-3"
+        >
+          <div
+            v-for="guildCalendar in guildCalendarList"
+            :key="guildCalendar.id"
+            class="tw-flex tw-items-center"
+          >
+            <b-checkbox
+              :id="`my-calendar-${guildCalendar.id}-display`"
+              v-model="guildCalendar.isDisplay"
+              :label="guildCalendar.name"
+              :color="guildCalendar.color"
+              class="tw-mr-1"
+            />
+          </div>
+        </div>
       </div>
-    </div>
-    <!--  other calendars  -->
-    <div>
-      <div
-        class="tw-uppercase tw-text-sm"
-      >
-        Other Calendars
-      </div>
+      <!--  other calendars  -->
       <div>
-        list...
+        <div
+          class="tw-uppercase tw-text-sm"
+        >
+          Other Calendars ({{ otherCalendarList.length }})
+        </div>
+        <div
+          class="tw-pl-3"
+        >
+          <div
+            v-for="otherCalendar in otherCalendarList"
+            :key="otherCalendar.id"
+            class="tw-flex tw-items-center"
+          >
+            <b-checkbox
+              :id="`my-calendar-${otherCalendar.id}-display`"
+              v-model="otherCalendar.isDisplay"
+              :label="otherCalendar.name"
+              :color="otherCalendar.color"
+              class="tw-mr-1"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -69,7 +103,7 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, computed } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { GuildCalendarActionTypes } from '@/store/modules/guilds/calendars/actions'
 import useStore from '@/store'
 import CDivider from '@/components/commons/Divider/index.vue'
@@ -84,6 +118,8 @@ export default defineComponent({
     const isOpenLayoutSidebar = computed(() => store.state.guild.isOpenSideBar)
     const isOpenSidebar = computed(() => store.state.guildCalendar.isOpenSidebar)
     const myCalendarList = computed(() => store.state.guildCalendar.myCalendarList)
+    const guildCalendarList = computed(() => store.state.guildCalendar.guildCalendarList)
+    const otherCalendarList = computed(() => store.state.guildCalendar.otherCalendarList)
 
     const onClickOutside = async () => {
       try {
@@ -101,6 +137,8 @@ export default defineComponent({
       isOpenLayoutSidebar,
       isOpenSidebar,
       myCalendarList,
+      guildCalendarList,
+      otherCalendarList,
       onClickOutside,
     }
   }

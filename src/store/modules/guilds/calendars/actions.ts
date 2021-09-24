@@ -13,6 +13,10 @@ export enum GuildCalendarActionTypes {
   CLOSE_SIDEBAR = 'guildCalendar/CLOSE_SIDEBAR',
   LOAD_MY_CALENDAR_LIST = 'guildCalendar/LOAD_MY_CALENDAR_LIST',
   RESET_MY_CALENDAR_LIST = 'guildCalendar/RESET_MY_CALENDAR_LIST',
+  LOAD_CALENDAR_CALENDAR_LIST = 'guildCalendar/LOAD_CALENDAR_CALENDAR_LIST',
+  RESET_CALENDAR_CALENDAR_LIST = 'guildCalendar/RESET_CALENDAR_CALENDAR_LIST',
+  LOAD_OTHER_CALENDAR_LIST = 'guildCalendar/LOAD_OTHER_CALENDAR_LIST',
+  RESET_OTHER_CALENDAR_LIST = 'guildCalendar/RESET_OTHER_CALENDAR_LIST',
 }
 
 export type AugmentedActionContext = {
@@ -35,6 +39,18 @@ export interface GuildCalendarActions {
   [GuildCalendarActionTypes.RESET_MY_CALENDAR_LIST](
     { commit }: AugmentedActionContext,
   ): void
+  [GuildCalendarActionTypes.LOAD_CALENDAR_CALENDAR_LIST](
+    { commit }: AugmentedActionContext,
+  ): void
+  [GuildCalendarActionTypes.RESET_CALENDAR_CALENDAR_LIST](
+    { commit }: AugmentedActionContext,
+  ): void
+  [GuildCalendarActionTypes.LOAD_OTHER_CALENDAR_LIST](
+    { commit }: AugmentedActionContext,
+  ): void
+  [GuildCalendarActionTypes.RESET_OTHER_CALENDAR_LIST](
+    { commit }: AugmentedActionContext,
+  ): void
 }
 
 export const guildCalendarActions: ActionTree<GuildCalendarState, RootState> & GuildCalendarActions = {
@@ -47,7 +63,7 @@ export const guildCalendarActions: ActionTree<GuildCalendarState, RootState> & G
   [GuildCalendarActionTypes.LOAD_MY_CALENDAR_LIST] ({ commit, rootState }) {
     const guildCalendarsRes = dummyGuildCalendars
       .filter(guildCalendar =>
-        guildCalendar.guildId === 'test-id'
+        guildCalendar.guildId === rootState.guild.guildInfo.id
         && guildCalendar.userId === rootState.guild.guildUserInfo.id
         && !guildCalendar.deletedAt
       ).map(guildCalendar => {
@@ -60,5 +76,41 @@ export const guildCalendarActions: ActionTree<GuildCalendarState, RootState> & G
   },
   [GuildCalendarActionTypes.RESET_MY_CALENDAR_LIST] ({ commit }) {
     commit(GuildCalendarMutationTypes.SET_MY_CALENDAR_LIST, [])
+  },
+  [GuildCalendarActionTypes.LOAD_CALENDAR_CALENDAR_LIST] ({ commit, rootState }) {
+    const guildCalendarsRes = dummyGuildCalendars
+      .filter(guildCalendar =>
+        guildCalendar.guildId === rootState.guild.guildInfo.id
+        && guildCalendar.targets && guildCalendar.targets.indexOf(rootState.guild.guildUserInfo.id) >= 0
+        && guildCalendar.isGuild
+        && !guildCalendar.deletedAt
+      ).map(guildCalendar => {
+        return {
+          ...guildCalendar,
+          isDisplay: true,
+        } as GuildCalendarAtCalendar
+      })
+    commit(GuildCalendarMutationTypes.SET_GUILD_CALENDAR_LIST, guildCalendarsRes)
+  },
+  [GuildCalendarActionTypes.RESET_CALENDAR_CALENDAR_LIST] ({ commit }) {
+    commit(GuildCalendarMutationTypes.SET_GUILD_CALENDAR_LIST, [])
+  },
+  [GuildCalendarActionTypes.LOAD_OTHER_CALENDAR_LIST] ({ commit, rootState }) {
+    const guildCalendarsRes = dummyGuildCalendars
+      .filter(guildCalendar =>
+        guildCalendar.guildId === rootState.guild.guildInfo.id
+        && guildCalendar.userId && guildCalendar.userId !== rootState.guild.guildUserInfo.id
+        && guildCalendar.targets && guildCalendar.targets.indexOf(rootState.guild.guildUserInfo.id) >= 0
+        && !guildCalendar.deletedAt
+      ).map(guildCalendar => {
+        return {
+          ...guildCalendar,
+          isDisplay: true,
+        } as GuildCalendarAtCalendar
+      })
+    commit(GuildCalendarMutationTypes.SET_OTHER_CALENDAR_LIST, guildCalendarsRes)
+  },
+  [GuildCalendarActionTypes.RESET_OTHER_CALENDAR_LIST] ({ commit }) {
+    commit(GuildCalendarMutationTypes.SET_OTHER_CALENDAR_LIST, [])
   },
 }

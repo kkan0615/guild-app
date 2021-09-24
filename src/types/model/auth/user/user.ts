@@ -42,6 +42,8 @@ export interface GuildUserInfo extends GuildUser {
   notifications: Array<Notification>
 }
 
+export type GuildUserAtSelectList = Pick<GuildUserInfo, 'id' | 'nickname'>
+
 export type GuildUserAtUserList = Pick<GuildUserInfo, 'id' | 'email' | 'nickname' | 'color' | 'img' | 'auth' | 'role' | 'roleId' | 'description' | 'remark' | 'state'>
 /**
  * User list

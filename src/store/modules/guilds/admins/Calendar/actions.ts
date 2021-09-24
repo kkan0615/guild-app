@@ -3,15 +3,25 @@ import { RootState } from '@/store'
 import { GuildAdminCalendarMutations, GuildAdminCalendarMutationTypes } from '@/store/modules/guilds/admins/Calendar/mutations'
 import { GuildAdminCalendarState } from '@/store/modules/guilds/admins/Calendar/state'
 import { dummyGuildCalendars } from '@/dummy/guilds/calendar'
-import { GuildCalendar, GuildCalendarCreateForm, GuildCalendarUpdateForm } from '@/types/model/guilds/calendar'
+import {
+  GuildCalendar,
+  GuildCalendarAtAdminCalendar,
+  GuildCalendarCreateForm,
+  GuildCalendarUpdateForm
+} from '@/types/model/guilds/calendar'
 import { v4 } from 'uuid'
 import dayjs from 'dayjs'
+import { dummyGuildUsers } from '@/dummy/user'
+import { GuildUserAtSelectList, GuildUserAtUserList } from '@/types/model/auth/user/user'
+import { MultiselectOption } from '@/utils/libs/multiselect'
 
 export enum GuildAdminCalendarActionTypes {
   LOAD_GUILD_CALENDARS = 'guildAdminCalendar/LOAD_GUILD_CALENDARS',
   RESET_GUILD_CALENDARS = 'guildAdminCalendar/RESET_GUILD_CALENDARS',
   LOAD_SELECTED_CALENDAR_BY_ID = 'guildAdminCalendar/SET_SELECTED_CALENDAR',
   RESET_SELECTED_CALENDAR = 'guildAdminCalendar/RESET_SELECTED_CALENDAR',
+  LOAD_USER_LIST = 'guildAdminCalendar/LOAD_USER_LIST',
+  RESET_USER_LIST = 'guildAdminCalendar/RESET_USER_LIST',
   CREATE_GUILD_CALENDAR = 'guildAdminCalendar/CREATE_GUILD_CALENDAR',
   UPDATE_GUILD_CALENDAR = 'guildAdminCalendar/UPDATE_GUILD_CALENDAR',
   DELETE_GUILD_CALENDAR = 'guildAdminCalendar/DELETE_GUILD_CALENDAR',
@@ -44,6 +54,12 @@ export interface GuildAdminAppActions {
   [GuildAdminCalendarActionTypes.RESET_SELECTED_CALENDAR](
     { commit }: AugmentedActionContext,
   ): void
+  [GuildAdminCalendarActionTypes.LOAD_USER_LIST](
+    { commit, rootState }: AugmentedActionContext,
+  ): void
+  [GuildAdminCalendarActionTypes.RESET_USER_LIST](
+    { commit }: AugmentedActionContext,
+  ): void
   /**
    * Create new guild calendar
    * @param rootState
@@ -52,7 +68,7 @@ export interface GuildAdminAppActions {
   [GuildAdminCalendarActionTypes.CREATE_GUILD_CALENDAR](
     { rootState }: AugmentedActionContext,
     payload: GuildCalendarCreateForm
-  ): void
+  ): string
   /**
    * Update guild calendar by id in payload
    * @param rootState
@@ -89,13 +105,31 @@ export const guildAdminCalendarActions: ActionTree<GuildAdminCalendarState, Root
   [GuildAdminCalendarActionTypes.LOAD_SELECTED_CALENDAR_BY_ID] ({ commit }, payload) {
     const guildCalendarRes = dummyGuildCalendars.find(guildCalendar => guildCalendar.id === payload)
     if (guildCalendarRes) {
-      commit(GuildAdminCalendarMutationTypes.SET_SELECTED_CALENDAR, guildCalendarRes)
+      const result: GuildCalendarAtAdminCalendar = {
+        ...guildCalendarRes,
+        Targets: dummyGuildUsers.filter(guildUser => guildCalendarRes.targets && guildCalendarRes.targets.indexOf(guildUser.id) >= 0)
+      }
+      commit(GuildAdminCalendarMutationTypes.SET_SELECTED_CALENDAR, result)
     } else {
       throw new Error('no found guild calendar by id')
     }
   },
   [GuildAdminCalendarActionTypes.RESET_SELECTED_CALENDAR] ({ commit }) {
-    commit(GuildAdminCalendarMutationTypes.SET_SELECTED_CALENDAR, {} as GuildCalendar)
+    commit(GuildAdminCalendarMutationTypes.SET_SELECTED_CALENDAR, {} as GuildCalendarAtAdminCalendar)
+  },
+  [GuildAdminCalendarActionTypes.LOAD_USER_LIST] ({ commit, rootState }) {
+    const guildUsersRes = dummyGuildUsers
+      .filter(guildUser => guildUser.guildId === rootState.guild.guildInfo.id && !guildUser.deletedAt)
+      .map(guildUser => {
+        return {
+          value: guildUser.id,
+          label: guildUser.nickname
+        } as MultiselectOption
+      })
+    commit(GuildAdminCalendarMutationTypes.SET_USER_LIST, guildUsersRes)
+  },
+  [GuildAdminCalendarActionTypes.RESET_USER_LIST] ({ commit }) {
+    commit(GuildAdminCalendarMutationTypes.SET_USER_LIST, [])
   },
   [GuildAdminCalendarActionTypes.CREATE_GUILD_CALENDAR] ({ rootState }, paylod) {
     const newCalendarId = v4()
@@ -118,7 +152,7 @@ export const guildAdminCalendarActions: ActionTree<GuildAdminCalendarState, Root
     if (guildCalenderRes) {
       if (guildCalenderRes.isGuild) {
         guildCalenderRes.name = paylod.name
-        guildCalenderRes.color = paylod.name
+        guildCalenderRes.color = paylod.color
         guildCalenderRes.description = paylod.description
       } else {
         throw new Error('it not guild calendar')

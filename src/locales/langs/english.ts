@@ -20,6 +20,7 @@ export const englishDictionary = {
     created: 'Success to create',
     updated: 'Success to update',
     removed: 'Success to remove',
+    invalidated: 'Please type all required fields',
     failed: 'Fail to save. Please try again after press F5 (Refresh)',
     failRedirect: 'Fail to redirect page.',
   },
@@ -80,6 +81,9 @@ export const englishDictionary = {
     [RouterNameEnum.GUILD_ADMIN_CALENDAR_CREATE_FORM]: {
       title: 'Create new calendar'
     },
+    [RouterNameEnum.GUILD_ADMIN_CALENDAR_UPDATE_FORM]: {
+      title: 'Edit the calendar'
+    },
   },
   types: {
     models: {
@@ -113,9 +117,16 @@ export const englishDictionary = {
               DO_NOT_DISTURB: 'Do not disturb',
               INVISIBLE: 'Invisible',
               OFFLINE: 'Offline',
-            },
+            }, // states end
           }, // fields end
         }, // user end
+        calendar: {
+          fields: {
+            name: '캘린더명',
+            color: '색상',
+            description: '비고',
+          } // fields end
+        } // calendar end
       }, // guilds end
     } // model end
   }, // types end
