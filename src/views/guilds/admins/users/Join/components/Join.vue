@@ -99,7 +99,7 @@ import JoinUserGuildAdminQuestion from '@/views/guilds/admins/users/Join/compone
 import useStore from '@/store'
 import useToast from '@/mixins/useToast'
 import { useI18n } from 'vue-i18n'
-import { GuildActionTypes } from '@/store/modules/guilds/info/actions'
+import { GuildActionTypes } from '@/store/modules/guilds/generals/info/actions'
 import nProgress from 'nprogress'
 import { GuildAdminUserActionTypes } from '@/store/modules/guilds/admins/User/actions'
 import { GuildBlackCreateForm } from '@/types/model/guilds/blackList'

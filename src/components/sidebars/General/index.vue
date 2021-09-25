@@ -113,7 +113,7 @@ import useGuildInfoMixin from '@/mixins/useGuildInfoMixin'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
 import SingMenuIcon from '@/components/menus/Single/components/Icon.vue'
 import useStore from '@/store'
-import { GuildActionTypes } from '@/store/modules/guilds/info/actions'
+import { GuildActionTypes } from '@/store/modules/guilds/generals/info/actions'
 import { Menu } from '@/types/systems/routers/menu'
 import { v4 } from 'uuid'
 

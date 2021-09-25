@@ -104,7 +104,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { GuildCalendarActionTypes } from '@/store/modules/guilds/calendars/actions'
+import { GuildCalendarActionTypes } from '@/store/modules/guilds/generals/calendars/actions'
 import useStore from '@/store'
 import CDivider from '@/components/commons/Divider/index.vue'
 import BCheckbox from '@/components/commons/inputs/Checkbox/index.vue'

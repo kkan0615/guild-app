@@ -5,10 +5,10 @@ import {
   DispatchOptions,
 } from 'vuex'
 import { RootState } from '@/store'
-import { guildCalendarState, GuildCalendarState } from '@/store/modules/guilds/calendars/state'
-import { guildCalendarGetters, GuildCalendarGetters } from '@/store/modules/guilds/calendars/getters'
-import { guildCalendarMutations, GuildCalendarMutations } from '@/store/modules/guilds/calendars/mutations'
-import { guildCalendarActions, GuildCalendarActions } from '@/store/modules/guilds/calendars/actions'
+import { guildCalendarState, GuildCalendarState } from '@/store/modules/guilds/generals/calendars/state'
+import { guildCalendarGetters, GuildCalendarGetters } from '@/store/modules/guilds/generals/calendars/getters'
+import { guildCalendarMutations, GuildCalendarMutations } from '@/store/modules/guilds/generals/calendars/mutations'
+import { guildCalendarActions, GuildCalendarActions } from '@/store/modules/guilds/generals/calendars/actions'
 
 export type GuildCalendarStore<S = GuildCalendarState> = Omit<
 VuexStore<S>,

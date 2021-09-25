@@ -22,7 +22,7 @@
 import { computed, defineComponent, onBeforeUnmount, onMounted } from 'vue'
 import useStore from '@/store'
 import CMaterialIcon from '@/components/commons/icons/Material/index.vue'
-import { GuildCalendarActionTypes } from '@/store/modules/guilds/calendars/actions'
+import { GuildCalendarActionTypes } from '@/store/modules/guilds/generals/calendars/actions'
 import GuildCalendarViewSidebar from '@/components/sidebars/views/GuildCalendar/index.vue'
 
 export default defineComponent({

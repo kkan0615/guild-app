@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex'
 import { RootState } from '@/store'
-import { GuildCalendarState } from '@/store/modules/guilds/calendars/state'
+import { GuildCalendarState } from '@/store/modules/guilds/generals/calendars/state'
 
 export type GuildCalendarGetters<S = GuildCalendarState> = {
   isOpenGuildCalendarSidebar(state: S): boolean

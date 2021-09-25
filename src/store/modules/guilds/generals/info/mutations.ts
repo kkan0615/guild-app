@@ -10,6 +10,7 @@ export enum GuildMutationTypes {
   SET_GUILD_USER_NOTIFICATION_LIST = 'guild/SET_GUILD_USER_NOTIFICATION_LIST',
   SET_IS_OPEN_SIDEBAR = 'guild/SET_IS_OPEN_SIDEBAR',
 }
+
 export type GuildMutations<S = GuildState> = {
   [GuildMutationTypes.SET_GUILD_INFO](state: S, payload: GuildInfo): void
   [GuildMutationTypes.SET_GUILD_USER_INFO](state: S, payload: GuildUserInfo): void

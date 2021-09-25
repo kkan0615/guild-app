@@ -30,7 +30,7 @@ import BForm from '@/components/commons/Form/index.vue'
 import BBaseInput from '@/components/commons/inputs/Base/index.vue'
 import CInputLabel from '@/components/commons/inputs/Label/index.vue'
 import { GuildListFilterQuery } from '@/types/model/guilds'
-import { GuildUserActionTypes } from '@/store/modules/guilds/users/actions'
+import { GuildUserActionTypes } from '@/store/modules/guilds/generals/users/actions'
 import { GuildUserSelectListQuery } from '@/types/model/auth/user/user'
 
 export default defineComponent({

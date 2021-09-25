@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex'
 import { RootState } from '@/store'
 import { GuildInfo } from '@/types/model/guilds'
-import { GuildState } from '@/store/modules/guilds/info/state'
+import { GuildState } from '@/store/modules/guilds/generals/info/state'
 
 export type GuildGetters<S = GuildState> = {
   guildInfo(state: S): GuildInfo

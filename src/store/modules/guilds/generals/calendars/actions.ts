@@ -3,8 +3,8 @@ import { RootState } from '@/store'
 import {
   GuildCalendarMutations,
   GuildCalendarMutationTypes,
-} from '@/store/modules/guilds/calendars/mutations'
-import { GuildCalendarState } from '@/store/modules/guilds/calendars/state'
+} from '@/store/modules/guilds/generals/calendars/mutations'
+import { GuildCalendarState } from '@/store/modules/guilds/generals/calendars/state'
 import { dummyGuildCalendars } from '@/dummy/guilds/calendar'
 import { GuildCalendarAtCalendar } from '@/types/model/guilds/calendar'
 

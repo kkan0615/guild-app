@@ -4,7 +4,7 @@ import GuildBaseLayout from '@/layouts/guilds/Base/index.vue'
 import { guildGeneralRoutes } from '@/router/modules/guild/generals'
 import { guildAdminRoutes } from '@/router/modules/guild/admins'
 import { store } from '@/store'
-import { GuildActionTypes } from '@/store/modules/guilds/info/actions'
+import { GuildActionTypes } from '@/store/modules/guilds/generals/info/actions'
 
 export const guildRoutes: RouteRecordRaw = {
   path: '/guild-app/:guildId',

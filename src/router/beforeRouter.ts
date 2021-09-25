@@ -3,7 +3,7 @@ import { store } from '@/store'
 import { LocalstorageKeyEnum } from '@/types/systems/localstrage'
 import { UserActionTypes } from '@/store/modules/user/actions'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
-import { GuildActionTypes } from '@/store/modules/guilds/info/actions'
+import { GuildActionTypes } from '@/store/modules/guilds/generals/info/actions'
 import nProgress from 'nprogress'
 
 export default router.beforeEach(async (to, from, next) => {

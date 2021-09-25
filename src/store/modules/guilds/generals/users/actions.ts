@@ -7,8 +7,8 @@ import {
 } from '@/types/model/auth/user/user'
 import { dummyGuildRoles } from '@/dummy/guilds/role'
 import { GuildRole } from '@/types/model/guilds/role'
-import { GuildUserMutations, GuildUserMutationTypes } from '@/store/modules/guilds/users/mutations'
-import { GuildUserState } from '@/store/modules/guilds/users/state'
+import { GuildUserMutations, GuildUserMutationTypes } from '@/store/modules/guilds/generals/users/mutations'
+import { GuildUserState } from '@/store/modules/guilds/generals/users/state'
 
 export enum GuildUserActionTypes {
   LOAD_USER_LIST = 'guildUser/LOAD_USER_LIST',

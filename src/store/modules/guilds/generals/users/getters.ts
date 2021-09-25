@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex'
 import { RootState } from '@/store'
-import { GuildUserState } from '@/store/modules/guilds/users/state'
+import { GuildUserState } from '@/store/modules/guilds/generals/users/state'
 import { GuildUserAtUserList } from '@/types/model/auth/user/user'
 
 export type GuildUserGetters<S = GuildUserState> = {

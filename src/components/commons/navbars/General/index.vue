@@ -31,7 +31,7 @@ import GuildUserDropdown from '@/components/commons/dropdowns/GuildUser/index.vu
 import NotificationDropdown from '@/components/commons/dropdowns/Notification/index.vue'
 import useStore from '@/store'
 import useGuildInfoMixin from '@/mixins/useGuildInfoMixin'
-import { GuildActionTypes } from '@/store/modules/guilds/info/actions'
+import { GuildActionTypes } from '@/store/modules/guilds/generals/info/actions'
 
 export default defineComponent({
   name: 'GeneralNavbar',

@@ -5,10 +5,10 @@ import {
   DispatchOptions,
 } from 'vuex'
 import { RootState } from '@/store'
-import { guildUserState, GuildUserState } from '@/store/modules/guilds/users/state'
-import { guildUserGetters, GuildUserGetters } from '@/store/modules/guilds/users/getters'
-import { guildUserMutations, GuildUserMutations } from '@/store/modules/guilds/users/mutations'
-import { guildUserActions, GuildUserActions } from '@/store/modules/guilds/users/actions'
+import { guildUserState, GuildUserState } from '@/store/modules/guilds/generals/users/state'
+import { guildUserGetters, GuildUserGetters } from '@/store/modules/guilds/generals/users/getters'
+import { guildUserMutations, GuildUserMutations } from '@/store/modules/guilds/generals/users/mutations'
+import { guildUserActions, GuildUserActions } from '@/store/modules/guilds/generals/users/actions'
 
 export type GuildUserStore<S = GuildUserState> = Omit<
 VuexStore<S>,

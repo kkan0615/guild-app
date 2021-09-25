@@ -76,7 +76,7 @@ import { GuildJoinQuestionForm } from '@/types/model/guilds/question'
 import draggable from 'vuedraggable'
 import useToast from '@/mixins/useToast'
 import useStore from '@/store'
-import { GuildActionTypes } from '@/store/modules/guilds/info/actions'
+import { GuildActionTypes } from '@/store/modules/guilds/generals/info/actions'
 import CSpinnerIcon from '@/components/commons/icons/Spinner/index.vue'
 
 export default defineComponent({

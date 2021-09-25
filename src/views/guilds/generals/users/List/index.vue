@@ -68,7 +68,7 @@
 <script lang="ts">
 import { ref, defineComponent, onMounted, onBeforeUnmount, computed } from 'vue'
 import useStore from '@/store'
-import { GuildUserActionTypes } from '@/store/modules/guilds/users/actions'
+import { GuildUserActionTypes } from '@/store/modules/guilds/generals/users/actions'
 import CFullLoading from '@/components/commons/loadings/Full/index.vue'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
 import GuildUserListFilter from '@/views/guilds/generals/users/List/components/Filter.vue'

@@ -5,7 +5,7 @@
 <script lang="ts">
 import { defineComponent, onBeforeUnmount } from 'vue'
 import useStore from '@/store'
-import { GuildActionTypes } from '@/store/modules/guilds/info/actions'
+import { GuildActionTypes } from '@/store/modules/guilds/generals/info/actions'
 
 export default defineComponent({
   name: 'GuildBaseLayout',
