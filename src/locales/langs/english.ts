@@ -72,6 +72,9 @@ export const englishDictionary = {
     [RouterNameEnum.GUILD_ADMIN_ROLE_MAIN]: {
       title: 'Role list'
     },
+    [RouterNameEnum.GUILD_ADMIN_ROLE_CREATE_FORM]: {
+      title: 'Create new role'
+    },
     [RouterNameEnum.GUILD_ADMIN_CALENDAR_LAYOUT]: {
       title: 'Calendars'
     },

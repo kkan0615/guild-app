@@ -72,6 +72,9 @@ export const koreanDictionary = {
     [RouterNameEnum.GUILD_ADMIN_ROLE_MAIN]: {
       title: '권한 및 역할'
     },
+    [RouterNameEnum.GUILD_ADMIN_ROLE_CREATE_FORM]: {
+      title: '권한 신규 생성'
+    },
     [RouterNameEnum.GUILD_ADMIN_CALENDAR_LAYOUT]: {
       title: '캘린더 관리'
     },

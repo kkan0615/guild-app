@@ -144,6 +144,11 @@ export default defineComponent({
               return route.name === RouterNameEnum.GUILD_ADMIN_ROLE_MAIN || route.name === RouterNameEnum.GUILD_ADMIN_ROLE_DETAIL
             }
           },
+          {
+            id: v4(),
+            title: 'CreateForm',
+            name: RouterNameEnum.GUILD_ADMIN_ROLE_CREATE_FORM,
+          },
         ]
       },
       {

@@ -50,6 +50,14 @@
   </div>
 </template>
 <script
+  lang="ts"
+>
+export default {
+  name: 'CImageDropzone',
+}
+</script>
+
+<script
   setup
   lang="ts"
 >

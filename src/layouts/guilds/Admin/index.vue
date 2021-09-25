@@ -60,12 +60,12 @@ export default defineComponent({
     const i18n = useI18n()
 
     const routerViewKey = computed(() => route.name)
-    const breadcrumb = computed(() => route.matched.map(matchRoute => i18n.t(`router.${matchRoute.name}.title`)))
+    // const breadcrumb = computed(() => route.matched.map(matchRoute => i18n.t(`router.${matchRoute.name}.title`)))
     const isOpenSidebar = computed(() => store.state.guildAdminApp.isOpenSideBar)
 
     return {
       routerViewKey,
-      breadcrumb,
+      // breadcrumb,
       isOpenSidebar,
     }
   }
