@@ -7,6 +7,7 @@ import {
 import { GuildCalendarState } from '@/store/modules/guilds/generals/calendars/state'
 import { dummyGuildCalendars } from '@/dummy/guilds/calendar'
 import { GuildCalendarAtCalendar } from '@/types/model/guilds/calendar'
+import TuiCalendar from 'tui-calendar'
 
 export enum GuildCalendarActionTypes {
   OPEN_SIDEBAR = 'guildCalendar/OPEN_SIDEBAR',
@@ -17,6 +18,8 @@ export enum GuildCalendarActionTypes {
   RESET_CALENDAR_CALENDAR_LIST = 'guildCalendar/RESET_CALENDAR_CALENDAR_LIST',
   LOAD_OTHER_CALENDAR_LIST = 'guildCalendar/LOAD_OTHER_CALENDAR_LIST',
   RESET_OTHER_CALENDAR_LIST = 'guildCalendar/RESET_OTHER_CALENDAR_LIST',
+  SET_TUI_CALENDAR = 'guildCalendar/SET_TUI_CALENDAR',
+  RESET_TUI_CALENDAR = 'guildCalendar/RESET_TUI_CALENDAR',
 }
 
 export type AugmentedActionContext = {
@@ -49,6 +52,13 @@ export interface GuildCalendarActions {
     { commit }: AugmentedActionContext,
   ): void
   [GuildCalendarActionTypes.RESET_OTHER_CALENDAR_LIST](
+    { commit }: AugmentedActionContext,
+  ): void
+  [GuildCalendarActionTypes.SET_TUI_CALENDAR](
+    { commit }: AugmentedActionContext,
+    payload: TuiCalendar
+  ): void
+  [GuildCalendarActionTypes.RESET_TUI_CALENDAR](
     { commit }: AugmentedActionContext,
   ): void
 }
@@ -112,5 +122,11 @@ export const guildCalendarActions: ActionTree<GuildCalendarState, RootState> & G
   },
   [GuildCalendarActionTypes.RESET_OTHER_CALENDAR_LIST] ({ commit }) {
     commit(GuildCalendarMutationTypes.SET_OTHER_CALENDAR_LIST, [])
+  },
+  [GuildCalendarActionTypes.SET_TUI_CALENDAR] ({ commit }, payload) {
+    commit(GuildCalendarMutationTypes.SET_TUI_CALENDAR, payload)
+  },
+  [GuildCalendarActionTypes.RESET_TUI_CALENDAR] ({ commit }) {
+    commit(GuildCalendarMutationTypes.SET_TUI_CALENDAR, null)
   },
 }

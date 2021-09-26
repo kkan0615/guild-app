@@ -117,7 +117,7 @@ export default defineComponent({
     const errorMessage = ref('')
     const inputRef = ref<HTMLInputElement | null>(null)
 
-    const form = inject(BFormProvideKey)
+    let form = inject(BFormProvideKey)
 
     onMounted(() => {
       const instance = getCurrentInstance()

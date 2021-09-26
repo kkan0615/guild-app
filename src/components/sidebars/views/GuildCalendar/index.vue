@@ -28,19 +28,21 @@
         <div
           class="tw-pl-3"
         >
-          <div
-            v-for="myCalendar in myCalendarList"
-            :key="myCalendar.id"
-            class="tw-flex tw-items-center"
-          >
-            <b-checkbox
-              :id="`my-calendar-${myCalendar.id}-display`"
-              v-model="myCalendar.isDisplay"
-              :label="myCalendar.name"
-              :color="myCalendar.color"
-              class="tw-mr-1"
-            />
-          </div>
+          <b-form>
+            <div
+              v-for="myCalendar in myCalendarList"
+              :key="myCalendar.id"
+              class="tw-flex tw-items-center"
+            >
+              <b-checkbox
+                :id="`my-calendar-${myCalendar.id}-display`"
+                v-model="myCalendar.isDisplay"
+                :label="myCalendar.name"
+                :color="myCalendar.color"
+                class="tw-mr-1"
+              />
+            </div>
+          </b-form>
         </div>
       </div>
       <!--  Guild Calendars  -->
@@ -53,19 +55,21 @@
         <div
           class="tw-pl-3"
         >
-          <div
-            v-for="guildCalendar in guildCalendarList"
-            :key="guildCalendar.id"
-            class="tw-flex tw-items-center"
-          >
-            <b-checkbox
-              :id="`my-calendar-${guildCalendar.id}-display`"
-              v-model="guildCalendar.isDisplay"
-              :label="guildCalendar.name"
-              :color="guildCalendar.color"
-              class="tw-mr-1"
-            />
-          </div>
+          <b-form>
+            <div
+              v-for="guildCalendar in guildCalendarList"
+              :key="guildCalendar.id"
+              class="tw-flex tw-items-center"
+            >
+              <b-checkbox
+                :id="`my-calendar-${guildCalendar.id}-display`"
+                v-model="guildCalendar.isDisplay"
+                :label="guildCalendar.name"
+                :color="guildCalendar.color"
+                class="tw-mr-1"
+              />
+            </div>
+          </b-form>
         </div>
       </div>
       <!--  other calendars  -->
@@ -78,19 +82,21 @@
         <div
           class="tw-pl-3"
         >
-          <div
-            v-for="otherCalendar in otherCalendarList"
-            :key="otherCalendar.id"
-            class="tw-flex tw-items-center"
-          >
-            <b-checkbox
-              :id="`my-calendar-${otherCalendar.id}-display`"
-              v-model="otherCalendar.isDisplay"
-              :label="otherCalendar.name"
-              :color="otherCalendar.color"
-              class="tw-mr-1"
-            />
-          </div>
+          <b-form>
+            <div
+              v-for="otherCalendar in otherCalendarList"
+              :key="otherCalendar.id"
+              class="tw-flex tw-items-center"
+            >
+              <b-checkbox
+                :id="`my-calendar-${otherCalendar.id}-display`"
+                v-model="otherCalendar.isDisplay"
+                :label="otherCalendar.name"
+                :color="otherCalendar.color"
+                class="tw-mr-1"
+              />
+            </div>
+          </b-form>
         </div>
       </div>
     </div>
@@ -108,10 +114,11 @@ import { GuildCalendarActionTypes } from '@/store/modules/guilds/generals/calend
 import useStore from '@/store'
 import CDivider from '@/components/commons/Divider/index.vue'
 import BCheckbox from '@/components/commons/inputs/Checkbox/index.vue'
+import BForm from '@/components/commons/Form/index.vue'
 
 export default defineComponent({
   name: 'GuildCalendarViewSidebar',
-  components: { BCheckbox, CDivider },
+  components: { BForm, BCheckbox, CDivider },
   setup: () => {
     const store = useStore()
 
