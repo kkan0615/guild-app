@@ -41,20 +41,7 @@ const test1 = ref<TuiCalendar | null>(null)
 
 onMounted(async () => {
   try {
-    // await store.dispatch(GuildCalendarActionTypes.SET_TUI_CALENDAR, new TuiCalendar('#test-calendar', {
-    //   defaultView: 'month',
-    //   taskView: true,
-    //   useCreationPopup: false,
-    //   useDetailPopup: false,
-    //   // month: {
-    //   //   daynames: ['일', '월', '화', '수', '목', '금', '토'], // @TODO: 변경하기
-    //   // },
-    //   // week: {
-    //   //   daynames: ['일', '월', '화', '수', '목', '금', '토'],
-    //   // },
-    //
-    // }))
-    test1.value = new TuiCalendar('#test-calendar', {
+    const innerTuiCalender = new TuiCalendar('#test-calendar', {
       defaultView: 'month',
       taskView: true,
       useCreationPopup: false,
@@ -67,37 +54,11 @@ onMounted(async () => {
       // },
 
     })
-    await nextTick(() => {
-      if (test1.value) {
-        // tuiCalendar.value?.on('beforeCreateSchedule', (event: any) => {
-        //   console.log('test1', event)
-        // })
-        console.log(test1.value)
-        test1.value?.on({
-          'clickSchedule': function (e) {
-            console.log('clickSchedule', e)
-          },
-          'beforeCreateSchedule': function (e) {
-            console.log('beforeCreateSchedule', e)
-            // open a creation popup
-          },
-          'beforeUpdateSchedule': function (e) {
-            console.log('beforeUpdateSchedule', e)
-            e.schedule.start = e.start
-            e.schedule.end = e.end
-          },
-          'beforeDeleteSchedule': function (e) {
-            console.log('beforeDeleteSchedule', e)
-          }
-        })
-        // tuiCalendar.value.on('beforeCreateSchedule', () => {
-        //   console.log('pass?')
-        // })
-        // tuiCalendar.value.on('beforeUpdateSchedule', beforeUpdateSchedule)
-        // tuiCalendar.value.on('clickSchedule', onClickSchedule)
-        // tuiCalendar.value.on('clickDayname', onClickDayname)
-      }
-    })
+    innerTuiCalender.on('beforeCreateSchedule', beforeCreateSchedule)
+    innerTuiCalender.on('beforeUpdateSchedule', beforeUpdateSchedule)
+    innerTuiCalender.on('clickSchedule', onClickSchedule)
+    innerTuiCalender.on('clickDayname', onClickDayname)
+    await store.dispatch(GuildCalendarActionTypes.SET_TUI_CALENDAR, innerTuiCalender)
   } catch (e) {
     console.error(e)
   }
