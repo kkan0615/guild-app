@@ -14,9 +14,7 @@ export default defineComponent({
   name: 'GuildCalendar',
   components: { GuildCalendarCalendar },
   setup: () => {
-    const message = ref('Hello world GuildCalendar')
     return {
-      message
     }
   }
 })

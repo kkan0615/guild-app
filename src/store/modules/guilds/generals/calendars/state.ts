@@ -7,6 +7,7 @@ export interface GuildCalendarState {
   guildCalendarList: Array<GuildCalendarAtCalendar>
   otherCalendarList: Array<GuildCalendarAtCalendar>
   tuiCalendar: TuiCalendar | null
+  prevClickedCellAtTuiCalendar: any // previous clicked cell
 }
 
 export const guildCalendarState: GuildCalendarState = {
@@ -14,5 +15,6 @@ export const guildCalendarState: GuildCalendarState = {
   myCalendarList: [],
   guildCalendarList: [],
   otherCalendarList: [],
-  tuiCalendar: null
+  tuiCalendar: null,
+  prevClickedCellAtTuiCalendar: null,
 }

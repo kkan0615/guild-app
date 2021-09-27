@@ -10,6 +10,7 @@ export enum GuildCalendarMutationTypes {
   SET_GUILD_CALENDAR_LIST = 'guildCalendar/SET_GUILD_CALENDAR_LIST',
   SET_OTHER_CALENDAR_LIST = 'guildCalendar/SET_OTHER_CALENDAR_LIST',
   SET_TUI_CALENDAR = 'guildCalendar/SET_TUI_CALENDAR',
+  SET_PREV_CLICKED_CELL_AT_TUI_CALENDAR = 'guildCalendar/SET_PREV_CLICKED_CELL_AT_TUI_CALENDAR',
 }
 export type GuildCalendarMutations<S = GuildCalendarState> = {
   [GuildCalendarMutationTypes.SET_IS_OPEN_SIDEBAR](state: S, payload: boolean): void
@@ -17,6 +18,7 @@ export type GuildCalendarMutations<S = GuildCalendarState> = {
   [GuildCalendarMutationTypes.SET_GUILD_CALENDAR_LIST](state: S, payload: Array<GuildCalendarAtCalendar>): void
   [GuildCalendarMutationTypes.SET_OTHER_CALENDAR_LIST](state: S, payload: Array<GuildCalendarAtCalendar>): void
   [GuildCalendarMutationTypes.SET_TUI_CALENDAR](state: S, payload: TuiCalendar | null): void
+  [GuildCalendarMutationTypes.SET_PREV_CLICKED_CELL_AT_TUI_CALENDAR](state: S, payload: any): void
 }
 
 export const guildCalendarMutations: MutationTree<GuildCalendarState> & GuildCalendarMutations = {
@@ -34,5 +36,8 @@ export const guildCalendarMutations: MutationTree<GuildCalendarState> & GuildCal
   },
   [GuildCalendarMutationTypes.SET_TUI_CALENDAR] (state, payload) {
     state.tuiCalendar = _.cloneDeep(payload)
+  },
+  [GuildCalendarMutationTypes.SET_PREV_CLICKED_CELL_AT_TUI_CALENDAR] (state, payload) {
+    state.prevClickedCellAtTuiCalendar = _.cloneDeep(payload)
   },
 }

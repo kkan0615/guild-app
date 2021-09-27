@@ -7,7 +7,7 @@ import {
 import { GuildCalendarState } from '@/store/modules/guilds/generals/calendars/state'
 import { dummyGuildCalendars } from '@/dummy/guilds/calendar'
 import { GuildCalendarAtCalendar } from '@/types/model/guilds/calendar'
-import TuiCalendar from 'tui-calendar'
+import TuiCalendar, { IEventScheduleObject } from 'tui-calendar'
 
 export enum GuildCalendarActionTypes {
   OPEN_SIDEBAR = 'guildCalendar/OPEN_SIDEBAR',
@@ -20,6 +20,11 @@ export enum GuildCalendarActionTypes {
   RESET_OTHER_CALENDAR_LIST = 'guildCalendar/RESET_OTHER_CALENDAR_LIST',
   SET_TUI_CALENDAR = 'guildCalendar/SET_TUI_CALENDAR',
   RESET_TUI_CALENDAR = 'guildCalendar/RESET_TUI_CALENDAR',
+  BEFORE_CREATE_SCHEDULE_AT_TUI_CALENDAR = 'guildCalendar/BEFORE_CREATE_SCHEDULE_AT_TUI_CALENDAR',
+  BEFORE_UPDATE_SCHEDULE_AT_TUI_CALENDAR = 'guildCalendar/BEFORE_UPDATE_SCHEDULE_AT_TUI_CALENDAR',
+  ON_CLICK_SCHEDULE_AT_TUI_CALENDAR = 'guildCalendar/BEFORE_UPDATE_SCHEDULE_AT_TUI_CALENDAR',
+  ON_CLICK_DAY_NAME_AT_TUI_CALENDAR = 'guildCalendar/ON_CLICK_DAY_NAME_AT_TUI_CALENDAR',
+  SET_PREV_CLICKED_CELL_AT_TUI_CALENDAR = 'guildCalendar/SET_PREV_CLICKED_CELL_AT_TUI_CALENDAR',
 }
 
 export type AugmentedActionContext = {
@@ -60,6 +65,26 @@ export interface GuildCalendarActions {
   ): void
   [GuildCalendarActionTypes.RESET_TUI_CALENDAR](
     { commit }: AugmentedActionContext,
+  ): void
+  [GuildCalendarActionTypes.BEFORE_CREATE_SCHEDULE_AT_TUI_CALENDAR](
+    { commit }: AugmentedActionContext,
+    payload: any
+  ): void
+  [GuildCalendarActionTypes.BEFORE_UPDATE_SCHEDULE_AT_TUI_CALENDAR](
+    { commit }: AugmentedActionContext,
+    payload: IEventScheduleObject,
+  ): void
+  [GuildCalendarActionTypes.ON_CLICK_SCHEDULE_AT_TUI_CALENDAR](
+    { commit }: AugmentedActionContext,
+    payload: IEventScheduleObject,
+  ): void
+  [GuildCalendarActionTypes.ON_CLICK_DAY_NAME_AT_TUI_CALENDAR](
+    { commit }: AugmentedActionContext,
+    payload: IEventScheduleObject,
+  ): void
+  [GuildCalendarActionTypes.SET_PREV_CLICKED_CELL_AT_TUI_CALENDAR](
+    { commit }: AugmentedActionContext,
+    payload: any
   ): void
 }
 
@@ -128,5 +153,20 @@ export const guildCalendarActions: ActionTree<GuildCalendarState, RootState> & G
   },
   [GuildCalendarActionTypes.RESET_TUI_CALENDAR] ({ commit }) {
     commit(GuildCalendarMutationTypes.SET_TUI_CALENDAR, null)
+  },
+  [GuildCalendarActionTypes.BEFORE_CREATE_SCHEDULE_AT_TUI_CALENDAR] ({ commit }) {
+    console.log('test')
+  },
+  [GuildCalendarActionTypes.BEFORE_UPDATE_SCHEDULE_AT_TUI_CALENDAR] ({ commit }) {
+    console.log('test')
+  },
+  [GuildCalendarActionTypes.ON_CLICK_SCHEDULE_AT_TUI_CALENDAR] ({ commit }) {
+    console.log('test')
+  },
+  [GuildCalendarActionTypes.ON_CLICK_DAY_NAME_AT_TUI_CALENDAR] ({ commit }) {
+    console.log('test')
+  },
+  [GuildCalendarActionTypes.SET_PREV_CLICKED_CELL_AT_TUI_CALENDAR] ({ commit }, payload) {
+    commit(GuildCalendarMutationTypes.SET_PREV_CLICKED_CELL_AT_TUI_CALENDAR, payload)
   },
 }
