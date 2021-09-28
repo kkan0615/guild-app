@@ -20,6 +20,22 @@ export const calendarGuildRoutes: Array<RouteRecordRaw> = [
           isGuild: true,
         },
       },
+      {
+        path: 'form/new',
+        name: RouterNameEnum.GUILD_CALENDAR_CREATE_FORM,
+        component: () => import('@/views/guilds/generals/calendars/CalendarForm/index.vue'),
+        meta: {
+          isGuild: true,
+        },
+      },
+      {
+        path: 'form/id/:id',
+        name: RouterNameEnum.GUILD_CALENDAR_UPDATE_FORM,
+        component: () => import('@/views/guilds/generals/calendars/CalendarForm/index.vue'),
+        meta: {
+          isGuild: true,
+        },
+      },
     ]
   },
 ]

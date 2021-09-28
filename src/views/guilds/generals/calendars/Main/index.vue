@@ -7,11 +7,11 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 import GuildCalendarCalendar from '@/views/guilds/generals/calendars/Main/components/Calendar.vue'
 
 export default defineComponent({
-  name: 'GuildCalendar',
+  name: 'MainGuildCalendar',
   components: { GuildCalendarCalendar },
   setup: () => {
     return {

@@ -1,16 +1,23 @@
 <template>
   <div
     v-if="isOpenSidebar"
-    class="md:tw-static md:tw-visible md:tw-z-0 md:tw-bg-none md:tw-w-2/12 md:tw-block md:tw-border md:tw-overflow-auto tw-absolute tw-rounded-md tw-h-full tw-w-2/3 tw-z-10 p-2 tw-overflow-y-scroll"
+    class="md:tw-static md:tw-visible md:tw-bg-none md:tw-w-2/12 md:tw-block md:tw-border md:tw-overflow-auto tw-absolute tw-rounded-md tw-h-full tw-w-2/3 tw-z-10  p-2 tw-overflow-y-scroll"
     :class="{
       'tw-invisible':isOpenLayoutSidebar,
       'tw-bg-white': !isOpenLayoutSidebar,
     }"
   >
     <div
-      class="tw-text-lg tw-font-bold"
+      class="tw-text-lg tw-font-bold tw-flex tw-items-center tw-space-x-2"
     >
-      Calendar
+      <span>
+        Calendar
+      </span>
+      <c-material-icon
+        @click="onClickAddBtn"
+      >
+        add
+      </c-material-icon>
     </div>
     <c-divider
       class="tw-my-2"
@@ -115,12 +122,20 @@ import useStore from '@/store'
 import CDivider from '@/components/commons/Divider/index.vue'
 import BCheckbox from '@/components/commons/inputs/Checkbox/index.vue'
 import BForm from '@/components/commons/Form/index.vue'
+import CMaterialIcon from '@/components/commons/icons/Material/index.vue'
+import { useRouter } from 'vue-router'
+import { RouterNameEnum } from '@/types/systems/routers/keys'
+import { useI18n } from 'vue-i18n'
+import useToast from '@/mixins/useToast'
 
 export default defineComponent({
   name: 'GuildCalendarViewSidebar',
-  components: { BForm, BCheckbox, CDivider },
+  components: { CMaterialIcon, BForm, BCheckbox, CDivider },
   setup: () => {
     const store = useStore()
+    const router = useRouter()
+    const i18n = useI18n()
+    const { addToast } = useToast()
 
     const isOpenLayoutSidebar = computed(() => store.state.guild.isOpenSideBar)
     const isOpenSidebar = computed(() => store.state.guildCalendar.isOpenSidebar)
@@ -140,6 +155,22 @@ export default defineComponent({
       }
     }
 
+    /**
+     * Add calendar icon button click event
+     */
+    const onClickAddBtn = async () => {
+      try {
+        await router.push({ name: RouterNameEnum.GUILD_CALENDAR_CREATE_FORM })
+      } catch (e) {
+        console.error(e)
+        addToast({
+          title: i18n.t('standardToastTitle.failedRedirect'),
+          content: i18n.t('standardResult.failRedirect'),
+          type: 'danger',
+        })
+      }
+    }
+
     return {
       isOpenLayoutSidebar,
       isOpenSidebar,
@@ -147,6 +178,7 @@ export default defineComponent({
       guildCalendarList,
       otherCalendarList,
       onClickOutside,
+      onClickAddBtn,
     }
   }
 })

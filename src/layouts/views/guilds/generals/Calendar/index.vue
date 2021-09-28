@@ -4,10 +4,15 @@
   >
     <guild-calendar-view-sidebar />
     <div
-      class="tw-h-full md:tw-w-10/12 tw-w-full md:tw-block md:tw-border md: tw-p-2 tw-rounded-md md:tw-flex md:tw-flex-col"
+      class="tw-h-full tw-w-full md:tw-block md:tw-border md: tw-p-2 tw-rounded-md md:tw-flex md:tw-flex-col"
+      :class="{
+        'md:tw-w-full': !isOpenSidebar,
+        'md:tw-w-10/12': isOpenSidebar,
+      }"
     >
       <div
-        class="tw-flex-grow-0 tw-flex-shrink tw-flex"
+        v-if="isDisplayCalendarHeader"
+        class="tw-flex-grow-0 tw-flex-shrink tw-flex tw-mb-2"
       >
         <c-material-icon
           @click="onClickMenuBtn"
@@ -38,15 +43,19 @@ import CMaterialIcon from '@/components/commons/icons/Material/index.vue'
 import { GuildCalendarActionTypes } from '@/store/modules/guilds/generals/calendars/actions'
 import GuildCalendarViewSidebar from '@/components/sidebars/views/GuildCalendar/index.vue'
 import dayjs from 'dayjs'
+import { useRoute } from 'vue-router'
+import { RouterNameEnum } from '@/types/systems/routers/keys'
 
 export default defineComponent({
   name: 'GuildCalendarLayout',
   components: { GuildCalendarViewSidebar, CMaterialIcon },
   setup: () => {
     const store = useStore()
+    const route = useRoute()
 
     const isOpenLayoutSidebar = computed(() => store.state.guild.isOpenSideBar)
     const isOpenSidebar = computed(() => store.state.guildCalendar.isOpenSidebar)
+    const isDisplayCalendarHeader = computed(() => route.name === RouterNameEnum.GUILD_CALENDAR_MAIN)
     const tuiCalendar = computed(() => store.state.guildCalendar.tuiCalendar)
     const tuiCalendarDate = computed(() => store.state.guildCalendar.tuiCalendar ? dayjs(store.state.guildCalendar.tuiCalendar.getDate().toDate()).month() : '')
 
@@ -85,8 +94,9 @@ export default defineComponent({
     return {
       isOpenLayoutSidebar,
       isOpenSidebar,
-      onClickMenuBtn,
+      isDisplayCalendarHeader,
       tuiCalendarDate,
+      onClickMenuBtn,
     }
   }
 })
