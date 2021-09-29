@@ -1,4 +1,4 @@
-import { GuildCalendarAtCalendar } from '@/types/model/guilds/calendar'
+import { GuildCalendar, GuildCalendarAtCalendar } from '@/types/model/guilds/calendar'
 import TuiCalendar from 'tui-calendar'
 
 export interface GuildCalendarState {
@@ -8,6 +8,7 @@ export interface GuildCalendarState {
   otherCalendarList: Array<GuildCalendarAtCalendar>
   tuiCalendar: TuiCalendar | null
   prevClickedCellAtTuiCalendar: any // previous clicked cell
+  targetCalendar: GuildCalendar
 }
 
 export const guildCalendarState: GuildCalendarState = {
@@ -17,4 +18,5 @@ export const guildCalendarState: GuildCalendarState = {
   otherCalendarList: [],
   tuiCalendar: null,
   prevClickedCellAtTuiCalendar: null,
+  targetCalendar: {} as GuildCalendar
 }
