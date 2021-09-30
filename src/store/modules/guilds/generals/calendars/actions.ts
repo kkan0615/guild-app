@@ -218,6 +218,7 @@ export const guildCalendarActions: ActionTree<GuildCalendarState, RootState> & G
   },
   [GuildCalendarActionTypes.UPDATE_CALENDAR] (_, payload) {
     const calendarRes = dummyGuildCalendars.find(calendar => calendar.id === payload.id)
+    console.log('tst!', calendarRes, payload)
     if (calendarRes) {
       calendarRes.name = payload.name
       calendarRes.color = payload.color

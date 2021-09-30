@@ -12,6 +12,9 @@ module.exports = {
         'bs-danger': '#dc3545', // bootstrap 5 default coors
         'bs-light': '#f8f9fa', // bootstrap 5 default coors
         'bs-dark': '#212529', // bootstrap 5 default coors
+      },
+      fontSize: {
+        cxs: ['0.5rem', '1rem']
       }
     },
   },

@@ -23,7 +23,7 @@
       class="tw-my-2"
     />
     <div
-      class="tw-flex tw-flex-col tw-space-y-4"
+      class="tw-flex tw-flex-col tw-space-y-2 tw-text-sm"
     >
       <!--  My Calendars  -->
       <div>
@@ -33,7 +33,7 @@
           My calendars ({{ myCalendarList.length }})
         </div>
         <div
-          class="tw-pl-3"
+          class="tw-pl-2"
         >
           <b-form>
             <div
@@ -48,6 +48,9 @@
                 :color="myCalendar.color"
                 class="tw-mr-1"
               />
+              <guild-calendar-view-sidebar-calendar-dropdown
+                :calendar="myCalendar"
+              />
             </div>
           </b-form>
         </div>
@@ -60,7 +63,7 @@
           Guild Calendars ({{ guildCalendarList.length }})
         </div>
         <div
-          class="tw-pl-3"
+          class="tw-pl-2"
         >
           <b-form>
             <div
@@ -87,7 +90,7 @@
           Other Calendars ({{ otherCalendarList.length }})
         </div>
         <div
-          class="tw-pl-3"
+          class="tw-pl-2"
         >
           <b-form>
             <div
@@ -127,10 +130,12 @@ import { useRouter } from 'vue-router'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
 import { useI18n } from 'vue-i18n'
 import useToast from '@/mixins/useToast'
+import GuildCalendarViewSidebarCalendarDropdown
+  from '@/components/sidebars/views/GuildCalendar/components/CalendarDropdown.vue'
 
 export default defineComponent({
   name: 'GuildCalendarViewSidebar',
-  components: { CMaterialIcon, BForm, BCheckbox, CDivider },
+  components: { GuildCalendarViewSidebarCalendarDropdown, CMaterialIcon, BForm, BCheckbox, CDivider },
   setup: () => {
     const store = useStore()
     const router = useRouter()

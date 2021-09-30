@@ -3,6 +3,7 @@ import { RouterNameEnum } from '@/types/systems/routers/keys'
 import GeneralLayout from '@/layouts/guilds/General/index.vue'
 import { userGuildRoutes } from '@/router/modules/guild/generals/modules/user'
 import { calendarGuildRoutes } from '@/router/modules/guild/generals/modules/calendar'
+import { noticeGuildRoutes } from '@/router/modules/guild/generals/modules/notice'
 
 export const guildGeneralRoutes: Array<RouteRecordRaw> = [
   {
@@ -23,6 +24,7 @@ export const guildGeneralRoutes: Array<RouteRecordRaw> = [
       },
       ...userGuildRoutes,
       ...calendarGuildRoutes,
+      ...noticeGuildRoutes,
       {
         path: 'playground',
         name: 'Playground',

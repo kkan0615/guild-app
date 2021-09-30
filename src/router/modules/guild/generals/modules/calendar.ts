@@ -29,7 +29,7 @@ export const calendarGuildRoutes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: 'form/id/:id',
+        path: 'form/id/:calendarId',
         name: RouterNameEnum.GUILD_CALENDAR_UPDATE_FORM,
         component: () => import('@/views/guilds/generals/calendars/CalendarForm/index.vue'),
         meta: {

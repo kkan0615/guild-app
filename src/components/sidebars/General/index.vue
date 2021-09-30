@@ -11,16 +11,15 @@
     tw-left-0
     tw-flex
     tw-flex-col
-    bg-light
     tw-z-50
     tw-absolute
     tw-h-screen
     tw-overflow-auto
-    tw-w-2/3
-"
+    tw-w-2/3"
     :class="{
       'tw-hidden': !isOpenSidebar,
     }"
+    style="background-color: #5b73e8"
   >
     <img
       :src="logoSrc"
@@ -43,7 +42,7 @@
           :key="menu.id"
         >
           <single-menu
-            :active="menu.name === currentRouteName"
+            :active="menu.activeCondition ? menu.activeCondition() : menu.name === currentRouteName"
             :name="menu.name"
           >
             <sing-menu-icon>
@@ -140,6 +139,14 @@ export default defineComponent({
         icon: 'today',
         index: 1,
         title: 'Calendar'
+      },
+      {
+        id: v4(),
+        name: RouterNameEnum.GUILD_NOTICE_MAIN,
+        icon: 'notifications',
+        index: 1,
+        title: 'Notice',
+        activeCondition: () => route.name === RouterNameEnum.GUILD_NOTICE_MAIN
       },
     ]
 

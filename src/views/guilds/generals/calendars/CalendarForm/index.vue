@@ -179,7 +179,8 @@ const rules: RuleType<GuildCalendarCreateForm | GuildCalendarUpdateForm> = {
 }
 
 onMounted(async () => {
-  if (route.name === RouterNameEnum.GUILD_ADMIN_CALENDAR_UPDATE_FORM) {
+  console.log(route.name, route.name === RouterNameEnum.GUILD_CALENDAR_UPDATE_FORM)
+  if (route.name === RouterNameEnum.GUILD_CALENDAR_UPDATE_FORM) {
     const { calendarId } = route.params
     /* If update form, calendar id should be existed */
     if (calendarId) {
@@ -206,7 +207,8 @@ onBeforeUnmount(async () => {
 })
 
 const initData = () => {
-  if (route.name === RouterNameEnum.GUILD_ADMIN_CALENDAR_UPDATE_FORM) {
+  console.log(targetCalendar)
+  if (route.name === RouterNameEnum.GUILD_CALENDAR_UPDATE_FORM) {
     name.value = targetCalendar.value.name
     color.value = targetCalendar.value.color
     description.value = targetCalendar.value.description || ''
@@ -229,7 +231,7 @@ const onClickSaveBtn = async () => {
     /* should be validated */
     if (validated) {
       try {
-        if (route.name === RouterNameEnum.GUILD_ADMIN_CALENDAR_UPDATE_FORM) {
+        if (route.name === RouterNameEnum.GUILD_CALENDAR_UPDATE_FORM) {
           /* Update */
           await store.dispatch(GuildCalendarActionTypes.UPDATE_CALENDAR, {
             id: targetCalendar.value.id,
@@ -238,7 +240,8 @@ const onClickSaveBtn = async () => {
             description: description.value,
           })
           /* Redirect page */
-          await router.push({ name: RouterNameEnum.GUILD_ADMIN_CALENDAR_DETAIL, params: { calendarId: targetCalendar.value.id } })
+          await router.push({ name: RouterNameEnum.GUILD_CALENDAR_MAIN })
+          await store.dispatch(GuildCalendarActionTypes.LOAD_MY_CALENDAR_LIST)
           addToast({
             title: i18n.t('standardToastTitle.saved'),
             content: i18n.t('standardResult.updated'),

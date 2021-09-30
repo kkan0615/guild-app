@@ -16,7 +16,12 @@
       <div
         class="tw-flex-grow tw-flex-shrink-0 tw-h-1"
       >
-        <router-view />
+        <transition
+          name="fade"
+          mode="out-in"
+        >
+          <router-view />
+        </transition>
       </div>
     </div>
   </div>
