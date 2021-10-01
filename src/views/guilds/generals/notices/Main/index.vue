@@ -4,7 +4,9 @@
   >
     <!--  Header  -->
     <div>
-      123
+      <main-guild-notice-form>
+        add
+      </main-guild-notice-form>
     </div>
     MainGuildNotice
   </div>
@@ -20,6 +22,7 @@ export default {
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import useStore from '@/store'
 import { GuildNoticeActionTypes } from '@/store/modules/guilds/generals/notices/actions'
+import MainGuildNoticeForm from '@/views/guilds/generals/notices/Main/components/Form.vue'
 
 const store = useStore()
 

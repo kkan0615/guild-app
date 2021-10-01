@@ -42,7 +42,7 @@ export default {
 }
 </script>
 <script setup lang="ts">
-import type { defineProps, PropType } from 'vue'
+import type { PropType } from 'vue'
 import CMaterialIcon from '@/components/commons/icons/Material/index.vue'
 import { useRoute, useRouter } from 'vue-router'
 import useStore from '@/store'

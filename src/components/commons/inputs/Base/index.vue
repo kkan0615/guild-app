@@ -5,23 +5,26 @@
     <slot
       name="prepend"
     />
-    <input
-      :id="id"
-      ref="inputRef"
-      :type="type"
-      :readonly="readonly"
-      :disabled="disabled"
-      :placeholder="placeholder"
-      :list="list"
-      :value="modelValue"
-      class="form-control"
-      :class="{
-        'is-invalid': errorMessage,
-        'form-control-sm': size === 'sm',
-        'form-control-lg': size === 'lg',
-      }"
-      @input="onInput"
-    >
+    <slot>
+      <input
+        :id="id"
+        ref="inputRef"
+        :type="type"
+        :readonly="readonly"
+        :disabled="disabled"
+        :placeholder="placeholder"
+        :value="modelValue"
+        :min="min"
+        :max="max"
+        class="form-control"
+        :class="{
+          'is-invalid': errorMessage,
+          'form-control-sm': size === 'sm',
+          'form-control-lg': size === 'lg',
+        }"
+        @input="onInput"
+      >
+    </slot>
     <slot
       name="append"
     />
@@ -70,8 +73,13 @@ export default defineComponent({
       required: false,
       default: ''
     },
-    list: {
-      type: String,
+    min: {
+      type: [String, Number],
+      required: false,
+      default: ''
+    },
+    max: {
+      type: [String, Number],
       required: false,
       default: ''
     },
