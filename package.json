@@ -1,6 +1,6 @@
 {
   "name": "guild-app",
-  "version": "0.2.0c",
+  "version": "0.2.0d",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

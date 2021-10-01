@@ -21,6 +21,8 @@ import { GuildCalendarState } from '@/store/modules/guilds/generals/calendars/st
 import { guildCalendarModule, GuildCalendarStore } from '@/store/modules/guilds/generals/calendars'
 import { GuildAdminCalendarState } from '@/store/modules/guilds/admins/Calendar/state'
 import { guildAdminCalendarModule, GuildAdminCalendarStore } from '@/store/modules/guilds/admins/Calendar'
+import { GuildNoticeState } from '@/store/modules/guilds/generals/notices/state'
+import { guildNoticeModule, GuildNoticeStore } from '@/store/modules/guilds/generals/notices'
 
 // define your typings for the store state
 export interface RootState {
@@ -30,6 +32,7 @@ export interface RootState {
   guild: GuildState
   guildUser: GuildUserState
   guildCalendar: GuildCalendarState
+  guildNotice: GuildNoticeState
   guildAdminApp: GuildAdminAppState
   guildAdminUser: GuildAdminUserState
   guildAdminRole: GuildAdminRoleState
@@ -44,6 +47,7 @@ export type RootStore =
   GuildStore<Pick<RootState, 'guild'>> &
   GuildUserStore<Pick<RootState, 'guildUser'>> &
   GuildCalendarStore<Pick<RootState, 'guildCalendar'>> &
+  GuildNoticeStore<Pick<RootState, 'guildNotice'>> &
   GuildAdminAppStore<Pick<RootState, 'guildAdminApp'>> &
   GuildAdminUserStore<Pick<RootState, 'guildAdminUser'>> &
   GuildAdminRoleStore<Pick<RootState, 'guildAdminRole'>> &
@@ -64,6 +68,7 @@ export const store = createStore<RootState>({
     guild: guildModule,
     guildUser: guildUserModule,
     guildCalendar: guildCalendarModule,
+    guildNotice: guildNoticeModule,
     guildAdminApp: guildAdminAppModule,
     guildAdminUser: guildAdminUserModule,
     guildAdminRole: guildAdminRoleModule,
