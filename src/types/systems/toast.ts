@@ -1,6 +1,6 @@
 import { CustomDate } from '@/types/systems/date'
 
-export type ToastType = 'info' | 'success' | 'warn' | 'danger' | string
+export type ToastType = 'info' | 'success' | 'warning' | 'danger' | string
 
 /**
  *
@@ -11,6 +11,7 @@ export type ToastType = 'info' | 'success' | 'warn' | 'danger' | string
  * afterClose
  */
 export interface Toast {
+  id: string
   content: string
   type?: ToastType
   title?: string

@@ -4,6 +4,8 @@
     :class="{
       'material-icons': type === '',
       [`material-icons-${type}`]: type !== '',
+      'tw-cursor-pointer': !!click,
+      'tw-mr-2': left,
     }"
   >
     <slot />
@@ -21,6 +23,16 @@ export default defineComponent({
       required: false,
       default: '',
     },
+    click: {
+      type: Function,
+      required: false,
+      default: () => {},
+    },
+    left: {
+      type: Boolean,
+      required: false,
+      default: false,
+    }
   },
   setup: () => {
     return {

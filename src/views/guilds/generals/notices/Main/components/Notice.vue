@@ -25,7 +25,10 @@
             edit
           </c-material-icon>
         </main-guild-notice-form>
-        <c-material-icon>
+        <c-material-icon
+          class="tw-cursor-pointer"
+          @click="onClickDeleteBtn"
+        >
           delete
         </c-material-icon>
       </div>
@@ -57,6 +60,9 @@ import useStore from '@/store'
 import dayjs from 'dayjs'
 import CMaterialIcon from '@/components/commons/icons/Material/index.vue'
 import MainGuildNoticeForm from '@/views/guilds/generals/notices/Main/components/Form.vue'
+import { useI18n } from 'vue-i18n'
+import useToast from '@/mixins/useToast'
+import { GuildNoticeActionTypes } from '@/store/modules/guilds/generals/notices/actions'
 
 const props = defineProps({
   id: {
@@ -72,6 +78,8 @@ const props = defineProps({
 })
 
 const store = useStore()
+const i18n = useI18n()
+const { addToast } = useToast()
 
 const formattedEndDate = computed(() => {
   if (props.notice) {
@@ -84,5 +92,27 @@ const formattedEndDate = computed(() => {
     return ''
   }
 })
+
+const onClickDeleteBtn = async () => {
+  if (props.notice) {
+    try {
+      await store.dispatch(GuildNoticeActionTypes.DELETE_NOTICE, props.notice.id)
+      /* Reload */
+      await store.dispatch(GuildNoticeActionTypes.LOAD_NOTICE_LIST)
+      addToast({
+        title: i18n.t('standardToastTitle.saved'),
+        content: i18n.t('standardResult.updated'),
+        type: 'success',
+      })
+    } catch (e) {
+      console.error(e)
+      addToast({
+        title: i18n.t('standardToastTitle.failed'),
+        content: i18n.t('standardResult.failed'),
+        type: 'danger',
+      })
+    }
+  }
+}
 
 </script>

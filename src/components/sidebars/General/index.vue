@@ -51,13 +51,6 @@
             {{ menu.title }}
           </single-menu>
         </li>
-        <!--  Post  -->
-        <single-menu>
-          <sing-menu-icon>
-            library_books
-          </sing-menu-icon>
-          Post
-        </single-menu>
         <!--  Survey  -->
         <single-menu>
           <sing-menu-icon>
@@ -147,6 +140,14 @@ export default defineComponent({
         index: 1,
         title: 'Notice',
         activeCondition: () => route.name === RouterNameEnum.GUILD_NOTICE_MAIN
+      },
+      {
+        id: v4(),
+        name: RouterNameEnum.GUILD_POST_LAYOUT,
+        icon: 'library_books',
+        index: 1,
+        title: 'Post',
+        activeCondition: () => route.name === RouterNameEnum.GUILD_POST_MAIN
       },
     ]
 

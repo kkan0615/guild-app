@@ -15,24 +15,20 @@
         Total: {{ noticeList.length }}
       </div>
       <main-guild-notice-form>
-        <button
-          class="btn btn-primary"
+        <c-b-button
+          class="btn-primary"
         >
-          <span
-            class="tw-flex tw-items-center"
+          <c-material-icon
+            left
           >
-            <c-material-icon
-              class="tw-mr-2"
-            >
-              add
-            </c-material-icon>
-            Create Notice
-          </span>
-        </button>
+            add
+          </c-material-icon>
+          Create Notice
+        </c-b-button>
       </main-guild-notice-form>
     </div>
     <div
-      class="tw-mt-4 tw-grid md:tw-grid-cols-2 tw-gap-4"
+      class="tw-mt-4 container tw-grid md:tw-grid-cols-2 tw-gap-4"
     >
       <main-guild-notice-notice
         v-for="(notice, index) in noticeList"
@@ -61,6 +57,7 @@ import CMaterialIcon from '@/components/commons/icons/Material/index.vue'
 import CBaseHeader from '@/components/headers/Base/index.vue'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
 import { useI18n } from 'vue-i18n'
+import CBButton from '@/components/bootstraps/Button/index.vue'
 
 const store = useStore()
 const i18n = useI18n()

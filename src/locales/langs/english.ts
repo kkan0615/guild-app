@@ -84,6 +84,9 @@ export const englishDictionary = {
     [RouterNameEnum.GUILD_ADMIN_ROLE_CREATE_FORM]: {
       title: 'Create new role'
     },
+    [RouterNameEnum.GUILD_CALENDAR_LAYOUT]: {
+      title: 'Calendars'
+    },
     [RouterNameEnum.GUILD_ADMIN_CALENDAR_LAYOUT]: {
       title: 'Calendars'
     },
@@ -101,6 +104,12 @@ export const englishDictionary = {
     },
     [RouterNameEnum.GUILD_NOTICE_MAIN]: {
       title: 'Notice list'
+    },
+    [RouterNameEnum.GUILD_POST_LAYOUT]: {
+      title: 'Posts'
+    },
+    [RouterNameEnum.GUILD_POST_MAIN]: {
+      title: 'Posts'
     },
   },
   types: {

@@ -21,6 +21,9 @@ export const applicationMutations: MutationTree<ApplicationState> & ApplicationM
     state.toasts.push(payload)
   },
   [ApplicationMutationTypes.REMOVE_TOAST] (state, payload) {
-    state.toasts.splice(state.toasts.indexOf(payload), 1)
+    const foundIndex = state.toasts.findIndex(toast => toast.id === payload.id)
+    if (foundIndex >= 0) {
+      state.toasts.splice(foundIndex, 1)
+    }
   },
 }

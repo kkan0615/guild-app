@@ -39,12 +39,14 @@ import { ref, defineComponent, computed } from 'vue'
 import useStore from '@/store'
 import BBaseInput from '@/components/commons/inputs/Base/index.vue'
 import BTooltip from '@/components/bootstraps/Tooltip/index.vue'
+import useToast from '@/mixins/useToast'
 
 export default defineComponent({
   name: 'Prototype',
   components: { BTooltip, BBaseInput },
   setup: () => {
     const store = useStore()
+    const { addToast } = useToast()
 
     const message = ref('Hello world prototype')
     const field = ref('test ')
@@ -52,12 +54,11 @@ export default defineComponent({
     const count = computed(() => store.state.user.id)
 
     const onClickTestBtn = async () => {
-      console.log('onClickTestBtn')
-      const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-      const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new BTooltip(tooltipTriggerEl)
+      addToast({
+        title: 'test',
+        content: 'testing...',
+        type: 'warning',
       })
-      console.log(tooltipList)
     }
 
     const onClickTest2Btn = async () => {

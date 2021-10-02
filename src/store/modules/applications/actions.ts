@@ -3,6 +3,7 @@ import { RootState } from '@/store'
 import { ApplicationMutations, ApplicationMutationTypes } from '@/store/modules/applications/mutations'
 import { ApplicationState } from '@/store/modules/applications/state'
 import { Toast } from '@/types/systems/toast'
+import { v4 } from 'uuid'
 
 export enum ApplicationActionTypes {
   ADD_TOAST = 'application/ADD_TOAST',
@@ -29,9 +30,15 @@ export interface ApplicationActions {
 
 export const applicationActions: ActionTree<ApplicationState, RootState> & ApplicationActions = {
   [ApplicationActionTypes.ADD_TOAST] ({ commit }, payload) {
-    commit(ApplicationMutationTypes.ADD_TOAST, payload)
+    commit(ApplicationMutationTypes.ADD_TOAST, {
+      ...payload,
+      id: v4(),
+    })
   },
   [ApplicationActionTypes.REMOVE_TOAST] ({ commit }, payload) {
-    commit(ApplicationMutationTypes.REMOVE_TOAST, payload)
+    commit(ApplicationMutationTypes.REMOVE_TOAST, {
+      ...payload,
+      id: v4(),
+    })
   },
 }

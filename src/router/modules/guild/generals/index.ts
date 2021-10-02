@@ -4,6 +4,7 @@ import GeneralLayout from '@/layouts/guilds/General/index.vue'
 import { userGuildRoutes } from '@/router/modules/guild/generals/modules/user'
 import { calendarGuildRoutes } from '@/router/modules/guild/generals/modules/calendar'
 import { noticeGuildRoutes } from '@/router/modules/guild/generals/modules/notice'
+import { postGuildRoutes } from '@/router/modules/guild/generals/modules/post'
 
 export const guildGeneralRoutes: Array<RouteRecordRaw> = [
   {
@@ -25,6 +26,7 @@ export const guildGeneralRoutes: Array<RouteRecordRaw> = [
       ...userGuildRoutes,
       ...calendarGuildRoutes,
       ...noticeGuildRoutes,
+      ...postGuildRoutes,
       {
         path: 'playground',
         name: 'Playground',

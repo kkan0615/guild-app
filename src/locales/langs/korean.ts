@@ -87,6 +87,9 @@ export const koreanDictionary = {
     [RouterNameEnum.GUILD_ADMIN_CALENDAR_LAYOUT]: {
       title: '캘린더 관리'
     },
+    [RouterNameEnum.GUILD_CALENDAR_LAYOUT]: {
+      title: '캘린더'
+    },
     [RouterNameEnum.GUILD_ADMIN_CALENDAR_MAIN]: {
       title: '캘린더 리스트'
     },
@@ -101,6 +104,12 @@ export const koreanDictionary = {
     },
     [RouterNameEnum.GUILD_NOTICE_MAIN]: {
       title: '공지사항 목록'
+    },
+    [RouterNameEnum.GUILD_POST_LAYOUT]: {
+      title: '게시판'
+    },
+    [RouterNameEnum.GUILD_POST_MAIN]: {
+      title: '게시판 목록'
     },
   },
   types: {
