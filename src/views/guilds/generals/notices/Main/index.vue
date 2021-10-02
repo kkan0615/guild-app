@@ -7,24 +7,36 @@
       :breadcrumbs="breadcrumbs"
     />
     <div
-      class="tw-flex"
+      class="tw-flex tw-items-center"
     >
+      <div
+        class="tw-mr-auto"
+      >
+        Total: {{ noticeList.length }}
+      </div>
       <main-guild-notice-form>
-        <div
-          class="tw-flex tw-items-center"
+        <button
+          class="btn btn-primary"
         >
-          <c-material-icon
-            class="tw-mr-2"
+          <span
+            class="tw-flex tw-items-center"
           >
-            add
-          </c-material-icon>
-          Create Notice
-        </div>
+            <c-material-icon
+              class="tw-mr-2"
+            >
+              add
+            </c-material-icon>
+            Create Notice
+          </span>
+        </button>
       </main-guild-notice-form>
     </div>
-    <div>
+    <div
+      class="tw-mt-4 tw-grid md:tw-grid-cols-2 tw-gap-4"
+    >
       <main-guild-notice-notice
-        v-for="notice in noticeList"
+        v-for="(notice, index) in noticeList"
+        :id="`notice-update-form-${index}`"
         :key="notice.id"
         :notice="notice"
       />

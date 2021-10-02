@@ -1,14 +1,12 @@
 <template>
   <!-- Button trigger modal -->
-  <button
-    type="button"
-    class="btn btn-primary"
+  <div
     data-bs-toggle="modal"
     :data-bs-target="dataBsTarget"
     @click="onClickOpenBtn"
   >
     <slot />
-  </button>
+  </div>
 
   <!-- Modal -->
   <div
@@ -26,7 +24,7 @@
             id="exampleModalLabel"
             class="modal-title"
           >
-            {{ type === 'CREATE' ? $t('standards.actions.create') : $t('standards.actions.update') }}
+            {{ type === 'CREATE' ? $t('standards.actions.create') : $t('standards.actions.edit') }}
           </h5>
           <button
             type="button"
@@ -64,6 +62,47 @@
                   id="notice-content-textarea"
                   v-model="content"
                 />
+              </c-horizontal-view-content>
+            </c-horizontal-view>
+            <c-horizontal-view>
+              <c-horizontal-view-label
+                required
+              >
+                {{ $t('types.models.guilds.calendar.fields.color') }}
+              </c-horizontal-view-label>
+              <c-horizontal-view-content>
+                <c-multiple-select
+                  id="notice-name-input"
+                  v-model="color"
+                  :options="lightTextBgColors"
+                >
+                  <template
+                    #singlelabel="{ value }"
+                  >
+                    <div
+                      class="multiselect-single-label"
+                    >
+                      <span
+                        class="tw-w-4 tw-h-4 tw-mr-2 tw-rounded-full"
+                        :style="{
+                          'background-color': value,
+                        }"
+                      />
+                      {{ value }}
+                    </div>
+                  </template>
+                  <template
+                    #option="{ option }"
+                  >
+                    <span
+                      class="tw-w-4 tw-h-4 tw-mr-2 tw-rounded-full"
+                      :style="{
+                        'background-color': option.value,
+                      }"
+                    />
+                    {{ option.label }}
+                  </template>
+                </c-multiple-select>
               </c-horizontal-view-content>
             </c-horizontal-view>
             <c-horizontal-view>
@@ -141,6 +180,8 @@ import useToast from '@/mixins/useToast'
 import { GuildNoticeActionTypes } from '@/store/modules/guilds/generals/notices/actions'
 import { Modal as BModalRef } from 'bootstrap'
 import { useI18n } from 'vue-i18n'
+import CMultipleSelect from '@/components/commons/inputs/Tags/index.vue'
+import { lightTextBgColors } from '@/data/color'
 
 const props = defineProps({
   id: {
@@ -168,6 +209,7 @@ const bootstrapModalRef = ref<BModalRef>(undefined)
 const modalRef = ref<HTMLDivElement>(undefined)
 const title = ref('')
 const content = ref('')
+const color = ref('')
 const isFiniteEndDate = ref(true)
 const endDate = ref(dayjs().format(DATETIME_LOCAL_FORMAT))
 
@@ -176,7 +218,7 @@ const today = computed(() => dayjs().format(DATETIME_LOCAL_FORMAT))
 
 onMounted(() => {
   if (!bootstrapModalRef.value && modalRef.value) {
-    bootstrapModalRef.value = new BModalRef(modalRef.value)
+    bootstrapModalRef.value = new BModalRef(modalRef.value as HTMLDivElement)
     modalRef.value.addEventListener('hide.bs.modal', onHideModal)
   }
 })
@@ -191,13 +233,22 @@ onBeforeUnmount(() => {
 const initData = () => {
   if (props.notice) {
     title.value = props.notice.title
-    content.value = props.notice.content
+    content.value = props.notice.content || ''
+    color.value = props.notice.color
+    endDate.value = dayjs(props.notice.endDate).format(DATETIME_LOCAL_FORMAT)
+    if (!props.notice.endDate) {
+      isFiniteEndDate.value = true
+    } else {
+      isFiniteEndDate.value = false
+    }
   }
 }
 
 const resetData = () => {
   title.value = ''
   content.value = ''
+  color.value = ''
+  isFiniteEndDate.value = true
   endDate.value = dayjs().format(DATETIME_LOCAL_FORMAT)
 }
 
@@ -208,7 +259,8 @@ const onClickSaveBtn = async () => {
     const payload: GuildNoticeCreatForm = {
       title: title.value,
       content: content.value,
-      endDate: isFiniteEndDate.value ? endDate.value : undefined,
+      color: color.value,
+      endDate: isFiniteEndDate.value ? undefined  : endDate.value,
     }
 
     try {
@@ -235,7 +287,8 @@ const onClickSaveBtn = async () => {
         id: props.notice.id,
         title: title.value,
         content: content.value,
-        endDate: isFiniteEndDate.value ? endDate.value : undefined,
+        color: color.value,
+        endDate: isFiniteEndDate.value ? undefined  : endDate.value,
       }
 
       try {
@@ -263,12 +316,13 @@ const onClickSaveBtn = async () => {
   /* After it's success */
   if (isSuccess) {
     try {
+      if (bootstrapModalRef.value) {
+        bootstrapModalRef.value.toggle()
+      }
       await store.dispatch(GuildNoticeActionTypes.LOAD_NOTICE_LIST)
     } catch (e) {
       console.error(e)
     }
-    if (bootstrapModalRef.value)
-      bootstrapModalRef.value.toggle()
   }
 }
 

@@ -48,7 +48,13 @@ export const guildNoticeActions: ActionTree<GuildNoticeState, RootState> & Guild
   [GuildNoticeActionTypes.LOAD_NOTICE_LIST] ({ commit, rootState }) {
     const guildNoticesRes = dummyGuildNotices.filter(guildNotice =>
       guildNotice.guildId === rootState.guild.guildInfo.id
-      && !guildNotice.deletedAt)
+      && (!guildNotice.endDate || dayjs(guildNotice.endDate).isAfter(dayjs()) || dayjs(guildNotice.endDate).isSame(dayjs()))
+      && !guildNotice.deletedAt).sort((a, b) => {
+      if (!a.endDate || b.endDate) {
+        return -1
+      }
+      return dayjs(a.endDate).diff(b.endDate)
+    })
     commit(GuildNoticeMutationTypes.SET_NOTICE_LIST, guildNoticesRes)
   },
   [GuildNoticeActionTypes.RESET_NOTICE_LIST] ({ commit }) {
@@ -60,6 +66,7 @@ export const guildNoticeActions: ActionTree<GuildNoticeState, RootState> & Guild
     dummyGuildNotices.push({
       id: newGuildNoticeId,
       guildId: rootState.guild.guildInfo.id,
+      color: payload.color,
       title: payload.title,
       content: payload.content,
       endDate: payload.endDate ? dayjs(payload.endDate).toISOString() : undefined,
@@ -72,8 +79,10 @@ export const guildNoticeActions: ActionTree<GuildNoticeState, RootState> & Guild
   [GuildNoticeActionTypes.UPDATE_NOTICE] (_, payload) {
     const guildNoticeRes = dummyGuildNotices.find(guildNotice => guildNotice.id === payload.id)
     if (guildNoticeRes) {
+      console.log(payload)
       guildNoticeRes.title = payload.title
       guildNoticeRes.content = payload.content
+      guildNoticeRes.color = payload.color
       guildNoticeRes.endDate = payload.endDate ? dayjs(payload.endDate).toISOString() : undefined
       guildNoticeRes.updatedAt = dayjs().toISOString()
     } else {
