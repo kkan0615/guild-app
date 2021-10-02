@@ -41,7 +41,7 @@ export default defineComponent({
 
     const initTooltip = () => {
       if (tooltipRef.value) {
-        bTooltip.value = new BTooltip(tooltipRef.value)
+        bTooltip.value = new BTooltip(tooltipRef.value as HTMLDivElement)
       }
     }
 

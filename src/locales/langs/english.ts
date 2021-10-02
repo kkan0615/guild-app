@@ -4,6 +4,15 @@ export const englishDictionary = {
   message: {
     hello: 'hello world'
   },
+  standards: {
+    actions: {
+      save: 'save',
+      create: 'create',
+      edit: 'edit',
+      cancel: 'cancel',
+      delete: 'delete',
+    }
+  },
   standardRules: {
     required: '{field} is required',
     maxLength: 'length should be under {length}'
@@ -39,7 +48,7 @@ export const englishDictionary = {
     GeneralLayout: {
       title: 'Guild layout'
     },
-    Guild_Home: {
+    [RouterNameEnum.GUILD_HOME]: {
       title: 'Home'
     },
     GuildAdminLayout: {
@@ -87,6 +96,9 @@ export const englishDictionary = {
     [RouterNameEnum.GUILD_ADMIN_CALENDAR_UPDATE_FORM]: {
       title: 'Edit the calendar'
     },
+    [RouterNameEnum.GUILD_NOTICE_MAIN]: {
+      title: 'Notice list'
+    },
   },
   types: {
     models: {
@@ -125,11 +137,21 @@ export const englishDictionary = {
         }, // user end
         calendar: {
           fields: {
-            name: '캘린더명',
-            color: '색상',
-            description: '비고',
-          } // fields end
-        } // calendar end
+            name: 'name',
+            color: 'color',
+            description: 'description',
+          }, // fields end
+        }, // calendar end
+        notice: {
+          fields: {
+            title: 'title',
+            content: 'content',
+            endDate: 'endDate',
+          }, // fields end
+          forms: {
+            isFiniteEndDate: 'Infinite',
+          }, // forms ends
+        }, // notice ends
       }, // guilds end
     } // model end
   }, // types end

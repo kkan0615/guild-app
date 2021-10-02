@@ -35,7 +35,6 @@
 
 <script lang="ts">
 import { ref, defineComponent, computed } from 'vue'
-import { Tooltip as BTooltip } from 'bootstrap'
 
 import useStore from '@/store'
 import BBaseInput from '@/components/commons/inputs/Base/index.vue'

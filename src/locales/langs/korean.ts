@@ -4,6 +4,15 @@ export const koreanDictionary = {
   message: {
     hello: '세계야 반가워!'
   },
+  standards: {
+    actions: {
+      save: '저장',
+      create: '생성',
+      edit: '수정',
+      cancel: '취소',
+      delete: '삭제',
+    }
+  },
   standardRules: {
     required: '필수 값 {field} 입력해주세요.',
     maxLength: '{length}자를 넘을 수 없습니다.'
@@ -39,7 +48,7 @@ export const koreanDictionary = {
     GeneralLayout: {
       title: '길드 레이아웃'
     },
-    Guild_Home: {
+    [RouterNameEnum.GUILD_HOME]: {
       title: '길드 홈'
     },
     GuildAdminLayout: {
@@ -87,6 +96,9 @@ export const koreanDictionary = {
     [RouterNameEnum.GUILD_ADMIN_CALENDAR_UPDATE_FORM]: {
       title: '캘린더 수정'
     },
+    [RouterNameEnum.GUILD_NOTICE_MAIN]: {
+      title: '공지사항 목록'
+    },
   },
   types: {
     models: {
@@ -129,7 +141,17 @@ export const koreanDictionary = {
             color: '색상',
             description: '비고',
           } // fields end
-        } // calendar end
+        }, // calendar end
+        notice: {
+          fields: {
+            title: '제목',
+            content: '내용',
+            endDate: '종료일',
+          }, // fields end
+          forms: {
+            isFiniteEndDate: '무제한',
+          } // forms end
+        } // notice ends
       }, // guilds end
     }, // model end
   }, // types end

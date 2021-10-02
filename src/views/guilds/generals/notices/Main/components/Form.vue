@@ -5,6 +5,7 @@
     class="btn btn-primary"
     data-bs-toggle="modal"
     :data-bs-target="dataBsTarget"
+    @click="onClickOpenBtn"
   >
     <slot />
   </button>
@@ -12,6 +13,7 @@
   <!-- Modal -->
   <div
     :id="id"
+    ref="modalRef"
     class="modal fade"
     tabindex="-1"
     aria-labelledby="create-form-modal"
@@ -24,7 +26,7 @@
             id="exampleModalLabel"
             class="modal-title"
           >
-            Modal title
+            {{ type === 'CREATE' ? $t('standards.actions.create') : $t('standards.actions.update') }}
           </h5>
           <button
             type="button"
@@ -39,25 +41,28 @@
               <c-horizontal-view-label
                 required
               >
-                title
+                {{ $t('types.models.guilds.notice.fields.title') }}
               </c-horizontal-view-label>
               <c-horizontal-view-content>
                 <b-base-input
                   id="notice-title-input"
+                  v-model="title"
                 />
               </c-horizontal-view-content>
             </c-horizontal-view>
             <c-horizontal-view>
-              <c-horizontal-view-label
-                required
-              >
-                content
+              <c-horizontal-view-label>
+                {{ $t('types.models.guilds.notice.fields.content') }}
               </c-horizontal-view-label>
               <c-horizontal-view-content>
-                <c-base-tiptap
-                  id="notice-content-input"
+                <!--                <c-base-tiptap-->
+                <!--                  id="notice-content-input"-->
+                <!--                  v-model="content"-->
+                <!--                  class="tw-h-56"-->
+                <!--                />-->
+                <b-textarea
+                  id="notice-content-textarea"
                   v-model="content"
-                  class="tw-h-56"
                 />
               </c-horizontal-view-content>
             </c-horizontal-view>
@@ -77,7 +82,7 @@
               <c-horizontal-view-label
                 required
               >
-                endDate
+                {{ $t('types.models.guilds.notice.fields.endDate') }}
               </c-horizontal-view-label>
               <c-horizontal-view-content>
                 <b-base-input
@@ -118,17 +123,24 @@ export default {
 }
 </script>
 <script setup lang="ts">
-import { computed, defineProps, ref } from 'vue'
+import type { GuildNotice, GuildNoticeCreatForm, GuildNoticeUpdateForm } from '@/types/model/guilds/notice'
+import type { PropType } from 'vue'
+import { computed, defineProps, onBeforeUnmount, onMounted, ref } from 'vue'
 import BForm from '@/components/commons/Form/index.vue'
 import CHorizontalView from '@/components/commons/HorizontalView/index.vue'
 import CHorizontalViewLabel from '@/components/commons/HorizontalView/components/Label.vue'
 import CHorizontalViewContent from '@/components/commons/HorizontalView/components/Content.vue'
 import BBaseInput from '@/components/commons/inputs/Base/index.vue'
-import { v4 } from 'uuid'
 import dayjs from 'dayjs'
 import { DATETIME_LOCAL_FORMAT } from '@/types/systems/date'
 import BCheckbox from '@/components/commons/inputs/Checkbox/index.vue'
 import CBaseTiptap from '@/components/commons/inputs/tiptaps/Base/index.vue'
+import BTextarea from '@/components/commons/inputs/Textarea/index.vue'
+import useStore from '@/store'
+import useToast from '@/mixins/useToast'
+import { GuildNoticeActionTypes } from '@/store/modules/guilds/generals/notices/actions'
+import { Modal as BModalRef } from 'bootstrap'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   id: {
@@ -136,20 +148,136 @@ const props = defineProps({
     required: false,
     default: 'create-form-modal',
   },
+  notice: {
+    type: Object as PropType<GuildNotice>,
+    required: false,
+    default: () => {}
+  },
+  type: {
+    type: String as PropType<'CREATE' | 'UPDATE'>,
+    required: false,
+    default: 'CREATE'
+  },
 })
 
+const store = useStore()
+const i18n = useI18n()
+const { addToast } = useToast()
+
+const bootstrapModalRef = ref<BModalRef>(undefined)
+const modalRef = ref<HTMLDivElement>(undefined)
 const title = ref('')
 const content = ref('')
-const isFiniteEndDate = ref(false)
+const isFiniteEndDate = ref(true)
 const endDate = ref(dayjs().format(DATETIME_LOCAL_FORMAT))
 
 const dataBsTarget = computed(() => `#${props.id}`)
 const today = computed(() => dayjs().format(DATETIME_LOCAL_FORMAT))
 
-const onClickSaveBtn = () => {
-  console.log('content', content.value)
-  console.log(endDate.value)
-  console.log('today', today.value)
+onMounted(() => {
+  if (!bootstrapModalRef.value && modalRef.value) {
+    bootstrapModalRef.value = new BModalRef(modalRef.value)
+    modalRef.value.addEventListener('hide.bs.modal', onHideModal)
+  }
+})
+
+onBeforeUnmount(() => {
+  if (bootstrapModalRef.value && modalRef.value) {
+    bootstrapModalRef.value.dispose()
+    modalRef.value.removeEventListener('hide.bs.modal', onHideModal)
+  }
+})
+
+const initData = () => {
+  if (props.notice) {
+    title.value = props.notice.title
+    content.value = props.notice.content
+  }
+}
+
+const resetData = () => {
+  title.value = ''
+  content.value = ''
+  endDate.value = dayjs().format(DATETIME_LOCAL_FORMAT)
+}
+
+const onClickSaveBtn = async () => {
+  let isSuccess = false
+  /* If this form is for create */
+  if (props.type === 'CREATE') {
+    const payload: GuildNoticeCreatForm = {
+      title: title.value,
+      content: content.value,
+      endDate: isFiniteEndDate.value ? endDate.value : undefined,
+    }
+
+    try {
+      await store.dispatch(GuildNoticeActionTypes.CREATE_NOTICE, payload)
+      addToast({
+        title: i18n.t('standardToastTitle.saved'),
+        content: i18n.t('standardResult.created'),
+        type: 'success',
+      })
+
+      isSuccess = true
+    } catch (e) {
+      console.error(e)
+      addToast({
+        title: i18n.t('standardToastTitle.failed'),
+        content: i18n.t('standardResult.failed'),
+        type: 'danger',
+      })
+    }
+  } else {
+    /* Id should be existed */
+    if (props.notice && props.notice.id) {
+      const payload: GuildNoticeUpdateForm = {
+        id: props.notice.id,
+        title: title.value,
+        content: content.value,
+        endDate: isFiniteEndDate.value ? endDate.value : undefined,
+      }
+
+      try {
+        await store.dispatch(GuildNoticeActionTypes.UPDATE_NOTICE, payload)
+        addToast({
+          title: i18n.t('standardToastTitle.saved'),
+          content: i18n.t('standardResult.updated'),
+          type: 'success',
+        })
+
+        isSuccess = true
+      } catch (e) {
+        console.error(e)
+        addToast({
+          title: i18n.t('standardToastTitle.failed'),
+          content: i18n.t('standardResult.failed'),
+          type: 'danger',
+        })
+      }
+    } else {
+      console.error('error')
+    }
+  }
+
+  /* After it's success */
+  if (isSuccess) {
+    try {
+      await store.dispatch(GuildNoticeActionTypes.LOAD_NOTICE_LIST)
+    } catch (e) {
+      console.error(e)
+    }
+    if (bootstrapModalRef.value)
+      bootstrapModalRef.value.toggle()
+  }
+}
+
+const onClickOpenBtn = () => {
+  initData()
+}
+
+const onHideModal = () => {
+  resetData()
 }
 
 </script>
