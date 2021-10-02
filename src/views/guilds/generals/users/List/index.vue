@@ -8,36 +8,10 @@
     <div
       v-else
     >
-      <div
-        class="tw-flex tw-items-center"
-      >
-        <div
-          class="tw-text-lg tw-font-bold"
-        >
-          Users
-        </div>
-        <div
-          class="tw-ml-auto"
-        >
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item">
-                <router-link
-                  :to="{ name: RouterNameEnum.GUILD_HOME}"
-                >
-                  Home
-                </router-link>
-              </li>
-              <li
-                class="breadcrumb-item active"
-                aria-current="page"
-              >
-                Users
-              </li>
-            </ol>
-          </nav>
-        </div>
-      </div>
+      <c-base-header
+        :page-name="$t(`router.${RouterNameEnum.GUILD_USER_LIST}.title`)"
+        :breadcrumbs="breadcrumbs"
+      />
       <div
         class="tw-flex tw-items-center tw-mb-4"
       >
@@ -66,6 +40,7 @@
 </template>
 
 <script lang="ts">
+import type { CBBreadcrumb } from '@/components/bootstraps/Breadcrumb/types'
 import { ref, defineComponent, onMounted, onBeforeUnmount, computed } from 'vue'
 import useStore from '@/store'
 import { GuildUserActionTypes } from '@/store/modules/guilds/generals/users/actions'
@@ -73,14 +48,30 @@ import CFullLoading from '@/components/commons/loadings/Full/index.vue'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
 import GuildUserListFilter from '@/views/guilds/generals/users/List/components/Filter.vue'
 import GuildUserListUserCard from '@/views/guilds/generals/users/List/components/UserCard.vue'
+import { useI18n } from 'vue-i18n'
+import CBaseHeader from '@/components/headers/Base/index.vue'
 
 export default defineComponent({
   name: 'GuildUserList',
-  components: { GuildUserListUserCard, GuildUserListFilter, CFullLoading },
+  components: { CBaseHeader, GuildUserListUserCard, GuildUserListFilter, CFullLoading },
   setup: () => {
     const store = useStore()
+    const i18n = useI18n()
 
     const fullLoading = ref(true)
+    /* Breadcrumbs data */
+    const breadcrumbs = ref<Array<CBBreadcrumb>>([
+      {
+        name: i18n.t(`router.${RouterNameEnum.GUILD_HOME}.title`),
+        routerName: RouterNameEnum.GUILD_HOME,
+        active: true,
+      },
+      {
+        name: i18n.t(`router.${RouterNameEnum.GUILD_USER_LIST}.title`),
+        routerName: RouterNameEnum.GUILD_NOTICE_MAIN,
+        active: false,
+      },
+    ])
 
     const userList = computed(() => store.state.guildUser.userList)
 
@@ -109,6 +100,7 @@ export default defineComponent({
     return {
       fullLoading,
       userList,
+      breadcrumbs,
       RouterNameEnum,
     }
   }

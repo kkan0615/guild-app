@@ -53,6 +53,7 @@ import { useI18n } from 'vue-i18n'
 const store = useStore()
 const i18n = useI18n()
 
+/* Breadcrumbs data */
 const breadcrumbs = ref<Array<CBBreadcrumb>>([
   {
     name: i18n.t(`router.${RouterNameEnum.GUILD_HOME}.title`),

@@ -96,6 +96,9 @@ export const englishDictionary = {
     [RouterNameEnum.GUILD_ADMIN_CALENDAR_UPDATE_FORM]: {
       title: 'Edit the calendar'
     },
+    [RouterNameEnum.GUILD_USER_LIST]: {
+      title: 'User list'
+    },
     [RouterNameEnum.GUILD_NOTICE_MAIN]: {
       title: 'Notice list'
     },

@@ -96,6 +96,9 @@ export const koreanDictionary = {
     [RouterNameEnum.GUILD_ADMIN_CALENDAR_UPDATE_FORM]: {
       title: '캘린더 수정'
     },
+    [RouterNameEnum.GUILD_USER_LIST]: {
+      title: '유저 목록'
+    },
     [RouterNameEnum.GUILD_NOTICE_MAIN]: {
       title: '공지사항 목록'
     },
