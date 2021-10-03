@@ -10,7 +10,20 @@
     <div
       class="tw-flex-grow tw-flex-shrink-0 tw-h-1"
     >
-      <router-view />
+      <div
+        class="tw-h-full md:tw-flex md:tw-space-x-4"
+      >
+        <div
+          class="tw-h-full"
+        >
+          sidebar
+        </div>
+        <div
+          class="tw-h-full"
+        >
+          <router-view />
+        </div>
+      </div>
     </div>
   </div>
 </template>
