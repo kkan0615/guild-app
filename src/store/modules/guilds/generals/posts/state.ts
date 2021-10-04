@@ -14,7 +14,7 @@ export interface GuildPostState {
 }
 
 export const guildPostState: GuildPostState = {
-  isOpenSidebar: false,
+  isOpenSidebar: true,
   boardsWithGroups: [],
   currentPostBoard: {} as GuildPostBoardInfo,
   postListAtMain: [],
