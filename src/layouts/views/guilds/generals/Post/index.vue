@@ -30,6 +30,11 @@
         >
           <router-view />
         </div>
+        <div
+          class="tw-w-56 tw-border tw-invisible md:tw-visible tw-p-2"
+        >
+          right
+        </div>
       </div>
     </div>
   </div>
@@ -43,7 +48,7 @@ export default {
 </script>
 <script setup lang="ts">
 import type { CBBreadcrumb } from '@/components/bootstraps/Breadcrumb/types'
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import CBaseHeader from '@/components/headers/Base/index.vue'
 import { useI18n } from 'vue-i18n'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
@@ -70,6 +75,22 @@ const breadcrumbs = ref<Array<CBBreadcrumb>>([
 ])
 
 const isOpenSidebar = computed(() => store.state.guildPost.isOpenSidebar)
+
+onMounted(async () => {
+  try {
+    await store.dispatch(GuildPostActionTypes.LOAD_BOARDS_WITH_GROUPS)
+  } catch (e) {
+    console.error(e)
+  }
+})
+
+onBeforeUnmount(async () => {
+  try {
+    await store.dispatch(GuildPostActionTypes.RESET_BOARDS_WITH_GROUPS)
+  } catch (e) {
+    console.error(e)
+  }
+})
 
 const onClickMenuBtn = async () => {
   try {

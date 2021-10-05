@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    class="tw-font-semibold"
+  >
     <slot
       name="label"
     >

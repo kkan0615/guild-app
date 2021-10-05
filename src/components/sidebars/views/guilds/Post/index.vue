@@ -1,22 +1,33 @@
 <template>
   <div
     v-if="isOpenSidebar"
-    class="md:tw-static md:tw-visible md:tw-bg-none md:tw-w-72 md:tw-block md:tw-border md:tw-overflow-auto tw-absolute tw-rounded-md tw-h-full tw-w-2/3 tw-z-10  p-2 tw-overflow-y-scroll"
+    class="md:tw-static md:tw-visible md:tw-bg-none md:tw-w-72 md:tw-block md:tw-border md:tw-overflow-auto tw-absolute tw-rounded-md tw-h-full tw-w-2/3 tw-z-10 p-2 tw-overflow-y-scroll"
     :class="{
       'tw-invisible':isOpenLayoutSidebar,
       'tw-bg-white': !isOpenLayoutSidebar,
     }"
   >
-    <c-list-group
-      label="border group name"
+    <div
+      class="tw-flex tw-flex-col tw-space-y-4"
     >
-      <div
-        v-for="i in 10"
-        :key="i"
+      <c-list-group
+        v-for="boardsWithGroup in boardsWithGroups"
+        :key="boardsWithGroup.id"
+        :label="boardsWithGroup.name"
       >
-        post borders {{ i }}
-      </div>
-    </c-list-group>
+        <ul
+          class="tw-space-y-2 tw-divide-gray-400 tw-divide-y"
+        >
+          <li
+            v-for="PostBoard in boardsWithGroup.PostBoards"
+            :key="PostBoard.id"
+            class="tw-font-normal tw-text-sm"
+          >
+            {{ PostBoard.name }}
+          </li>
+        </ul>
+      </c-list-group>
+    </div>
   </div>
   <div
     v-if="isOpenSidebar"
@@ -32,7 +43,7 @@ export default {
 }
 </script>
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import useStore from '@/store'
 import { GuildPostActionTypes } from '@/store/modules/guilds/generals/posts/actions'
 import CListGroup from '@/components/commons/groups/List/index.vue'
@@ -41,6 +52,8 @@ const store = useStore()
 
 const isOpenSidebar = computed(() => store.state.guildPost.isOpenSidebar)
 const isOpenLayoutSidebar = computed(() => store.state.guild.isOpenSideBar)
+const boardsWithGroups = computed(() => store.state.guildPost.boardsWithGroups)
+
 
 const onClickOutside = async () => {
   try {

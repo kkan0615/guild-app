@@ -2,7 +2,8 @@ import { ActionContext, ActionTree } from 'vuex'
 import { RootState } from '@/store'
 import { GuildPostMutations, GuildPostMutationTypes } from './mutations'
 import { GuildPostState } from './state'
-import { GuildPostBoardInfo, GuildPostInfo } from '@/types/model/guilds/post'
+import { GuildPostBoardGroupWithBoards, GuildPostBoardInfo, GuildPostInfo } from '@/types/model/guilds/post'
+import { dummyGuildPostBoardGroups, dummyGuildPostBoards } from '@/dummy/guilds/post'
 
 export enum GuildPostActionTypes {
   OPEN_SIDE_BAR = 'guildPost/OPEN_SIDE_BAR',
@@ -13,8 +14,12 @@ export enum GuildPostActionTypes {
   RESET_CURRENT_BOARD = 'guildPost/RESET_CURRENT_BOARD',
   LOAD_POST_LIST_AT_MAIN = 'guildPost/LOAD_POST_LIST_AT_MAIN',
   RESET_POST_LIST_AT_MAIN = 'guildPost/RESET_POST_LIST_AT_MAIN',
+  LOAD_RECENT_NEWS_LIST_AT_MAIN = 'guildPost/LOAD_RECENT_NEWS_LIST_AT_MAIN',
+  RESET_RECENT_NEWS_LIST_AT_MAIN = 'guildPost/RESET_RECENT_NEWS_LIST_AT_MAIN',
   LOAD_POST_LIST_BY_BOARD_ID = 'guildPost/LOAD_POST_LIST_BY_BOARD_ID',
   RESET_POST_LIST_BY_BOARD_ID = 'guildPost/RESET_POST_LIST_BY_BOARD_ID',
+  LOAD_RECENT_NEWS_LIST_BY_BOARD = 'guildPost/LOAD_RECENT_NEWS_LIST_BY_BOARD',
+  RESET_RECENT_NEWS_LIST_BY_BOARD = 'guildPost/RESET_RECENT_NEWS_LIST_BY_BOARD',
   LOAD_CURRENT_POST = 'guildPost/LOAD_CURRENT_POST',
   RESET_CURRENT_POST = 'guildPost/RESET_CURRENT_POST',
 }
@@ -57,6 +62,12 @@ export interface GuildPostActions {
   [GuildPostActionTypes.RESET_POST_LIST_AT_MAIN](
     { commit }: AugmentedActionContext,
   ): void
+  [GuildPostActionTypes.LOAD_RECENT_NEWS_LIST_AT_MAIN](
+    { commit }: AugmentedActionContext,
+  ): void
+  [GuildPostActionTypes.RESET_RECENT_NEWS_LIST_AT_MAIN](
+    { commit }: AugmentedActionContext,
+  ): void
 
   /**
    * Load post list by board id
@@ -71,6 +82,12 @@ export interface GuildPostActions {
    * @param commit
    */
   [GuildPostActionTypes.RESET_POST_LIST_BY_BOARD_ID](
+    { commit }: AugmentedActionContext,
+  ): void
+  [GuildPostActionTypes.LOAD_RECENT_NEWS_LIST_BY_BOARD](
+    { commit }: AugmentedActionContext,
+  ): void
+  [GuildPostActionTypes.RESET_RECENT_NEWS_LIST_BY_BOARD](
     { commit }: AugmentedActionContext,
   ): void
   [GuildPostActionTypes.LOAD_CURRENT_POST](
@@ -89,8 +106,19 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
   [GuildPostActionTypes.CLOSE_SIDE_BAR] ({ commit }) {
     commit(GuildPostMutationTypes.SET_IS_OPEN_SIDEBAR, false)
   },
-  [GuildPostActionTypes.LOAD_BOARDS_WITH_GROUPS] ({ commit }) {
-    commit(GuildPostMutationTypes.SET_POST_BOARDS_WITH_GROUPS, [])
+  [GuildPostActionTypes.LOAD_BOARDS_WITH_GROUPS] ({ commit, rootState }) {
+    const postBoardsWithGroupsRes: Array<GuildPostBoardGroupWithBoards> = dummyGuildPostBoardGroups.filter((postBoardGroup => {
+      return postBoardGroup.guildId === rootState.guild.guildInfo.id
+      && !postBoardGroup.deletedAt
+    })).map(postBoardGroup => {
+      return {
+        ...postBoardGroup,
+        PostBoards: dummyGuildPostBoards.filter(guildPostBoard => guildPostBoard.postBoardGroupId === postBoardGroup.id)
+      }
+    })
+
+    console.log(postBoardsWithGroupsRes)
+    commit(GuildPostMutationTypes.SET_POST_BOARDS_WITH_GROUPS, postBoardsWithGroupsRes)
   },
   [GuildPostActionTypes.RESET_BOARDS_WITH_GROUPS] ({ commit }) {
     commit(GuildPostMutationTypes.SET_POST_BOARDS_WITH_GROUPS, [])
@@ -107,11 +135,23 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
   [GuildPostActionTypes.RESET_POST_LIST_AT_MAIN] ({ commit }) {
     commit(GuildPostMutationTypes.SET_POST_LIST_AT_MAIN, [])
   },
+  [GuildPostActionTypes.LOAD_RECENT_NEWS_LIST_AT_MAIN] ({ commit }) {
+    commit(GuildPostMutationTypes.SET_RECENT_NEWS_LIST_AT_MAIN, [])
+  },
+  [GuildPostActionTypes.RESET_RECENT_NEWS_LIST_AT_MAIN] ({ commit }) {
+    commit(GuildPostMutationTypes.SET_RECENT_NEWS_LIST_AT_MAIN, [])
+  },
   [GuildPostActionTypes.LOAD_POST_LIST_BY_BOARD_ID] ({ commit }) {
     commit(GuildPostMutationTypes.SET_POST_LIST_BY_BOARD, [])
   },
   [GuildPostActionTypes.RESET_POST_LIST_BY_BOARD_ID] ({ commit }) {
     commit(GuildPostMutationTypes.SET_POST_LIST_BY_BOARD, [])
+  },
+  [GuildPostActionTypes.LOAD_RECENT_NEWS_LIST_BY_BOARD] ({ commit }) {
+    commit(GuildPostMutationTypes.SET_RECENT_NEWS_LIST_AT_MAIN, [])
+  },
+  [GuildPostActionTypes.RESET_RECENT_NEWS_LIST_BY_BOARD] ({ commit }) {
+    commit(GuildPostMutationTypes.SET_RECENT_NEWS_LIST_AT_MAIN, [])
   },
   [GuildPostActionTypes.LOAD_CURRENT_POST] ({ commit }) {
     commit(GuildPostMutationTypes.SET_CURRENT_POST, {} as GuildPostInfo)
