@@ -1,14 +1,14 @@
 import {
   GuildPostBoardGroupWithBoards,
   GuildPostBoardInfo,
-  GuildPostInfo
+  GuildPostInfo, GuildPostInfoAtMain
 } from '@/types/model/guilds/post'
 
 export interface GuildPostState {
   isOpenSidebar: boolean
   boardsWithGroups: Array<GuildPostBoardGroupWithBoards>
   currentPostBoard: GuildPostBoardInfo
-  postListAtMain: Array<GuildPostInfo>
+  postListAtMain: Array<GuildPostInfoAtMain>
   recentNewsListAtMain: Array<GuildPostInfo>
   postListByBoard: Array<GuildPostInfo>
   recentNewsListByBoard: Array<GuildPostInfo>

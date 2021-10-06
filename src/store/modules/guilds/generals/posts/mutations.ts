@@ -1,7 +1,12 @@
 import { MutationTree } from 'vuex'
 import { GuildPostState } from './state'
 import _ from 'lodash'
-import { GuildPostBoardGroupWithBoards, GuildPostBoardInfo, GuildPostInfo } from '@/types/model/guilds/post'
+import {
+  GuildPostBoardGroupWithBoards,
+  GuildPostBoardInfo,
+  GuildPostInfo,
+  GuildPostInfoAtMain
+} from '@/types/model/guilds/post'
 
 export enum GuildPostMutationTypes {
   SET_IS_OPEN_SIDEBAR = 'guildPost/SET_IS_OPEN_SIDEBAR',
@@ -19,7 +24,7 @@ export type GuildPostMutations<S = GuildPostState> = {
   [GuildPostMutationTypes.SET_POST_BOARDS_WITH_GROUPS](state: S, payload: Array<GuildPostBoardGroupWithBoards>): void
   [GuildPostMutationTypes.SET_CURRENT_POST_BOARD](state: S, payload: GuildPostBoardInfo): void
   [GuildPostMutationTypes.SET_RECENT_NEWS_LIST_AT_MAIN](state: S, payload: Array<GuildPostInfo>): void
-  [GuildPostMutationTypes.SET_POST_LIST_AT_MAIN](state: S, payload: Array<GuildPostInfo>): void
+  [GuildPostMutationTypes.SET_POST_LIST_AT_MAIN](state: S, payload: Array<GuildPostInfoAtMain>): void
   [GuildPostMutationTypes.SET_POST_LIST_BY_BOARD](state: S, payload: Array<GuildPostInfo>): void
   [GuildPostMutationTypes.SET_RECENT_NEWS_LIST_BY_BOARD](state: S, payload: Array<GuildPostInfo>): void
   [GuildPostMutationTypes.SET_CURRENT_POST](state: S, payload: GuildPostInfo): void

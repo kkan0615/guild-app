@@ -1,6 +1,6 @@
 <template>
   <div
-    class="md:tw-p-4 tw-p-2 tw-h-full tw-flex tw-flex-col"
+    class="tw-p-2 tw-h-full tw-flex tw-flex-col"
   >
     <c-base-header
       class="tw-flex-grow-0 tw-flex-shrink"
@@ -22,7 +22,7 @@
       class="tw-flex-grow tw-flex-shrink-0 tw-h-1"
     >
       <div
-        class="tw-h-full md:tw-flex md:tw-space-x-4"
+        class="tw-h-full md:tw-flex md:tw-space-x-3"
       >
         <guild-post-view-sidebar />
         <div

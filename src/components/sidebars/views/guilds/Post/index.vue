@@ -16,12 +16,13 @@
         :label="boardsWithGroup.name"
       >
         <ul
-          class="tw-space-y-2 tw-divide-gray-400 tw-divide-y"
+          class="tw-space-y-2 "
         >
           <li
             v-for="PostBoard in boardsWithGroup.PostBoards"
             :key="PostBoard.id"
             class="tw-font-normal tw-text-sm"
+            @click="onClickPostBoard(PostBoard)"
           >
             {{ PostBoard.name }}
           </li>
@@ -43,17 +44,20 @@ export default {
 }
 </script>
 <script setup lang="ts">
+import type { GuildPostBoard } from '@/types/model/guilds/post'
 import { computed } from 'vue'
 import useStore from '@/store'
 import { GuildPostActionTypes } from '@/store/modules/guilds/generals/posts/actions'
 import CListGroup from '@/components/commons/groups/List/index.vue'
+import { useRouter } from 'vue-router'
+import { RouterNameEnum } from '@/types/systems/routers/keys'
 
 const store = useStore()
+const router = useRouter()
 
 const isOpenSidebar = computed(() => store.state.guildPost.isOpenSidebar)
 const isOpenLayoutSidebar = computed(() => store.state.guild.isOpenSideBar)
 const boardsWithGroups = computed(() => store.state.guildPost.boardsWithGroups)
-
 
 const onClickOutside = async () => {
   try {
@@ -62,6 +66,14 @@ const onClickOutside = async () => {
     } else {
       await store.dispatch(GuildPostActionTypes.OPEN_SIDE_BAR)
     }
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+const onClickPostBoard = async (postBoard: GuildPostBoard) => {
+  try {
+    await router.push({ name: RouterNameEnum.GUILD_POST_BOARD_DETAIL, params: { postBoardId: postBoard.id } })
   } catch (e) {
     console.error(e)
   }

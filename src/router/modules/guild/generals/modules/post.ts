@@ -20,9 +20,17 @@ export const postGuildRoutes: Array<RouteRecordRaw> = [
           isGuild: true,
         },
       },
+      {
+        path: 'postBoard/id/:postBoardId',
+        name: RouterNameEnum.GUILD_POST_BOARD_DETAIL,
+        component: () => import('@/views/guilds/generals/posts/PostBoard/index.vue'),
+        meta: {
+          isGuild: true,
+        },
+      },
       /* Relative with board */
       {
-        path: 'board/form/new',
+        path: 'postBoard/form/new',
         name: RouterNameEnum.GUILD_POST_BOARD_CREATE_FORM,
         component: () => import('@/views/guilds/generals/posts/Main/index.vue'),
         meta: {
@@ -30,7 +38,7 @@ export const postGuildRoutes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: 'board/form/id/:boardId',
+        path: 'postBoard/form/id/:postBoardId',
         name: RouterNameEnum.GUILD_POST_BOARD_UPDATE_FORM,
         component: () => import('@/views/guilds/generals/posts/Main/index.vue'),
         meta: {

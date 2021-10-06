@@ -1,6 +1,6 @@
 <template>
   <div
-    class="tw-font-semibold"
+    class="tw-text-sm tw-font-semibold"
   >
     <slot
       name="label"
@@ -26,7 +26,7 @@
     </slot>
     <div
       v-if="isOpen"
-      class="tw-pl-2 tw-mt-1"
+      class="tw-pl-2 tw-mt-1 tw-text-xs"
     >
       <slot />
     </div>

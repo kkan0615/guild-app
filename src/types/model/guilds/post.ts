@@ -51,8 +51,11 @@ export interface GuildPostBoardInfo extends GuildPostBoard {
 }
 
 export interface GuildPostInfo extends GuildPost {
-  Guild: Guild
   PostBoard: GuildPostBoard
   Comments: Array<GuildPostComment>
   Creator: GuildUser
+}
+
+export interface GuildPostInfoAtMain extends GuildPostInfo {
+  PostBoard: GuildPostBoardInfo
 }

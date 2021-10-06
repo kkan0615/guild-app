@@ -2,8 +2,15 @@ import { ActionContext, ActionTree } from 'vuex'
 import { RootState } from '@/store'
 import { GuildPostMutations, GuildPostMutationTypes } from './mutations'
 import { GuildPostState } from './state'
-import { GuildPostBoardGroupWithBoards, GuildPostBoardInfo, GuildPostInfo } from '@/types/model/guilds/post'
-import { dummyGuildPostBoardGroups, dummyGuildPostBoards } from '@/dummy/guilds/post'
+import {
+  GuildPostBoard, GuildPostBoardGroup,
+  GuildPostBoardGroupWithBoards,
+  GuildPostBoardInfo,
+  GuildPostInfo, GuildPostInfoAtMain
+} from '@/types/model/guilds/post'
+import { dummyGuildPostBoardGroups, dummyGuildPostBoards, dummyGuildPosts } from '@/dummy/guilds/post'
+import { dummyGuildUsers } from '@/dummy/user'
+import { GuildUser } from '@/types/model/auth/user/user'
 
 export enum GuildPostActionTypes {
   OPEN_SIDE_BAR = 'guildPost/OPEN_SIDE_BAR',
@@ -117,7 +124,6 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
       }
     })
 
-    console.log(postBoardsWithGroupsRes)
     commit(GuildPostMutationTypes.SET_POST_BOARDS_WITH_GROUPS, postBoardsWithGroupsRes)
   },
   [GuildPostActionTypes.RESET_BOARDS_WITH_GROUPS] ({ commit }) {
@@ -130,7 +136,20 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
     commit(GuildPostMutationTypes.SET_CURRENT_POST_BOARD, {} as GuildPostBoardInfo)
   },
   [GuildPostActionTypes.LOAD_POST_LIST_AT_MAIN] ({ commit }) {
-    commit(GuildPostMutationTypes.SET_POST_LIST_AT_MAIN, [])
+    const postsRes: Array<GuildPostInfoAtMain> = dummyGuildPosts.slice(0, 30).map(guildPost => {
+      const foundPostBoard = dummyGuildPostBoards.find(postBoard => postBoard.id === guildPost.postBoardId)
+      const postBoardInfo: GuildPostBoardInfo = {
+        ...(foundPostBoard || {} as GuildPostBoard),
+        PostBoardGroup: dummyGuildPostBoardGroups.find(postBoardGroup => postBoardGroup.id === foundPostBoard?.postBoardGroupId) || {} as GuildPostBoardGroup
+      }
+      return {
+        ...guildPost,
+        Comments: [],
+        PostBoard: postBoardInfo,
+        Creator: dummyGuildUsers.find(guildUser => guildUser.id === guildPost.creatorId) || {} as GuildUser
+      }
+    })
+    commit(GuildPostMutationTypes.SET_POST_LIST_AT_MAIN, postsRes)
   },
   [GuildPostActionTypes.RESET_POST_LIST_AT_MAIN] ({ commit }) {
     commit(GuildPostMutationTypes.SET_POST_LIST_AT_MAIN, [])
