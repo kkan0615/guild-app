@@ -1,6 +1,7 @@
 <template>
   <div
-    class="tw-rounded tw-text-sm"
+    class="tw-rounded tw-text-sm tw-cursor-pointer hover:tw-border-2 tw-border-black"
+    @click="onClickPost"
   >
     <div
       v-if="post.PostBoard && post.PostBoard.PostBoardGroup"
@@ -61,15 +62,29 @@ import type { GuildPostInfoAtMain } from '@/types/model/guilds/post'
 import { computed, defineProps } from 'vue'
 import dayjs from 'dayjs'
 import TAvatar from '@/components/tailwinds/Avatar/index.vue'
+import { useRouter } from 'vue-router'
+import { RouterNameEnum } from '@/types/systems/routers/keys'
 
 const props = defineProps({
   post: {
     type: Object as PropType<GuildPostInfoAtMain>,
     required: true,
     default: () => {},
-  }
+  },
 })
 
+const router = useRouter()
+
 const formattedCreatedAt = computed(() => dayjs(props.post?.createdAt).format('llll'))
+
+const onClickPost = async () => {
+  try {
+    if (props.post) {
+      await router.push({ name: RouterNameEnum.GUILD_POST_DETAIL, params: { postId: props.post.id } })
+    }
+  } catch (e) {
+    console.error(e)
+  }
+}
 
 </script>

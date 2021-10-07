@@ -15,7 +15,7 @@ export enum GuildPostMutationTypes {
   SET_POST_LIST_AT_MAIN = 'guildPost/SET_POST_LIST_AT_MAIN',
   SET_RECENT_NEWS_LIST_AT_MAIN = 'guildPost/SET_RECENT_NEWS_LIST_AT_MAIN',
   SET_POST_LIST_BY_BOARD = 'guildPost/SET_POST_LIST_BY_BOARD',
-  SET_RECENT_NEWS_LIST_BY_BOARD = 'guildPost/SET_RECENT_NEWS_LIST_AT_MAIN',
+  SET_RECENT_NEWS_LIST_BY_BOARD = 'guildPost/SET_RECENT_NEWS_LIST_BY_BOARD',
   SET_CURRENT_POST = 'guildPost/SET_CURRENT_POST',
 }
 
@@ -23,7 +23,7 @@ export type GuildPostMutations<S = GuildPostState> = {
   [GuildPostMutationTypes.SET_IS_OPEN_SIDEBAR](state: S, payload: boolean): void
   [GuildPostMutationTypes.SET_POST_BOARDS_WITH_GROUPS](state: S, payload: Array<GuildPostBoardGroupWithBoards>): void
   [GuildPostMutationTypes.SET_CURRENT_POST_BOARD](state: S, payload: GuildPostBoardInfo): void
-  [GuildPostMutationTypes.SET_RECENT_NEWS_LIST_AT_MAIN](state: S, payload: Array<GuildPostInfo>): void
+  [GuildPostMutationTypes.SET_RECENT_NEWS_LIST_AT_MAIN](state: S, payload: Array<GuildPostInfoAtMain>): void
   [GuildPostMutationTypes.SET_POST_LIST_AT_MAIN](state: S, payload: Array<GuildPostInfoAtMain>): void
   [GuildPostMutationTypes.SET_POST_LIST_BY_BOARD](state: S, payload: Array<GuildPostInfo>): void
   [GuildPostMutationTypes.SET_RECENT_NEWS_LIST_BY_BOARD](state: S, payload: Array<GuildPostInfo>): void
@@ -44,13 +44,13 @@ export const guildPostMutations: MutationTree<GuildPostState> & GuildPostMutatio
     state.postListAtMain = _.cloneDeep(payload)
   },
   [GuildPostMutationTypes.SET_RECENT_NEWS_LIST_AT_MAIN] (state, payload) {
-    state.postListAtMain = _.cloneDeep(payload)
+    state.recentNewsListAtMain = _.cloneDeep(payload)
   },
   [GuildPostMutationTypes.SET_POST_LIST_BY_BOARD] (state, payload) {
     state.postListByBoard = _.cloneDeep(payload)
   },
   [GuildPostMutationTypes.SET_RECENT_NEWS_LIST_BY_BOARD] (state, payload) {
-    state.postListByBoard = _.cloneDeep(payload)
+    state.recentNewsListByBoard = _.cloneDeep(payload)
   },
   [GuildPostMutationTypes.SET_CURRENT_POST] (state, payload) {
     state.currentPost = _.cloneDeep(payload)

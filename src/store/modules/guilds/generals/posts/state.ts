@@ -9,7 +9,7 @@ export interface GuildPostState {
   boardsWithGroups: Array<GuildPostBoardGroupWithBoards>
   currentPostBoard: GuildPostBoardInfo
   postListAtMain: Array<GuildPostInfoAtMain>
-  recentNewsListAtMain: Array<GuildPostInfo>
+  recentNewsListAtMain: Array<GuildPostInfoAtMain>
   postListByBoard: Array<GuildPostInfo>
   recentNewsListByBoard: Array<GuildPostInfo>
   currentPost: GuildPostInfo

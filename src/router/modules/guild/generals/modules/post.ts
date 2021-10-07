@@ -49,7 +49,7 @@ export const postGuildRoutes: Array<RouteRecordRaw> = [
       {
         path: 'post/id/:postId',
         name: RouterNameEnum.GUILD_POST_DETAIL,
-        component: () => import('@/views/guilds/generals/posts/Main/index.vue'),
+        component: () => import('@/views/guilds/generals/posts/PostDetail/index.vue'),
         meta: {
           isGuild: true,
         },

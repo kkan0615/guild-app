@@ -11,6 +11,7 @@ import {
 import { dummyGuildPostBoardGroups, dummyGuildPostBoards, dummyGuildPosts } from '@/dummy/guilds/post'
 import { dummyGuildUsers } from '@/dummy/user'
 import { GuildUser } from '@/types/model/auth/user/user'
+import dayjs from 'dayjs'
 
 export enum GuildPostActionTypes {
   OPEN_SIDE_BAR = 'guildPost/OPEN_SIDE_BAR',
@@ -129,8 +130,17 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
   [GuildPostActionTypes.RESET_BOARDS_WITH_GROUPS] ({ commit }) {
     commit(GuildPostMutationTypes.SET_POST_BOARDS_WITH_GROUPS, [])
   },
-  [GuildPostActionTypes.LOAD_CURRENT_BOARD] ({ commit }) {
-    commit(GuildPostMutationTypes.SET_CURRENT_POST_BOARD, {} as GuildPostBoardInfo)
+  [GuildPostActionTypes.LOAD_CURRENT_BOARD] ({ commit }, payload) {
+    const postBoardRes = dummyGuildPostBoards.find(post => post.id === payload)
+    if (postBoardRes) {
+      const result = {
+        ...postBoardRes,
+        PostBoardGroup: dummyGuildPostBoardGroups.find(postBoardGroup => postBoardGroup.id === postBoardRes.postBoardGroupId) || {} as GuildPostBoardGroup
+      } as GuildPostBoardInfo
+      commit(GuildPostMutationTypes.SET_CURRENT_POST_BOARD, result)
+    } else {
+      throw new Error('no post board by payload')
+    }
   },
   [GuildPostActionTypes.RESET_CURRENT_BOARD] ({ commit }) {
     commit(GuildPostMutationTypes.SET_CURRENT_POST_BOARD, {} as GuildPostBoardInfo)
@@ -155,7 +165,20 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
     commit(GuildPostMutationTypes.SET_POST_LIST_AT_MAIN, [])
   },
   [GuildPostActionTypes.LOAD_RECENT_NEWS_LIST_AT_MAIN] ({ commit }) {
-    commit(GuildPostMutationTypes.SET_RECENT_NEWS_LIST_AT_MAIN, [])
+    const postsRes: Array<GuildPostInfoAtMain> = dummyGuildPosts.map(guildPost => {
+      const foundPostBoard = dummyGuildPostBoards.find(postBoard => postBoard.id === guildPost.postBoardId)
+      const postBoardInfo: GuildPostBoardInfo = {
+        ...(foundPostBoard || {} as GuildPostBoard),
+        PostBoardGroup: dummyGuildPostBoardGroups.find(postBoardGroup => postBoardGroup.id === foundPostBoard?.postBoardGroupId) || {} as GuildPostBoardGroup
+      }
+      return {
+        ...guildPost,
+        Comments: [],
+        PostBoard: postBoardInfo,
+        Creator: dummyGuildUsers.find(guildUser => guildUser.id === guildPost.creatorId) || {} as GuildUser
+      }
+    }).filter(guildPost => guildPost.isNotice)
+    commit(GuildPostMutationTypes.SET_RECENT_NEWS_LIST_AT_MAIN, postsRes)
   },
   [GuildPostActionTypes.RESET_RECENT_NEWS_LIST_AT_MAIN] ({ commit }) {
     commit(GuildPostMutationTypes.SET_RECENT_NEWS_LIST_AT_MAIN, [])
@@ -172,8 +195,19 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
   [GuildPostActionTypes.RESET_RECENT_NEWS_LIST_BY_BOARD] ({ commit }) {
     commit(GuildPostMutationTypes.SET_RECENT_NEWS_LIST_AT_MAIN, [])
   },
-  [GuildPostActionTypes.LOAD_CURRENT_POST] ({ commit }) {
-    commit(GuildPostMutationTypes.SET_CURRENT_POST, {} as GuildPostInfo)
+  [GuildPostActionTypes.LOAD_CURRENT_POST] ({ commit }, payload) {
+    const postRes = dummyGuildPosts.find(post => post.id === payload)
+    if (postRes) {
+      const result = {
+        ...postRes,
+        PostBoard: dummyGuildPostBoards.find(postBoardId => postBoardId.id === postRes.postBoardId) || {} as GuildPostBoard,
+        Comments: [],
+        Creator: dummyGuildUsers.find(guildUser => guildUser.id === postRes.creatorId) || {} as GuildUser
+      } as GuildPostInfo
+      commit(GuildPostMutationTypes.SET_CURRENT_POST, result)
+    } else {
+      throw new Error('no post by payload')
+    }
   },
   [GuildPostActionTypes.RESET_CURRENT_POST] ({ commit }) {
     commit(GuildPostMutationTypes.SET_CURRENT_POST, {} as GuildPostInfo)

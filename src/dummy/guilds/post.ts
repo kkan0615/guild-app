@@ -102,4 +102,18 @@ export const initDummyGuildPostBoardGroups = () => {
       updatedAt: dayjs().toISOString(),
     }
   }))
+
+  dummyGuildPosts = dummyGuildPosts.concat([...Array(5).keys()].map(() => {
+    return {
+      id: v4(),
+      guildId: 'test-id',
+      postBoardId: 'test-guild-post-board-id',
+      title: faker.lorem.word(),
+      content: faker.lorem.paragraphs(),
+      isNotice: true,
+      creatorId: 'test-id-guild-user',
+      createdAt: dayjs().toISOString(),
+      updatedAt: dayjs().toISOString(),
+    }
+  }))
 }

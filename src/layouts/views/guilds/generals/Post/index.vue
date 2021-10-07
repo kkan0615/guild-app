@@ -30,11 +30,6 @@
         >
           <router-view />
         </div>
-        <div
-          class="tw-w-56 tw-border tw-invisible md:tw-visible tw-p-2"
-        >
-          right
-        </div>
       </div>
     </div>
   </div>
