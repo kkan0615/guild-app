@@ -1,9 +1,9 @@
 <template>
   <div
-    class="h-full tw-flex tw-items-center tw-pt-1"
+    class="tw-h-56 tw-flex tw-items-center tw-pt-1"
   >
     <div
-      class="tw-relative"
+      class="tw-relative tw-h-full"
     >
       <c-material-icon
         v-if="isGuildManager(params)"

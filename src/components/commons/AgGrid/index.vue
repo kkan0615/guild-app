@@ -1,6 +1,9 @@
 <template>
+  {{ theme }}
   <ag-grid-vue
-    class="ag-theme-balham"
+    :class="{
+      [`${theme}`]: true,
+    }"
     :style="{
       width,
       height,
@@ -15,6 +18,7 @@
     pivot-panel-show="always"
     :enable-range-selection="true"
     :pagination-page-size="5"
+    @rowClicked="onRowClicked"
   />
 </template>
 
@@ -22,6 +26,7 @@
 import { defineComponent, computed, PropType } from 'vue'
 import { AgGridVue } from 'ag-grid-vue3'
 import { ColDef } from 'ag-grid-community/dist/lib/entities/colDef'
+import { RowClickedEvent } from 'ag-grid-community'
 
 export default defineComponent({
   name: 'CAgGrid',
@@ -41,52 +46,62 @@ export default defineComponent({
     },
     height: {
       type: String,
-      require: false,
+      required: false,
       default: '400px',
     },
     width: {
       type: String,
-      require: true,
+      required: false,
       default: '100%',
     },
     editable: {
       type: Boolean,
-      require: false,
+      required: false,
       default: false,
     },
     sortable: {
       type: Boolean,
-      require: false,
+      required: false,
       default: true,
     },
     resizable: {
       type: Boolean,
-      require: false,
+      required: false,
       default: true,
     },
     filter: {
       type: Boolean,
-      require: false,
+      required: false,
       default: true,
     },
     suppressAutoSize: {
       type: Boolean,
-      require: false,
+      required: false,
       default: true,
     },
     isPagination: {
       type: Boolean,
-      require: false,
+      required: false,
       default: true,
     },
-
+    theme: {
+      type: String,
+      required: false,
+      default: 'ag-theme-alpine',
+    },
+    paginationPageSize: {
+      type: Number,
+      required: false,
+      default: null
+    },
     flex: {
-      type: [Number, undefined],
-      require: false,
-      default: undefined,
+      type: Number,
+      required: false,
+      default: null,
     },
   },
-  setup: (props) => {
+  emits: ['rowClicked'],
+  setup: (props, { emit }) => {
     const defaultColumn = computed<ColDef>(() => {
       return {
         editable: props.editable,
@@ -99,9 +114,16 @@ export default defineComponent({
         enablePivot: true,
       }
     })
+
+    const onRowClicked = (event: RowClickedEvent) => {
+      emit('rowClicked', event)
+    }
+
     return {
       defaultColumn,
+      onRowClicked,
     }
+
   }
 })
 </script>
