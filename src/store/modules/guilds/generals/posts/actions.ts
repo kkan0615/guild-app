@@ -83,6 +83,7 @@ export interface GuildPostActions {
    */
   [GuildPostActionTypes.LOAD_POST_LIST_BY_BOARD_ID](
     { commit }: AugmentedActionContext,
+    payload: string
   ): void
 
   /**
@@ -135,7 +136,11 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
     if (postBoardRes) {
       const result = {
         ...postBoardRes,
-        PostBoardGroup: dummyGuildPostBoardGroups.find(postBoardGroup => postBoardGroup.id === postBoardRes.postBoardGroupId) || {} as GuildPostBoardGroup
+        PostBoardGroup: dummyGuildPostBoardGroups.find(postBoardGroup => postBoardGroup.id === postBoardRes.postBoardGroupId) || {} as GuildPostBoardGroup,
+        setting: {
+          ...postBoardRes.setting,
+          Operators: dummyGuildUsers.filter(guildUser => postBoardRes.setting.operatorIds.includes(guildUser.id))
+        }
       } as GuildPostBoardInfo
       commit(GuildPostMutationTypes.SET_CURRENT_POST_BOARD, result)
     } else {
@@ -150,7 +155,11 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
       const foundPostBoard = dummyGuildPostBoards.find(postBoard => postBoard.id === guildPost.postBoardId)
       const postBoardInfo: GuildPostBoardInfo = {
         ...(foundPostBoard || {} as GuildPostBoard),
-        PostBoardGroup: dummyGuildPostBoardGroups.find(postBoardGroup => postBoardGroup.id === foundPostBoard?.postBoardGroupId) || {} as GuildPostBoardGroup
+        PostBoardGroup: dummyGuildPostBoardGroups.find(postBoardGroup => postBoardGroup.id === foundPostBoard?.postBoardGroupId) || {} as GuildPostBoardGroup,
+        setting: {
+          ...(foundPostBoard || {} as GuildPostBoard).setting,
+          Operators: dummyGuildUsers.filter(guildUser => (foundPostBoard || {} as GuildPostBoard).setting.operatorIds.includes(guildUser.id))
+        }
       }
       return {
         ...guildPost,
@@ -169,7 +178,11 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
       const foundPostBoard = dummyGuildPostBoards.find(postBoard => postBoard.id === guildPost.postBoardId)
       const postBoardInfo: GuildPostBoardInfo = {
         ...(foundPostBoard || {} as GuildPostBoard),
-        PostBoardGroup: dummyGuildPostBoardGroups.find(postBoardGroup => postBoardGroup.id === foundPostBoard?.postBoardGroupId) || {} as GuildPostBoardGroup
+        PostBoardGroup: dummyGuildPostBoardGroups.find(postBoardGroup => postBoardGroup.id === foundPostBoard?.postBoardGroupId) || {} as GuildPostBoardGroup,
+        setting: {
+          ...(foundPostBoard || {} as GuildPostBoard).setting,
+          Operators: dummyGuildUsers.filter(guildUser => (foundPostBoard || {} as GuildPostBoard).setting.operatorIds.includes(guildUser.id))
+        }
       }
       return {
         ...guildPost,
@@ -183,8 +196,28 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
   [GuildPostActionTypes.RESET_RECENT_NEWS_LIST_AT_MAIN] ({ commit }) {
     commit(GuildPostMutationTypes.SET_RECENT_NEWS_LIST_AT_MAIN, [])
   },
-  [GuildPostActionTypes.LOAD_POST_LIST_BY_BOARD_ID] ({ commit }) {
-    commit(GuildPostMutationTypes.SET_POST_LIST_BY_BOARD, [])
+  [GuildPostActionTypes.LOAD_POST_LIST_BY_BOARD_ID] ({ commit }, payload) {
+    const postsRes: Array<GuildPostInfoAtMain> = dummyGuildPosts.filter(guildPost =>
+      guildPost.postBoardId === payload
+    && !guildPost.deletedAt
+    ).map(guildPost => {
+      const foundPostBoard = dummyGuildPostBoards.find(postBoard => postBoard.id === guildPost.postBoardId)
+      const postBoardInfo: GuildPostBoardInfo = {
+        ...(foundPostBoard || {} as GuildPostBoard),
+        PostBoardGroup: dummyGuildPostBoardGroups.find(postBoardGroup => postBoardGroup.id === foundPostBoard?.postBoardGroupId) || {} as GuildPostBoardGroup,
+        setting: {
+          ...(foundPostBoard || {} as GuildPostBoard).setting,
+          Operators: dummyGuildUsers.filter(guildUser => (foundPostBoard || {} as GuildPostBoard).setting.operatorIds.includes(guildUser.id))
+        }
+      }
+      return {
+        ...guildPost,
+        Comments: [],
+        PostBoard: postBoardInfo,
+        Creator: dummyGuildUsers.find(guildUser => guildUser.id === guildPost.creatorId) || {} as GuildUser
+      }
+    })
+    commit(GuildPostMutationTypes.SET_POST_LIST_BY_BOARD, postsRes)
   },
   [GuildPostActionTypes.RESET_POST_LIST_BY_BOARD_ID] ({ commit }) {
     commit(GuildPostMutationTypes.SET_POST_LIST_BY_BOARD, [])

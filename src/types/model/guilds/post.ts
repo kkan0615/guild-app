@@ -1,7 +1,10 @@
 import { FirebaseAttributes } from '@/types/model/attributes'
 import { Guild } from '@/types/model/guilds/index'
-import { GuildUser } from '@/types/model/auth/user/user'
+import { GuildUser, GuildUserInfo } from '@/types/model/auth/user/user'
 import { FileAttachment } from '@/types/systems/attachment'
+import { ColDef, ValueFormatterParams } from 'ag-grid-community/dist/lib/entities/colDef'
+import { CustomDate } from '@/types/systems/date'
+import dayjs from 'dayjs'
 
 export interface GuildPostBoardGroup extends FirebaseAttributes {
   guildId: string
@@ -46,8 +49,14 @@ export interface GuildPostBoardGroupWithBoards extends GuildPostBoardGroup {
   PostBoards: Array<GuildPostBoard>
 }
 
+export interface GuildPostBoardConfigInfo extends GuildPostBoardConfig {
+  AllowUsers?: Array<GuildUser>
+  Operators: Array<GuildUser>
+}
+
 export interface GuildPostBoardInfo extends GuildPostBoard {
   PostBoardGroup: GuildPostBoardGroup
+  setting: GuildPostBoardConfigInfo
 }
 
 export interface GuildPostInfo extends GuildPost {
@@ -59,3 +68,48 @@ export interface GuildPostInfo extends GuildPost {
 export interface GuildPostInfoAtMain extends GuildPostInfo {
   PostBoard: GuildPostBoardInfo
 }
+
+export const postInfoColumn: Array<ColDef> = [
+  {
+    field: 'index',
+    headerName: '#',
+    width: 100,
+    filter: false,
+  },
+  {
+    field: 'title',
+    headerName: 'title',
+    flex: 1,
+    minWidth: 500,
+  },
+  {
+    field: 'createdAt',
+    headerName: 'Updated',
+    width: 300,
+    filter: 'agDateColumnFilter',
+    // // add extra parameters for the date filter
+    filterParams: {
+      // provide comparator function
+      comparator: (filterLocalDateAtMidnight: CustomDate, cellValue: CustomDate) => {
+        const dayjsFilterLocalDateAtMidnight = dayjs(filterLocalDateAtMidnight).set('h', 0).set('m', 0).set('s', 0).set('ms', 0)
+        const dayjsCellValue = dayjs(cellValue).set('h', 0).set('m', 0).set('s', 0).set('ms', 0)
+
+        if (dayjsFilterLocalDateAtMidnight.isAfter(dayjsCellValue))
+          return -1
+        else if (dayjsFilterLocalDateAtMidnight.isBefore(dayjsCellValue))
+          return 1
+        else
+          return 0
+      },
+    },
+    valueFormatter: (params: ValueFormatterParams) => {
+      const value = params.value as GuildUserInfo
+      return dayjs(value.createdAt).format('llll')
+    },
+  },
+  {
+    field: 'Creator.nickname',
+    headerName: 'Creator',
+    minWidth: 100,
+  },
+]

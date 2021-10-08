@@ -17,6 +17,9 @@ import '@vueform/multiselect/themes/default.css'
 /* Ag grid css */
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
+import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css'
+import 'ag-grid-community/dist/styles/ag-theme-balham.css'
+import 'ag-grid-community/dist/styles/ag-theme-balham-dark.css'
 /* TuiCalendar css */
 import 'tui-calendar/dist/tui-calendar.css'
 /* Store */

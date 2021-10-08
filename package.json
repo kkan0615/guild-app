@@ -1,6 +1,6 @@
 {
   "name": "guild-app",
-  "version": "0.2.1b",
+  "version": "0.2.1c",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -11,6 +11,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@popperjs/core": "^2.9.3",
+    "@tailwindcss/typography": "^0.4.1",
     "@tiptap/starter-kit": "^2.0.0-beta.115",
     "@tiptap/vue-3": "^2.0.0-beta.66",
     "@types/bootstrap": "^5.1.4",

@@ -1,6 +1,6 @@
 <template>
   <ag-grid-vue
-    class="ag-theme-alpine"
+    class="ag-theme-balham"
     :style="{
       width,
       height,
@@ -9,6 +9,12 @@
     :default-col-def="defaultColumn"
     :column-defs="columns"
     :row-data="rows"
+    :pagination="isPagination"
+    row-selection="multiple"
+    row-group-panel-show="always"
+    pivot-panel-show="always"
+    :enable-range-selection="true"
+    :pagination-page-size="5"
   />
 </template>
 
@@ -40,7 +46,7 @@ export default defineComponent({
     },
     width: {
       type: String,
-      require: false,
+      require: true,
       default: '100%',
     },
     editable: {
@@ -68,6 +74,12 @@ export default defineComponent({
       require: false,
       default: true,
     },
+    isPagination: {
+      type: Boolean,
+      require: false,
+      default: true,
+    },
+
     flex: {
       type: [Number, undefined],
       require: false,
@@ -83,6 +95,8 @@ export default defineComponent({
         flex: props.flex,
         resizable: props.resizable,
         suppressAutoSize: props.suppressAutoSize,
+        enableRowGroup: true,
+        enablePivot: true,
       }
     })
     return {

@@ -15,18 +15,18 @@
         :key="boardsWithGroup.id"
         :label="boardsWithGroup.name"
       >
-        <ul
-          class="tw-space-y-2 "
-        >
-          <li
+        <c-list>
+          <c-list-item
             v-for="PostBoard in boardsWithGroup.PostBoards"
             :key="PostBoard.id"
             class="tw-font-normal tw-text-sm"
+            clickable
+            :active="currentPostBoard && currentPostBoard.id === PostBoard.id"
             @click="onClickPostBoard(PostBoard)"
           >
             {{ PostBoard.name }}
-          </li>
-        </ul>
+          </c-list-item>
+        </c-list>
       </c-list-group>
     </div>
   </div>
@@ -51,6 +51,8 @@ import { GuildPostActionTypes } from '@/store/modules/guilds/generals/posts/acti
 import CListGroup from '@/components/commons/groups/List/index.vue'
 import { useRouter } from 'vue-router'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
+import CList from '@/components/commons/List/index.vue'
+import CListItem from '@/components/commons/List/components/Item.vue'
 
 const store = useStore()
 const router = useRouter()
@@ -58,6 +60,7 @@ const router = useRouter()
 const isOpenSidebar = computed(() => store.state.guildPost.isOpenSidebar)
 const isOpenLayoutSidebar = computed(() => store.state.guild.isOpenSideBar)
 const boardsWithGroups = computed(() => store.state.guildPost.boardsWithGroups)
+const currentPostBoard = computed(() => store.state.guildPost.currentPostBoard)
 
 const onClickOutside = async () => {
   try {

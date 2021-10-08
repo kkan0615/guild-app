@@ -28,7 +28,9 @@
         <div
           class="tw-h-full md:tw-w-full md:tw-border"
         >
-          <router-view />
+          <router-view
+            :key="route.path"
+          />
         </div>
       </div>
     </div>
@@ -51,8 +53,10 @@ import useStore from '@/store'
 import CMaterialIcon from '@/components/commons/icons/Material/index.vue'
 import { GuildPostActionTypes } from '@/store/modules/guilds/generals/posts/actions'
 import GuildPostViewSidebar from '@/components/sidebars/views/guilds/Post/index.vue'
+import { useRoute } from 'vue-router'
 
 const store = useStore()
+const route = useRoute()
 const i18n = useI18n()
 
 /* Breadcrumbs data */
