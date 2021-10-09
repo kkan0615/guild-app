@@ -2,7 +2,6 @@ import { MutationTree } from 'vuex'
 import { GuildAdminCalendarState } from './state'
 import _ from 'lodash'
 import { GuildCalendar, GuildCalendarAtAdminCalendar } from '@/types/model/guilds/calendar'
-import { GuildUserAtSelectList } from '@/types/model/auth/user/user'
 import { MultiselectOption } from '@/utils/libs/multiselect'
 
 export enum GuildAdminCalendarMutationTypes {

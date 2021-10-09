@@ -54,8 +54,8 @@ export type RootStore =
   GuildPostStore<Pick<RootState, 'guildPost'>> &
   GuildAdminAppStore<Pick<RootState, 'guildAdminApp'>> &
   GuildAdminUserStore<Pick<RootState, 'guildAdminUser'>> &
-  GuildAdminRoleStore<Pick<RootState, 'guildAdminRole'>> &
-  GuildAdminCalendarStore<Pick<RootState, 'guildAdminCalendar'>>
+  GuildAdminCalendarStore<Pick<RootState, 'guildAdminCalendar'>> &
+  GuildAdminRoleStore<Pick<RootState, 'guildAdminRole'>>
 
 // define injection key
 export const key: InjectionKey<Store<RootState>> = Symbol()

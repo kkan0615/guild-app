@@ -11,7 +11,7 @@ export type ToastType = 'info' | 'success' | 'warning' | 'danger' | string
  * afterClose
  */
 export interface Toast {
-  id: string
+  id?: string
   content: string
   type?: ToastType
   title?: string

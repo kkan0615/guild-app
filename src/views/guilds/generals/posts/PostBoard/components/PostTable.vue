@@ -22,8 +22,11 @@ import CAgGrid from '@/components/commons/AgGrid/index.vue'
 import useStore from '@/store'
 import { postInfoColumn } from '@/types/model/guilds/post'
 import { RowClickedEvent } from 'ag-grid-community'
+import { useRouter } from 'vue-router'
+import { RouterNameEnum } from '@/types/systems/routers/keys'
 
 const store = useStore()
+const router = useRouter()
 
 const columns = postInfoColumn
 
@@ -34,10 +37,15 @@ const postListByBoard = computed(() => store.state.guildPost.postListByBoard.map
   }
 }))
 
-const onRowClicked = (event: RowClickedEvent) => {
-  console.log('onRowClicked', event)
+const onRowClicked = async (event: RowClickedEvent) => {
   const data = event.data as GuildPostInfo
-  console.log('data', data)
+
+  /* Go to post detail page */
+  try {
+    await router.push({ name: RouterNameEnum.GUILD_POST_DETAIL, params: { postId: data.id } })
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 </script>

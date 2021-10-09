@@ -11,7 +11,6 @@ import {
 import { dummyGuildPostBoardGroups, dummyGuildPostBoards, dummyGuildPosts } from '@/dummy/guilds/post'
 import { dummyGuildUsers } from '@/dummy/user'
 import { GuildUser } from '@/types/model/auth/user/user'
-import dayjs from 'dayjs'
 
 export enum GuildPostActionTypes {
   OPEN_SIDE_BAR = 'guildPost/OPEN_SIDE_BAR',
@@ -26,6 +25,8 @@ export enum GuildPostActionTypes {
   RESET_RECENT_NEWS_LIST_AT_MAIN = 'guildPost/RESET_RECENT_NEWS_LIST_AT_MAIN',
   LOAD_POST_LIST_BY_BOARD_ID = 'guildPost/LOAD_POST_LIST_BY_BOARD_ID',
   RESET_POST_LIST_BY_BOARD_ID = 'guildPost/RESET_POST_LIST_BY_BOARD_ID',
+  LOAD_POST_NOTICE_LIST_BY_BOARD_ID = 'guildPost/LOAD_POST_NOTICE_LIST_BY_BOARD_ID',
+  RESET_POST_NOTICE_LIST_BY_BOARD_ID = 'guildPost/RESET_POST_NOTICE_LIST_BY_BOARD_ID',
   LOAD_RECENT_NEWS_LIST_BY_BOARD = 'guildPost/LOAD_RECENT_NEWS_LIST_BY_BOARD',
   RESET_RECENT_NEWS_LIST_BY_BOARD = 'guildPost/RESET_RECENT_NEWS_LIST_BY_BOARD',
   LOAD_CURRENT_POST = 'guildPost/LOAD_CURRENT_POST',
@@ -35,7 +36,7 @@ export enum GuildPostActionTypes {
 export type AugmentedActionContext = {
   commit<K extends keyof GuildPostMutations>(
     key: K,
-    payload: Parameters<GuildPostMutations[K]>[1]
+    payload?: Parameters<GuildPostMutations[K]>[1]
   ): ReturnType<GuildPostMutations[K]>
 } & Omit<ActionContext<GuildPostState, RootState>, 'commit'>
 
@@ -80,17 +81,33 @@ export interface GuildPostActions {
   /**
    * Load post list by board id
    * @param commit
+   * @param payload
    */
   [GuildPostActionTypes.LOAD_POST_LIST_BY_BOARD_ID](
     { commit }: AugmentedActionContext,
     payload: string
   ): void
-
   /**
    * Reset post list by board id
    * @param commit
    */
   [GuildPostActionTypes.RESET_POST_LIST_BY_BOARD_ID](
+    { commit }: AugmentedActionContext,
+  ): void
+  /**
+   * Load post list by board id
+   * @param commit
+   * @param payload
+   */
+  [GuildPostActionTypes.LOAD_POST_NOTICE_LIST_BY_BOARD_ID](
+    { commit }: AugmentedActionContext,
+    payload: string
+  ): void
+  /**
+   * Reset post list by board id
+   * @param commit
+   */
+  [GuildPostActionTypes.RESET_POST_NOTICE_LIST_BY_BOARD_ID](
     { commit }: AugmentedActionContext,
   ): void
   [GuildPostActionTypes.LOAD_RECENT_NEWS_LIST_BY_BOARD](
@@ -99,6 +116,12 @@ export interface GuildPostActions {
   [GuildPostActionTypes.RESET_RECENT_NEWS_LIST_BY_BOARD](
     { commit }: AugmentedActionContext,
   ): void
+
+  /**
+   * Load current post
+   * @param commit
+   * @param payload - post id
+   */
   [GuildPostActionTypes.LOAD_CURRENT_POST](
     { commit }: AugmentedActionContext,
     payload: string
@@ -221,6 +244,33 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
   },
   [GuildPostActionTypes.RESET_POST_LIST_BY_BOARD_ID] ({ commit }) {
     commit(GuildPostMutationTypes.SET_POST_LIST_BY_BOARD, [])
+  },
+  [GuildPostActionTypes.LOAD_POST_NOTICE_LIST_BY_BOARD_ID] ({ commit }, payload) {
+    const postsRes: Array<GuildPostInfoAtMain> = dummyGuildPosts.filter(guildPost =>
+      guildPost.postBoardId === payload
+      && guildPost.isNotice // Get it's notice type
+      && !guildPost.deletedAt
+    ).map(guildPost => {
+      const foundPostBoard = dummyGuildPostBoards.find(postBoard => postBoard.id === guildPost.postBoardId)
+      const postBoardInfo: GuildPostBoardInfo = {
+        ...(foundPostBoard || {} as GuildPostBoard),
+        PostBoardGroup: dummyGuildPostBoardGroups.find(postBoardGroup => postBoardGroup.id === foundPostBoard?.postBoardGroupId) || {} as GuildPostBoardGroup,
+        setting: {
+          ...(foundPostBoard || {} as GuildPostBoard).setting,
+          Operators: dummyGuildUsers.filter(guildUser => (foundPostBoard || {} as GuildPostBoard).setting.operatorIds.includes(guildUser.id))
+        }
+      }
+      return {
+        ...guildPost,
+        Comments: [],
+        PostBoard: postBoardInfo,
+        Creator: dummyGuildUsers.find(guildUser => guildUser.id === guildPost.creatorId) || {} as GuildUser
+      }
+    })
+    commit(GuildPostMutationTypes.SET_POST_NOTICE_LIST_BY_BOARD, postsRes)
+  },
+  [GuildPostActionTypes.RESET_POST_NOTICE_LIST_BY_BOARD_ID] ({ commit }) {
+    commit(GuildPostMutationTypes.SET_POST_NOTICE_LIST_BY_BOARD, [])
   },
   [GuildPostActionTypes.LOAD_RECENT_NEWS_LIST_BY_BOARD] ({ commit }) {
     commit(GuildPostMutationTypes.SET_RECENT_NEWS_LIST_AT_MAIN, [])

@@ -11,6 +11,7 @@ export interface GuildPostState {
   postListAtMain: Array<GuildPostInfoAtMain>
   recentNewsListAtMain: Array<GuildPostInfoAtMain>
   postListByBoard: Array<GuildPostInfo>
+  postNoticeListByBoard: Array<GuildPostInfo>
   recentNewsListByBoard: Array<GuildPostInfo>
   currentPost: GuildPostInfo
 }
@@ -22,6 +23,7 @@ export const guildPostState: GuildPostState = {
   postListAtMain: [],
   recentNewsListAtMain: [],
   postListByBoard: [],
+  postNoticeListByBoard: [],
   recentNewsListByBoard: [],
   currentPost: {} as GuildPostInfo
 }

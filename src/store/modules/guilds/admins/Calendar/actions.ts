@@ -12,7 +12,6 @@ import {
 import { v4 } from 'uuid'
 import dayjs from 'dayjs'
 import { dummyGuildUsers } from '@/dummy/user'
-import { GuildUserAtSelectList, GuildUserAtUserList } from '@/types/model/auth/user/user'
 import { MultiselectOption } from '@/utils/libs/multiselect'
 
 export enum GuildAdminCalendarActionTypes {
@@ -34,14 +33,13 @@ export type AugmentedActionContext = {
   ): ReturnType<GuildAdminCalendarMutations[K]>
 } & Omit<ActionContext<GuildAdminCalendarState, RootState>, 'commit'>
 
-export interface GuildAdminAppActions {
+export interface GuildAdminCalendarActions {
   [GuildAdminCalendarActionTypes.LOAD_GUILD_CALENDARS](
     { commit, rootState }: AugmentedActionContext,
   ): void
   [GuildAdminCalendarActionTypes.RESET_GUILD_CALENDARS](
     { commit }: AugmentedActionContext,
   ): void
-
   /**
    * Set the selected calendar
    * @param commit
@@ -89,7 +87,7 @@ export interface GuildAdminAppActions {
   ): void
 }
 
-export const guildAdminCalendarActions: ActionTree<GuildAdminCalendarState, RootState> & GuildAdminAppActions = {
+export const guildAdminCalendarActions: ActionTree<GuildAdminCalendarState, RootState> & GuildAdminCalendarActions = {
   [GuildAdminCalendarActionTypes.LOAD_GUILD_CALENDARS] ({ commit, rootState }) {
     const guildCalendarsRes = dummyGuildCalendars
       .filter(guildCalendar =>

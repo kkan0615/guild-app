@@ -8,7 +8,7 @@ import { RootState } from '@/store'
 import { guildAdminCalendarState, GuildAdminCalendarState } from '@/store/modules/guilds/admins/Calendar/state'
 import { guildAdminCalendarGetters, GuildAdminCalendarGetters } from '@/store/modules/guilds/admins/Calendar/getters'
 import { guildAdminCalendarMutations, GuildAdminCalendarMutations } from '@/store/modules/guilds/admins/Calendar/mutations'
-import { guildAdminCalendarActions, GuildAdminAppActions } from '@/store/modules/guilds/admins/Calendar/actions'
+import { guildAdminCalendarActions, GuildAdminCalendarActions } from '@/store/modules/guilds/admins/Calendar/actions'
 
 export type GuildAdminCalendarStore<S = GuildAdminCalendarState> = Omit<
 VuexStore<S>,
@@ -24,11 +24,11 @@ VuexStore<S>,
     [K in keyof GuildAdminCalendarGetters]: ReturnType<GuildAdminCalendarGetters[K]>;
   }
 } & {
-  dispatch<K extends keyof GuildAdminAppActions>(
+  dispatch<K extends keyof GuildAdminCalendarActions>(
     key: K,
-    payload?: Parameters<GuildAdminAppActions[K]>[1],
+    payload?: Parameters<GuildAdminCalendarActions[K]>[1],
     options?: DispatchOptions
-  ): ReturnType<GuildAdminAppActions[K]>
+  ): ReturnType<GuildAdminCalendarActions[K]>
 }
 
 export const guildAdminCalendarModule: Module<GuildAdminCalendarState, RootState> = {
