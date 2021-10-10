@@ -1,10 +1,10 @@
 <template>
   <c-ag-grid
-    v-if="postListByBoard"
-    height="500px"
+    v-if="postNoticeListByBoard"
+    height="300px"
     theme="ag-theme-balham"
     :columns="columns"
-    :rows="postListByBoard"
+    :rows="postNoticeListByBoard"
     :pagination-auto-page-size="true"
     @rowClicked="onRowClicked"
   />
@@ -13,12 +13,12 @@
     lang="ts"
 >
 export default {
-  name: 'PostBoardPostPostTable',
+  name: 'PostBoardPostPostNoticeTable',
 }
 </script>
 <script setup lang="ts">
 import type { GuildPostInfo } from '@/types/model/guilds/post'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import CAgGrid from '@/components/commons/AgGrid/index.vue'
 import useStore from '@/store'
 import { postInfoColumn } from '@/types/model/guilds/post'
@@ -31,7 +31,7 @@ const router = useRouter()
 
 const columns = postInfoColumn
 
-const postListByBoard = computed(() => store.state.guildPost.postListByBoard.map((post, index) => {
+const postNoticeListByBoard = computed(() => store.state.guildPost.postNoticeListByBoard.map((post, index) => {
   return {
     ...post,
     index: index + 1,

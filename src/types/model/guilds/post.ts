@@ -49,6 +49,14 @@ export interface GuildPostBoardGroupWithBoards extends GuildPostBoardGroup {
   PostBoards: Array<GuildPostBoard>
 }
 
+export type GuildPostBoardGroupCreateForm = Pick<GuildPostBoardGroup, 'guildId' | 'name' | 'description'> & {
+  postBoards: Array<Pick<GuildPostBoard, 'guildId' | 'name'>>
+}
+
+export type GuildPostBoardGroupUpdateForm = Pick<GuildPostBoardGroup, 'id' | 'guildId' | 'name' | 'description'> & {
+  postBoards: Array<Pick<GuildPostBoard, 'id' | 'guildId' | 'name'>>
+}
+
 export interface GuildPostBoardConfigInfo extends GuildPostBoardConfig {
   AllowUsers?: Array<GuildUser>
   Operators: Array<GuildUser>

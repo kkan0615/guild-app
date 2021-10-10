@@ -1,26 +1,17 @@
 <template>
-  <div>
+  <c-content-layout>
     <!--  headers  -->
+    <c-content-layout-header />
     <div
-      class="tw-flex tw-items-center"
+      class="container"
     >
-      <c-material-icon
-        @click="onClickBackBtn"
-      >
-        chevron_left
-      </c-material-icon>
+      container,
+      {{ currentPost }}
     </div>
-    <div>
-      {{ currentPostBoard }}
-    </div>
-    <div>
-      post
-    </div>
-    {{ currentPost }}
-  </div>
+  </c-content-layout>
 </template>
 <script
-    lang="ts"
+  lang="ts"
 >
 export default {
   name: 'PostDetailGuildPost',
@@ -31,7 +22,8 @@ import useStore from '@/store'
 import { computed, onBeforeUnmount, onMounted } from 'vue'
 import { GuildPostActionTypes } from '@/store/modules/guilds/generals/posts/actions'
 import { useRoute, useRouter } from 'vue-router'
-import CMaterialIcon from '@/components/commons/icons/Material/index.vue'
+import CContentLayout from '@/components/commons/layouts/Content/index.vue'
+import CContentLayoutHeader from '@/components/commons/layouts/Content/components/Header.vue'
 
 const store = useStore()
 const route = useRoute()
@@ -47,6 +39,7 @@ onMounted(async () => {
     await store.dispatch(GuildPostActionTypes.LOAD_CURRENT_BOARD, currentPost.value.postBoardId)
   } catch (e) {
     console.error(e)
+    await router.back()
   }
 })
 
@@ -58,7 +51,4 @@ onBeforeUnmount(async () => {
   }
 })
 
-const onClickBackBtn = () => {
-  router.back()
-}
 </script>

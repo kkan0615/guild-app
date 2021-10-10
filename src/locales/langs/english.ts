@@ -11,6 +11,17 @@ export const englishDictionary = {
       edit: 'edit',
       cancel: 'cancel',
       delete: 'delete',
+      change: 'change',
+    },
+    result: {
+      saved: 'Success to save',
+      created: 'Success to create',
+      updated: 'Success to update',
+      removed: 'Success to remove',
+      changed: 'Success to change',
+      invalidated: 'Please type all required fields',
+      failed: 'Fail to save. Please try again after press F5 (Refresh)',
+      failRedirect: 'Fail to redirect page.',
     }
   },
   standardRules: {

@@ -3,7 +3,7 @@ import { RootState } from '@/store'
 import { GuildPostMutations, GuildPostMutationTypes } from './mutations'
 import { GuildPostState } from './state'
 import {
-  GuildPostBoard, GuildPostBoardGroup,
+  GuildPostBoard, GuildPostBoardGroup, GuildPostBoardGroupCreateForm, GuildPostBoardGroupUpdateForm,
   GuildPostBoardGroupWithBoards,
   GuildPostBoardInfo,
   GuildPostInfo, GuildPostInfoAtMain
@@ -11,12 +11,19 @@ import {
 import { dummyGuildPostBoardGroups, dummyGuildPostBoards, dummyGuildPosts } from '@/dummy/guilds/post'
 import { dummyGuildUsers } from '@/dummy/user'
 import { GuildUser } from '@/types/model/auth/user/user'
+import { v4 } from 'uuid'
+import dayjs from 'dayjs'
 
 export enum GuildPostActionTypes {
   OPEN_SIDE_BAR = 'guildPost/OPEN_SIDE_BAR',
   CLOSE_SIDE_BAR = 'guildPost/CLOSE_SIDE_BAR',
   LOAD_BOARDS_WITH_GROUPS = 'guildPost/LOAD_BOARDS_WITH_GROUPS',
   RESET_BOARDS_WITH_GROUPS = 'guildPost/RESET_BOARDS_WITH_GROUPS',
+  LOAD_CURRENT_POST_BOARDS_WITH_GROUPS = 'guildPost/LOAD_CURRENT_POST_BOARDS_WITH_GROUPS',
+  RESET_CURRENT_POST_BOARDS_WITH_GROUPS = 'guildPost/RESET_CURRENT_POST_BOARDS_WITH_GROUPS',
+  CREATE_POST_BOARD_GROUP = 'guildPost/CREATE_POST_BOARD_GROUP',
+  UPDATE_POST_BOARD_GROUP = 'guildPost/UPDATE_POST_BOARD_GROUP',
+  DELETE_POST_BOARD_GROUP = 'guildPost/DELETE_POST_BOARD_GROUP',
   LOAD_CURRENT_BOARD = 'guildPost/LOAD_CURRENT_BOARD',
   RESET_CURRENT_BOARD = 'guildPost/RESET_CURRENT_BOARD',
   LOAD_POST_LIST_AT_MAIN = 'guildPost/LOAD_POST_LIST_AT_MAIN',
@@ -52,6 +59,25 @@ export interface GuildPostActions {
   ): void
   [GuildPostActionTypes.RESET_BOARDS_WITH_GROUPS](
     { commit }: AugmentedActionContext,
+  ): void
+  [GuildPostActionTypes.LOAD_CURRENT_POST_BOARDS_WITH_GROUPS](
+    { commit }: AugmentedActionContext,
+    payload: string
+  ): void
+  [GuildPostActionTypes.RESET_CURRENT_POST_BOARDS_WITH_GROUPS](
+    { commit }: AugmentedActionContext,
+  ): void
+  [GuildPostActionTypes.CREATE_POST_BOARD_GROUP](
+    { commit }: AugmentedActionContext,
+    payload: GuildPostBoardGroupCreateForm
+  ): string
+  [GuildPostActionTypes.UPDATE_POST_BOARD_GROUP](
+    { commit }: AugmentedActionContext,
+    payload: GuildPostBoardGroupUpdateForm
+  ): void
+  [GuildPostActionTypes.DELETE_POST_BOARD_GROUP](
+    { commit }: AugmentedActionContext,
+    payload: string
   ): void
   /**
    * Load current board by board id
@@ -153,6 +179,41 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
   },
   [GuildPostActionTypes.RESET_BOARDS_WITH_GROUPS] ({ commit }) {
     commit(GuildPostMutationTypes.SET_POST_BOARDS_WITH_GROUPS, [])
+  },
+  [GuildPostActionTypes.LOAD_CURRENT_POST_BOARDS_WITH_GROUPS] ({ commit, rootState }, payload) {
+    const postBoardsWithGroupRes = dummyGuildPostBoardGroups.find(guildPostBoardGroup => guildPostBoardGroup.id === payload)
+    if (postBoardsWithGroupRes) {
+      const postBoardsWithGroup: GuildPostBoardGroupWithBoards = {
+        ...postBoardsWithGroupRes,
+        PostBoards: dummyGuildPostBoards.filter(guildPostBoard => guildPostBoard.postBoardGroupId === postBoardsWithGroupRes.id)
+      }
+      commit(GuildPostMutationTypes.SET_CURRENT_POST_BOARD_GROUP, postBoardsWithGroup)
+    } else {
+      throw new Error('no post board group by id')
+    }
+  },
+  [GuildPostActionTypes.RESET_CURRENT_POST_BOARDS_WITH_GROUPS] ({ commit }) {
+    commit(GuildPostMutationTypes.SET_CURRENT_POST_BOARD_GROUP, {} as GuildPostBoardGroupWithBoards)
+  },
+  [GuildPostActionTypes.CREATE_POST_BOARD_GROUP] ({ rootState }, payload) {
+    const newGuildPostBoardGroupId = v4()
+
+    dummyGuildPostBoardGroups.push({
+      id: newGuildPostBoardGroupId,
+      guildId: rootState.guild.guildInfo.id,
+      name: payload.name,
+      description: payload.description,
+      createdAt: dayjs().toISOString(),
+      updatedAt: dayjs().toISOString(),
+    })
+
+    return newGuildPostBoardGroupId
+  },
+  [GuildPostActionTypes.UPDATE_POST_BOARD_GROUP] ({ commit }, payload) {
+    console.log('temp')
+  },
+  [GuildPostActionTypes.DELETE_POST_BOARD_GROUP] ({ commit }, payload) {
+    console.log('temp')
   },
   [GuildPostActionTypes.LOAD_CURRENT_BOARD] ({ commit }, payload) {
     const postBoardRes = dummyGuildPostBoards.find(post => post.id === payload)

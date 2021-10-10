@@ -147,7 +147,7 @@ export default defineComponent({
         icon: 'library_books',
         index: 1,
         title: 'Post',
-        activeCondition: () => route.name === RouterNameEnum.GUILD_POST_MAIN
+        activeCondition: () => route.matched.findIndex(matchedRoute => matchedRoute.name === RouterNameEnum.GUILD_POST_LAYOUT) >= 0
       },
     ]
 

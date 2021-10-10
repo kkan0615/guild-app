@@ -3,7 +3,7 @@
     class="tw-p-2 tw-w-full tw-flex tw-min-h-full"
   >
     <div
-      class="tw-w-4/5 tw-min-h-full tw-border-r tw-px-2"
+      class="md:tw-w-4/5 tw-w-full tw-min-h-full md:tw-border-r tw-px-2"
     >
       <div
         class="tw-flex tw-flex-col tw-space-y-4"
@@ -16,7 +16,7 @@
       </div>
     </div>
     <div
-      class="tw-w-1/5 tw-flex-grow-0 tw-flex-shrink tw-invisible md:tw-visible"
+      class="tw-w-1/5 tw-flex-grow-0 tw-flex-shrink tw-hidden md:tw-block"
     >
       <div
         class="tw-px-2"

@@ -1,7 +1,7 @@
 <template>
   <button
     :type="type"
-    class="tw-flex tw-flex-wrap tw-items-center btn"
+    class="tw-flex tw-flex-wrap tw-items-center btn tw-justify-center"
   >
     <slot />
   </button>

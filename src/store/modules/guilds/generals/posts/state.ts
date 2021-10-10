@@ -7,6 +7,7 @@ import {
 export interface GuildPostState {
   isOpenSidebar: boolean
   boardsWithGroups: Array<GuildPostBoardGroupWithBoards>
+  currentPostBoardGroup: GuildPostBoardGroupWithBoards
   currentPostBoard: GuildPostBoardInfo
   postListAtMain: Array<GuildPostInfoAtMain>
   recentNewsListAtMain: Array<GuildPostInfoAtMain>
@@ -19,6 +20,7 @@ export interface GuildPostState {
 export const guildPostState: GuildPostState = {
   isOpenSidebar: true,
   boardsWithGroups: [],
+  currentPostBoardGroup: {} as GuildPostBoardGroupWithBoards,
   currentPostBoard: {} as GuildPostBoardInfo,
   postListAtMain: [],
   recentNewsListAtMain: [],

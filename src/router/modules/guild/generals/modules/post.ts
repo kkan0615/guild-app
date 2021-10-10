@@ -20,27 +20,44 @@ export const postGuildRoutes: Array<RouteRecordRaw> = [
           isGuild: true,
         },
       },
+      /* Relative with board group */
       {
-        path: 'postBoard/id/:postBoardId',
-        name: RouterNameEnum.GUILD_POST_BOARD_DETAIL,
-        component: () => import('@/views/guilds/generals/posts/PostBoard/index.vue'),
+        path: 'post-board-group/form/new',
+        name: RouterNameEnum.GUILD_POST_BOARD_GROUP_CREATE_FORM,
+        component: () => import('@/views/guilds/generals/posts/PostBoardGroupForm/index.vue'),
+        meta: {
+          isGuild: true,
+        },
+      },
+      {
+        path: 'post-board-group/form/id/:postBoardGroupId',
+        name: RouterNameEnum.GUILD_POST_BOARD_GROUP_UPDATE_FORM,
+        component: () => import('@/views/guilds/generals/posts/PostBoardGroupForm/index.vue'),
         meta: {
           isGuild: true,
         },
       },
       /* Relative with board */
       {
-        path: 'postBoard/form/new',
-        name: RouterNameEnum.GUILD_POST_BOARD_CREATE_FORM,
-        component: () => import('@/views/guilds/generals/posts/Main/index.vue'),
+        path: 'post-board/id/:postBoardId',
+        name: RouterNameEnum.GUILD_POST_BOARD_DETAIL,
+        component: () => import('@/views/guilds/generals/posts/PostBoard/index.vue'),
         meta: {
           isGuild: true,
         },
       },
       {
-        path: 'postBoard/form/id/:postBoardId',
+        path: 'post-board/form/new',
+        name: RouterNameEnum.GUILD_POST_BOARD_CREATE_FORM,
+        component: () => import('@/views/guilds/generals/posts/PostboardForm/index.vue'),
+        meta: {
+          isGuild: true,
+        },
+      },
+      {
+        path: 'post-board/form/id/:postBoardId',
         name: RouterNameEnum.GUILD_POST_BOARD_UPDATE_FORM,
-        component: () => import('@/views/guilds/generals/posts/Main/index.vue'),
+        component: () => import('@/views/guilds/generals/posts/PostboardForm/index.vue'),
         meta: {
           isGuild: true,
         },

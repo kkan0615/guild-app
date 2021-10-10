@@ -2,24 +2,65 @@
   <c-full-loading
     v-if="fullLoading"
   />
-  <div
+  <c-content-layout
     v-else
-    class="md:tw-p-2"
   >
+    <c-content-layout-header>
+      <template
+        #end
+      >
+        <c-material-icon
+          v-if="hasPermission"
+          class="tw-text-xl"
+          clickable
+          @click="onClickEditBtn"
+        >
+          edit
+        </c-material-icon>
+        <c-material-icon
+          v-if="hasPermission"
+          class="tw-text-xl"
+          clickable
+          @click="onClickDeleteBtn"
+        >
+          delete
+        </c-material-icon>
+      </template>
+    </c-content-layout-header>
     <post-board-post-board-info />
-    <div>
-      Notices
+    <div
+      class="tw-flex tw-flex-col tw-space-y-2"
+    >
+      <c-list-group
+        v-if="postNoticeListByBoard.length"
+        flat
+        :init-open-value="true"
+      >
+        <template
+          #label
+        >
+          <c-title-typo>
+            Notices
+          </c-title-typo>
+        </template>
+        <post-board-post-post-notice-table />
+      </c-list-group>
+      <c-list-group
+        v-if="postNoticeListByBoard.length"
+        flat
+        :init-open-value="true"
+      >
+        <template
+          #label
+        >
+          <c-title-typo>
+            Posts
+          </c-title-typo>
+        </template>
+        <post-board-post-post-table />
+      </c-list-group>
     </div>
-    <div>
-      notice list
-    </div>
-    <div>
-      Posts
-    </div>
-    <div>
-      <post-board-post-post-table />
-    </div>
-  </div>
+  </c-content-layout>
 </template>
 <script
     lang="ts"
@@ -38,6 +79,12 @@ import PostBoardPostBoardInfo from '@/views/guilds/generals/posts/PostBoard/comp
 import PostBoardPostPostTable from '@/views/guilds/generals/posts/PostBoard/components/PostTable.vue'
 import useGuildInfoMixin from '@/mixins/useGuildInfoMixin'
 import CFullLoading from '@/components/commons/loadings/Full/index.vue'
+import PostBoardPostPostNoticeTable from '@/views/guilds/generals/posts/PostBoard/components/PostNoticeTable.vue'
+import CTitleTypo from '@/components/commons/typographies/Title/index.vue'
+import CContentLayout from '@/components/commons/layouts/Content/index.vue'
+import CContentLayoutHeader from '@/components/commons/layouts/Content/components/Header.vue'
+import CMaterialIcon from '@/components/commons/icons/Material/index.vue'
+import CListGroup from '@/components/commons/groups/List/index.vue'
 
 const store = useStore()
 const route = useRoute()
@@ -45,8 +92,21 @@ const router = useRouter()
 
 const { guildUserInfo } = useGuildInfoMixin()
 
-const currentPostBoard = computed(() => store.state.guildPost.currentPostBoard)
 const fullLoading = ref(true)
+
+const currentPostBoard = computed(() => store.state.guildPost.currentPostBoard)
+const hasPermission = computed(() => {
+  let result = false
+  const setting = currentPostBoard.value.setting
+  if (setting) {
+    if (!setting.isPrivate || setting.operatorIds.includes(guildUserInfo.value.id)) {
+      result = true
+    }
+  }
+
+  return result
+})
+const postNoticeListByBoard = computed(() => store.state.guildPost.postNoticeListByBoard)
 
 onMounted(async () => {
   const { postBoardId } = route.params
@@ -95,4 +155,17 @@ onBeforeUnmount(async () => {
     fullLoading.value = false
   }
 })
+
+const onClickEditBtn = async () => {
+  try {
+    await router.push({ name: RouterNameEnum.GUILD_POST_BOARD_UPDATE_FORM, params: { postBoardId: currentPostBoard.value.id } })
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+const onClickDeleteBtn = async () => {
+  console.log('onClickDeleteBtn')
+}
+
 </script>

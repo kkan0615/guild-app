@@ -11,6 +11,7 @@ import {
 export enum GuildPostMutationTypes {
   SET_IS_OPEN_SIDEBAR = 'guildPost/SET_IS_OPEN_SIDEBAR',
   SET_POST_BOARDS_WITH_GROUPS = 'guildPost/SET_POST_BOARDS_WITH_GROUPS',
+  SET_CURRENT_POST_BOARD_GROUP = 'guildPost/SET_CURRENT_POST_BOARD_GROUP',
   SET_CURRENT_POST_BOARD = 'guildPost/SET_CURRENT_POST_BOARD',
   SET_POST_LIST_AT_MAIN = 'guildPost/SET_POST_LIST_AT_MAIN',
   SET_RECENT_NEWS_LIST_AT_MAIN = 'guildPost/SET_RECENT_NEWS_LIST_AT_MAIN',
@@ -23,6 +24,7 @@ export enum GuildPostMutationTypes {
 export type GuildPostMutations<S = GuildPostState> = {
   [GuildPostMutationTypes.SET_IS_OPEN_SIDEBAR](state: S, payload: boolean): void
   [GuildPostMutationTypes.SET_POST_BOARDS_WITH_GROUPS](state: S, payload: Array<GuildPostBoardGroupWithBoards>): void
+  [GuildPostMutationTypes.SET_CURRENT_POST_BOARD_GROUP](state: S, payload: GuildPostBoardGroupWithBoards): void
   [GuildPostMutationTypes.SET_CURRENT_POST_BOARD](state: S, payload: GuildPostBoardInfo): void
   [GuildPostMutationTypes.SET_RECENT_NEWS_LIST_AT_MAIN](state: S, payload: Array<GuildPostInfoAtMain>): void
   [GuildPostMutationTypes.SET_POST_LIST_AT_MAIN](state: S, payload: Array<GuildPostInfoAtMain>): void
@@ -38,6 +40,9 @@ export const guildPostMutations: MutationTree<GuildPostState> & GuildPostMutatio
   },
   [GuildPostMutationTypes.SET_POST_BOARDS_WITH_GROUPS] (state, payload) {
     state.boardsWithGroups = payload
+  },
+  [GuildPostMutationTypes.SET_CURRENT_POST_BOARD_GROUP] (state, payload) {
+    state.currentPostBoardGroup = payload
   },
   [GuildPostMutationTypes.SET_CURRENT_POST_BOARD] (state, payload) {
     state.currentPostBoard = payload

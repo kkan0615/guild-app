@@ -26,7 +26,7 @@
       >
         <guild-post-view-sidebar />
         <div
-          class="tw-h-full md:tw-w-full md:tw-border"
+          class="tw-h-full md:tw-w-full md:tw-border md:tw-overflow-auto"
         >
           <router-view
             :key="route.path"
