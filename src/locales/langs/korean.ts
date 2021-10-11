@@ -22,6 +22,11 @@ export const koreanDictionary = {
       invalidated: '필수값을 모두 입력해주세요.',
       failed: '저장에 실패했습니다. 새로고침 후 다시 시도해주세요.',
       failRedirect: '페이지 이동에 문제가 발생했습니다.',
+    },
+    toastTitle: {
+      saved: '저장 성공',
+      failed: '실패',
+      failedRedirect: '페이지 이동 실패',
     }
   },
   standardRules: {

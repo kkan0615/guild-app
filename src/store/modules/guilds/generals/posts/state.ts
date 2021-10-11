@@ -3,6 +3,8 @@ import {
   GuildPostBoardInfo,
   GuildPostInfo, GuildPostInfoAtMain
 } from '@/types/model/guilds/post'
+import { GuildUserAtSelectList } from '@/types/model/auth/user/user'
+import { MultiselectOption } from '@/utils/libs/multiselect'
 
 export interface GuildPostState {
   isOpenSidebar: boolean
@@ -15,6 +17,7 @@ export interface GuildPostState {
   postNoticeListByBoard: Array<GuildPostInfo>
   recentNewsListByBoard: Array<GuildPostInfo>
   currentPost: GuildPostInfo
+  userList: Array<MultiselectOption>
 }
 
 export const guildPostState: GuildPostState = {
@@ -27,5 +30,6 @@ export const guildPostState: GuildPostState = {
   postListByBoard: [],
   postNoticeListByBoard: [],
   recentNewsListByBoard: [],
-  currentPost: {} as GuildPostInfo
+  currentPost: {} as GuildPostInfo,
+  userList: [],
 }

@@ -22,6 +22,11 @@ export const englishDictionary = {
       invalidated: 'Please type all required fields',
       failed: 'Fail to save. Please try again after press F5 (Refresh)',
       failRedirect: 'Fail to redirect page.',
+    },
+    toastTitle: {
+      saved: 'Saved',
+      failed: 'Failed',
+      failedRedirect: 'Failed to redirect',
     }
   },
   standardRules: {

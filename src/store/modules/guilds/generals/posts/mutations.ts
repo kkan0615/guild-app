@@ -7,6 +7,7 @@ import {
   GuildPostInfo,
   GuildPostInfoAtMain
 } from '@/types/model/guilds/post'
+import { MultiselectOption } from '@/utils/libs/multiselect'
 
 export enum GuildPostMutationTypes {
   SET_IS_OPEN_SIDEBAR = 'guildPost/SET_IS_OPEN_SIDEBAR',
@@ -19,6 +20,7 @@ export enum GuildPostMutationTypes {
   SET_POST_NOTICE_LIST_BY_BOARD = 'guildPost/SET_POST_NOTICE_LIST_BY_BOARD',
   SET_RECENT_NEWS_LIST_BY_BOARD = 'guildPost/SET_RECENT_NEWS_LIST_BY_BOARD',
   SET_CURRENT_POST = 'guildPost/SET_CURRENT_POST',
+  SET_USER_LIST = 'guildPost/SET_USER_LIST',
 }
 
 export type GuildPostMutations<S = GuildPostState> = {
@@ -32,6 +34,7 @@ export type GuildPostMutations<S = GuildPostState> = {
   [GuildPostMutationTypes.SET_POST_NOTICE_LIST_BY_BOARD](state: S, payload: Array<GuildPostInfo>): void
   [GuildPostMutationTypes.SET_RECENT_NEWS_LIST_BY_BOARD](state: S, payload: Array<GuildPostInfo>): void
   [GuildPostMutationTypes.SET_CURRENT_POST](state: S, payload: GuildPostInfo): void
+  [GuildPostMutationTypes.SET_USER_LIST](state: S, payload: Array<MultiselectOption>): void
 }
 
 export const guildPostMutations: MutationTree<GuildPostState> & GuildPostMutations = {
@@ -64,5 +67,8 @@ export const guildPostMutations: MutationTree<GuildPostState> & GuildPostMutatio
   },
   [GuildPostMutationTypes.SET_CURRENT_POST] (state, payload) {
     state.currentPost = payload
+  },
+  [GuildPostMutationTypes.SET_USER_LIST] (state, payload) {
+    state.userList = payload
   },
 }

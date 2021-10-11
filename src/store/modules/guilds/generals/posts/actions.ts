@@ -3,16 +3,22 @@ import { RootState } from '@/store'
 import { GuildPostMutations, GuildPostMutationTypes } from './mutations'
 import { GuildPostState } from './state'
 import {
-  GuildPostBoard, GuildPostBoardGroup, GuildPostBoardGroupCreateForm, GuildPostBoardGroupUpdateForm,
+  GuildPostBoard,
+  GuildPostBoardCreateForm,
+  GuildPostBoardGroup,
+  GuildPostBoardGroupCreateForm,
+  GuildPostBoardGroupUpdateForm,
   GuildPostBoardGroupWithBoards,
-  GuildPostBoardInfo,
-  GuildPostInfo, GuildPostInfoAtMain
+  GuildPostBoardInfo, GuildPostBoardUpdateForm,
+  GuildPostInfo,
+  GuildPostInfoAtMain
 } from '@/types/model/guilds/post'
 import { dummyGuildPostBoardGroups, dummyGuildPostBoards, dummyGuildPosts } from '@/dummy/guilds/post'
 import { dummyGuildUsers } from '@/dummy/user'
 import { GuildUser } from '@/types/model/auth/user/user'
 import { v4 } from 'uuid'
 import dayjs from 'dayjs'
+import { MultiselectOption } from '@/utils/libs/multiselect'
 
 export enum GuildPostActionTypes {
   OPEN_SIDE_BAR = 'guildPost/OPEN_SIDE_BAR',
@@ -26,6 +32,9 @@ export enum GuildPostActionTypes {
   DELETE_POST_BOARD_GROUP = 'guildPost/DELETE_POST_BOARD_GROUP',
   LOAD_CURRENT_BOARD = 'guildPost/LOAD_CURRENT_BOARD',
   RESET_CURRENT_BOARD = 'guildPost/RESET_CURRENT_BOARD',
+  CREATE_POST_BOARD = 'guildPost/CREATE_POST_BOARD',
+  UPDATE_POST_BOARD = 'guildPost/UPDATE_POST_BOARD',
+  DELETE_POST_BOARD = 'guildPost/DELETE_POST_BOARD',
   LOAD_POST_LIST_AT_MAIN = 'guildPost/LOAD_POST_LIST_AT_MAIN',
   RESET_POST_LIST_AT_MAIN = 'guildPost/RESET_POST_LIST_AT_MAIN',
   LOAD_RECENT_NEWS_LIST_AT_MAIN = 'guildPost/LOAD_RECENT_NEWS_LIST_AT_MAIN',
@@ -38,6 +47,8 @@ export enum GuildPostActionTypes {
   RESET_RECENT_NEWS_LIST_BY_BOARD = 'guildPost/RESET_RECENT_NEWS_LIST_BY_BOARD',
   LOAD_CURRENT_POST = 'guildPost/LOAD_CURRENT_POST',
   RESET_CURRENT_POST = 'guildPost/RESET_CURRENT_POST',
+  LOAD_USER_LIST = 'guildPost/LOAD_USER_LIST',
+  RESET_USER_LIST = 'guildPost/RESET_USER_LIST',
 }
 
 export type AugmentedActionContext = {
@@ -90,6 +101,18 @@ export interface GuildPostActions {
   ): void
   [GuildPostActionTypes.RESET_CURRENT_BOARD](
     { commit }: AugmentedActionContext,
+  ): void
+  [GuildPostActionTypes.CREATE_POST_BOARD](
+    { commit }: AugmentedActionContext,
+    payload: GuildPostBoardCreateForm
+  ): string
+  [GuildPostActionTypes.UPDATE_POST_BOARD](
+    { commit }: AugmentedActionContext,
+    payload: GuildPostBoardUpdateForm
+  ): void
+  [GuildPostActionTypes.DELETE_POST_BOARD](
+    { commit }: AugmentedActionContext,
+    payload: string
   ): void
   [GuildPostActionTypes.LOAD_POST_LIST_AT_MAIN](
     { commit }: AugmentedActionContext,
@@ -153,6 +176,12 @@ export interface GuildPostActions {
     payload: string
   ): void
   [GuildPostActionTypes.RESET_CURRENT_POST](
+    { commit }: AugmentedActionContext,
+  ): void
+  [GuildPostActionTypes.LOAD_USER_LIST](
+    { commit }: AugmentedActionContext,
+  ): void
+  [GuildPostActionTypes.RESET_USER_LIST](
     { commit }: AugmentedActionContext,
   ): void
 }
@@ -233,6 +262,34 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
   },
   [GuildPostActionTypes.RESET_CURRENT_BOARD] ({ commit }) {
     commit(GuildPostMutationTypes.SET_CURRENT_POST_BOARD, {} as GuildPostBoardInfo)
+  },
+  [GuildPostActionTypes.CREATE_POST_BOARD] ({ rootState }, payload) {
+    const newGuildPostBoardId = v4()
+
+    dummyGuildPostBoards.push({
+      id: newGuildPostBoardId,
+      guildId: rootState.guild.guildInfo.id,
+      name: payload.name,
+      description: payload.description,
+      postBoardGroupId: payload.postBoardGroupId,
+      isGuild: false,
+      setting: {
+        operatorIds: payload.operatorIds.concat([rootState.guild.guildUserInfo.id]), // Creator should be one of operators
+        isPrivate: payload.isPrivate,
+        allowUserIds: payload.allowUserIds,
+        isAllowComment: payload.isAllowComment,
+      },
+      createdAt: dayjs().toISOString(),
+      updatedAt: dayjs().toISOString(),
+    })
+
+    return newGuildPostBoardId
+  },
+  [GuildPostActionTypes.UPDATE_POST_BOARD] ({ commit }, payload) {
+    console.log('temp')
+  },
+  [GuildPostActionTypes.DELETE_POST_BOARD] ({ commit }, payload) {
+    console.log('temp')
   },
   [GuildPostActionTypes.LOAD_POST_LIST_AT_MAIN] ({ commit }) {
     const postsRes: Array<GuildPostInfoAtMain> = dummyGuildPosts.slice(0, 30).map(guildPost => {
@@ -355,5 +412,19 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
   },
   [GuildPostActionTypes.RESET_CURRENT_POST] ({ commit }) {
     commit(GuildPostMutationTypes.SET_CURRENT_POST, {} as GuildPostInfo)
+  },
+  [GuildPostActionTypes.LOAD_USER_LIST] ({ commit, rootState }) {
+    const guildUsersRes = dummyGuildUsers
+      .filter(guildUser => guildUser.guildId === rootState.guild.guildInfo.id && !guildUser.deletedAt)
+      .map(guildUser => {
+        return {
+          value: guildUser.id,
+          label: guildUser.nickname
+        } as MultiselectOption
+      })
+    commit(GuildPostMutationTypes.SET_USER_LIST, guildUsersRes)
+  },
+  [GuildPostActionTypes.RESET_USER_LIST] ({ commit }) {
+    commit(GuildPostMutationTypes.SET_USER_LIST, [])
   },
 }

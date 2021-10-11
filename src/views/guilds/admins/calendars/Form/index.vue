@@ -71,7 +71,7 @@
           </c-multiple-select>
         </c-horizontal-view-content>
       </c-horizontal-view>
-      <!--   name input   -->
+      <!--    input   -->
       <c-horizontal-view>
         <c-horizontal-view-content>
           <b-checkbox

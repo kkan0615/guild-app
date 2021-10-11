@@ -67,6 +67,12 @@ export interface GuildPostBoardInfo extends GuildPostBoard {
   setting: GuildPostBoardConfigInfo
 }
 
+export type GuildPostBoardCreateForm = Pick<GuildPostBoard, 'guildId' | 'postBoardGroupId' | 'name' | 'description'>
+& Pick<GuildPostBoardConfig, 'isPrivate' | 'operatorIds' | 'allowUserIds' | 'isAllowComment'>
+
+export type GuildPostBoardUpdateForm = Pick<GuildPostBoard, 'id' | 'guildId' | 'postBoardGroupId' | 'name' | 'description'>
+& Pick<GuildPostBoardConfig, 'isPrivate' | 'operatorIds' | 'allowUserIds' | 'isAllowComment'>
+
 export interface GuildPostInfo extends GuildPost {
   PostBoard: GuildPostBoard
   Comments: Array<GuildPostComment>
