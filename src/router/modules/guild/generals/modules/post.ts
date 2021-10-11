@@ -74,7 +74,7 @@ export const postGuildRoutes: Array<RouteRecordRaw> = [
       {
         path: 'post/form/new',
         name: RouterNameEnum.GUILD_POST_CREATE_FORM,
-        component: () => import('@/views/guilds/generals/posts/Main/index.vue'),
+        component: () => import('@/views/guilds/generals/posts/PostForm/index.vue'),
         meta: {
           isGuild: true,
         },
@@ -82,7 +82,7 @@ export const postGuildRoutes: Array<RouteRecordRaw> = [
       {
         path: 'post/form/id/:boardId',
         name: RouterNameEnum.GUILD_POST_UPDATE_FORM,
-        component: () => import('@/views/guilds/generals/posts/Main/index.vue'),
+        component: () => import('@/views/guilds/generals/posts/PostForm/index.vue'),
         meta: {
           isGuild: true,
         },

@@ -29,6 +29,19 @@
             >
               {{ PostBoard.name }}
             </c-list-item>
+            <c-list-item>
+              <c-b-button
+                class="btn btn-sm btn-outline-primary"
+                @click="onClickNewPostBoardAtGroupBtn(boardsWithGroup)"
+              >
+                <c-material-icon
+                  left
+                >
+                  add
+                </c-material-icon>
+                New board
+              </c-b-button>
+            </c-list-item>
           </c-list>
         </c-list-group>
         <!-- Post board group create button -->
@@ -59,7 +72,7 @@ export default {
 }
 </script>
 <script setup lang="ts">
-import type { GuildPostBoard } from '@/types/model/guilds/post'
+import type { GuildPostBoard, GuildPostBoardGroupWithBoards } from '@/types/model/guilds/post'
 import { computed } from 'vue'
 import useStore from '@/store'
 import { GuildPostActionTypes } from '@/store/modules/guilds/generals/posts/actions'
@@ -102,6 +115,14 @@ const onClickPostBoard = async (postBoard: GuildPostBoard) => {
 const onClickNewPostBoardGroupBtn = async () => {
   try {
     await router.push({ name: RouterNameEnum.GUILD_POST_BOARD_GROUP_CREATE_FORM })
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+const onClickNewPostBoardAtGroupBtn = async (postBoardGroup: GuildPostBoardGroupWithBoards) => {
+  try {
+    await router.push({ name: RouterNameEnum.GUILD_POST_BOARD_CREATE_FORM, query: { postBoardGroupId: postBoardGroup.id } })
   } catch (e) {
     console.error(e)
   }

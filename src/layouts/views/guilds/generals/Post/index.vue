@@ -29,7 +29,7 @@
           class="tw-h-full md:tw-w-full md:tw-border md:tw-overflow-auto"
         >
           <router-view
-            :key="route.path"
+            :key="route.fullPath"
           />
         </div>
       </div>

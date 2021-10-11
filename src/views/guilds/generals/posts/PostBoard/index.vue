@@ -31,6 +31,22 @@
     <div
       class="tw-flex tw-flex-col tw-space-y-2"
     >
+      <div
+        class="tw-mt-2"
+      >
+        <c-b-button
+          class="tw-ml-auto btn btn-primary"
+          @click="onClickNewPostBtn"
+        >
+          <c-material-icon
+            clickable
+            left
+          >
+            add
+          </c-material-icon>
+          new post
+        </c-b-button>
+      </div>
       <c-list-group
         v-if="postNoticeListByBoard.length"
         flat
@@ -85,6 +101,7 @@ import CContentLayout from '@/components/commons/layouts/Content/index.vue'
 import CContentLayoutHeader from '@/components/commons/layouts/Content/components/Header.vue'
 import CMaterialIcon from '@/components/commons/icons/Material/index.vue'
 import CListGroup from '@/components/commons/groups/List/index.vue'
+import CBButton from '@/components/bootstraps/Button/index.vue'
 
 const store = useStore()
 const route = useRoute()
@@ -166,6 +183,14 @@ const onClickEditBtn = async () => {
 
 const onClickDeleteBtn = async () => {
   console.log('onClickDeleteBtn')
+}
+
+const onClickNewPostBtn = async () => {
+  try {
+    await router.push({ name: RouterNameEnum.GUILD_POST_CREATE_FORM })
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 </script>

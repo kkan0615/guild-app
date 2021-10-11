@@ -285,11 +285,28 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
 
     return newGuildPostBoardId
   },
-  [GuildPostActionTypes.UPDATE_POST_BOARD] ({ commit }, payload) {
-    console.log('temp')
+  [GuildPostActionTypes.UPDATE_POST_BOARD] (context, payload) {
+    const foundPostBoard = dummyGuildPostBoards.find(postBoard => postBoard.id === payload.id)
+    if (foundPostBoard) {
+      foundPostBoard.name = payload.name
+      foundPostBoard.description = payload.description
+      foundPostBoard.setting.isAllowComment = payload.isAllowComment
+      foundPostBoard.setting.isPrivate = payload.isPrivate
+      foundPostBoard.setting.allowUserIds = payload.allowUserIds
+      foundPostBoard.setting.operatorIds = payload.operatorIds
+      foundPostBoard.updatedAt = dayjs().toISOString()
+    } else {
+      throw new Error('No found post board by id')
+    }
   },
-  [GuildPostActionTypes.DELETE_POST_BOARD] ({ commit }, payload) {
-    console.log('temp')
+  [GuildPostActionTypes.DELETE_POST_BOARD] (context, payload) {
+    const foundPostBoard = dummyGuildPostBoards.find(postBoard => postBoard.id === payload)
+    if (foundPostBoard) {
+      foundPostBoard.updatedAt = dayjs().toISOString()
+      foundPostBoard.deletedAt = dayjs().toISOString()
+    } else {
+      throw new Error('No found post board by id')
+    }
   },
   [GuildPostActionTypes.LOAD_POST_LIST_AT_MAIN] ({ commit }) {
     const postsRes: Array<GuildPostInfoAtMain> = dummyGuildPosts.slice(0, 30).map(guildPost => {

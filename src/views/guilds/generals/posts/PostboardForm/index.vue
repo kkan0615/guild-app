@@ -3,7 +3,9 @@
     class="tw-flex tw-flex-col"
   >
     <c-content-layout-header />
-    <b-form>
+    <b-form
+      ref="formRef"
+    >
       <c-horizontal-view>
         <c-horizontal-view-label>
           Board Group
@@ -139,6 +141,8 @@ const route = useRoute()
 const i18n = useI18n()
 const { addToast } = useToast()
 
+const formRef = ref<InstanceType<typeof BForm> | null>(null)
+
 const name = ref('')
 const description = ref('')
 const isAllowComment = ref(true)
@@ -167,6 +171,9 @@ onMounted(async () => {
     } catch (e) {
       console.error(e)
     }
+  } else {
+    postBoardGroupId.value = route.query.postBoardGroupId as string || ''
+    console.log(route.query.postBoardGroupId)
   }
   try {
     await store.dispatch(GuildPostActionTypes.LOAD_USER_LIST)
@@ -197,58 +204,60 @@ const initData = () => {
 }
 
 const onClickSaveBtn = async () => {
-  if (route.name === RouterNameEnum.GUILD_POST_BOARD_UPDATE_FORM) {
-    try {
-      await store.dispatch(GuildPostActionTypes.UPDATE_POST_BOARD, {
-        id: currentPostBoard.value.id,
-        postBoardGroupId: currentPostBoard.value.postBoardGroupId,
-        name: name.value,
-        description: description.value,
-        isAllowComment: isAllowComment.value,
-        isPrivate: isPrivate.value,
-        operatorIds: operatorIds.value,
-        allowUserIds: allowUserIds.value,
-      } as GuildPostBoardUpdateForm)
-      await store.dispatch(GuildPostActionTypes.LOAD_BOARDS_WITH_GROUPS)
-      await router.push({ name: RouterNameEnum.GUILD_POST_BOARD_DETAIL, params: { postBoardId: currentPostBoard.value.id } })
-      addToast({
-        title: i18n.t('standards.toastTitle.saved'),
-        content: i18n.t('standards.result.updated'),
-        type: 'success',
-      })
-    } catch (e) {
-      console.error(e)
-      addToast({
-        title: i18n.t('standards.toastTitle.failed'),
-        content: i18n.t('standards.result.failed'),
-        type: 'danger',
-      })
-    }
-  } else {
-    try {
-      const newPostBoardId = await store.dispatch(GuildPostActionTypes.CREATE_POST_BOARD, {
-        name: name.value,
-        description: description.value,
-        isAllowComment: isAllowComment.value,
-        isPrivate: isPrivate.value,
-        operatorIds: operatorIds.value,
-        allowUserIds: allowUserIds.value,
-        postBoardGroupId: postBoardGroupId.value,
-      } as GuildPostBoardCreateForm)
-      await store.dispatch(GuildPostActionTypes.LOAD_BOARDS_WITH_GROUPS)
-      await router.push({ name: RouterNameEnum.GUILD_POST_BOARD_DETAIL, params: { postBoardId: newPostBoardId } })
-      addToast({
-        title: i18n.t('standards.toastTitle.saved'),
-        content: i18n.t('standards.result.created'),
-        type: 'success',
-      })
-    } catch (e) {
-      console.error(e)
-      addToast({
-        title: i18n.t('standards.toastTitle.failed'),
-        content: i18n.t('standards.result.failed'),
-        type: 'danger',
-      })
+  if (formRef.value && formRef.value.checkValidation()) {
+    if (route.name === RouterNameEnum.GUILD_POST_BOARD_UPDATE_FORM) {
+      try {
+        await store.dispatch(GuildPostActionTypes.UPDATE_POST_BOARD, {
+          id: currentPostBoard.value.id,
+          postBoardGroupId: currentPostBoard.value.postBoardGroupId,
+          name: name.value,
+          description: description.value,
+          isAllowComment: isAllowComment.value,
+          isPrivate: isPrivate.value,
+          operatorIds: operatorIds.value,
+          allowUserIds: allowUserIds.value,
+        } as GuildPostBoardUpdateForm)
+        await store.dispatch(GuildPostActionTypes.LOAD_BOARDS_WITH_GROUPS)
+        await router.push({ name: RouterNameEnum.GUILD_POST_BOARD_DETAIL, params: { postBoardId: currentPostBoard.value.id } })
+        addToast({
+          title: i18n.t('standards.toastTitle.saved'),
+          content: i18n.t('standards.result.updated'),
+          type: 'success',
+        })
+      } catch (e) {
+        console.error(e)
+        addToast({
+          title: i18n.t('standards.toastTitle.failed'),
+          content: i18n.t('standards.result.failed'),
+          type: 'danger',
+        })
+      }
+    } else {
+      try {
+        const newPostBoardId = await store.dispatch(GuildPostActionTypes.CREATE_POST_BOARD, {
+          name: name.value,
+          description: description.value,
+          isAllowComment: isAllowComment.value,
+          isPrivate: isPrivate.value,
+          operatorIds: operatorIds.value,
+          allowUserIds: allowUserIds.value,
+          postBoardGroupId: postBoardGroupId.value,
+        } as GuildPostBoardCreateForm)
+        await store.dispatch(GuildPostActionTypes.LOAD_BOARDS_WITH_GROUPS)
+        await router.push({ name: RouterNameEnum.GUILD_POST_BOARD_DETAIL, params: { postBoardId: newPostBoardId } })
+        addToast({
+          title: i18n.t('standards.toastTitle.saved'),
+          content: i18n.t('standards.result.created'),
+          type: 'success',
+        })
+      } catch (e) {
+        console.error(e)
+        addToast({
+          title: i18n.t('standards.toastTitle.failed'),
+          content: i18n.t('standards.result.failed'),
+          type: 'danger',
+        })
+      }
     }
   }
 }
