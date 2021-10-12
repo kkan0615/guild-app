@@ -3,11 +3,9 @@
     <!--  headers  -->
     <c-content-layout-header />
     <div
-      class="container"
-    >
-      container,
-      {{ currentPost }}
-    </div>
+      class="container tw-prose tw-mx-auto"
+      v-html="currentPost.content"
+    />
   </c-content-layout>
 </template>
 <script

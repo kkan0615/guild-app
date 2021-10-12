@@ -173,7 +173,6 @@ onMounted(async () => {
     }
   } else {
     postBoardGroupId.value = route.query.postBoardGroupId as string || ''
-    console.log(route.query.postBoardGroupId)
   }
   try {
     await store.dispatch(GuildPostActionTypes.LOAD_USER_LIST)

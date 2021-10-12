@@ -35,16 +35,17 @@
         class="tw-mt-2"
       >
         <c-b-button
-          class="tw-ml-auto btn btn-primary"
+          class="btn-sm btn-primary"
           @click="onClickNewPostBtn"
         >
           <c-material-icon
+            class="tw-text-sm"
             clickable
             left
           >
             add
           </c-material-icon>
-          new post
+          New post
         </c-b-button>
       </div>
       <c-list-group
@@ -187,7 +188,7 @@ const onClickDeleteBtn = async () => {
 
 const onClickNewPostBtn = async () => {
   try {
-    await router.push({ name: RouterNameEnum.GUILD_POST_CREATE_FORM })
+    await router.push({ name: RouterNameEnum.GUILD_POST_CREATE_FORM, query: { postBoardId: currentPostBoard.value.id } })
   } catch (e) {
     console.error(e)
   }

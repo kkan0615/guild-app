@@ -9,9 +9,9 @@ import {
   GuildPostBoardGroupCreateForm,
   GuildPostBoardGroupUpdateForm,
   GuildPostBoardGroupWithBoards,
-  GuildPostBoardInfo, GuildPostBoardUpdateForm,
+  GuildPostBoardInfo, GuildPostBoardUpdateForm, GuildPostCreateForm,
   GuildPostInfo,
-  GuildPostInfoAtMain
+  GuildPostInfoAtMain, GuildPostUpdateForm
 } from '@/types/model/guilds/post'
 import { dummyGuildPostBoardGroups, dummyGuildPostBoards, dummyGuildPosts } from '@/dummy/guilds/post'
 import { dummyGuildUsers } from '@/dummy/user'
@@ -47,6 +47,9 @@ export enum GuildPostActionTypes {
   RESET_RECENT_NEWS_LIST_BY_BOARD = 'guildPost/RESET_RECENT_NEWS_LIST_BY_BOARD',
   LOAD_CURRENT_POST = 'guildPost/LOAD_CURRENT_POST',
   RESET_CURRENT_POST = 'guildPost/RESET_CURRENT_POST',
+  CREATE_POST = 'guildPost/CREATE_POST',
+  UPDATE_POST = 'guildPost/UPDATE_POST',
+  DELETE_POST = 'guildPost/DELETE_POST',
   LOAD_USER_LIST = 'guildPost/LOAD_USER_LIST',
   RESET_USER_LIST = 'guildPost/RESET_USER_LIST',
 }
@@ -177,6 +180,18 @@ export interface GuildPostActions {
   ): void
   [GuildPostActionTypes.RESET_CURRENT_POST](
     { commit }: AugmentedActionContext,
+  ): void
+  [GuildPostActionTypes.CREATE_POST](
+    { commit }: AugmentedActionContext,
+    payload: GuildPostCreateForm
+  ): string
+  [GuildPostActionTypes.UPDATE_POST](
+    { commit }: AugmentedActionContext,
+    payload: GuildPostUpdateForm
+  ): void
+  [GuildPostActionTypes.DELETE_POST](
+    { commit }: AugmentedActionContext,
+    payload: string
   ): void
   [GuildPostActionTypes.LOAD_USER_LIST](
     { commit }: AugmentedActionContext,
@@ -309,7 +324,7 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
     }
   },
   [GuildPostActionTypes.LOAD_POST_LIST_AT_MAIN] ({ commit }) {
-    const postsRes: Array<GuildPostInfoAtMain> = dummyGuildPosts.slice(0, 30).map(guildPost => {
+    const postsRes: Array<GuildPostInfoAtMain> = dummyGuildPosts.reverse().slice(0, 30).map(guildPost => {
       const foundPostBoard = dummyGuildPostBoards.find(postBoard => postBoard.id === guildPost.postBoardId)
       const postBoardInfo: GuildPostBoardInfo = {
         ...(foundPostBoard || {} as GuildPostBoard),
@@ -374,7 +389,7 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
         PostBoard: postBoardInfo,
         Creator: dummyGuildUsers.find(guildUser => guildUser.id === guildPost.creatorId) || {} as GuildUser
       }
-    })
+    }).reverse()
     commit(GuildPostMutationTypes.SET_POST_LIST_BY_BOARD, postsRes)
   },
   [GuildPostActionTypes.RESET_POST_LIST_BY_BOARD_ID] ({ commit }) {
@@ -429,6 +444,44 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
   },
   [GuildPostActionTypes.RESET_CURRENT_POST] ({ commit }) {
     commit(GuildPostMutationTypes.SET_CURRENT_POST, {} as GuildPostInfo)
+  },
+  [GuildPostActionTypes.CREATE_POST] ({ rootState }, payload) {
+    const newGuildPostId = v4()
+
+    dummyGuildPosts.push({
+      id: newGuildPostId,
+      guildId: rootState.guild.guildInfo.id,
+      title: payload.title,
+      content: payload.content,
+      postBoardId: payload.postBoardId,
+      isNotice: payload.isNotice,
+      attachments: [],
+      creatorId: rootState.guild.guildUserInfo.id,
+      createdAt: dayjs().toISOString(),
+      updatedAt: dayjs().toISOString(),
+    })
+
+    return newGuildPostId
+  },
+  [GuildPostActionTypes.UPDATE_POST] (context, payload) {
+    const foundPost = dummyGuildPosts.find(postBoard => postBoard.id === payload.id)
+    if (foundPost) {
+      foundPost.title = payload.title
+      foundPost.content = payload.content
+      foundPost.isNotice = payload.isNotice
+      foundPost.updatedAt = dayjs().toISOString()
+    } else {
+      throw new Error('No found post board by id')
+    }
+  },
+  [GuildPostActionTypes.DELETE_POST] (context, payload) {
+    const foundPost = dummyGuildPosts.find(postBoard => postBoard.id === payload)
+    if (foundPost) {
+      foundPost.updatedAt = dayjs().toISOString()
+      foundPost.deletedAt = dayjs().toISOString()
+    } else {
+      throw new Error('No found post by id')
+    }
   },
   [GuildPostActionTypes.LOAD_USER_LIST] ({ commit, rootState }) {
     const guildUsersRes = dummyGuildUsers

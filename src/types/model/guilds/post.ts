@@ -78,6 +78,9 @@ export interface GuildPostInfo extends GuildPost {
   Comments: Array<GuildPostComment>
   Creator: GuildUser
 }
+export type GuildPostCreateForm = Pick<GuildPost, 'guildId' | 'postBoardId' | 'title' | 'isNotice' | 'content'>
+
+export type GuildPostUpdateForm = Pick<GuildPost, 'id'| 'guildId' | 'postBoardId' | 'title' | 'isNotice' | 'content'>
 
 export interface GuildPostInfoAtMain extends GuildPostInfo {
   PostBoard: GuildPostBoardInfo

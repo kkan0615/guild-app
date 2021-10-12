@@ -80,7 +80,7 @@ export const postGuildRoutes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: 'post/form/id/:boardId',
+        path: 'post/form/id/:postId',
         name: RouterNameEnum.GUILD_POST_UPDATE_FORM,
         component: () => import('@/views/guilds/generals/posts/PostForm/index.vue'),
         meta: {
