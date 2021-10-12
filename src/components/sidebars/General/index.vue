@@ -2,6 +2,7 @@
   <div
     v-if="isOpenSidebar"
     class="
+    tw-rounded-r-xl
     md:tw-h-full
     md:tw-w-64
     md:tw-p-2
