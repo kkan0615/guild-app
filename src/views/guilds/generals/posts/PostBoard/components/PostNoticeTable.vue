@@ -1,7 +1,7 @@
 <template>
   <c-ag-grid
     v-if="postNoticeListByBoard"
-    height="300px"
+    height="250px"
     theme="ag-theme-balham"
     :columns="columns"
     :rows="postNoticeListByBoard"

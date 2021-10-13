@@ -2,7 +2,9 @@
   <c-content-layout
     class="tw-flex tw-flex-col"
   >
-    <c-content-layout-header />
+    <c-content-layout-header
+      @click:backBtn="onClickBackBtn"
+    />
     <b-form>
       <c-horizontal-view>
         <c-horizontal-view-label>
@@ -28,6 +30,19 @@
           />
         </c-horizontal-view-content>
       </c-horizontal-view>
+      <!--      <c-horizontal-view>-->
+      <!--        <c-horizontal-view-label>-->
+      <!--          Boards-->
+      <!--        </c-horizontal-view-label>-->
+      <!--        <c-horizontal-view-content>-->
+      <!--          <post-board-from-guild-post-group-board-form-->
+      <!--            v-for="(boardForm, index) in boards"-->
+      <!--            :key="index"-->
+      <!--            :board-form="boardForm"-->
+      <!--            :title="boardForm.title"-->
+      <!--          />-->
+      <!--        </c-horizontal-view-content>-->
+      <!--      </c-horizontal-view>-->
     </b-form>
     <div
       class="tw-flex tw-items-center tw-mt-auto tw-space-x-2"
@@ -65,10 +80,12 @@ export default {
 </script>
 <script setup lang="ts">
 import type {
-  GuildPostBoard,
   GuildPostBoardGroupCreateForm,
-  GuildPostBoardGroupUpdateForm
+  GuildPostBoardGroupUpdateForm,
+  GuildPostCreateForm,
+  GuildPostUpdateForm
 } from '@/types/model/guilds/post'
+
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import useStore from '@/store'
 import { useRoute } from 'vue-router'
@@ -84,13 +101,22 @@ import BBaseInput from '@/components/commons/inputs/Base/index.vue'
 import BTextarea from '@/components/commons/inputs/Textarea/index.vue'
 import CBButton from '@/components/bootstraps/Button/index.vue'
 import CMaterialIcon from '@/components/commons/icons/Material/index.vue'
+import dayjs from 'dayjs'
+import { router } from '@/router'
+import { useI18n } from 'vue-i18n'
+import useToast from '@/mixins/useToast'
 
 const store = useStore()
 const route = useRoute()
+const i18n  = useI18n()
+const { addToast } = useToast()
 
 const name = ref('')
 const description = ref('')
-const boards = ref<Array<GuildPostBoard>>([])
+const boards = ref<Array<GuildPostCreateForm | GuildPostUpdateForm>>([{
+  id: -dayjs().unix(),
+  title: '',
+}])
 
 const currentPostBoardGroup = computed(() => store.state.guildPost.currentPostBoardGroup)
 
@@ -132,20 +158,49 @@ const onClickSaveBtn = async () => {
         description: description.value,
       } as GuildPostBoardGroupUpdateForm)
       await store.dispatch(GuildPostActionTypes.LOAD_BOARDS_WITH_GROUPS)
+      await router.push({ name: RouterNameEnum.GUILD_POST_BOARD_CREATE_FORM, query: { postBoardGroupId: currentPostBoardGroup.value.id } })
+      addToast({
+        title: i18n.t('standards.toastTitle.saved'),
+        content: i18n.t('standards.result.updated'),
+        type: 'success',
+      })
     } catch (e) {
       console.error(e)
+      addToast({
+        title: i18n.t('standards.toastTitle.failed'),
+        content: i18n.t('standards.result.failed'),
+        type: 'danger',
+      })
     }
   } else {
     try {
-      await store.dispatch(GuildPostActionTypes.CREATE_POST_BOARD_GROUP, {
+      const newPostBoardGroupId = await store.dispatch(GuildPostActionTypes.CREATE_POST_BOARD_GROUP, {
         name: name.value,
         description: description.value,
       } as GuildPostBoardGroupCreateForm)
       await store.dispatch(GuildPostActionTypes.LOAD_BOARDS_WITH_GROUPS)
+      await router.push({ name: RouterNameEnum.GUILD_POST_BOARD_CREATE_FORM, query: { postBoardGroupId: newPostBoardGroupId } })
+      addToast({
+        title: i18n.t('standards.toastTitle.saved'),
+        content: i18n.t('standards.result.created'),
+        type: 'success',
+      })
     } catch (e) {
       console.error(e)
+      addToast({
+        title: i18n.t('standards.toastTitle.failed'),
+        content: i18n.t('standards.result.failed'),
+        type: 'danger',
+      })
     }
   }
 }
 
+const onClickBackBtn = async () => {
+  try {
+    await router.push({ name: RouterNameEnum.GUILD_POST_MAIN })
+  } catch (e) {
+    console.error(e)
+  }
+}
 </script>

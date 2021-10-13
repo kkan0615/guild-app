@@ -1,7 +1,7 @@
 <template>
   <c-ag-grid
     v-if="postListByBoard"
-    height="500px"
+    height="400px"
     theme="ag-theme-balham"
     :columns="columns"
     :rows="postListByBoard"
@@ -18,7 +18,7 @@ export default {
 </script>
 <script setup lang="ts">
 import type { GuildPostInfo } from '@/types/model/guilds/post'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import CAgGrid from '@/components/commons/AgGrid/index.vue'
 import useStore from '@/store'
 import { postInfoColumn } from '@/types/model/guilds/post'

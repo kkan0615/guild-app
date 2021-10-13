@@ -254,10 +254,33 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
     return newGuildPostBoardGroupId
   },
   [GuildPostActionTypes.UPDATE_POST_BOARD_GROUP] ({ commit }, payload) {
-    console.log('temp')
+    const foundPostBoardGroup = dummyGuildPostBoardGroups.find(postBoard => postBoard.id === payload.id)
+    if (foundPostBoardGroup) {
+      foundPostBoardGroup.name = payload.name
+      foundPostBoardGroup.description = payload.description
+      foundPostBoardGroup.updatedAt = dayjs().toISOString()
+    } else {
+      throw new Error('No found post board group by id')
+    }
   },
-  [GuildPostActionTypes.DELETE_POST_BOARD_GROUP] ({ commit }, payload) {
-    console.log('temp')
+  async [GuildPostActionTypes.DELETE_POST_BOARD_GROUP] ({ dispatch }, payload) {
+    const foundPostBoardGroup = dummyGuildPostBoardGroups.find(postBoardGroup => postBoardGroup.id === payload)
+    if (foundPostBoardGroup) {
+      foundPostBoardGroup.updatedAt = dayjs().toISOString()
+      foundPostBoardGroup.deletedAt = dayjs().toISOString()
+      try {
+        const postBoardsRes = dummyGuildPostBoards.filter(postBoard => postBoard.postBoardGroupId === foundPostBoardGroup.id)
+        for (let i = 0; i < postBoardsRes.length; i++) {
+          const postBoardRes = postBoardsRes[i]
+          await dispatch(GuildPostActionTypes.DELETE_POST_BOARD, postBoardRes.id)
+        }
+      } catch (e) {
+        console.error(e)
+        throw new Error(e)
+      }
+    } else {
+      throw new Error('No found post board group by id')
+    }
   },
   [GuildPostActionTypes.LOAD_CURRENT_BOARD] ({ commit }, payload) {
     const postBoardRes = dummyGuildPostBoards.find(post => post.id === payload)
@@ -372,7 +395,8 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
   [GuildPostActionTypes.LOAD_POST_LIST_BY_BOARD_ID] ({ commit }, payload) {
     const postsRes: Array<GuildPostInfoAtMain> = dummyGuildPosts.filter(guildPost =>
       guildPost.postBoardId === payload
-    && !guildPost.deletedAt
+        && !guildPost.isNotice
+        && !guildPost.deletedAt
     ).map(guildPost => {
       const foundPostBoard = dummyGuildPostBoards.find(postBoard => postBoard.id === guildPost.postBoardId)
       const postBoardInfo: GuildPostBoardInfo = {
@@ -416,7 +440,7 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
         PostBoard: postBoardInfo,
         Creator: dummyGuildUsers.find(guildUser => guildUser.id === guildPost.creatorId) || {} as GuildUser
       }
-    })
+    }).reverse()
     commit(GuildPostMutationTypes.SET_POST_NOTICE_LIST_BY_BOARD, postsRes)
   },
   [GuildPostActionTypes.RESET_POST_NOTICE_LIST_BY_BOARD_ID] ({ commit }) {

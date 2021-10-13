@@ -2,7 +2,9 @@
   <c-content-layout
     class="tw-flex tw-flex-col"
   >
-    <c-content-layout-header />
+    <c-content-layout-header
+      @click:backBtn="onClickBackBtn"
+    />
     <b-form
       ref="formRef"
     >
@@ -258,6 +260,14 @@ const onClickSaveBtn = async () => {
         })
       }
     }
+  }
+}
+
+const onClickBackBtn = async () => {
+  try {
+    await router.push({ name: RouterNameEnum.GUILD_POST_MAIN })
+  } catch (e) {
+    console.error(e)
   }
 }
 </script>

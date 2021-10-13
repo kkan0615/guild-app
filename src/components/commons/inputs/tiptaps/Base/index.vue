@@ -228,7 +228,7 @@ onMounted(() => {
     ],
     editorProps: {
       attributes: {
-        class: 'tw-prose tw-mx-auto form-control tw-w-full',
+        class: 'tw-prose tw-prose-lg tw-mx-auto form-control tw-w-full',
       },
     },
     onUpdate: editorProps => {

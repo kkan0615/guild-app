@@ -5,7 +5,9 @@
   <c-content-layout
     v-else
   >
-    <c-content-layout-header>
+    <c-content-layout-header
+      @click:backBtn="onClickBackBtn"
+    >
       <template
         #end
       >
@@ -19,7 +21,7 @@
         </c-material-icon>
         <c-material-icon
           v-if="hasPermission"
-          class="tw-text-xl"
+          class="tw-text-xl tw-text-red-500"
           clickable
           @click="onClickDeleteBtn"
         >
@@ -29,7 +31,7 @@
     </c-content-layout-header>
     <post-board-post-board-info />
     <div
-      class="tw-flex tw-flex-col tw-space-y-2"
+      class="tw-flex tw-flex-col tw-space-y-4"
     >
       <div
         class="tw-mt-2"
@@ -49,7 +51,6 @@
         </c-b-button>
       </div>
       <c-list-group
-        v-if="postNoticeListByBoard.length"
         flat
         :init-open-value="true"
       >
@@ -63,7 +64,6 @@
         <post-board-post-post-notice-table />
       </c-list-group>
       <c-list-group
-        v-if="postNoticeListByBoard.length"
         flat
         :init-open-value="true"
       >
@@ -103,10 +103,14 @@ import CContentLayoutHeader from '@/components/commons/layouts/Content/component
 import CMaterialIcon from '@/components/commons/icons/Material/index.vue'
 import CListGroup from '@/components/commons/groups/List/index.vue'
 import CBButton from '@/components/bootstraps/Button/index.vue'
+import { useI18n } from 'vue-i18n'
+import useToast from '@/mixins/useToast'
 
 const store = useStore()
 const route = useRoute()
 const router = useRouter()
+const i18n  = useI18n()
+const { addToast } = useToast()
 
 const { guildUserInfo } = useGuildInfoMixin()
 
@@ -124,7 +128,6 @@ const hasPermission = computed(() => {
 
   return result
 })
-const postNoticeListByBoard = computed(() => store.state.guildPost.postNoticeListByBoard)
 
 onMounted(async () => {
   const { postBoardId } = route.params
@@ -183,7 +186,23 @@ const onClickEditBtn = async () => {
 }
 
 const onClickDeleteBtn = async () => {
-  console.log('onClickDeleteBtn')
+  try {
+    await store.dispatch(GuildPostActionTypes.DELETE_POST_BOARD, currentPostBoard.value.id)
+    addToast({
+      title: i18n.t('standards.toastTitle.saved'),
+      content: i18n.t('standards.result.removed'),
+      type: 'success',
+    })
+    /* Redirect to main */
+    await router.push({ name: RouterNameEnum.GUILD_POST_MAIN })
+  } catch (e) {
+    console.error(e)
+    addToast({
+      title: i18n.t('standards.toastTitle.failed'),
+      content: i18n.t('standards.result.failed'),
+      type: 'danger',
+    })
+  }
 }
 
 const onClickNewPostBtn = async () => {
@@ -194,4 +213,11 @@ const onClickNewPostBtn = async () => {
   }
 }
 
+const onClickBackBtn = async () => {
+  try {
+    await router.push({ name: RouterNameEnum.GUILD_POST_MAIN })
+  } catch (e) {
+    console.error(e)
+  }
+}
 </script>

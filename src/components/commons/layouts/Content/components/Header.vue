@@ -28,33 +28,17 @@ export default {
 }
 </script>
 <script setup lang="ts">
-import type { PropType } from 'vue'
-import type { RouteParams } from 'vue-router'
 import CMaterialIcon from '@/components/commons/icons/Material/index.vue'
 import CDivider from '@/components/commons/Divider/index.vue'
 import { useRoute, useRouter } from 'vue-router'
-import { defineProps } from 'vue'
+import { defineEmits } from 'vue'
 
 const router = useRouter()
 const route = useRoute()
 
-const props = defineProps({
-  to: {
-    type: Object as PropType<{ name: string; params: RouteParams }>,
-    required: false,
-    default: null
-  }
-})
+const emit = defineEmits(['click:backBtn'])
 
 const onClickBackBtn = async () => {
-  if (props.to) {
-    try {
-      await router.push({ name: props.to.name, params: props.to.params })
-    } catch (e) {
-      console.error(e)
-    }
-  } else {
-    router.back()
-  }
+  emit('click:backBtn')
 }
 </script>

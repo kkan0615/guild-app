@@ -2,8 +2,12 @@
   <c-content-layout
     class="tw-flex tw-flex-col"
   >
-    <c-content-layout-header />
-    <b-form>
+    <c-content-layout-header
+      @click:backBtn="onClickBackBtn"
+    />
+    <b-form
+      ref="formRef"
+    >
       <c-horizontal-view>
         <c-horizontal-view-label>
           title
@@ -90,6 +94,7 @@ const store = useStore()
 const route = useRoute()
 const router = useRouter()
 
+const formRef = ref<InstanceType<typeof BForm>>()
 const title = ref('')
 const content = ref('')
 const isNotice = ref(false)
@@ -111,6 +116,11 @@ onMounted(async () => {
   } else {
     postBoardId.value = route.query.postBoardId as string || ''
   }
+
+  /* Load current post board */
+  if (postBoardId.value) {
+    await store.dispatch(GuildPostActionTypes.LOAD_CURRENT_BOARD, postBoardId.value)
+  }
 })
 
 onBeforeUnmount(async () => {
@@ -129,33 +139,43 @@ const initData = () => {
 }
 
 const onClickSaveBtn = async () => {
-  if (route.name === RouterNameEnum.GUILD_POST_BOARD_GROUP_UPDATE_FORM) {
-    try {
-      await store.dispatch(GuildPostActionTypes.UPDATE_POST, {
-        id: currentPost.value.id,
-        title: title.value,
-        postBoardId: postBoardId.value,
-        content: content.value,
-        isNotice: isNotice.value,
-      } as GuildPostUpdateForm)
-      await store.dispatch(GuildPostActionTypes.LOAD_BOARDS_WITH_GROUPS)
-      await router.push({ name: RouterNameEnum.GUILD_POST_DETAIL, params: { postId: currentPost.value.id } })
-    } catch (e) {
-      console.error(e)
+  if (formRef.value && formRef.value?.checkValidation()) {
+    if (route.name === RouterNameEnum.GUILD_POST_BOARD_GROUP_UPDATE_FORM) {
+      try {
+        await store.dispatch(GuildPostActionTypes.UPDATE_POST, {
+          id: currentPost.value.id,
+          title: title.value,
+          postBoardId: postBoardId.value,
+          content: content.value,
+          isNotice: isNotice.value,
+        } as GuildPostUpdateForm)
+        await store.dispatch(GuildPostActionTypes.LOAD_BOARDS_WITH_GROUPS)
+        await router.push({ name: RouterNameEnum.GUILD_POST_DETAIL, params: { postId: currentPost.value.id } })
+      } catch (e) {
+        console.error(e)
+      }
+    } else {
+      try {
+        const newPostId = await store.dispatch(GuildPostActionTypes.CREATE_POST, {
+          title: title.value,
+          postBoardId: postBoardId.value,
+          content: content.value,
+          isNotice: isNotice.value,
+        } as GuildPostCreateForm)
+        await store.dispatch(GuildPostActionTypes.LOAD_BOARDS_WITH_GROUPS)
+        await router.push({ name: RouterNameEnum.GUILD_POST_DETAIL, params: { postId: newPostId } })
+      } catch (e) {
+        console.error(e)
+      }
     }
-  } else {
-    try {
-      const newPostId = await store.dispatch(GuildPostActionTypes.CREATE_POST, {
-        title: title.value,
-        postBoardId: postBoardId.value,
-        content: content.value,
-        isNotice: isNotice.value,
-      } as GuildPostCreateForm)
-      await store.dispatch(GuildPostActionTypes.LOAD_BOARDS_WITH_GROUPS)
-      await router.push({ name: RouterNameEnum.GUILD_POST_DETAIL, params: { postId: newPostId } })
-    } catch (e) {
-      console.error(e)
-    }
+  }
+}
+
+const onClickBackBtn = async () => {
+  try {
+    await router.push({ name: RouterNameEnum.GUILD_POST_BOARD_DETAIL, params: { postBoardId: postBoardId.value } })
+  } catch (e) {
+    console.error(e)
   }
 }
 </script>

@@ -67,7 +67,7 @@ export const initDummyGuildPostBoardGroups = () => {
   dummyGuildPostBoardGroups = dummyGuildPostBoardGroups.concat([{
     id: 'test-guild-post-board-groups-id',
     guildId: 'test-id',
-    name: faker.lorem.text(),
+    name: faker.name.title(),
     description: faker.lorem.lines(),
     createdAt: dayjs().toISOString(),
     updatedAt: dayjs().toISOString(),

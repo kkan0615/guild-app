@@ -1,7 +1,9 @@
 <template>
   <c-content-layout>
     <!--  headers  -->
-    <c-content-layout-header />
+    <c-content-layout-header
+      @click:backBtn="onClickBackBtn"
+    />
     <div
       class="container tw-prose tw-mx-auto"
       v-html="currentPost.content"
@@ -22,6 +24,7 @@ import { GuildPostActionTypes } from '@/store/modules/guilds/generals/posts/acti
 import { useRoute, useRouter } from 'vue-router'
 import CContentLayout from '@/components/commons/layouts/Content/index.vue'
 import CContentLayoutHeader from '@/components/commons/layouts/Content/components/Header.vue'
+import { RouterNameEnum } from '@/types/systems/routers/keys'
 
 const store = useStore()
 const route = useRoute()
@@ -49,4 +52,11 @@ onBeforeUnmount(async () => {
   }
 })
 
+const onClickBackBtn = async () => {
+  try {
+    await router.push({ name: RouterNameEnum.GUILD_POST_BOARD_DETAIL, params: { postBoardId: currentPost.value.postBoardId } })
+  } catch (e) {
+    console.error(e)
+  }
+}
 </script>
