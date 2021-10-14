@@ -11,12 +11,15 @@ export const initDummyGuildNotices = () => {
   dummyGuildNotices = [...Array(30).keys()].map(() => {
     const color = lightTextBgColors[Math.floor(Math.random() * lightTextBgColors.length)]
 
+    const cols = Math.floor(Math.random() * 10) + 2
+    console.log(cols)
     return {
       id: v4(),
       guildId: 'test-id',
       title: faker.name.title(),
       content: faker.lorem.paragraphs(),
       color,
+      cols: Math.floor(Math.random() * 10) + 2,
       endDate: dayjs().add(1, 'day').toISOString(),
       createdAt: dayjs().toISOString(),
       updatedAt: dayjs().toISOString(),

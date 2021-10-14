@@ -7,6 +7,7 @@ export interface GuildNotice extends FirebaseAttributes {
   color: string
   content?: string
   endDate?: CustomDate
+  cols: number // min is 1, max is 12
 }
 
 export type GuildNoticeCreatForm = Pick<GuildNotice, 'title' | 'content' | 'color' | 'endDate'>

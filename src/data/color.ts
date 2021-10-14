@@ -26,7 +26,6 @@ export const lightTextBgColors: Array<string> = [
   '#8bbbff',
   '#9DABDD',
   '#bbadff',
-  '#eaeaee',
   '#a4acad',
   '#ffa6ea',
   '#FEADB9',

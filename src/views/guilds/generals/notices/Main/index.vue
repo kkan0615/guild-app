@@ -27,15 +27,24 @@
         </c-b-button>
       </main-guild-notice-form>
     </div>
-    <div
-      class="tw-mt-4 container tw-grid md:tw-grid-cols-2 tw-gap-4"
+    <button
+      @click="test"
     >
-      <main-guild-notice-notice
+      test
+    </button>
+    <div
+      class="notices tw-mt-4 tw-w-full"
+    >
+      <div
         v-for="(notice, index) in noticeList"
-        :id="`notice-update-form-${index}`"
         :key="notice.id"
-        :notice="notice"
-      />
+        class="notice md:tw-w-1/4 tw-w-full p-1"
+      >
+        <main-guild-notice-notice
+          :id="`notice-update-form-${index}`"
+          :notice="notice"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -48,7 +57,8 @@ export default {
 </script>
 <script setup lang="ts">
 import type { CBBreadcrumb } from '@/components/bootstraps/Breadcrumb/types'
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import Masonry from 'masonry-layout'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import useStore from '@/store'
 import { GuildNoticeActionTypes } from '@/store/modules/guilds/generals/notices/actions'
 import MainGuildNoticeForm from '@/views/guilds/generals/notices/Main/components/Form.vue'
@@ -81,6 +91,11 @@ const noticeList = computed(() => store.state.guildNotice.noticeList)
 onMounted(async () => {
   try {
     await store.dispatch(GuildNoticeActionTypes.LOAD_NOTICE_LIST)
+    new Masonry('.notices', {
+      itemSelector: '.notice',
+      originTop: true,
+      resize: true,
+    })
   } catch (e) {
     console.error(e)
   }
@@ -94,4 +109,23 @@ onBeforeUnmount(async () => {
   }
 })
 
+// const test = () => {
+//   noticeList.value.unshift({
+//     id: 'test',
+//     title: 'tr123',
+//     content: 'wow',
+//   })
+//
+//   nextTick(() => {
+//     const msnry = new Masonry('.notices', {
+//       itemSelector: '.notice',
+//       originTop: true,
+//       resize: true,
+//     })
+//   })
+// }
+
 </script>
+<style>
+
+</style>

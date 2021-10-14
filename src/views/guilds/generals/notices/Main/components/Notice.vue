@@ -3,7 +3,7 @@
     class="tw-border tw-border-gray-500 tw-rounded-md"
   >
     <div
-      class="tw-p-2  tw-text-lg tw-flex tw-items-center"
+      class="tw-p-2 tw-text-lg"
       :style="{
         'background-color': notice.color,
       }"
@@ -14,7 +14,7 @@
         {{ notice.title }}
       </div>
       <div
-        class="tw-ml-auto tw-flex"
+        class="tw-flex tw-justify-end tw-flex tw-flex-wrap"
       >
         <main-guild-notice-form
           :id="id"
