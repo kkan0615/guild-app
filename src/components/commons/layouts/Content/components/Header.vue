@@ -9,7 +9,7 @@
       chevron_left
     </c-material-icon>
     <div
-      class="tw-ml-auto"
+      class="tw-ml-auto tw-flex tw-items-center"
     >
       <slot
         name="end"

@@ -4,10 +4,11 @@
       class="tw-flex tw-items-center mt-4"
     >
       <div
-        class="tw-flex tw-items-center"
+        class="tw-flex tw-items-center tw-text-sm
+"
       >
         <c-material-icon
-          class="tw-text-xl"
+          class=" tw-text-center"
         >
           comments
         </c-material-icon>

@@ -6,12 +6,13 @@
       class="tw-flex-grow-0 tw-flex-shrink"
       :page-name="$t(`router.${RouterNameEnum.GUILD_POST_MAIN}.title`)"
       :breadcrumbs="breadcrumbs"
+      @click:pageName="onClickPageName"
     >
       <template
         #prepend
       >
         <c-material-icon
-          class="tw-mr-2"
+          class="tw-mr-2 tw-text-xl"
           @click="onClickMenuBtn"
         >
           menu
@@ -53,10 +54,11 @@ import useStore from '@/store'
 import CMaterialIcon from '@/components/commons/icons/Material/index.vue'
 import { GuildPostActionTypes } from '@/store/modules/guilds/generals/posts/actions'
 import GuildPostViewSidebar from '@/components/sidebars/views/guilds/Post/index.vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const store = useStore()
 const route = useRoute()
+const router = useRouter()
 const i18n = useI18n()
 
 /* Breadcrumbs data */
@@ -98,6 +100,14 @@ const onClickMenuBtn = async () => {
     } else {
       await store.dispatch(GuildPostActionTypes.OPEN_SIDE_BAR)
     }
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+const onClickPageName = async () => {
+  try {
+    await router.push({ name: RouterNameEnum.GUILD_POST_MAIN })
   } catch (e) {
     console.error(e)
   }

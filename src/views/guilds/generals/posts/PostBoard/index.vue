@@ -11,22 +11,34 @@
       <template
         #end
       >
-        <c-material-icon
+        <c-b-button
           v-if="hasPermission"
-          class="tw-text-xl"
-          clickable
+          class="btn-primary btn-sm tw-mr-2"
           @click="onClickEditBtn"
         >
-          edit
-        </c-material-icon>
-        <c-material-icon
+          <c-material-icon
+            left
+            clickable
+          >
+            edit
+          </c-material-icon>
+          <span>
+            Edit
+          </span>
+        </c-b-button>
+        <c-b-button
           v-if="hasPermission"
-          class="tw-text-xl tw-text-red-500"
-          clickable
-          @click="onClickDeleteBtn"
+          class="btn-danger btn-sm"
+          @click="onClickEditBtn"
         >
-          delete
-        </c-material-icon>
+          <c-material-icon
+            left
+            clickable
+          >
+            delete
+          </c-material-icon>
+          Delete
+        </c-b-button>
       </template>
     </c-content-layout-header>
     <post-board-post-board-info />

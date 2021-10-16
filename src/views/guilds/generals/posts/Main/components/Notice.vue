@@ -1,6 +1,6 @@
 <template>
   <div
-    class="tw-rounded tw-text-sm tw-border-b tw-border-t tw-py-1 tw-px-2"
+    class="tw-rounded tw-text-sm tw-border-b tw-border-t tw-py-1 tw-px-2 hover:tw-bg-gray-200"
   >
     <div
       v-if="post.PostBoard && post.PostBoard.PostBoardGroup"

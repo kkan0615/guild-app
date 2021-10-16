@@ -18,53 +18,9 @@
           :key="boardsWithGroup.id"
           :label="boardsWithGroup.name"
         >
-          <c-list>
-            <c-list-item
-              class="tw-flex"
-            >
-              <div
-                class="tw-ml-auto tw-flex tw-space-x-2"
-              >
-                <c-material-icon
-                  class="tw-text-sm"
-                  clickable
-                  @click="onClickEditBtn(boardsWithGroup)"
-                >
-                  edit
-                </c-material-icon>
-                <c-material-icon
-                  class="tw-text-sm tw-text-red-500"
-                  clickable
-                  @click="onClickDeleteBtn(boardsWithGroup)"
-                >
-                  delete
-                </c-material-icon>
-              </div>
-            </c-list-item>
-            <c-list-item
-              v-for="PostBoard in boardsWithGroup.PostBoards"
-              :key="PostBoard.id"
-              class="tw-font-normal tw-text-sm"
-              clickable
-              :active="currentPostBoard && currentPostBoard.id === PostBoard.id"
-              @click="onClickPostBoard(PostBoard)"
-            >
-              {{ PostBoard.name }}
-            </c-list-item>
-            <c-list-item>
-              <c-b-button
-                class="btn btn-sm btn-outline-primary"
-                @click="onClickNewPostBoardAtGroupBtn(boardsWithGroup)"
-              >
-                <c-material-icon
-                  left
-                >
-                  add
-                </c-material-icon>
-                New board
-              </c-b-button>
-            </c-list-item>
-          </c-list>
+          <guild-post-view-sidebar-board-group
+            :board-group-with-boards="boardsWithGroup"
+          />
         </c-list-group>
         <!-- Post board group create button -->
         <c-b-button
@@ -94,29 +50,22 @@ export default {
 }
 </script>
 <script setup lang="ts">
-import type { GuildPostBoard, GuildPostBoardGroupWithBoards } from '@/types/model/guilds/post'
 import { computed } from 'vue'
 import useStore from '@/store'
 import { GuildPostActionTypes } from '@/store/modules/guilds/generals/posts/actions'
 import CListGroup from '@/components/commons/groups/List/index.vue'
 import { useRouter } from 'vue-router'
 import { RouterNameEnum } from '@/types/systems/routers/keys'
-import CList from '@/components/commons/List/index.vue'
-import CListItem from '@/components/commons/List/components/Item.vue'
 import CBButton from '@/components/bootstraps/Button/index.vue'
 import CMaterialIcon from '@/components/commons/icons/Material/index.vue'
-import { useI18n } from 'vue-i18n'
-import useToast from '@/mixins/useToast'
+import GuildPostViewSidebarBoardGroup from '@/components/sidebars/views/guilds/Post/components/BoardGroup.vue'
 
 const store = useStore()
 const router = useRouter()
-const i18n  = useI18n()
-const { addToast } = useToast()
 
 const isOpenSidebar = computed(() => store.state.guildPost.isOpenSidebar)
 const isOpenLayoutSidebar = computed(() => store.state.guild.isOpenSideBar)
 const boardsWithGroups = computed(() => store.state.guildPost.boardsWithGroups)
-const currentPostBoard = computed(() => store.state.guildPost.currentPostBoard)
 
 const onClickOutside = async () => {
   try {
@@ -130,54 +79,11 @@ const onClickOutside = async () => {
   }
 }
 
-const onClickPostBoard = async (postBoard: GuildPostBoard) => {
-  try {
-    await router.push({ name: RouterNameEnum.GUILD_POST_BOARD_DETAIL, params: { postBoardId: postBoard.id } })
-  } catch (e) {
-    console.error(e)
-  }
-}
-
 const onClickNewPostBoardGroupBtn = async () => {
   try {
     await router.push({ name: RouterNameEnum.GUILD_POST_BOARD_GROUP_CREATE_FORM })
   } catch (e) {
     console.error(e)
-  }
-}
-
-const onClickNewPostBoardAtGroupBtn = async (postBoardGroup: GuildPostBoardGroupWithBoards) => {
-  try {
-    await router.push({ name: RouterNameEnum.GUILD_POST_BOARD_CREATE_FORM, query: { postBoardGroupId: postBoardGroup.id } })
-  } catch (e) {
-    console.error(e)
-  }
-}
-
-const onClickEditBtn = async (postBoardGroup: GuildPostBoardGroupWithBoards) => {
-  try {
-    await router.push({ name: RouterNameEnum.GUILD_POST_BOARD_GROUP_UPDATE_FORM, params: { postBoardGroupId: postBoardGroup.id } })
-  } catch (e) {
-    console.error()
-  }
-}
-
-const onClickDeleteBtn = async (postBoardGroup: GuildPostBoardGroupWithBoards) => {
-  try {
-    await store.dispatch(GuildPostActionTypes.DELETE_POST_BOARD_GROUP, postBoardGroup.id)
-    await store.dispatch(GuildPostActionTypes.LOAD_BOARDS_WITH_GROUPS)
-    addToast({
-      title: i18n.t('standards.toastTitle.saved'),
-      content: i18n.t('standards.result.removed'),
-      type: 'success',
-    })
-  } catch (e) {
-    console.error(e)
-    addToast({
-      title: i18n.t('standards.toastTitle.failed'),
-      content: i18n.t('standards.result.failed'),
-      type: 'danger',
-    })
   }
 }
 

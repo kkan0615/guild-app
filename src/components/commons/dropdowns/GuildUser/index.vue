@@ -5,7 +5,7 @@
       data-bs-toggle="dropdown"
       size="8"
       aria-expanded="false"
-      class="tw-ring tw-rounded-full"
+      class="tw-border tw-border-black tw-rounded-full"
       :src="guildUserInfo.img"
       :name="guildUserInfo.nickname"
       :color="guildUserInfo.color || 'primary'"

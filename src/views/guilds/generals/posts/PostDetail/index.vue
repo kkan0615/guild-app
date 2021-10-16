@@ -7,69 +7,76 @@
       <template
         #end
       >
-        <c-material-icon
+        <c-b-button
           v-if="hasEditPermission"
-          class="tw-text-xl"
-          clickable
+          class="btn-primary btn-sm tw-mr-2"
           @click="onClickEditBtn"
         >
-          edit
-        </c-material-icon>
-        <c-material-icon
-          v-if="hasDeletePermission"
-          class="tw-text-xl tw-text-red-500"
-          clickable
-          @click="onClickDeleteBtn"
+          <c-material-icon
+            left
+            clickable
+          >
+            edit
+          </c-material-icon>
+          <span>
+            Edit
+          </span>
+        </c-b-button>
+        <c-b-button
+          v-if="hasEditPermission"
+          class="btn-danger btn-sm"
+          @click="onClickEditBtn"
         >
-          delete
-        </c-material-icon>
+          <c-material-icon
+            left
+            clickable
+          >
+            delete
+          </c-material-icon>
+          Delete
+        </c-b-button>
       </template>
     </c-content-layout-header>
     <div
-      class="custom-container"
+      class="tw-text-2xl tw-font-bold"
     >
+      {{ currentPost.title }}
+    </div>
+    <div
+      class="tw-flex tw-text-sm tw-mt-2"
+    >
+      <!--    Creator    -->
       <div
-        class="tw-text-2xl tw-font-bold"
+        v-if="currentPost.Creator"
       >
-        {{ currentPost.title }}
-      </div>
-      <div
-        class="tw-flex tw-text-sm tw-mt-1"
-      >
-        <!--    Creator    -->
         <div
-          v-if="currentPost.Creator"
+          class="tw-flex tw-items-center"
         >
-          <div
-            class="tw-flex tw-items-center"
-          >
-            <t-avatar
-              class="tw-mr-2"
-              :size="7"
-              :name="currentPost.Creator.nickname"
-              :src="currentPost.Creator.img"
-            />
-            {{ currentPost.Creator.nickname }}
-          </div>
-        </div>
-        <!--    Last updatedAt    -->
-        <div
-          class="tw-ml-auto"
-        >
-          {{ formattedLastUpdatedAt }}
+          <t-avatar
+            class="tw-mr-2"
+            :size="7"
+            :name="currentPost.Creator.nickname"
+            :src="currentPost.Creator.img"
+          />
+          {{ currentPost.Creator.nickname }}
         </div>
       </div>
-      <c-divider
-        class="tw-my-2"
-      />
-      <!--   content   -->
+      <!--    Last updatedAt    -->
       <div
-        v-html="currentPost.content"
-      />
+        class="tw-ml-auto"
+      >
+        {{ formattedLastUpdatedAt }}
+      </div>
     </div>
-    <div>
-      <post-detail-guild-post-comments />
-    </div>
+    <c-divider
+      class="tw-my-2"
+    />
+    <!--   content   -->
+    <div
+      class="custom-container tw-ml-0 tw-mr-auto"
+      v-html="currentPost.content"
+    />
+    <post-detail-guild-post-comments />
   </c-content-layout>
 </template>
 <script
@@ -93,6 +100,7 @@ import CDivider from '@/components/commons/Divider/index.vue'
 import dayjs from 'dayjs'
 import TAvatar from '@/components/tailwinds/Avatar/index.vue'
 import PostDetailGuildPostComments from '@/views/guilds/generals/posts/PostDetail/components/Comments.vue'
+import CBButton from '@/components/bootstraps/Button/index.vue'
 
 const store = useStore()
 const route = useRoute()

@@ -6,7 +6,8 @@
       name="prepend"
     />
     <div
-      class="tw-text-lg tw-font-bold"
+      class="tw-text-lg tw-font-bold tw-cursor-pointer"
+      @click="onClickPageName"
     >
       {{ pageName }}
     </div>
@@ -32,7 +33,7 @@ export default {
 <script setup lang="ts">
 import type { PropType } from 'vue'
 import type { CBBreadcrumb } from '@/components/bootstraps/Breadcrumb/types'
-import { defineProps } from 'vue'
+import { defineEmits, defineProps } from 'vue'
 import BBreadCrumb from '@/components/bootstraps/Breadcrumb/index.vue'
 
 const props = defineProps({
@@ -47,4 +48,11 @@ const props = defineProps({
     default: () => [],
   }
 })
+
+const emits = defineEmits(['click:pageName'])
+
+const onClickPageName = () => {
+  emits('click:pageName')
+}
+
 </script>

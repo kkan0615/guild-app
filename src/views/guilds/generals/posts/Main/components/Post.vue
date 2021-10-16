@@ -1,6 +1,6 @@
 <template>
   <div
-    class="tw-rounded tw-text-sm tw-cursor-pointer hover:tw-border-2 tw-border-black"
+    class="tw-rounded tw-text-sm tw-cursor-pointer tw-p-2 hover:tw-border-2 tw-border-black hover:tw-bg-gray-200"
     @click="onClickPost"
   >
     <div

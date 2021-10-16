@@ -401,7 +401,7 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
     commit(GuildPostMutationTypes.SET_POST_LIST_AT_MAIN, [])
   },
   [GuildPostActionTypes.LOAD_RECENT_NEWS_LIST_AT_MAIN] ({ commit }) {
-    const postsRes: Array<GuildPostInfoAtMain> = dummyGuildPosts.map(guildPost => {
+    const postsRes: Array<GuildPostInfoAtMain> = dummyGuildPosts.filter(guildPost => guildPost.isNotice).map(guildPost => {
       const foundPostBoard = dummyGuildPostBoards.find(postBoard => postBoard.id === guildPost.postBoardId)
       const postBoardInfo: GuildPostBoardInfo = {
         ...(foundPostBoard || {} as GuildPostBoard),
@@ -417,7 +417,9 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
         PostBoard: postBoardInfo,
         Creator: dummyGuildUsers.find(guildUser => guildUser.id === guildPost.creatorId) || {} as GuildUser
       }
-    }).filter(guildPost => guildPost.isNotice)
+    })
+    console.log(dummyGuildPosts.filter(guildPost => guildPost.isNotice))
+    console.log('postsRes', postsRes)
     commit(GuildPostMutationTypes.SET_RECENT_NEWS_LIST_AT_MAIN, postsRes)
   },
   [GuildPostActionTypes.RESET_RECENT_NEWS_LIST_AT_MAIN] ({ commit }) {

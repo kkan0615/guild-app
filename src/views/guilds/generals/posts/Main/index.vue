@@ -1,6 +1,6 @@
 <template>
   <div
-    class="tw-p-2 tw-w-full tw-flex tw-min-h-full"
+    class="tw-w-full tw-flex tw-min-h-full"
   >
     <div
       class="md:tw-w-4/5 tw-w-full tw-min-h-full md:tw-border-r tw-px-2"
@@ -19,12 +19,12 @@
       class="tw-w-1/5 tw-flex-grow-0 tw-flex-shrink tw-hidden md:tw-block"
     >
       <div
-        class="tw-px-2"
+        class="tw-px-2 tw-mb-2"
       >
-        Notice ({{ postListByBoard.length }})
+        Notices ({{ recentNewsListAtMain.length }})
       </div>
       <main-guild-post-news
-        v-for="post in postListByBoard"
+        v-for="post in recentNewsListAtMain"
         :key="post.id"
         :post="post"
       />
@@ -48,7 +48,7 @@ import MainGuildPostNews from '@/views/guilds/generals/posts/Main/components/Not
 const store = useStore()
 
 const postListAtMain = computed(() => store.state.guildPost.postListAtMain)
-const postListByBoard = computed(() => store.state.guildPost.postListByBoard)
+const recentNewsListAtMain = computed(() => store.state.guildPost.recentNewsListAtMain)
 
 onMounted(async () => {
   try {

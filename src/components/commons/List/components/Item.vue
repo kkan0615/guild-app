@@ -6,6 +6,7 @@
       'tw-border-blue-500': active,
       'tw-bg-gray-300': active,
       'tw-cursor-pointer': clickable,
+      'hover:tw-bg-gray-200': !disableHover,
     }"
   >
     <slot />
@@ -31,6 +32,11 @@ const props = defineProps({
     type: Boolean,
     required: false,
     default: false,
+  },
+  disableHover: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 })
 </script>
