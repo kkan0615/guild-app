@@ -4,3 +4,8 @@
 .standard-max-width {
   max-width: 1024px;
 }
+
+.custom-container {
+  @apply tw-mx-auto;
+  max-width: 768px; // md
+}

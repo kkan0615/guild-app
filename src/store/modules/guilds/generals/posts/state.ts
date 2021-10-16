@@ -1,6 +1,6 @@
 import {
   GuildPostBoardGroupWithBoards,
-  GuildPostBoardInfo,
+  GuildPostBoardInfo, GuildPostComment, GuildPostCommentInfo,
   GuildPostInfo, GuildPostInfoAtMain
 } from '@/types/model/guilds/post'
 import { GuildUserAtSelectList } from '@/types/model/auth/user/user'
@@ -17,6 +17,7 @@ export interface GuildPostState {
   postNoticeListByBoard: Array<GuildPostInfo>
   recentNewsListByBoard: Array<GuildPostInfo>
   currentPost: GuildPostInfo
+  commentListByPost: Array<GuildPostCommentInfo>
   userList: Array<MultiselectOption>
 }
 
@@ -31,5 +32,6 @@ export const guildPostState: GuildPostState = {
   postNoticeListByBoard: [],
   recentNewsListByBoard: [],
   currentPost: {} as GuildPostInfo,
+  commentListByPost: [],
   userList: [],
 }

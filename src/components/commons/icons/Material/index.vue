@@ -4,6 +4,7 @@
     :class="{
       'material-icons': type === '',
       [`material-icons-${type}`]: type !== '',
+      [`tw-text-${size}`]: !!size,
       'tw-mr-2': left,
       'tw-cursor-pointer': clickable,
     }"
@@ -21,7 +22,7 @@ export default defineComponent({
     type: {
       type: String as PropType<'outlined' | '' | 'round' | 'sharp' | 'two-tone'>,
       required: false,
-      default: '',
+      default: 'round',
     },
     clickable: {
       type: Boolean,
@@ -32,6 +33,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false,
+    },
+    size: {
+      type: String,
+      required: false,
+      default: 'base',
     }
   },
   setup: () => {

@@ -1,6 +1,4 @@
-import { GuildNotice } from '@/types/model/guilds/notice'
-import { GuildPost, GuildPostBoard, GuildPostBoardGroup } from '@/types/model/guilds/post'
-import { lightTextBgColors } from '@/data/color'
+import { GuildPost, GuildPostBoard, GuildPostBoardGroup, GuildPostComment } from '@/types/model/guilds/post'
 import { v4 } from 'uuid'
 import faker from 'faker'
 import dayjs from 'dayjs'
@@ -14,6 +12,9 @@ export let dummyGuildPostBoards: Array<GuildPostBoard> = []
 
 // eslint-disable-next-line
 export let dummyGuildPosts: Array<GuildPost> = []
+
+// eslint-disable-next-line
+export let dummyGuildPostComments: Array<GuildPostComment> = []
 
 export const initDummyGuildPostBoardGroups = () => {
   const testIdGuildUsers = dummyGuildUsers.filter(dgu => dgu.guildId === 'test-id')

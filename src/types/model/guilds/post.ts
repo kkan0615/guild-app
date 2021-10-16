@@ -78,13 +78,20 @@ export interface GuildPostInfo extends GuildPost {
   Comments: Array<GuildPostComment>
   Creator: GuildUser
 }
-export type GuildPostCreateForm = Pick<GuildPost, 'guildId' | 'postBoardId' | 'title' | 'isNotice' | 'content'>
 
+export interface GuildPostCommentInfo extends GuildPostComment {
+  Creator: GuildUser
+}
+
+export type GuildPostCreateForm = Pick<GuildPost, 'guildId' | 'postBoardId' | 'title' | 'isNotice' | 'content'>
 export type GuildPostUpdateForm = Pick<GuildPost, 'id'| 'guildId' | 'postBoardId' | 'title' | 'isNotice' | 'content'>
 
 export interface GuildPostInfoAtMain extends GuildPostInfo {
   PostBoard: GuildPostBoardInfo
 }
+
+export type GuildCommentCreateForm = Pick<GuildPostComment, 'guildId' | 'postId' | 'content' | 'creatorId'>
+export type GuildCommentUpdateForm = Pick<GuildPostComment, 'id'| 'guildId' | 'postId' | 'content' | 'creatorId'>
 
 export const postInfoColumn: Array<ColDef> = [
   {

@@ -48,28 +48,18 @@
           />
         </c-horizontal-view-content>
       </c-horizontal-view>
-      <div
-        class="tw-flex tw-items-center tw-space-x-4"
-      >
-        <b-checkbox
-          id="calendar-is-all-targets-input"
-          v-model="isAllowComment"
-          label="Allow comments"
-        />
-        <b-checkbox
-          id="calendar-is-all-targets-input"
-          v-model="isPrivate"
-          label="Private Board"
-        />
-      </div>
-      <c-horizontal-view
-        v-if="isPrivate"
-      >
+      <c-horizontal-view>
         <c-horizontal-view-label>
-          Allow users
+          User range
         </c-horizontal-view-label>
         <c-horizontal-view-content>
+          <b-checkbox
+            id="calendar-is-all-targets-input"
+            v-model="isPrivate"
+            label="Private Board"
+          />
           <c-multiple-select
+            v-if="isPrivate"
             id="post-board-group-select-box"
             v-model="allowUserIds"
             placeholder="select board group"
@@ -77,6 +67,16 @@
             searchable
             :close-on-select="false"
             mode="tags"
+          />
+        </c-horizontal-view-content>
+      </c-horizontal-view>
+      <c-horizontal-view>
+        <c-horizontal-view-label />
+        <c-horizontal-view-content>
+          <b-checkbox
+            id="calendar-is-all-targets-input"
+            v-model="isAllowComment"
+            label="Allow comments"
           />
         </c-horizontal-view-content>
       </c-horizontal-view>

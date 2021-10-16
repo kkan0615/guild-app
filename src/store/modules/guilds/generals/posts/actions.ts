@@ -3,17 +3,23 @@ import { RootState } from '@/store'
 import { GuildPostMutations, GuildPostMutationTypes } from './mutations'
 import { GuildPostState } from './state'
 import {
+  GuildCommentCreateForm, GuildCommentUpdateForm,
   GuildPostBoard,
   GuildPostBoardCreateForm,
   GuildPostBoardGroup,
   GuildPostBoardGroupCreateForm,
   GuildPostBoardGroupUpdateForm,
   GuildPostBoardGroupWithBoards,
-  GuildPostBoardInfo, GuildPostBoardUpdateForm, GuildPostCreateForm,
+  GuildPostBoardInfo, GuildPostBoardUpdateForm, GuildPostCommentInfo, GuildPostCreateForm,
   GuildPostInfo,
   GuildPostInfoAtMain, GuildPostUpdateForm
 } from '@/types/model/guilds/post'
-import { dummyGuildPostBoardGroups, dummyGuildPostBoards, dummyGuildPosts } from '@/dummy/guilds/post'
+import {
+  dummyGuildPostBoardGroups,
+  dummyGuildPostBoards,
+  dummyGuildPostComments,
+  dummyGuildPosts
+} from '@/dummy/guilds/post'
 import { dummyGuildUsers } from '@/dummy/user'
 import { GuildUser } from '@/types/model/auth/user/user'
 import { v4 } from 'uuid'
@@ -50,6 +56,11 @@ export enum GuildPostActionTypes {
   CREATE_POST = 'guildPost/CREATE_POST',
   UPDATE_POST = 'guildPost/UPDATE_POST',
   DELETE_POST = 'guildPost/DELETE_POST',
+  LOAD_COMMENT_LIST_BY_POST = 'guildPost/LOAD_COMMENT_LIST_BY_POST',
+  RESET_COMMENT_LIST_BY_POST = 'guildPost/RESET_COMMENT_LIST_BY_POST',
+  CREATE_COMMENT = 'guildPost/CREATE_COMMENT',
+  UPDATE_COMMENT = 'guildPost/UPDATE_COMMENT',
+  DELETE_COMMENT = 'guildPost/DELETE_COMMENT',
   LOAD_USER_LIST = 'guildPost/LOAD_USER_LIST',
   RESET_USER_LIST = 'guildPost/RESET_USER_LIST',
 }
@@ -193,8 +204,28 @@ export interface GuildPostActions {
     { commit }: AugmentedActionContext,
     payload: string
   ): void
+  [GuildPostActionTypes.LOAD_COMMENT_LIST_BY_POST](
+    { commit }: AugmentedActionContext,
+    payload: string
+  ): void
+  [GuildPostActionTypes.RESET_COMMENT_LIST_BY_POST](
+    { commit }: AugmentedActionContext,
+  ): void
   [GuildPostActionTypes.LOAD_USER_LIST](
     { commit }: AugmentedActionContext,
+    payload: string
+  ): void
+  [GuildPostActionTypes.CREATE_COMMENT](
+    { commit }: AugmentedActionContext,
+    payload: GuildCommentCreateForm
+  ): string
+  [GuildPostActionTypes.UPDATE_COMMENT](
+    { commit }: AugmentedActionContext,
+    payload: GuildCommentUpdateForm
+  ): void
+  [GuildPostActionTypes.DELETE_COMMENT](
+    { commit }: AugmentedActionContext,
+    payload: string
   ): void
   [GuildPostActionTypes.RESET_USER_LIST](
     { commit }: AugmentedActionContext,
@@ -505,6 +536,52 @@ export const guildPostActions: ActionTree<GuildPostState, RootState> & GuildPost
       foundPost.deletedAt = dayjs().toISOString()
     } else {
       throw new Error('No found post by id')
+    }
+  },
+  [GuildPostActionTypes.LOAD_COMMENT_LIST_BY_POST] ({ commit }, payload) {
+    const commentsRes = dummyGuildPostComments.filter(comment => comment.postId === payload)
+    const result: Array<GuildPostCommentInfo> = commentsRes.map(comment => {
+      return {
+        ...comment,
+        Creator: dummyGuildUsers.find(guildUser => guildUser.id === comment.creatorId) || {} as GuildUser
+      }
+    })
+    commit(GuildPostMutationTypes.SET_COMMENT_LIST_BY_POST, result)
+  },
+  [GuildPostActionTypes.RESET_COMMENT_LIST_BY_POST] ({ commit }) {
+    commit(GuildPostMutationTypes.SET_COMMENT_LIST_BY_POST, [])
+  },
+  [GuildPostActionTypes.CREATE_COMMENT] ({ rootState }, payload) {
+    const newGuildPostCommentId = v4()
+
+    dummyGuildPostComments.push({
+      id: newGuildPostCommentId,
+      guildId: rootState.guild.guildInfo.id,
+      content: payload.content,
+      postId: payload.postId,
+      creatorId: rootState.guild.guildUserInfo.id,
+      createdAt: dayjs().toISOString(),
+      updatedAt: dayjs().toISOString(),
+    })
+
+    return newGuildPostCommentId
+  },
+  [GuildPostActionTypes.UPDATE_COMMENT] (context, payload) {
+    const foundPost = dummyGuildPostComments.find(comment => comment.id === payload.id)
+    if (foundPost) {
+      foundPost.content = payload.content
+      foundPost.updatedAt = dayjs().toISOString()
+    } else {
+      throw new Error('No found post comment by id')
+    }
+  },
+  [GuildPostActionTypes.DELETE_COMMENT] (context, payload) {
+    const foundPost = dummyGuildPostComments.find(comment => comment.id === payload)
+    if (foundPost) {
+      foundPost.updatedAt = dayjs().toISOString()
+      foundPost.deletedAt = dayjs().toISOString()
+    } else {
+      throw new Error('No found comment by id')
     }
   },
   [GuildPostActionTypes.LOAD_USER_LIST] ({ commit, rootState }) {

@@ -4,7 +4,6 @@
   />
   <textarea
     :id="id"
-    :type="type"
     :readonly="readonly"
     :disabled="disabled"
     :placeholder="placeholder"

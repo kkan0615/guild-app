@@ -3,7 +3,7 @@ import { GuildPostState } from './state'
 import _ from 'lodash'
 import {
   GuildPostBoardGroupWithBoards,
-  GuildPostBoardInfo,
+  GuildPostBoardInfo, GuildPostComment, GuildPostCommentInfo,
   GuildPostInfo,
   GuildPostInfoAtMain
 } from '@/types/model/guilds/post'
@@ -20,6 +20,7 @@ export enum GuildPostMutationTypes {
   SET_POST_NOTICE_LIST_BY_BOARD = 'guildPost/SET_POST_NOTICE_LIST_BY_BOARD',
   SET_RECENT_NEWS_LIST_BY_BOARD = 'guildPost/SET_RECENT_NEWS_LIST_BY_BOARD',
   SET_CURRENT_POST = 'guildPost/SET_CURRENT_POST',
+  SET_COMMENT_LIST_BY_POST = 'guildPost/SET_COMMENT_LIST_BY_POST',
   SET_USER_LIST = 'guildPost/SET_USER_LIST',
 }
 
@@ -34,6 +35,7 @@ export type GuildPostMutations<S = GuildPostState> = {
   [GuildPostMutationTypes.SET_POST_NOTICE_LIST_BY_BOARD](state: S, payload: Array<GuildPostInfo>): void
   [GuildPostMutationTypes.SET_RECENT_NEWS_LIST_BY_BOARD](state: S, payload: Array<GuildPostInfo>): void
   [GuildPostMutationTypes.SET_CURRENT_POST](state: S, payload: GuildPostInfo): void
+  [GuildPostMutationTypes.SET_COMMENT_LIST_BY_POST](state: S, payload: Array<GuildPostCommentInfo>): void
   [GuildPostMutationTypes.SET_USER_LIST](state: S, payload: Array<MultiselectOption>): void
 }
 
@@ -67,6 +69,9 @@ export const guildPostMutations: MutationTree<GuildPostState> & GuildPostMutatio
   },
   [GuildPostMutationTypes.SET_CURRENT_POST] (state, payload) {
     state.currentPost = payload
+  },
+  [GuildPostMutationTypes.SET_COMMENT_LIST_BY_POST] (state, payload) {
+    state.commentListByPost = payload
   },
   [GuildPostMutationTypes.SET_USER_LIST] (state, payload) {
     state.userList = payload
